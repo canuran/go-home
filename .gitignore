@@ -1,0 +1,7 @@
+.vscode
+.idea
+test.db
+__debug_bin
+*.log
+*.test
+*.dump
