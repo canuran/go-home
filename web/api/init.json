@@ -4,13 +4,13 @@
     "href": "page/welcome.html"
   },
   "logoInfo": {
-    "title": "用户中心",
+    "title": "用户平台",
     "image": "images/logo.png",
     "href": ""
   },
   "menuInfo": [
     {
-      "title": "用户中心",
+      "title": "用户平台",
       "icon": "fa fa-address-book",
       "href": "",
       "target": "_self",
