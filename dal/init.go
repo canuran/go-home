@@ -35,7 +35,6 @@ func initGorm(dail gorm.Dialector) {
 	}
 	// 迁移 schema
 	util.LogIfErr(gormDB.AutoMigrate(&model.User{}))
-	initData()
 }
 
 func getDB(ctx context.Context) *gorm.DB {
@@ -75,12 +74,4 @@ func Transaction(ctx context.Context, exec func(ctx context.Context) error) erro
 	}
 	// 已经包含在事务中了
 	return exec(ctx)
-}
-
-func initData() {
-	util.LogIfErr(gormDB.Clauses(onConflictUpdateAll).Create(&model.User{ID: 1, Name: "元宝"}).Error)
-	util.LogIfErr(gormDB.Clauses(onConflictUpdateAll).Create(&model.User{ID: 2, Name: "妲己"}).Error)
-	util.LogIfErr(gormDB.Clauses(onConflictUpdateAll).Create(&model.User{ID: 3, Name: "亚瑟"}).Error)
-	util.LogIfErr(gormDB.Clauses(onConflictUpdateAll).Create(&model.User{ID: 4, Name: "小乔"}).Error)
-	util.LogIfErr(gormDB.Clauses(onConflictUpdateAll).Create(&model.User{ID: 5, Name: "后羿"}).Error)
 }

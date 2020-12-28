@@ -9,7 +9,7 @@ import (
 
 func SaveUser(ctx context.Context, user *model.User) error {
 	db := getDB(ctx)
-	return db.Create(user).Error
+	return db.Clauses(onConflictUpdateAll).Create(user).Error
 }
 
 func QueryUser(ctx context.Context, user *model.User) ([]*model.User, error) {
@@ -37,4 +37,12 @@ func addUserWhere(db *gorm.DB, user *model.User) *gorm.DB {
 		db = db.Where("name like ?", user.Name+"%")
 	}
 	return db
+}
+
+func DeleteUser(ctx context.Context, user *model.User)  error {
+	if user == nil || user.ID < 1 {
+		return nil
+	}
+	db := getDB(ctx).Delete(&user)
+	return db.Error
 }

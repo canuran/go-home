@@ -32,3 +32,9 @@ func TestCountUser(t *testing.T) {
 	util.TestingErr(t, err)
 	fmt.Println(users)
 }
+
+func TestDeleteUser(t *testing.T) {
+	InitTest()
+	err := DeleteUser(context.Background(), &model.User{ID: 1})
+	util.TestingErr(t, err)
+}
