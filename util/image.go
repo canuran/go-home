@@ -41,7 +41,6 @@ func ImageResize(option *ResizeOption) error {
 		return err
 	}
 
-	// resize and preserve aspect ratio
 	m := resize.Resize(option.Width, option.Height, img, resize.Lanczos3)
 
 	outName := strings.ToLower(option.OutName)
