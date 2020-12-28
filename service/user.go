@@ -19,6 +19,13 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if len(user.Name) < 1 {
 		return fmt.Errorf("用户名不能为空")
 	}
+	users, err := dal.QueryUser(ctx, &model.User{Name: user.Name})
+	if util.LogIfErr(err) {
+		return err
+	}
+	if len(users) > 0 {
+		return fmt.Errorf("用户名称%s已存在", user.Name)
+	}
 	return dal.Transaction(ctx, func(ctx context.Context) error {
 		return dal.SaveUser(ctx, user)
 	})
@@ -32,6 +39,6 @@ func CountUser(ctx context.Context, user *model.User) (int64, error) {
 	return dal.CountUser(ctx, user)
 }
 
-func DeleteUser(ctx context.Context, user *model.User)  error {
+func DeleteUser(ctx context.Context, user *model.User) error {
 	return dal.DeleteUser(ctx, user)
 }
