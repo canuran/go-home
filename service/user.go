@@ -3,8 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/ewingtsai/go-web/util"
 	"log"
+
+	"github.com/ewingtsai/go-web/util"
 
 	"github.com/ewingtsai/go-web/dal"
 	"github.com/ewingtsai/go-web/model"
@@ -23,7 +24,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if util.LogIfErr(err) {
 		return err
 	}
-	if len(users) > 0 {
+	if len(users) > 0 && users[0].ID != user.ID {
 		return fmt.Errorf("用户名称%s已存在", user.Name)
 	}
 	return dal.Transaction(ctx, func(ctx context.Context) error {

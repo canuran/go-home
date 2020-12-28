@@ -1,13 +1,14 @@
 package util
 
 import (
-	"github.com/nfnt/resize"
 	"image"
 	"image/gif"
 	"image/jpeg"
 	"image/png"
 	"io"
 	"strings"
+
+	"github.com/nfnt/resize"
 )
 
 type ResizeOption struct {
@@ -41,7 +42,7 @@ func ImageResize(option *ResizeOption) error {
 		return err
 	}
 
-	m := resize.Resize(option.Width, option.Height, img, resize.Lanczos3)
+	m := resize.Resize(option.Width, option.Height, img, resize.NearestNeighbor)
 
 	outName := strings.ToLower(option.OutName)
 	switch {
@@ -53,7 +54,7 @@ func ImageResize(option *ResizeOption) error {
 	case strings.HasSuffix(outName, "gif"):
 		err = gif.Encode(option.Writer, m, nil)
 	default:
-		img, err = jpeg.Decode(option.Reader)
+		err = jpeg.Encode(option.Writer, m, nil)
 	}
 	return err
 }
