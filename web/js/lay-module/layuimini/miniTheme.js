@@ -424,14 +424,14 @@ layui.define(["jquery", "layer"], function (exports) {
                 var bgColorHtml = miniTheme.buildBgColorHtml(options);
                 var html = '<div class="layuimini-color">\n' +
                     '<div class="color-title">\n' +
-                    '<i class="fa fa-picture-o"/><span> 配色方案</span>\n' +
+                    '<span class="fa fa-picture-o"/> 配色方案</span>\n' +
                     '</div>\n' +
                     '<div class="color-content">\n' +
                     '<ul>\n' + bgColorHtml + '</ul>\n' +
                     '</div>\n' +
                     '<div class="more-menu-list">\n' +
-                    '<a class="more-menu-item" href="index.html?s=1" target="_self">' +
-                    '<i class="fa fa-home"/> 主页设置</a>\n' +
+                    '<a class="more-menu-item" href="index.html" target="_self">' +
+                    '<span class="fa fa-home"/> 主页设置</a>\n' +
                     '</div>' +
                     '</div>';
                 layer.open({

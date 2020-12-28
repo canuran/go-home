@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-var SrvPath = "srv"
-var WebPath = "web"
+var SrvPath = "/srv"
+var WebPath = "/web"
 
 func main() {
 	dal.Init()
