@@ -20,6 +20,9 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if len(user.Name) < 1 {
 		return fmt.Errorf("用户名不能为空")
 	}
+	if len(user.Header) > 102400 {
+		return fmt.Errorf("头像文件太大")
+	}
 	users, err := dal.QueryUser(ctx, &model.User{Name: user.Name})
 	if util.LogIfErr(err) {
 		return err

@@ -8,13 +8,13 @@ import (
 	"io"
 	"strings"
 
-	"github.com/nfnt/resize"
+	"github.com/disintegration/imaging"
 )
 
 type ResizeOption struct {
 	Reader  io.Reader
-	Width   uint // 可选
-	Height  uint // 可选
+	Width   int // 可选
+	Height  int // 可选
 	Writer  io.Writer
 	InName  string // 默认jpg
 	OutName string // 默认jpg
@@ -42,19 +42,19 @@ func ImageResize(option *ResizeOption) error {
 		return err
 	}
 
-	m := resize.Resize(option.Width, option.Height, img, resize.NearestNeighbor)
+	m := imaging.Resize(img, option.Width, option.Height, imaging.Lanczos)
 
 	outName := strings.ToLower(option.OutName)
 	switch {
 	case strings.HasSuffix(outName, "jpg"),
 		strings.HasSuffix(outName, "jpeg"):
-		err = jpeg.Encode(option.Writer, m, nil)
+		err = jpeg.Encode(option.Writer, m, &jpeg.Options{Quality: 90})
 	case strings.HasSuffix(outName, "png"):
 		err = png.Encode(option.Writer, m)
 	case strings.HasSuffix(outName, "gif"):
 		err = gif.Encode(option.Writer, m, nil)
 	default:
-		err = jpeg.Encode(option.Writer, m, nil)
+		err = jpeg.Encode(option.Writer, m, &jpeg.Options{Quality: 90})
 	}
 	return err
 }

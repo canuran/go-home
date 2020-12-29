@@ -2,6 +2,9 @@ package util
 
 import "unicode"
 
+// 去掉所有不可见字符
+// 去掉开头和结尾的空白字符
+// 单个或多个空白字符以单个空格代替
 func FilterName(names []rune) []rune {
 	preSpace := true
 	runes := make([]rune, 0, len(names))
@@ -14,6 +17,11 @@ func FilterName(names []rune) []rune {
 		} else if unicode.IsGraphic(r) {
 			runes = append(runes, r)
 			preSpace = false
+		} else {
+			if !preSpace {
+				runes = append(runes, ' ')
+				preSpace = true
+			}
 		}
 	}
 	runesLen := len(runes)
