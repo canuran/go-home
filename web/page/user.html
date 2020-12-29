@@ -51,8 +51,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户头像</label>
                 <div class="layui-input-block">
-                    <input type="file" name="header_img" class="layui-input"
-                           placeholder="请选择头像图片"/>
+                    <input id="form-header-img" type="file" name="header_img" 
+                        class="layui-input" placeholder="请选择头像图片"/>
                 </div>
             </div>
 
@@ -205,11 +205,13 @@
 
         if (btn) {
             var row = GridManager.getRowData('main-table', btn.parentElement.parentElement);
+            row.header_img = "";
             layui.form.val('main-edit-form', row);
         } else {
             layui.form.val('main-edit-form', {
                 id: 0,
                 name: "",
+                header: "",
                 header_img: "",
                 role: "",
                 gender: "",

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ewingtsai/go-web/util"
-
+	"github.com/ewingtsai/go-web/config"
 	"github.com/ewingtsai/go-web/dal"
 	"github.com/ewingtsai/go-web/model"
+	"github.com/ewingtsai/go-web/util"
 )
 
 func SaveUser(ctx context.Context, user *model.User) error {
@@ -30,7 +30,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if len(users) > 0 && users[0].ID != user.ID {
 		return fmt.Errorf("用户名称%s已存在", user.Name)
 	}
-	return dal.Transaction(ctx, func(ctx context.Context) error {
+	return config.Transaction(ctx, func(ctx context.Context) error {
 		return dal.SaveUser(ctx, user)
 	})
 }

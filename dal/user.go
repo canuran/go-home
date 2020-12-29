@@ -3,24 +3,25 @@ package dal
 import (
 	"context"
 
+	"github.com/ewingtsai/go-web/config"
 	"github.com/ewingtsai/go-web/model"
 	"gorm.io/gorm"
 )
 
 func SaveUser(ctx context.Context, user *model.User) error {
-	db := getDB(ctx)
-	return db.Clauses(onConflictUpdateAll).Create(user).Error
+	db := config.GetDB(ctx)
+	return db.Clauses(config.ConflictUpdateAll).Create(user).Error
 }
 
 func QueryUser(ctx context.Context, user *model.User) ([]*model.User, error) {
-	db := getDB(ctx).Model(&model.User{})
+	db := config.GetDB(ctx).Model(&model.User{})
 	var users []*model.User
 	db = addUserWhere(db, user).Find(&users)
 	return users, db.Error
 }
 
 func CountUser(ctx context.Context, user *model.User) (int64, error) {
-	db := getDB(ctx).Model(&model.User{})
+	db := config.GetDB(ctx).Model(&model.User{})
 	var users int64
 	db = addUserWhere(db, user).Count(&users)
 	return users, db.Error
@@ -43,6 +44,6 @@ func DeleteUser(ctx context.Context, user *model.User)  error {
 	if user == nil || user.ID < 1 {
 		return nil
 	}
-	db := getDB(ctx).Delete(&user)
+	db := config.GetDB(ctx).Delete(&user)
 	return db.Error
 }
