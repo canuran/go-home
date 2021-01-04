@@ -48,13 +48,13 @@ func ImageResize(option *ResizeOption) error {
 	switch {
 	case strings.HasSuffix(outName, "jpg"),
 		strings.HasSuffix(outName, "jpeg"):
-		err = jpeg.Encode(option.Writer, m, &jpeg.Options{Quality: 90})
+		err = jpeg.Encode(option.Writer, m, &jpeg.Options{Quality: 80})
 	case strings.HasSuffix(outName, "png"):
 		err = png.Encode(option.Writer, m)
 	case strings.HasSuffix(outName, "gif"):
 		err = gif.Encode(option.Writer, m, nil)
 	default:
-		err = jpeg.Encode(option.Writer, m, &jpeg.Options{Quality: 90})
+		err = jpeg.Encode(option.Writer, m, &jpeg.Options{Quality: 80})
 	}
 	return err
 }
