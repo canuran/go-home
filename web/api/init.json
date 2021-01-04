@@ -11,7 +11,7 @@
   "menuInfo": [
     {
       "title": "用户平台",
-      "icon": "fa fa-address-book",
+      "icon": "fa fa-user",
       "href": "",
       "target": "_self",
       "child": [
@@ -24,7 +24,7 @@
         {
           "title": "用户管理",
           "href": "page/user.html",
-          "icon": "fa fa-search",
+          "icon": "fa fa-user",
           "target": "_self"
         },
         {
@@ -43,7 +43,7 @@
     },
     {
       "title": "平台配置",
-      "icon": "fa fa-slideshare",
+      "icon": "fa fa-gears",
       "href": "page/welcome.html",
       "target": "_self",
       "child": [

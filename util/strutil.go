@@ -26,7 +26,7 @@ func FilterName(names []rune) []rune {
 	}
 	runesLen := len(runes)
 	if runesLen > 1 && runes[runesLen-1] == ' ' {
-		runes = runes[:runesLen-2]
+		runes = runes[:runesLen-1]
 	}
 	return runes
 }
