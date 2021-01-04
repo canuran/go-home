@@ -19,7 +19,7 @@ func User(group *gin.RouterGroup) {
 
 func filterName(c *gin.Context) {
 	name := c.Query("name")
-	successData(c, util.FilterName([]rune(name)))
+	successData(c, util.StandardizeRunes([]rune(name)))
 }
 
 func saveUser(c *gin.Context) {

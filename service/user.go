@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/ewingtsai/go-web/common"
 	"log"
 
 	"github.com/ewingtsai/go-web/config"
@@ -15,13 +16,28 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if user == nil {
 		return nil
 	}
-	log.Printf("SaveUser:id=%d", user.ID)
-	user.Name = string(util.FilterName([]rune(user.Name)))
+	user.Name = util.StandardizeString(user.Name)
+	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
-		return fmt.Errorf("用户名不能为空")
+		return fmt.Errorf("用户名称不能为空")
+	}
+	if len(user.Name) > 30 {
+		return fmt.Errorf("用户名称太长")
+	}
+	if len(user.Password) < 1 {
+		return fmt.Errorf("用户密码不能为空")
+	}
+	if len(user.Password) > 30 {
+		return fmt.Errorf("用户密码太长")
+	}
+	if user.Password != util.StandardizeString(user.Password) {
+		return fmt.Errorf("密码格式不正确")
 	}
 	if len(user.Header) > 102400 {
-		return fmt.Errorf("头像文件太大")
+		return fmt.Errorf("头像图片太大")
+	}
+	if len(user.Header) < 1 {
+		user.Header = common.UserDefaultHeader
 	}
 	users, err := dal.QueryUser(ctx, &model.User{Name: user.Name})
 	if util.LogIfErr(err) {
