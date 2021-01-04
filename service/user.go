@@ -33,7 +33,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if user.Password != util.StandardizeString(user.Password) {
 		return fmt.Errorf("密码格式不正确")
 	}
-	if len(user.Header) > 102400 {
+	if len(user.Header) > 10240 {
 		return fmt.Errorf("头像图片太大")
 	}
 	if len(user.Header) < 1 {
