@@ -132,7 +132,7 @@
     function gmImageTemplate(cell, row, index, key) {
         var value = row[key] || "";
         if (value && !value.startsWith("http") && !value.startsWith("data:")) {
-            value = "data:image/png;base64," + value;
+            value = "data:image;base64," + value;
         }
         return value ? "<img style='border-radius:25px' src='" + value +
             "' width='100%' onclick='openImgLayer(this)'/>" : ""
