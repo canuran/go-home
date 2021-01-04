@@ -19,6 +19,7 @@ func TestImageResize(t *testing.T) {
 		Writer:  file2,
 		InName:  "1.jpg",
 		OutName: "jpg",
+		MaxJpgByte: 1000,
 	})
 	TestingErr(t, err)
 }
