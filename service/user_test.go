@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/ewingtsai/go-web/config"
 	"github.com/ewingtsai/go-web/model"
 	"github.com/ewingtsai/go-web/util"
 )
 
 func TestSaveUser(t *testing.T) {
-	InitTest()
+	config.InitTest()
 	err := SaveUser(context.Background(), &model.User{
 		ID: 123, Name: "元宝",
 	})
@@ -18,7 +19,7 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestQueryUser(t *testing.T) {
-	InitTest()
+	config.InitTest()
 	users, err := QueryUser(context.Background(), &model.User{
 		ID: 1, Name: "元宝",
 	})
@@ -27,14 +28,14 @@ func TestQueryUser(t *testing.T) {
 }
 
 func TestCountUser(t *testing.T) {
-	InitTest()
+	config.InitTest()
 	users, err := CountUser(context.Background(), nil)
 	util.TestingErr(t, err)
 	fmt.Println(users)
 }
 
 func TestDeleteUser(t *testing.T) {
-	InitTest()
+	config.InitTest()
 	err := DeleteUser(context.Background(), &model.User{ID: 1})
 	util.TestingErr(t, err)
 }

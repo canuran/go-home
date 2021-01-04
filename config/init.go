@@ -1,4 +1,4 @@
-package dal
+package config
 
 import (
 	"context"
@@ -14,7 +14,7 @@ var (
 	debug               bool
 	gormDB              *gorm.DB
 	txDbKey             = "txDbKey"
-	onConflictUpdateAll = clause.OnConflict{UpdateAll: true}
+	ConflictUpdateAll = clause.OnConflict{UpdateAll: true}
 )
 
 func Init() {
@@ -37,7 +37,7 @@ func initGorm(dail gorm.Dialector) {
 	util.LogIfErr(gormDB.AutoMigrate(&model.User{}))
 }
 
-func getDB(ctx context.Context) *gorm.DB {
+func GetDB(ctx context.Context) *gorm.DB {
 	txDB, ok := ctx.Value(txDbKey).(*gorm.DB)
 	if txDB != nil && !ok {
 		return txDB
