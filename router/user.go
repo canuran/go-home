@@ -36,13 +36,13 @@ func saveUser(c *gin.Context) {
 		}
 		var buffer bytes.Buffer
 		err = util.ImageResize(&util.ResizeOption{
-			Reader:  headerFile,
-			Width:   100,
-			Height:  100,
-			Writer:  &buffer,
-			InName:  headerImg.Filename,
-			OutName: "jpg",
-			MaxJpgByte: 7500,
+			Reader:        headerFile,
+			Width:         100,
+			Height:        100,
+			Writer:        &buffer,
+			InName:        headerImg.Filename,
+			OutName:       "jpg",
+			MaxOutJpgByte: 7500,
 		})
 		if handleErr(c, err) {
 			return

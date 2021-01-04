@@ -14,13 +14,13 @@ import (
 )
 
 type ResizeOption struct {
-	Reader     io.Reader
-	Width      int // 可选
-	Height     int // 可选
-	Writer     io.Writer
-	InName     string // 默认jpg
-	OutName    string // 默认jpg
-	MaxJpgByte int    // jpg输出文件大小限制
+	Reader        io.Reader
+	Width         int // 可选
+	Height        int // 可选
+	Writer        io.Writer
+	InName        string // 默认jpg
+	OutName       string // 默认jpg
+	MaxOutJpgByte int    // jpg输出文件大小限制
 }
 
 func ImageResize(option *ResizeOption) error {
@@ -34,7 +34,7 @@ func ImageResize(option *ResizeOption) error {
 
 	m := imaging.Resize(img, option.Width, option.Height, imaging.Lanczos)
 
-	err = writeImage(option.Writer, m, option.OutName, option.MaxJpgByte)
+	err = writeImage(option.Writer, m, option.OutName, option.MaxOutJpgByte)
 	return err
 }
 

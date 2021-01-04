@@ -13,13 +13,13 @@ func TestImageResize(t *testing.T) {
 	TestingErr(t, err)
 
 	err = ImageResize(&ResizeOption{
-		Reader:  file,
-		Width:   100,
-		Height:  100,
-		Writer:  file2,
-		InName:  "1.jpg",
-		OutName: "jpg",
-		MaxJpgByte: 1000,
+		Reader:        file,
+		Width:         100,
+		Height:        100,
+		Writer:        file2,
+		InName:        "1.jpg",
+		OutName:       "jpg",
+		MaxOutJpgByte: 1000,
 	})
 	TestingErr(t, err)
 }
