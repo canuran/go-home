@@ -15,73 +15,66 @@ import (
 
 type ResizeOption struct {
 	Reader        io.Reader
-	Width         int // 可选
-	Height        int // 可选
+	Width         int // 宽高可以二选一
+	Height        int // 宽高可以二选一
 	Writer        io.Writer
-	InName        string // 默认jpg
-	OutName       string // 默认jpg
-	MaxOutJpgByte int    // jpg输出文件大小限制
+	OutFormat     string // 输出格式默认jpg
+	MaxJpgOutByte int    // jpg最大输出文件大小
+	MaxJpgQuality int    // jpg最大输出质量默认80
 }
 
 func ImageResize(option *ResizeOption) error {
 	if option == nil {
 		return nil
 	}
-	img, err := readImage(option.Reader, option.InName)
+
+	img, _, err := image.Decode(option.Reader)
 	if err != nil {
 		return err
 	}
 
-	m := imaging.Resize(img, option.Width, option.Height, imaging.Lanczos)
+	imgNRGBA := imaging.Resize(img, option.Width, option.Height, imaging.Lanczos)
 
-	err = writeImage(option.Writer, m, option.OutName, option.MaxOutJpgByte)
+	err = writeImage(imgNRGBA, option)
 	return err
 }
 
-func writeImage(writer io.Writer, img *image.NRGBA, outName string, maxJpgByte int) error {
-	outName = strings.ToLower(outName)
+func writeImage(img *image.NRGBA, option *ResizeOption) error {
+	outFormat := strings.ToLower(strings.TrimSpace(option.OutFormat))
 	switch {
-	case strings.HasSuffix(outName, "png"):
-		return png.Encode(writer, img)
-	case strings.HasSuffix(outName, "gif"):
-		return gif.Encode(writer, img, nil)
-	case strings.HasSuffix(outName, "jpg"),
-		strings.HasSuffix(outName, "jpeg"):
-		fallthrough
-	default:
-		if maxJpgByte > 0 {
-			for quality := 90; quality > 0; quality -= 1 {
+	case strings.HasSuffix(outFormat, "png"):
+		return png.Encode(option.Writer, img)
+
+	case strings.HasSuffix(outFormat, "gif"):
+		return gif.Encode(option.Writer, img, nil)
+
+	case outFormat == "", // 默认jpg
+		strings.HasSuffix(outFormat, "jpg"),
+		strings.HasSuffix(outFormat, "jpeg"):
+		maxQuality := option.MaxJpgQuality
+		if maxQuality < 1 { // 默认80
+			maxQuality = 80
+		}
+
+		if option.MaxJpgOutByte > 0 {
+			for quality := maxQuality; quality > 0; quality-- {
 				var out bytes.Buffer
 				err := jpeg.Encode(&out, img, &jpeg.Options{Quality: quality})
 				if err != nil {
 					return err
 				}
-				if out.Len() <= maxJpgByte {
-					_, err := writer.Write(out.Bytes())
+				if out.Len() <= option.MaxJpgOutByte {
+					_, err := option.Writer.Write(out.Bytes())
 					return err
 				}
 			}
-			return fmt.Errorf("output image large than %d", maxJpgByte)
-		} else {
-			return jpeg.Encode(writer, img, &jpeg.Options{Quality: 90})
-		}
-	}
-}
+			return fmt.Errorf("final image large than %d", option.MaxJpgOutByte)
 
-func readImage(reader io.Reader, inName string) (image.Image, error) {
-	inName = strings.ToLower(inName)
-	var img image.Image
-	var err error
-	switch {
-	case strings.HasSuffix(inName, "jpg"),
-		strings.HasSuffix(inName, "jpeg"):
-		img, err = jpeg.Decode(reader)
-	case strings.HasSuffix(inName, "png"):
-		img, err = png.Decode(reader)
-	case strings.HasSuffix(inName, "gif"):
-		img, err = gif.Decode(reader)
+		} else {
+			return jpeg.Encode(option.Writer, img, &jpeg.Options{Quality: maxQuality})
+		}
+
 	default:
-		img, err = jpeg.Decode(reader)
+		return fmt.Errorf("unsupported out format %s", outFormat)
 	}
-	return img, err
 }

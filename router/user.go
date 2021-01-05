@@ -40,9 +40,8 @@ func saveUser(c *gin.Context) {
 			Width:         100,
 			Height:        100,
 			Writer:        &buffer,
-			InName:        headerImg.Filename,
-			OutName:       "jpg",
-			MaxOutJpgByte: 7500,
+			OutFormat:     "jpg",
+			MaxJpgOutByte: 5120, // 最大5KB
 		})
 		if handleErr(c, err) {
 			return
