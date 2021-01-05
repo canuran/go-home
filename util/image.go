@@ -13,17 +13,17 @@ import (
 	"github.com/disintegration/imaging"
 )
 
-type ResizeOption struct {
-	Reader        io.Reader
-	Width         int // 宽高可以二选一
-	Height        int // 宽高可以二选一
-	Writer        io.Writer
-	OutFormat     string // 输出格式默认jpg
-	MaxJpgOutByte int    // jpg最大输出文件大小
-	MaxJpgQuality int    // jpg最大输出质量默认80
+type ConvertOption struct {
+	Reader        io.Reader // 输入流
+	NewWidth      int       // 调整大小参数可选
+	NewHeight     int       // 调整大小参数可选
+	Writer        io.Writer // 输出流
+	OutFormat     string    // 输出格式默认jpg
+	MaxJpgOutByte int       // jpg最大输出文件大小
+	MaxJpgQuality int       // jpg最大输出质量默认80
 }
 
-func ImageResize(option *ResizeOption) error {
+func ConvertImage(option *ConvertOption) error {
 	if option == nil {
 		return nil
 	}
@@ -33,13 +33,16 @@ func ImageResize(option *ResizeOption) error {
 		return err
 	}
 
-	imgNRGBA := imaging.Resize(img, option.Width, option.Height, imaging.Lanczos)
+	outImage := img
+	if option.NewWidth > 0 || option.NewHeight > 0 {
+		outImage = imaging.Resize(img, option.NewWidth, option.NewHeight, imaging.Lanczos)
+	}
 
-	err = writeImage(imgNRGBA, option)
+	err = writeImage(outImage, option)
 	return err
 }
 
-func writeImage(img *image.NRGBA, option *ResizeOption) error {
+func writeImage(img image.Image, option *ConvertOption) error {
 	outFormat := strings.ToLower(strings.TrimSpace(option.OutFormat))
 	switch {
 	case strings.HasSuffix(outFormat, "png"):

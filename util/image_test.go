@@ -6,19 +6,17 @@ import (
 )
 
 func TestImageResize(t *testing.T) {
-	file, err := os.Open("/Users/admin/Downloads/3.jpg")
+	file, err := os.Open("/Users/admin/Downloads/1.jpg")
 	TestingErr(t, err)
 
 	file2, err := os.Create("/Users/admin/Downloads/res.jpg")
 	TestingErr(t, err)
 
-	err = ImageResize(&ResizeOption{
+	err = ConvertImage(&ConvertOption{
 		Reader:        file,
-		Width:         100,
-		Height:        100,
 		Writer:        file2,
 		OutFormat:     "jpg",
-		MaxJpgOutByte: 2000,
+		MaxJpgQuality: 20,
 	})
 	TestingErr(t, err)
 }

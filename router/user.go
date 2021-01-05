@@ -35,10 +35,10 @@ func saveUser(c *gin.Context) {
 			return
 		}
 		var buffer bytes.Buffer
-		err = util.ImageResize(&util.ResizeOption{
+		err = util.ConvertImage(&util.ConvertOption{
 			Reader:        headerFile,
-			Width:         100,
-			Height:        100,
+			NewWidth:      100,
+			NewHeight:     100,
 			Writer:        &buffer,
 			OutFormat:     "jpg",
 			MaxJpgOutByte: 5120, // 最大5KB
