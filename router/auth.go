@@ -12,6 +12,7 @@ import (
 
 func Auth(group *gin.RouterGroup) {
 	group.POST("/auth", authHandler)
+	group.GET("/logout", authLogout)
 	group.GET("/current_user", currentUser)
 }
 
@@ -37,6 +38,11 @@ func authHandler(c *gin.Context) {
 		successData(c, tokenStr)
 		return
 	}
+}
+
+func authLogout(c *gin.Context) {
+	c.Header("Set-Cookie", "JsonWebToken=none")
+	success(c)
 }
 
 func currentUser(c *gin.Context) {

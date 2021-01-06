@@ -127,10 +127,21 @@
         });
 
         $('#login-out').on("click", function () {
-            $.removeCookie("JsonWebToken");
-            window.location.href = webPath + "/login.html";
+            $.get(srvPath + '/logout', {}, function () {
+                window.location.href = webPath + "/login.html";
+            });
         });
     });
+
+    $.ajaxSetup({
+        error: function (xhr) {
+            if (xhr.status === 401) {
+                window.location.href = webPath + "/login.html";
+            } else {
+                layui.layer.msg("请求失败")
+            }
+        }
+    })
 
     /*获取到Url里面的参数*/
     function getUrlParam(name) {
