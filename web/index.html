@@ -55,7 +55,7 @@
                     <a href="javascript:" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:"><i class="fa fa-user-circle-o"></i></a>
+                    <a href="javascript:"><span id="current_user">请登陆</span></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:" layuimini-content-href="page/user-profile.html"
                                data-title="基本资料" data-icon="fa fa-gears">基本资料</a></dd>
@@ -105,8 +105,10 @@
 <script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script src="lib/GridManager/js/gm.js"></script>
 <script src="lib/jq-module/json-viewer/jquery.json-viewer.js"></script>
+<script src="lib/jq-module/jquery.cookie.js"></script>
 <script>
-    var path = "../srv/"
+    var srvPath = "/srv"
+    var webPath = "/web"
 
     layui.use(['layer', 'miniAdmin'], function () {
         var options = {
@@ -120,10 +122,13 @@
 
         layui.miniAdmin.render(options);
 
+        $.get(srvPath + '/current_user', {}, function (data) {
+            $('#current_user').html(data && data.data && data.data.name);
+        });
+
         $('#login-out').on("click", function () {
-            layui.layer.msg('退出登录成功', function () {
-                window.location.href = "login.html";
-            });
+            $.removeCookie("JsonWebToken");
+            window.location.href = webPath + "/login.html";
         });
     });
 

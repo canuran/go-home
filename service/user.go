@@ -51,6 +51,20 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	})
 }
 
+func GetUserByName(ctx context.Context, name string) (*model.User, error) {
+	if len(name) < 1 {
+		return nil, fmt.Errorf("用户名称不能为空")
+	}
+	users, err := dal.QueryUser(ctx, &model.User{Name: name})
+	if util.LogIfErr(err) {
+		return nil, fmt.Errorf("获取用户失败")
+	}
+	if len(users) < 1 {
+		return nil, fmt.Errorf("用户%s不存在", name)
+	}
+	return users[0], nil
+}
+
 func QueryUser(ctx context.Context, user *model.User) ([]*model.User, error) {
 	return dal.QueryUser(ctx, user)
 }

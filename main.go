@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/ewingtsai/go-web/common"
 	"log"
 	"net/http"
 
@@ -9,21 +10,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var SrvPath = "/srv"
-var WebPath = "/web"
+
 
 func main() {
 	config.Init()
 
 	engine := gin.Default()
 	// 静态目录
-	engine.Static(WebPath, "web")
+	engine.Static(common.WebPath, "web")
 	// 指定文件
-	engine.StaticFile("/favicon.ico", WebPath+"/images/favicon.ico")
+	engine.StaticFile("/favicon.ico", common.WebPath+"/images/favicon.ico")
 
 	// 注册路由
 	engine.NoRoute(home)
-	group := engine.Group(SrvPath)
+	group := engine.Group(common.SrvPath)
+	group.Use(router.JWTAuthMW)
+	router.Auth(group)
 	router.User(group)
 
 	err := engine.Run(":80")
@@ -34,6 +36,5 @@ func main() {
 
 // 主页
 func home(c *gin.Context) {
-	c.Redirect(http.StatusPermanentRedirect,
-		WebPath+"/index.html")
+	c.Redirect(http.StatusPermanentRedirect, common.WebPath+"/index.html")
 }

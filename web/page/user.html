@@ -144,7 +144,7 @@
             layui.layer.closeAll();
         });
 
-        loadTable({url: path + "user/query"});
+        loadTable({url: srvPath + "/user/query"});
     }
 
     function initSelect() {
@@ -235,7 +235,7 @@
         data.id = parseInt(data.id) || 0;
         data.valid_status = parseInt(data.valid_status) || 0;
         $.ajax({
-            url: path + "user/save",
+            url: srvPath + "/user/save",
             method: "post",
             processData: false,
             contentType: false,
@@ -249,9 +249,6 @@
                 } else {
                     layui.layer.msg(result.message);
                 }
-            },
-            error: function () {
-                layui.layer.msg('请求失败');
             }
         });
         return false;
@@ -265,7 +262,7 @@
             icon: 3
         }, function () {
             $.ajax({
-                url: path + "user/delete",
+                url: srvPath + "/user/delete",
                 method: "post",
                 data: {id: row.id},
                 dataType: "json",
@@ -277,9 +274,6 @@
                     } else {
                         layui.layer.msg(result.message);
                     }
-                },
-                error: function () {
-                    layui.layer.msg('请求失败');
                 }
             });
         });

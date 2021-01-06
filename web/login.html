@@ -220,7 +220,7 @@
             <div class="center">
                 <div class="item">
                     <span class="icon icon-2"></span>
-                    <input type="text" name="username" lay-verify="required"
+                    <input type="text" name="name" lay-verify="required"
                            placeholder="请输入登录账号"/>
                 </div>
 
@@ -250,6 +250,9 @@
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script src="lib/jquery/jquery.min.js" charset="utf-8"></script>
 <script>
+    var srvPath = "/srv"
+    var webPath = "/web"
+
     layui.use(['form'], function () {
         $('.icon-nocheck').on('click', function () {
             if ($(this).hasClass('icon-check')) {
@@ -278,7 +281,19 @@
     function submit(data) {
         data = data.field;
         $("input[name='password']").val(""); // 登陆完成清除控件密码
-        window.location.href = 'index.html';
+        $.ajax({
+            url: srvPath + "/auth",
+            method: "post",
+            data: data,
+            dataType: "json",
+            success: function (result) {
+                if (result && result.code === 0) {
+                    window.location.href = webPath + "/index.html"
+                } else {
+                    layui.layer.msg(result.message);
+                }
+            }
+        });
         return false;
     }
 </script>
