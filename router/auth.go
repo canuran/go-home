@@ -13,7 +13,7 @@ import (
 func Auth(group *gin.RouterGroup) {
 	group.POST("/auth", authHandler)
 	group.GET("/logout", authLogout)
-	group.GET("/current_user", currentUser)
+	group.GET("/authenticator", authenticator)
 }
 
 func authHandler(c *gin.Context) {
@@ -45,7 +45,7 @@ func authLogout(c *gin.Context) {
 	success(c)
 }
 
-func currentUser(c *gin.Context) {
+func authenticator(c *gin.Context) {
 	claims, _ := c.Get(util.JwtClaimsKey)
 	successData(c, claims)
 }

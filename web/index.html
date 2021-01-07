@@ -55,7 +55,7 @@
                     <a href="javascript:" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:"><span id="current_user">请登陆</span></a>
+                    <a href="javascript:"><span id="authenticator">登陆</span></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:" layuimini-content-href="page/user-profile.html"
                                data-title="基本资料" data-icon="fa fa-gears">基本资料</a></dd>
@@ -122,8 +122,8 @@
 
         layui.miniAdmin.render(options);
 
-        $.get(srvPath + '/current_user', {}, function (data) {
-            $('#current_user').html(data && data.data && data.data.name);
+        $.get(srvPath + '/authenticator', {}, function (data) {
+            $('#authenticator').html(data && data.data && data.data.name);
         });
 
         $('#login-out').on("click", function () {
