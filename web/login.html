@@ -281,8 +281,14 @@
 
     function submit(data) {
         data = data.field;
+        data.salt = $.ajax({
+            url: srvPath + '/salt',
+            async: false,
+            type: "get",
+            dataType: "json"
+        }).responseJSON.data;
         // 密码混淆加强
-        data.password = md5((data.name + data.password).repeat(8));
+        data.password = md5(data.name + data.password + data.salt);
         $.ajax({
             url: srvPath + "/auth",
             method: "post",

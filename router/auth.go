@@ -8,19 +8,27 @@ import (
 	"github.com/ewingtsai/go-web/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func Auth(group *gin.RouterGroup) {
 	group.POST("/auth", authHandler)
 	group.GET("/logout", authLogout)
-	group.GET("/authenticator", authenticator)
+	group.GET("/loginer", authLoginer)
+	group.GET("/salt", authSalt)
 }
 
 func authHandler(c *gin.Context) {
 	// 用户发送用户名和密码过来
 	var userParam model.User
 	err := c.ShouldBind(&userParam)
+	if handleErr(c, err) {
+		return
+	}
+	salt := c.PostForm("salt")
+	_, err = util.ParseToken(salt)
 	if handleErr(c, err) {
 		return
 	}
@@ -35,7 +43,7 @@ func authHandler(c *gin.Context) {
 		}
 	}
 	// 密码混淆加强
-	pwdMd5 := util.StringMd5(strings.Repeat(user.Name + user.Password, 8))
+	pwdMd5 := util.StringMd5(user.Name + user.Password + salt)
 	if userParam.Password == pwdMd5 {
 		// 生成Token
 		tokenStr, err := util.GenToken(userParam.Name)
@@ -53,14 +61,26 @@ func authLogout(c *gin.Context) {
 	success(c)
 }
 
-func authenticator(c *gin.Context) {
+func authSalt(c *gin.Context) {
+	// 登陆盐过期无效
+	now := time.Now()
+	unixStr := strconv.FormatInt(now.Unix(), 10)
+	saltToken, err := util.GenTokenExpire(unixStr, now.Add(time.Minute*10))
+	if handleErr(c, err) {
+		return
+	}
+	successData(c, saltToken)
+}
+
+func authLoginer(c *gin.Context) {
 	claims, _ := c.Get(util.JwtClaimsKey)
 	successData(c, claims)
 }
 
 // JWTAuthMW 基于JWT的认证中间件
 func JWTAuthMW(c *gin.Context) {
-	if c.Request.RequestURI == common.SrvPath+"/auth" {
+	if c.Request.RequestURI == common.SrvPath+"/auth" ||
+		c.Request.RequestURI == common.SrvPath+"/salt" {
 		c.Next()
 		return
 	}
