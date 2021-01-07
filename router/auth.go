@@ -34,14 +34,14 @@ func authHandler(c *gin.Context) {
 		if handleErr(c, err) {
 			return
 		}
-		c.Header("Set-Cookie", "JsonWebToken="+tokenStr)
+		c.Header("Set-Cookie", "Authorization="+tokenStr)
 		successData(c, tokenStr)
 		return
 	}
 }
 
 func authLogout(c *gin.Context) {
-	c.Header("Set-Cookie", "JsonWebToken=none")
+	c.Header("Set-Cookie", "Authorization=none")
 	success(c)
 }
 
@@ -59,14 +59,14 @@ func JWTAuthMW(c *gin.Context) {
 	// 从Header的Authorization中获取
 	var tokenStr string
 	authHeader := c.Request.Header.Get("Authorization")
-	authTokens := strings.SplitN(authHeader, " ", 2)
-	if len(authTokens) > 1 {
-		tokenStr = authTokens[1]
+	if len(authHeader) > 0 {
+		index := strings.LastIndex(authHeader, " ")
+		tokenStr = authHeader[index+1:]
 	}
 
 	// 从Cookie中获取
 	if len(tokenStr) < 1 {
-		cookie, err := c.Request.Cookie("JsonWebToken")
+		cookie, err := c.Request.Cookie("Authorization")
 		if util.LogIfErr(err) {
 			c.Status(http.StatusUnauthorized)
 			c.Abort()
