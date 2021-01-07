@@ -8,7 +8,6 @@ import (
 	"github.com/ewingtsai/go-web/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -63,9 +62,7 @@ func authLogout(c *gin.Context) {
 
 func authSalt(c *gin.Context) {
 	// 登陆盐过期无效
-	now := time.Now()
-	unixStr := strconv.FormatInt(now.Unix(), 10)
-	saltToken, err := util.GenTokenExpire(unixStr, now.Add(time.Minute*10))
+	saltToken, err := util.GenTokenExpire("", time.Now().Add(time.Minute*10))
 	if handleErr(c, err) {
 		return
 	}
@@ -111,6 +108,12 @@ func JWTAuthMW(c *gin.Context) {
 	// 解析JWT
 	claims, err := util.ParseToken(tokenStr)
 	if util.LogIfErr(err) {
+		c.Status(http.StatusUnauthorized)
+		c.Abort()
+		return
+	}
+	// 空名称的是盐
+	if len(claims.Name) < 1 {
 		c.Status(http.StatusUnauthorized)
 		c.Abort()
 		return

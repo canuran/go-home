@@ -15,7 +15,7 @@ var JwtSecret = []byte("MySecret")
 
 type JwtClaims struct {
 	jwt.StandardClaims
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
 
 func GetExpireDate() time.Time {
