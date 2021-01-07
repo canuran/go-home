@@ -220,13 +220,13 @@
             <div class="center">
                 <div class="item">
                     <span class="icon icon-2"></span>
-                    <input type="text" name="name" lay-verify="required"
+                    <input type="text" value="元宝" name="name" lay-verify="required"
                            placeholder="请输入登录账号"/>
                 </div>
 
                 <div class="item">
                     <span class="icon icon-3"></span>
-                    <input type="password" name="password" lay-verify="required"
+                    <input type="password" value="yb" name="password" lay-verify="required"
                            placeholder="请输入密码"/>
                     <span class="bind-password icon icon-4"></span>
                 </div>
@@ -249,6 +249,7 @@
 
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script src="lib/jquery/jquery.min.js" charset="utf-8"></script>
+<script src="lib/jquery/md5.js" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
     var webPath = "/web"
@@ -280,7 +281,8 @@
 
     function submit(data) {
         data = data.field;
-        $("input[name='password']").val(""); // 登陆完成清除控件密码
+        // 密码混淆加强
+        data.password = md5((data.name + data.password).repeat(8));
         $.ajax({
             url: srvPath + "/auth",
             method: "post",
@@ -288,6 +290,8 @@
             dataType: "json",
             success: function (result) {
                 if (result && result.code === 0) {
+                    // 登陆完成清除控件密码
+                    $("input[name='password']").val("");
                     window.location.href = webPath + "/index.html"
                 } else {
                     layui.layer.msg(result.message);

@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/model"
 	"github.com/ewingtsai/go-web/service"
@@ -28,7 +29,14 @@ func authHandler(c *gin.Context) {
 	if handleErr(c, err) {
 		return
 	}
-	if userParam.Name == user.Name && userParam.Password == user.Password {
+	if len(user.Password) < 1 {
+		if handleErr(c, fmt.Errorf("用户未设置密码")) {
+			return
+		}
+	}
+	// 密码混淆加强
+	pwdMd5 := util.StringMd5(strings.Repeat(user.Name + user.Password, 8))
+	if userParam.Password == pwdMd5 {
 		// 生成Token
 		tokenStr, err := util.GenToken(userParam.Name)
 		if handleErr(c, err) {

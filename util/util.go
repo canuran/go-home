@@ -1,6 +1,8 @@
 package util
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"log"
 	"testing"
@@ -37,4 +39,9 @@ func Close(cls interface{ Close() error }) {
 	if cls != nil {
 		LogIfErr(cls.Close())
 	}
+}
+
+func StringMd5(input string) string {
+	bts := md5.Sum([]byte(input))
+	return hex.EncodeToString(bts[:])
 }
