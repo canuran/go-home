@@ -288,7 +288,7 @@
             dataType: "json"
         }).responseJSON.data;
         // 密码混淆加强
-        data.password = md5(data.name + data.password + data.salt);
+        data.password = md5(md5(data.name + data.password) + data.salt);
         $.ajax({
             url: srvPath + "/auth",
             method: "post",

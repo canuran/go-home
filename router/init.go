@@ -25,6 +25,10 @@ func successAll(c *gin.Context, totals int64, data interface{}) {
 	c.JSON(http.StatusOK, &model.Response{Totals: totals, Data: data})
 }
 
+func failureMessage(c *gin.Context, message string) {
+	c.JSON(http.StatusOK, &model.Response{Code: common.CodeFailure, Message: message})
+}
+
 func handleErr(c *gin.Context, err error) bool {
 	if err != nil {
 		log.Println(err)

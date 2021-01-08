@@ -28,7 +28,7 @@ func saveUser(c *gin.Context) {
 	if handleErr(c, err) {
 		return
 	}
-	headerImg, err := c.FormFile("header_img")
+	headerImg, err := c.FormFile("header_file")
 	if err == nil {
 		headerFile, err := headerImg.Open()
 		if handleErr(c, err) {
@@ -41,7 +41,7 @@ func saveUser(c *gin.Context) {
 			NewHeight:     100,
 			Writer:        &buffer,
 			OutFormat:     "jpg",
-			MaxJpgOutByte: 5120, // 最大5KB
+			MaxJpgOutByte: service.MaxHeaderSize*0.75 - 20,
 		})
 		if handleErr(c, err) {
 			return
@@ -75,7 +75,7 @@ func queryUser(c *gin.Context) {
 	cPage := c.DefaultQuery("cPage", "1")
 	pSize := c.DefaultQuery("pSize", "10")
 	limit := int(util.Int64ify(pSize))
-	offset := int(util.Int64ify(cPage)) * limit - limit
+	offset := int(util.Int64ify(cPage))*limit - limit
 	users, err := service.QueryUser(c, user, offset, limit)
 	if handleErr(c, err) {
 		return
