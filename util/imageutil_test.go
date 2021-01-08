@@ -7,10 +7,14 @@ import (
 
 func TestImageResize(t *testing.T) {
 	file, err := os.Open("/Users/admin/Downloads/1.jpg")
-	TestingErr(t, err)
+	if LogIfErr(err) {
+		return
+	}
 
 	file2, err := os.Create("/Users/admin/Downloads/res.jpg")
-	TestingErr(t, err)
+	if LogIfErr(err) {
+		return
+	}
 
 	err = ConvertImage(&ConvertOption{
 		Reader:        file,
