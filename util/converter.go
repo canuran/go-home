@@ -128,9 +128,9 @@ func Stringify(input interface{}) string {
 	case uint64:
 		return strconv.FormatUint(input.(uint64), 10)
 	case float64:
-		return strconv.FormatFloat(input.(float64), 'f', -1, 64)
+		return FormatFloat(input.(float64))
 	case float32:
-		return strconv.FormatFloat(float64(input.(float32)), 'f', -1, 64)
+		return FormatFloat32(input.(float32))
 	case bool:
 		if input.(bool) {
 			return "true"
@@ -142,4 +142,12 @@ func Stringify(input interface{}) string {
 	default:
 		return fmt.Sprint(input)
 	}
+}
+
+func FormatFloat(float float64) string {
+	return strconv.FormatFloat(float, 'f', -1, 64)
+}
+
+func FormatFloat32(float float32) string {
+	return FormatFloat(float64(float))
 }
