@@ -13,7 +13,7 @@ import (
 func TestSaveUser(t *testing.T) {
 	config.InitTest()
 	err := SaveUser(context.Background(), &model.User{
-		ID: 123, Name: "元宝",
+		ID: 123, Name: "元宝", Password: "yb",
 	})
 	util.TestingErr(t, err)
 }
@@ -21,10 +21,10 @@ func TestSaveUser(t *testing.T) {
 func TestQueryUser(t *testing.T) {
 	config.InitTest()
 	users, err := QueryUser(context.Background(), &model.User{
-		ID: 1, Name: "元宝",
-	})
+		ID: 123, Name: "元宝",
+	}, 0, 2)
 	util.TestingErr(t, err)
-	fmt.Println(string(util.JsonMarshal(users)))
+	fmt.Println(util.JsonMarshalString(users))
 }
 
 func TestCountUser(t *testing.T) {

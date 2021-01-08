@@ -7,15 +7,19 @@ import (
 )
 
 const (
-	JwtClaimsKey     = "JsonWebClaims"
 	DefaultJwtExpire = time.Hour * 720
 )
 
 var JwtSecret = []byte("MySecret")
 
+type JwtData struct {
+	Name    string `json:"name,omitempty"`
+	Version int64  `json:"version,omitempty"`
+}
+
 type JwtClaims struct {
 	jwt.StandardClaims
-	Name string `json:"name,omitempty"`
+	*JwtData
 }
 
 func GetExpireDate() time.Time {
@@ -23,17 +27,17 @@ func GetExpireDate() time.Time {
 }
 
 // GenToken 生成JWT
-func GenToken(name string) (string, error) {
-	return GenTokenExpire(name, GetExpireDate())
+func GenToken(data *JwtData) (string, error) {
+	return GenTokenExpire(data, GetExpireDate())
 }
 
-func GenTokenExpire(name string, expire time.Time) (string, error) {
+func GenTokenExpire(data *JwtData, expire time.Time) (string, error) {
 	// 创建一个我们自己的声明
 	c := JwtClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expire.Unix(), // 过期时间
 		},
-		Name: name, // 自定义字段
+		JwtData: data, // 自定义字段
 	}
 	// 使用指定的签名方法创建签名对象
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)

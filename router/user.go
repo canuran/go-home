@@ -72,7 +72,11 @@ func queryUser(c *gin.Context) {
 		return
 	}
 
-	users, err := service.QueryUser(c, user)
+	cPage := c.DefaultQuery("cPage", "1")
+	pSize := c.DefaultQuery("pSize", "10")
+	limit := int(util.Int64ify(pSize))
+	offset := int(util.Int64ify(cPage)) * limit - limit
+	users, err := service.QueryUser(c, user, offset, limit)
 	if handleErr(c, err) {
 		return
 	}

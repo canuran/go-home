@@ -10,6 +10,6 @@ func TestLogIfErr(t *testing.T) {
 }
 
 func TestStringMd5(t *testing.T) {
-	fmt.Println(StringMd5(""))
-	fmt.Println(StringMd5("ybybybyb"))
+	fmt.Println(Md5String([]byte("")))
+	fmt.Println(Md5String([]byte("ybybybyb")))
 }

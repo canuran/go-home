@@ -39,7 +39,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if len(user.Header) < 1 {
 		user.Header = common.UserDefaultHeader
 	}
-	users, err := dal.QueryUser(ctx, &model.User{Name: user.Name})
+	users, err := dal.QueryUser(ctx, &dal.UserParam{Entity: &model.User{Name: user.Name}})
 	if util.LogIfErr(err) {
 		return err
 	}
@@ -47,7 +47,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 		return fmt.Errorf("用户名称%s已存在", user.Name)
 	}
 	return config.Transaction(ctx, func(ctx context.Context) error {
-		return dal.SaveUser(ctx, user)
+		return dal.SaveUser(ctx, &dal.UserParam{Entity: user})
 	})
 }
 
@@ -55,7 +55,7 @@ func GetUserByName(ctx context.Context, name string) (*model.User, error) {
 	if len(name) < 1 {
 		return nil, fmt.Errorf("用户名称不能为空")
 	}
-	users, err := dal.QueryUser(ctx, &model.User{Name: name})
+	users, err := dal.QueryUser(ctx, &dal.UserParam{Entity: &model.User{Name: name}})
 	if util.LogIfErr(err) {
 		return nil, fmt.Errorf("获取用户失败")
 	}
@@ -65,14 +65,24 @@ func GetUserByName(ctx context.Context, name string) (*model.User, error) {
 	return users[0], nil
 }
 
-func QueryUser(ctx context.Context, user *model.User) ([]*model.User, error) {
-	return dal.QueryUser(ctx, user)
+func QueryUser(ctx context.Context, user *model.User, offset, limit int) ([]*model.User, error) {
+	return dal.QueryUser(ctx, &dal.UserParam{Entity: user, Offset: offset, Limit: limit})
 }
 
 func CountUser(ctx context.Context, user *model.User) (int64, error) {
-	return dal.CountUser(ctx, user)
+	return dal.CountUser(ctx, &dal.UserParam{Entity: user})
 }
 
 func DeleteUser(ctx context.Context, user *model.User) error {
 	return dal.DeleteUser(ctx, user)
+}
+
+func UpdateLoginIndex(ctx context.Context, user *model.User) error {
+	if user == nil || user.ID < 0 {
+		return nil
+	}
+	return dal.SaveUser(ctx, &dal.UserParam{
+		Entity:       &model.User{ID: user.ID, LoginVersion: user.LoginVersion},
+		SelectFields: []string{"id", "login_version"},
+	})
 }

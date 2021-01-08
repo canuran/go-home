@@ -8,39 +8,69 @@ import (
 	"gorm.io/gorm"
 )
 
-func SaveUser(ctx context.Context, user *model.User) error {
-	db := config.GetDB(ctx)
-	return db.Clauses(config.ConflictUpdateAll).Create(user).Error
+type UserParam struct {
+	Entity       *model.User
+	SelectFields []string
+	OmitFields   []string
+	Offset       int
+	Limit        int
 }
 
-func QueryUser(ctx context.Context, user *model.User) ([]*model.User, error) {
+func SaveUser(ctx context.Context, userParam *UserParam) error {
+	db := config.GetDB(ctx)
+	db = addUserParam(db, &UserParam{
+		SelectFields: userParam.SelectFields,
+		OmitFields:   userParam.OmitFields,
+	})
+	return db.Clauses(config.ConflictUpdateAll).
+		Create(userParam.Entity).Error
+}
+
+func QueryUser(ctx context.Context, userParam *UserParam) ([]*model.User, error) {
 	db := config.GetDB(ctx).Model(&model.User{})
 	var users []*model.User
-	db = addUserWhere(db, user).Find(&users)
+	db = addUserParam(db, userParam).Find(&users)
 	return users, db.Error
 }
 
-func CountUser(ctx context.Context, user *model.User) (int64, error) {
+func CountUser(ctx context.Context, userParam *UserParam) (int64, error) {
 	db := config.GetDB(ctx).Model(&model.User{})
 	var users int64
-	db = addUserWhere(db, user).Count(&users)
+	db = addUserParam(db, userParam).Count(&users)
 	return users, db.Error
 }
 
-func addUserWhere(db *gorm.DB, user *model.User) *gorm.DB {
-	if user == nil {
+func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
+	if userParam == nil {
 		return db
 	}
-	if user.ID > 0 {
-		db = db.Where("id = ?", user.ID)
+	if len(userParam.SelectFields) > 0 {
+		db = db.Select(userParam.SelectFields)
 	}
-	if len(user.Name) > 0 {
-		db = db.Where("name like ?", user.Name+"%")
+	if len(userParam.OmitFields) > 0 {
+		db = db.Omit(userParam.OmitFields...)
+	}
+	if userParam.Entity != nil {
+		if userParam.Entity.ID > 0 {
+			db = db.Where("id = ?", userParam.Entity.ID)
+		}
+		if len(userParam.Entity.Name) > 0 {
+			db = db.Where("name = ?", userParam.Entity.Name)
+		}
+		if userParam.Entity.Status > 0 {
+			db = db.Where("status = ?", userParam.Entity.Status)
+		}
+	}
+	if userParam.Offset > 0 {
+		db = db.Offset(userParam.Offset)
+	}
+	if userParam.Limit > 0 {
+		db = db.Limit(userParam.Limit)
 	}
 	return db
 }
 
-func DeleteUser(ctx context.Context, user *model.User)  error {
+func DeleteUser(ctx context.Context, user *model.User) error {
 	if user == nil || user.ID < 1 {
 		return nil
 	}

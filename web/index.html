@@ -121,9 +121,8 @@
 
         layui.miniAdmin.render(options);
 
-        $.get(srvPath + '/loginer', {}, function (data) {
-            $('#loginer').html(data && data.data && data.data.name);
-        });
+        updateLoginInfo();
+        setInterval(updateLoginInfo, 60000);
 
         $('#login-out').on("click", function () {
             $.get(srvPath + '/logout', {}, function () {
@@ -141,6 +140,12 @@
             }
         }
     })
+
+    function updateLoginInfo() {
+        $.get(srvPath + '/loginer', {}, function (data) {
+            $('#loginer').html(data && data.data && data.data.name);
+        });
+    }
 
     /*获取到Url里面的参数*/
     function getUrlParam(name) {

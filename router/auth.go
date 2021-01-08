@@ -42,10 +42,19 @@ func authHandler(c *gin.Context) {
 		}
 	}
 	// 密码混淆加强
-	pwdMd5 := util.StringMd5(user.Name + user.Password + salt)
+	pwdMd5 := util.Md5String([]byte(user.Name + user.Password + salt))
 	if userParam.Password == pwdMd5 {
+		// 登陆版本号增加
+		user.LoginVersion++
+		err = service.UpdateLoginIndex(c, user)
+		if handleErr(c, err) {
+			return
+		}
 		// 生成Token
-		tokenStr, err := util.GenToken(userParam.Name)
+		tokenStr, err := util.GenToken(&util.JwtData{
+			Name:    user.Name,
+			Version: user.LoginVersion,
+		})
 		if handleErr(c, err) {
 			return
 		}
@@ -56,13 +65,23 @@ func authHandler(c *gin.Context) {
 }
 
 func authLogout(c *gin.Context) {
+	loginUser, ok := c.Get(common.LoginUserKey)
+	if ok && loginUser != nil {
+		// 登陆版本号增加
+		user := loginUser.(*model.User)
+		user.LoginVersion++
+		err := service.UpdateLoginIndex(c, user)
+		if handleErr(c, err) {
+			return
+		}
+	}
 	c.Header("Set-Cookie", "Authorization=none")
 	success(c)
 }
 
 func authSalt(c *gin.Context) {
 	// 登陆盐过期无效
-	saltToken, err := util.GenTokenExpire("", time.Now().Add(time.Minute*10))
+	saltToken, err := util.GenTokenExpire(nil, time.Now().Add(time.Minute*10))
 	if handleErr(c, err) {
 		return
 	}
@@ -70,8 +89,8 @@ func authSalt(c *gin.Context) {
 }
 
 func authLoginer(c *gin.Context) {
-	claims, _ := c.Get(util.JwtClaimsKey)
-	successData(c, claims)
+	user, _ := c.Get(common.LoginUserKey)
+	successData(c, user)
 }
 
 // JWTAuthMW 基于JWT的认证中间件
@@ -93,32 +112,44 @@ func JWTAuthMW(c *gin.Context) {
 	if len(tokenStr) < 1 {
 		cookie, err := c.Request.Cookie("Authorization")
 		if util.LogIfErr(err) {
-			c.Status(http.StatusUnauthorized)
-			c.Abort()
+			unauthorized(c)
 			return
 		}
 		tokenStr = cookie.Value
 	}
 	if len(tokenStr) < 1 {
-		c.Status(http.StatusUnauthorized)
-		c.Abort()
+		unauthorized(c)
 		return
 	}
 
 	// 解析JWT
 	claims, err := util.ParseToken(tokenStr)
 	if util.LogIfErr(err) {
-		c.Status(http.StatusUnauthorized)
-		c.Abort()
+		unauthorized(c)
 		return
 	}
 	// 空名称的是盐
 	if len(claims.Name) < 1 {
-		c.Status(http.StatusUnauthorized)
-		c.Abort()
+		unauthorized(c)
+		return
+	}
+
+	// 验证登陆版本是否失效
+	user, err := service.GetUserByName(c, claims.Name)
+	if util.LogIfErr(err) {
+		unauthorized(c)
+		return
+	}
+	if claims.Version < user.LoginVersion {
+		unauthorized(c)
 		return
 	}
 	// 将当前请求的username信息保存到请求的上下文context上
-	c.Set(util.JwtClaimsKey, claims)
+	c.Set(common.LoginUserKey, user)
 	c.Next()
+}
+
+func unauthorized(c *gin.Context) {
+	c.Status(http.StatusUnauthorized)
+	c.Abort()
 }
