@@ -95,9 +95,9 @@ func authLoginer(c *gin.Context) {
 
 // JWTAuthMW 基于JWT的认证中间件
 func JWTAuthMW(c *gin.Context) {
-	if c.Request.RequestURI == common.SrvPath+"/auth" ||
-		c.Request.RequestURI == common.SrvPath+"/salt" ||
-		c.Request.RequestURI == common.SrvPath+"/logout" {
+	if strings.HasSuffix(c.Request.RequestURI, "/auth") ||
+		strings.HasSuffix(c.Request.RequestURI, "/salt") ||
+		strings.HasSuffix(c.Request.RequestURI, "/logout") {
 		c.Next()
 		return
 	}
