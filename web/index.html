@@ -32,33 +32,26 @@
             <div class="layui-logo layuimini-logo layuimini-back-home"></div>
 
             <div class="layuimini-header-content">
-                <a>
-                    <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
-                </a>
+                <a><div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div></a>
 
                 <!--电脑端头部菜单-->
-                <ul
-                    class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show">
-                </ul>
+                <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show"></ul>
 
                 <!--手机端头部菜单-->
                 <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
                     <li class="layui-nav-item">
-                        <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>
+                        <a href="javascript:;"><i class="fa fa-list-ul"></i> 模块导航</a>
                         <dl class="layui-nav-child layuimini-menu-header-mobile">
                         </dl>
                     </li>
                 </ul>
 
                 <ul class="layui-nav layui-layout-right">
-                    <li class="layui-nav-item" lay-unselect>
-                        <a href="javascript:" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
-                    </li>
-                    <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
-                        <a href="javascript:" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
-                    </li>
-                    <li class="layui-nav-item layuimini-setting">
-                        <a href="javascript:"><span id="loginer">登陆</span></a>
+                    <li class="layui-nav-item layuimini-setting" style="margin-right:10px">
+                        <a href="javascript:">
+                            <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"></img>
+                            <span id="loginerName">登陆</span>
+                        </a>
                         <dl class="layui-nav-child">
                             <dd><a href="javascript:" layuimini-content-href="page/user-profile.html" data-title="基本资料"
                                     data-icon="fa fa-gears">基本资料</a></dd>
@@ -70,6 +63,12 @@
                             <dd><a href="javascript:" id="login-out">退出登录</a></dd>
                         </dl>
                     </li>
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
+                    </li>
+                    <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
+                        <a href="javascript:" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
+                    </li>
                     <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
                         <a href="javascript:" data-bgcolor="配色方案"><i class="fa fa-th-list"></i></a>
                     </li>
@@ -78,8 +77,7 @@
         </div>
 
         <!--无限极左侧菜单-->
-        <div class="layui-side layui-bg-black layuimini-menu-left">
-        </div>
+        <div class="layui-side layui-bg-black layuimini-menu-left"></div>
 
         <!--手机端遮罩层-->
         <div class="layuimini-make"></div>
@@ -88,7 +86,7 @@
         <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
 
         <div class="layui-body">
-
+            <!-- 路径面包屑 -->
             <div class="layui-card layuimini-page-header layui-hide">
                 <div class="layui-breadcrumb layuimini-page-title">
                     <a lay-href="" href="/">主页</a><span lay-separator="">/</span>
@@ -97,11 +95,9 @@
                 </div>
             </div>
 
-            <div class="layuimini-content-page">
-            </div>
-
+            <!-- 主体区域 -->
+            <div class="layuimini-content-page"></div>
         </div>
-
     </div>
     <script src="lib/layui/layui.js" charset="utf-8"></script>
     <script src="lib/jquery/jquery.js" charset="utf-8"></script>
@@ -111,6 +107,22 @@
     <script>
         var srvPath = "/srv"
         var webPath = "/web"
+        var userDefaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +
+            "BQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIAGQAZAMBIgAC" +
+            "EQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQy" +
+            "gZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeI" +
+            "iYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEB" +
+            "AQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEK" +
+            "FiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Sl" +
+            "pqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP0tooooAKKKKACi" +
+            "iigAooooAKKKKACiiigAooooAKKKKACiiigAopk0yW8LyyMFjQFmY9hXm2ueLrvVJmWGRre1BwqIcEj1JoA9NxSV49b6ld2kgkiu" +
+            "ZUcc5DmvQPCfif8AtuNoJwFu4xkkcBx60AdDRRRQAUUUUAFFFFABRRRQAUUUUAc947uGh0BlU48yRUP05P8ASvNq9U8U6c2p6JPF" +
+            "GN0q4dR6kf8A1s15X0oAK1PDE7W+v2TJ/FIEP0PFZdb3grTnvdbil2/urf52b37CgD0yiiigAooooAKKKKACiiigAoopGYIpZiFU" +
+            "ckk4AoAWvNvHGnw2GsBoQFEyeYyDsc4P510GteO7az3RWQF1KON/8A/xrhL29m1C5ee4cySt1J/lQBDXq3hrT4dP0e3WIDMiCR3/" +
+            "ALxIrymug0DxhcaOiwSr9otR0UnDL9D/AEoA9KoqjpetWesR7raUMw6xnhl+oq9QAUUUUAFFFFABRRRQAteW+IfEl1rFxIhcx2ysQ" +
+            "sSng47n1r1KuPn+HUMkzul7IisxIUxg4/HNAHCUV3H/AAreP/oIP/36H+NH/Ct4/wDoIP8A9+h/jQBw9Fdx/wAK3j/6CD/9+h/jR/" +
+            "wreP8A6CD/APfof40AcVDPJbSrJE7RyLyGU4Ir0jwfrs2tWUouADNCQpcfxZ7/AF4rM/4VvH/0EH/79D/Gt3w94ej8PwyokrTNKw" +
+            "LMwx06cUAatFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//"
 
         layui.use(['layer', 'miniAdmin'], function () {
             var options = {
@@ -135,9 +147,10 @@
         $.ajaxSetup({
             error: function (xhr) {
                 if (xhr.status === 401) {
-                    var loginer = $('#loginer');
-                    loginer.html('登陆');
-                    loginer.click(openLoginLayer);
+                    var loginerName = $('#loginerName');
+                    loginerName.html('登陆');
+                    loginerName.click(openLoginLayer);
+                    $('#loginerHeader').attr('src', 'data:image;base64,' + userDefaultHeader)
                     openLoginLayer()
                 } else {
                     layui.layer.msg("请求失败", { icon: 2 })
@@ -163,9 +176,10 @@
 
         function updateLoginInfo() {
             $.get(srvPath + '/loginer', {}, function (data) {
-                var loginer = $('#loginer');
-                loginer.html(data && data.data && data.data.name);
-                loginer.unbind('click');
+                var loginerName = $('#loginerName');
+                loginerName.html(data.data && data.data.name);
+                loginerName.unbind('click');
+                $('#loginerHeader').attr('src', 'data:image;base64,' + (data.data && data.data.header))
             });
         }
 
@@ -205,7 +219,7 @@
             layui.layer.open({
                 type: 1,
                 area: '600px',
-                title: "查看图片",
+                title: '<i class="fa fa-photo"></i> 查看图片',
                 shadeClose: true,
                 content: "<img width='100%' src='" + img.src + "' alt='" + img.alt + "'/>"
             })

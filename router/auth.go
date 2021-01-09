@@ -146,6 +146,7 @@ func JWTAuthMW(c *gin.Context) {
 		return
 	}
 	// 将当前请求的username信息保存到请求的上下文context上
+	user.Password = ""
 	c.Set(common.LoginUserKey, user)
 	c.Next()
 }

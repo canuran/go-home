@@ -5,20 +5,19 @@
             <div class="layui-inline">
                 <label class="layui-form-label">用户ID</label>
                 <div class="layui-input-inline" style="width: 100px">
-                    <input type="number" name="id" class="layui-input"/>
+                    <input type="number" name="id" class="layui-input" />
                 </div>
             </div>
 
             <div class="layui-inline">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-inline" style="width: 100px">
-                    <input type="text" name="name" class="layui-input"/>
+                    <input type="text" name="name" class="layui-input" />
                 </div>
             </div>
 
             <div class="layui-inline">
-                <button id="search-btn" type="submit" class="layui-btn"
-                        lay-submit lay-filter="search-btn">
+                <button id="search-btn" type="submit" class="layui-btn" lay-submit lay-filter="search-btn">
                     <i class="fa fa-search"></i>搜索
                 </button>
             </div>
@@ -35,31 +34,29 @@
 </div>
 
 <!--表单窗口-->
-<div id="main-edit-win" hidden="hidden">
+<textarea id="main-edit-win" hidden="hidden">
     <div class="layuimini-main">
         <form id="main-edit-form" class="layui-form layui-form-pane" lay-filter="main-edit-form">
-            <input type="hidden" name="id"/>
+            <input type="hidden" name="id" />
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" class="layui-input"
-                           placeholder="请输入用户名" lay-verify="required"/>
+                    <input type="text" name="name" class="layui-input" placeholder="请输入用户名" lay-verify="required" />
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">新密码</label>
                 <div class="layui-input-block">
-                    <input type="password" name="password" class="layui-input"
-                           placeholder="请输入用户密码"/>
+                    <input type="password" name="password" class="layui-input" placeholder="请输入用户密码" />
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">新头像</label>
                 <div class="layui-input-block">
-                    <input id="form-header-img" type="file" name="header_file"
-                           class="layui-input" placeholder="请选择头像图片"/>
+                    <input id="form-header-img" type="file" name="header_file" class="layui-input"
+                        placeholder="请选择头像图片" />
                 </div>
             </div>
 
@@ -94,20 +91,19 @@
 
             <div class="layui-form-item">
                 <div style="text-align: center;margin-top: 50px">
-                    <button type="submit" class="layui-btn layui-btn-normal"
-                            lay-submit lay-filter="main-edit-ok">
+                    <button type="submit" class="layui-btn layui-btn-normal" lay-submit lay-filter="main-edit-ok">
                         <i class="fa fa-check"></i>确定
                     </button>
 
                     <button id="main-edit-cancel" type="button" style="margin-left:50px"
-                            class="layui-btn layui-btn-warm">
+                        class="layui-btn layui-btn-warm" onclick="layui.layer.closeAll()">
                         <i class="fa fa-close"></i>取消
                     </button>
                 </div>
             </div>
         </form>
     </div>
-</div>
+</textarea>
 
 <script type="application/javascript">
     layui.use(['form', 'layer', 'element'], ready);
@@ -123,7 +119,6 @@
     }
 
     function ready() {
-        initSelect()
         // 监听搜索按钮
         layui.form.on('submit(search-btn)', function (form) {
             GridManager.setQuery('main-table', form.field);
@@ -143,11 +138,11 @@
             layui.layer.closeAll();
         });
 
-        loadTable({url: srvPath + "/user/query"});
+        loadTable({ url: srvPath + "/user/query" });
     }
 
     function initSelect() {
-        var roles = ["管理员", "前端", "后端", "产品", "测试"]
+        var roles = ["", "管理员", "前端", "后端", "产品", "测试"]
         roles.forEach(function (value) {
             $("#select_role").append("<option value='" + value + "'>" + value + "</option>");
         })
@@ -177,14 +172,14 @@
                 handler: ajaxGetTotals
             },
             columnData: [
-                {key: 'id', text: '用户ID', width: '100px', fixed: 'left'},
-                {key: 'header', text: '用户头像', width: '123px', fixed: 'left', template: gmImageTemplate},
-                {key: 'name', text: '用户名', width: '200px'},
-                {key: 'gender', text: '性别', width: '200px'},
-                {key: 'role', text: '角色', width: '200px'},
-                {key: 'status', text: '状态', width: '200px', template: statusTemplate},
-                {key: 'updated_at', text: '更新时间', width: '200px', template: gmTimeTemplate},
-                {key: '_operate_', text: '操作', width: '135px', fixed: 'right', template: rowOperates}
+                { key: 'id', text: '用户ID', width: '100px', fixed: 'left' },
+                { key: 'header', text: '用户头像', width: '123px', fixed: 'left', template: gmImageTemplate },
+                { key: 'name', text: '用户名', width: '200px' },
+                { key: 'gender', text: '性别', width: '200px' },
+                { key: 'role', text: '角色', width: '200px' },
+                { key: 'status', text: '状态', width: '200px', template: statusTemplate },
+                { key: 'updated_at', text: '更新时间', width: '200px', template: gmTimeTemplate },
+                { key: '_operate_', text: '操作', width: '135px', fixed: 'right', template: rowOperates }
             ]
         });
     }
@@ -205,26 +200,15 @@
             title: '<i class="fa fa-list"></i> 表单数据',
             offset: '170px',
             area: '600px',
-            zIndex: 10,
             type: 1,
-            content: $('#main-edit-win')
+            content: $('#main-edit-win').val()
         });
 
+        initSelect();
         if (btn) {
             var row = GridManager.getRowData('main-table', btn.parentElement.parentElement);
             row.header_file = "";
             layui.form.val('main-edit-form', row);
-        } else {
-            layui.form.val('main-edit-form', {
-                id: 0,
-                name: "",
-                password: "",
-                header: "",
-                header_file: "",
-                role: "",
-                gender: "",
-                status: "1"
-            });
         }
     }
 
@@ -244,9 +228,9 @@
                 if (result && result.code === 0) {
                     layui.layer.closeAll();
                     GridManager.refreshGrid('main-table');
-                    layui.layer.msg("保存成功", {icon: 1});
+                    layui.layer.msg("保存成功", { icon: 1 });
                 } else {
-                    layui.layer.msg(result.message, {icon: 2});
+                    layui.layer.msg(result.message, { icon: 2 });
                 }
             }
         });
@@ -263,15 +247,15 @@
             $.ajax({
                 url: srvPath + "/user/delete",
                 method: "post",
-                data: {id: row.id},
+                data: { id: row.id },
                 dataType: "json",
                 success: function (result) {
                     if (result && result.code === 0) {
                         layui.layer.closeAll();
                         GridManager.refreshGrid('main-table');
-                        layui.layer.msg("删除成功", {icon: 1});
+                        layui.layer.msg("删除成功", { icon: 1 });
                     } else {
-                        layui.layer.msg(result.message, {icon: 2});
+                        layui.layer.msg(result.message, { icon: 2 });
                     }
                 }
             });

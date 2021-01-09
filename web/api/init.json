@@ -26,18 +26,6 @@
           "href": "page/user.html",
           "icon": "fa fa-user",
           "target": "_self"
-        },
-        {
-          "title": "角色管理",
-          "href": "page/role.html",
-          "icon": "fa fa-home",
-          "target": "_self"
-        },
-        {
-          "title": "权限管理",
-          "href": "page/permission.html",
-          "icon": "fa fa-home",
-          "target": "_self"
         }
       ]
     },

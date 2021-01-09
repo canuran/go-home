@@ -24,7 +24,7 @@ type ConvertOption struct {
 }
 
 func ConvertImage(option *ConvertOption) error {
-	if option == nil {
+	if option == nil || option.Reader == nil || option.Writer == nil {
 		return nil
 	}
 

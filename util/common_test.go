@@ -3,6 +3,8 @@ package util
 import (
 	"fmt"
 	"testing"
+
+	"github.com/ewingtsai/go-web/common"
 )
 
 func TestLogIfErr(t *testing.T) {
@@ -10,6 +12,7 @@ func TestLogIfErr(t *testing.T) {
 }
 
 func TestStringMd5(t *testing.T) {
+	fmt.Println(common.UserDefaultHeader)
 	fmt.Println(Md5String([]byte("")))
 	fmt.Println(Md5String([]byte("ybybybyb")))
 }
