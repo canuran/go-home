@@ -33,6 +33,17 @@ func QueryUser(ctx context.Context, userParam *UserParam) ([]*model.User, error)
 	return users, db.Error
 }
 
+func QueryFirstUser(ctx context.Context, userParam *UserParam) (*model.User, error) {
+	if userParam != nil {
+		userParam.Limit = 1
+	}
+	users, err := QueryUser(ctx, userParam)
+	if len(users) > 0 {
+		return users[0], err
+	}
+	return nil, err
+}
+
 func CountUser(ctx context.Context, userParam *UserParam) (int64, error) {
 	db := config.GetDB(ctx).Model(&model.User{})
 	var users int64

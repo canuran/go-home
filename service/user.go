@@ -3,8 +3,10 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/ewingtsai/go-web/common"
 	"log"
+	"strings"
+
+	"github.com/ewingtsai/go-web/common"
 
 	"github.com/ewingtsai/go-web/config"
 	"github.com/ewingtsai/go-web/dal"
@@ -20,6 +22,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	if user == nil {
 		return nil
 	}
+	// 参数校验
 	user.Name = util.StandardizeString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
@@ -38,17 +41,24 @@ func SaveUser(ctx context.Context, user *model.User) error {
 		return fmt.Errorf("头像图片太大")
 	}
 
-	users, err := dal.QueryUser(ctx, &dal.UserParam{Entity: &model.User{Name: user.Name}})
+	// 业务逻辑
+	userParam := &dal.UserParam{Entity: user}
+	userParam.OmitFields = append(userParam.OmitFields, "login_version")
+	existsUser, err := dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{Name: user.Name}})
 	if util.LogIfErr(err) {
 		return err
 	}
 
-	userParam := &dal.UserParam{Entity: user}
-	userParam.OmitFields = append(userParam.OmitFields, "login_version")
-	if len(users) > 0 {
-		// 修改用户
-		existUser := users[0]
-		if existUser.ID != user.ID {
+	if user.ID > 0 {
+		// 更新用户
+		oldUser, err := dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{ID: user.ID}})
+		if util.LogIfErr(err) {
+			return err
+		}
+		if oldUser == nil {
+			return fmt.Errorf("用户%d不存在", user.ID)
+		}
+		if existsUser != nil && existsUser.ID != user.ID {
 			return fmt.Errorf("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
@@ -57,17 +67,20 @@ func SaveUser(ctx context.Context, user *model.User) error {
 		if len(user.Password) < 1 {
 			userParam.OmitFields = append(userParam.OmitFields, "password")
 		} else {
-			user.Password = util.Md5String([]byte(user.Name + user.Password))
+			user.Password = util.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 	} else {
 		// 新增用户
+		if existsUser != nil {
+			return fmt.Errorf("用户名%s已存在", user.Name)
+		}
 		if len(user.Header) < 1 {
 			user.Header = common.UserDefaultHeader
 		}
 		if len(user.Password) < 1 {
 			return fmt.Errorf("用户密码不能为空")
 		} else {
-			user.Password = util.Md5String([]byte(user.Name + user.Password))
+			user.Password = util.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 	}
 
@@ -80,14 +93,14 @@ func GetUserByName(ctx context.Context, name string) (*model.User, error) {
 	if len(name) < 1 {
 		return nil, fmt.Errorf("用户名不能为空")
 	}
-	users, err := dal.QueryUser(ctx, &dal.UserParam{Entity: &model.User{Name: name}})
+	user, err := dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{Name: name}})
 	if util.LogIfErr(err) {
 		return nil, fmt.Errorf("获取用户失败")
 	}
-	if len(users) < 1 {
+	if user == nil {
 		return nil, fmt.Errorf("用户%s不存在", name)
 	}
-	return users[0], nil
+	return user, nil
 }
 
 func QueryUser(ctx context.Context, user *model.User, offset, limit int) ([]*model.User, error) {

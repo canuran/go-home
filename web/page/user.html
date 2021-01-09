@@ -244,9 +244,9 @@
                 if (result && result.code === 0) {
                     layui.layer.closeAll();
                     GridManager.refreshGrid('main-table');
-                    layui.layer.msg("保存成功");
+                    layui.layer.msg("保存成功", {icon: 1});
                 } else {
-                    layui.layer.msg(result.message);
+                    layui.layer.msg(result.message, {icon: 2});
                 }
             }
         });
@@ -269,9 +269,9 @@
                     if (result && result.code === 0) {
                         layui.layer.closeAll();
                         GridManager.refreshGrid('main-table');
-                        layui.layer.msg("删除成功");
+                        layui.layer.msg("删除成功", {icon: 1});
                     } else {
-                        layui.layer.msg(result.message);
+                        layui.layer.msg(result.message, {icon: 2});
                     }
                 }
             });

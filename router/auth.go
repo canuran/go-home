@@ -1,14 +1,15 @@
 package router
 
 import (
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/model"
 	"github.com/ewingtsai/go-web/service"
 	"github.com/ewingtsai/go-web/util"
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"strings"
-	"time"
 )
 
 func Auth(group *gin.RouterGroup) {
@@ -95,7 +96,8 @@ func authLoginer(c *gin.Context) {
 // JWTAuthMW 基于JWT的认证中间件
 func JWTAuthMW(c *gin.Context) {
 	if c.Request.RequestURI == common.SrvPath+"/auth" ||
-		c.Request.RequestURI == common.SrvPath+"/salt" {
+		c.Request.RequestURI == common.SrvPath+"/salt" ||
+		c.Request.RequestURI == common.SrvPath+"/logout" {
 		c.Next()
 		return
 	}
