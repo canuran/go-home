@@ -48,15 +48,17 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">新密码</label>
                 <div class="layui-input-block">
-                    <input type="password" name="password" class="layui-input" placeholder="请输入用户密码" />
+                    <input type="password" name="password" class="layui-input" placeholder="请输入新密码" />
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">新头像</label>
                 <div class="layui-input-block">
-                    <input id="form-header-img" type="file" name="header_file" class="layui-input"
-                        placeholder="请选择头像图片" />
+                    <input id="form-header-img" type="file" name="header_file" style="display:none"
+                        onchange="$('#show-header-img').val($(this).val())"/>
+                    <input id="show-header-img" class="layui-input" style="cursor:pointer"
+                        placeholder="请选择新头像" onclick="$('#form-header-img').click()" readonly/>
                 </div>
             </div>
 
