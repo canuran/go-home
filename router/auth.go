@@ -1,10 +1,15 @@
 package router
 
 import (
+	"bytes"
+	"encoding/base64"
+	"math/rand"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/dchest/captcha"
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/model"
 	"github.com/ewingtsai/go-web/service"
@@ -12,11 +17,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var captchaAesKey = []byte("MnfCSZWU0HPYbVfO")
+
 func Auth(group *gin.RouterGroup) {
 	group.POST("/auth", authHandler)
 	group.GET("/logout", authLogout)
 	group.GET("/loginer", authLoginer)
-	group.GET("/salt", authSalt)
+	group.GET("/captcha", authCaptcha)
 }
 
 func authHandler(c *gin.Context) {
@@ -26,9 +33,21 @@ func authHandler(c *gin.Context) {
 	if handleErr(c, err) {
 		return
 	}
-	salt := c.PostForm("salt")
-	_, err = util.ParseToken(salt)
+	// 获取并解析验证码
+	captchaEncode := c.PostForm("captcha_encode")
+	captchaCode := c.PostForm("captcha_code")
+	claims, err := util.ParseToken(captchaEncode)
+	if err != nil {
+		failureMessage(c, "验证码过期")
+		return
+	}
+	decode64 := util.Base64DecodeString(claims.Name)
+	decodeAes, err := util.AesDecrypt(decode64, captchaAesKey)
 	if handleErr(c, err) {
+		return
+	}
+	if captchaCode != string(decodeAes) {
+		failureMessage(c, "验证码错误")
 		return
 	}
 	// 校验用户名和密码是否正确
@@ -41,7 +60,7 @@ func authHandler(c *gin.Context) {
 		return
 	}
 	// 密码混淆加强
-	pwdMd5 := util.Md5String([]byte(user.Password + salt))
+	pwdMd5 := util.Md5String([]byte(user.Password + captchaEncode))
 	if userParam.Password == pwdMd5 {
 		// 登陆版本号增加
 		user.LoginVersion++
@@ -79,13 +98,30 @@ func authLogout(c *gin.Context) {
 	success(c)
 }
 
-func authSalt(c *gin.Context) {
-	// 登陆盐过期无效
-	saltToken, err := util.GenTokenExpire(nil, time.Now().Add(time.Minute*10))
+func authCaptcha(c *gin.Context) {
+	// 生成图片转Base64
+	code := strconv.Itoa(rand.Intn(8888) + 1000)
+	img := captcha.NewImage(code, util.DigitBytes([]rune(code)), 150, 50)
+	var buffer bytes.Buffer
+	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
+	img.WriteTo(encoder)
+	util.Close(encoder)
+
+	// 验证码加密后存储到JWT
+	encodeAes, err := util.AesEncrypt([]byte(code), captchaAesKey)
 	if handleErr(c, err) {
 		return
 	}
-	successData(c, saltToken)
+	encodeJwt, err := util.GenTokenExpire(&util.JwtData{
+		Name: util.Base64EncodeString(encodeAes),
+	}, time.Now().Add(time.Minute*10))
+	if handleErr(c, err) {
+		return
+	}
+	successData(c, &common.CaptchaInfo{
+		Encode: encodeJwt,
+		Image:  string(buffer.Bytes()),
+	})
 }
 
 func authLoginer(c *gin.Context) {
@@ -96,7 +132,7 @@ func authLoginer(c *gin.Context) {
 // JWTAuthMW 基于JWT的认证中间件
 func JWTAuthMW(c *gin.Context) {
 	if strings.HasSuffix(c.Request.RequestURI, "/auth") ||
-		strings.HasSuffix(c.Request.RequestURI, "/salt") ||
+		strings.HasSuffix(c.Request.RequestURI, "/captcha") ||
 		strings.HasSuffix(c.Request.RequestURI, "/logout") {
 		c.Next()
 		return

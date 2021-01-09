@@ -151,3 +151,13 @@ func FormatFloat(float float64) string {
 func FormatFloat32(float float32) string {
 	return FormatFloat(float64(float))
 }
+
+func DigitBytes(input []rune) []byte {
+	var res []byte
+	for _, v := range input {
+		if v <= '9' && v >= '0' {
+			res = append(res, byte(v-'0'))
+		}
+	}
+	return res
+}

@@ -237,10 +237,11 @@
                         <span class="bind-password icon icon-4"></span>
                     </div>
 
+                    <input id="captchaEncodeInput" type="text" name="captcha_encode" hidden />
                     <div id="validatePanel" class="item" style="width:160px;">
                         <span class="icon icon-1"></span>
-                        <input type="text" value="XSZG" name="captcha" lay-verify="required" placeholder="请输入验证码" />
-                        <img id="refreshCaptcha" class="validateImg" src="images/captcha.jpg" />
+                        <input type="text" name="captcha_code" lay-verify="required" placeholder="请输入验证码" />
+                        <img id="captchaImg" class="validateImg" src="images/captcha.jpg" onclick="refreshCaptcha()" />
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align:center;margin:0">
@@ -269,11 +270,19 @@
                 }
             });
 
+            refreshCaptcha();
             $('.bind-password').on('click', bindPassword);
 
             // 进行登录操作
             layui.form.on('submit(login)', submit);
         });
+
+        function refreshCaptcha() {
+            $.get(srvPath + '/captcha', {}, function (data) {
+                $('#captchaEncodeInput').val(data.data && data.data.encode);
+                $('#captchaImg').attr('src', 'data:image;base64,' + (data.data && data.data.image));
+            });
+        }
 
         function bindPassword() {
             if ($(this).hasClass('icon-5')) {
@@ -287,14 +296,8 @@
 
         function submit(data) {
             data = data.field;
-            data.salt = $.ajax({
-                url: srvPath + '/salt',
-                async: false,
-                type: "get",
-                dataType: "json"
-            }).responseJSON.data;
             // 密码混淆加强
-            data.password = md5(md5(data.password.repeat(8)) + data.salt);
+            data.password = md5(md5(data.password.repeat(8)) + data.captcha_encode);
             $.ajax({
                 url: srvPath + "/auth",
                 method: "post",

@@ -10,7 +10,7 @@ const (
 	DefaultJwtExpire = time.Hour * 720
 )
 
-var JwtSecret = []byte("MySecret")
+var JwtSecret = []byte("MAQoSrhbNoK312x2")
 
 type JwtData struct {
 	Name    string `json:"name,omitempty"`

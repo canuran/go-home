@@ -4,13 +4,6 @@ import (
 	"time"
 )
 
-type Response struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message,omitempty"`
-	Totals  int64       `json:"totals,omitempty"`
-	Data    interface{} `json:"data,omitempty"`
-}
-
 type User struct {
 	ID           int64     `json:"id,omitempty" form:"id" gorm:"autoIncrement;primaryKey"`
 	Name         string    `json:"name,omitempty" form:"name" gorm:"uniqueIndex;size:32"`
