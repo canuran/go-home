@@ -89,18 +89,18 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	})
 }
 
+func GetUser(ctx context.Context, id int64) (*model.User, error) {
+	if id < 1 {
+		return nil, nil
+	}
+	return dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{ID: id}})
+}
+
 func GetUserByName(ctx context.Context, name string) (*model.User, error) {
 	if len(name) < 1 {
-		return nil, fmt.Errorf("用户名不能为空")
+		return nil, nil
 	}
-	user, err := dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{Name: name}})
-	if util.LogIfErr(err) {
-		return nil, fmt.Errorf("获取用户失败")
-	}
-	if user == nil {
-		return nil, fmt.Errorf("用户%s不存在", name)
-	}
-	return user, nil
+	return dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{Name: name}})
 }
 
 func QueryUser(ctx context.Context, user *model.User, offset, limit int) ([]*model.User, error) {

@@ -55,6 +55,10 @@ func authHandler(c *gin.Context) {
 	if handleErr(c, err) {
 		return
 	}
+	if user == nil {
+		failureMessage(c, "登录用户不存在")
+		return
+	}
 	if len(user.Password) < 1 {
 		failureMessage(c, "用户未设置密码")
 		return
@@ -70,6 +74,7 @@ func authHandler(c *gin.Context) {
 		}
 		// 生成Token
 		tokenStr, err := util.GenToken(&util.JwtData{
+			ID:      user.ID,
 			Name:    user.Name,
 			Version: user.LoginVersion,
 		})
@@ -101,10 +106,10 @@ func authLogout(c *gin.Context) {
 func authCaptcha(c *gin.Context) {
 	// 生成图片转Base64
 	code := strconv.Itoa(rand.Intn(8888) + 1000)
-	img := captcha.NewImage(code, util.DigitBytes([]rune(code)), 150, 50)
+	img := captcha.NewImage(code, digitBytes([]rune(code)), 150, 50)
 	var buffer bytes.Buffer
 	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
-	img.WriteTo(encoder)
+	_, err := img.WriteTo(encoder)
 	util.Close(encoder)
 
 	// 验证码加密后存储到JWT
@@ -172,7 +177,7 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 验证登陆版本是否失效
-	user, err := service.GetUserByName(c, claims.Name)
+	user, err := service.GetUser(c, claims.ID)
 	if util.LogIfErr(err) {
 		unauthorized(c)
 		return
@@ -190,4 +195,14 @@ func JWTAuthMW(c *gin.Context) {
 func unauthorized(c *gin.Context) {
 	c.Status(http.StatusUnauthorized)
 	c.Abort()
+}
+
+func digitBytes(input []rune) []byte {
+	var res []byte
+	for _, v := range input {
+		if v <= '9' && v >= '0' {
+			res = append(res, byte(v-'0'))
+		}
+	}
+	return res
 }

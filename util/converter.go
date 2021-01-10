@@ -152,11 +152,39 @@ func FormatFloat32(float float32) string {
 	return FormatFloat(float64(float))
 }
 
-func DigitBytes(input []rune) []byte {
-	var res []byte
-	for _, v := range input {
-		if v <= '9' && v >= '0' {
-			res = append(res, byte(v-'0'))
+func Int64Slice(input []rune) []int64 {
+	var res []int64
+	var numPre bool
+	var number int64
+	var negative bool
+	maxIndex := len(input) - 1
+	for i, r := range input {
+		if r <= '9' && r >= '0' {
+			number = number*10 + int64(r-'0')
+			if i == maxIndex {
+				if negative {
+					res = append(res, -number)
+				} else {
+					res = append(res, number)
+				}
+				negative = false
+			}
+			numPre = true
+		} else {
+			if numPre {
+				if negative {
+					res = append(res, -number)
+				} else {
+					res = append(res, number)
+				}
+				number = 0
+			}
+			numPre = false
+			if r == '-' {
+				negative = true
+			} else {
+				negative = false
+			}
 		}
 	}
 	return res

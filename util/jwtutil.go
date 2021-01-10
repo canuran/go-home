@@ -13,6 +13,7 @@ const (
 var JwtSecret = []byte("MAQoSrhbNoK312x2")
 
 type JwtData struct {
+	ID      int64  `json:"id,omitempty"`
 	Name    string `json:"name,omitempty"`
 	Version int64  `json:"version,omitempty"`
 }
