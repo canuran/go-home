@@ -13,6 +13,7 @@ type User struct {
 	Role         string    `json:"role,omitempty" form:"role" gorm:"size:32"`
 	Status       int       `json:"status,omitempty" form:"status"`
 	LoginVersion int64     `json:"login_version"`
+	Sign         string    `json:"sign,omitempty" form:"sign" gorm:"size:128"`
 	CreatedAt    time.Time `json:"created_at,omitempty"`
 	UpdatedAt    time.Time `json:"updated_at,omitempty" gorm:"index"`
 }

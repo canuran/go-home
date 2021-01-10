@@ -92,6 +92,14 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label">签名</label>
+                <div class="layui-input-block">
+                    <inputarea name="sign" class="layui-textarea" style="resize:none"
+                        placeholder="请输入签名" lay-verify="required"></inputarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
                 <div style="text-align: center;margin-top: 50px">
                     <button type="submit" class="layui-btn layui-btn-normal" lay-submit lay-filter="main-edit-ok">
                         <i class="fa fa-check"></i>确定
@@ -177,9 +185,10 @@
                 { key: 'id', text: '用户ID', width: '100px', fixed: 'left' },
                 { key: 'header', text: '用户头像', width: '123px', fixed: 'left', template: gmImageTemplate },
                 { key: 'name', text: '用户名', width: '200px' },
+                { key: 'status', text: '状态', width: '200px', template: statusTemplate },
                 { key: 'gender', text: '性别', width: '200px' },
                 { key: 'role', text: '角色', width: '200px' },
-                { key: 'status', text: '状态', width: '200px', template: statusTemplate },
+                { key: 'sign', text: '签名', width: '300px' },
                 { key: 'updated_at', text: '更新时间', width: '200px', template: gmTimeTemplate },
                 { key: '_operate_', text: '操作', width: '135px', fixed: 'right', template: rowOperates }
             ]
@@ -203,7 +212,7 @@
             offset: '170px',
             area: '600px',
             type: 1,
-            content: $('#main-edit-win').val()
+            content: $('#main-edit-win').val().replace(/inputarea/g, 'textarea')
         });
 
         initSelect();
