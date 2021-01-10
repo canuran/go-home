@@ -177,8 +177,12 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 验证登陆版本是否失效
-	user, err := service.GetUser(c, claims.ID)
+	user, err := service.GetUserById(c, claims.ID)
 	if util.LogIfErr(err) {
+		unauthorized(c)
+		return
+	}
+	if user == nil {
 		unauthorized(c)
 		return
 	}

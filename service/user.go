@@ -44,14 +44,14 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	// 业务逻辑
 	userParam := &dal.UserParam{Entity: user}
 	userParam.OmitFields = append(userParam.OmitFields, "login_version")
-	existsUser, err := dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{Name: user.Name}})
+	existsUser, err := GetUserByName(ctx, user.Name)
 	if util.LogIfErr(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
-		oldUser, err := dal.QueryFirstUser(ctx, &dal.UserParam{Entity: &model.User{ID: user.ID}})
+		oldUser, err := GetUserById(ctx, user.ID)
 		if util.LogIfErr(err) {
 			return err
 		}
@@ -89,7 +89,7 @@ func SaveUser(ctx context.Context, user *model.User) error {
 	})
 }
 
-func GetUser(ctx context.Context, id int64) (*model.User, error) {
+func GetUserById(ctx context.Context, id int64) (*model.User, error) {
 	if id < 1 {
 		return nil, nil
 	}
