@@ -25,7 +25,7 @@ func Base64Encode(data []byte) []byte {
 	var out bytes.Buffer
 	encoder := base64.NewEncoder(base64.StdEncoding, &out)
 	_, _ = encoder.Write(data)
-	Close(encoder)
+	_ = encoder.Close()
 	return out.Bytes()
 }
 
