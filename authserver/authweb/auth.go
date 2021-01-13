@@ -1,8 +1,9 @@
-package router
+package authweb
 
 import (
 	"bytes"
 	"encoding/base64"
+	"github.com/ewingtsai/go-web/userserver/userweb"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -11,9 +12,8 @@ import (
 
 	"github.com/dchest/captcha"
 	"github.com/ewingtsai/go-web/common"
-	"github.com/ewingtsai/go-web/model"
-	"github.com/ewingtsai/go-web/service"
-	"github.com/ewingtsai/go-web/util"
+	"github.com/ewingtsai/go-web/userserver/userservice"
+	"github.com/ewingtsai/go-web/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,79 +28,79 @@ func Auth(group *gin.RouterGroup) {
 
 func authHandler(c *gin.Context) {
 	// 用户发送用户名和密码过来
-	var userParam model.User
+	var userParam userweb.UserVO
 	err := c.ShouldBind(&userParam)
-	if handleErr(c, err) {
+	if common.GinHandleErr(c, err) {
 		return
 	}
 	// 获取并解析验证码
 	captchaEncode := c.PostForm("captcha_encode")
 	captchaCode := c.PostForm("captcha_code")
-	claims, err := util.ParseToken(captchaEncode)
+	claims, err := utils.ParseToken(captchaEncode)
 	if err != nil {
-		failureMessage(c, "验证码过期")
+		common.GinFailureMessage(c, "验证码过期")
 		return
 	}
-	decode64 := util.Base64DecodeString(claims.Name)
-	decodeAes, err := util.AesDecrypt(decode64, captchaAesKey)
-	if handleErr(c, err) {
+	decode64 := utils.Base64DecodeString(claims.Name)
+	decodeAes, err := utils.AesDecrypt(decode64, captchaAesKey)
+	if common.GinHandleErr(c, err) {
 		return
 	}
 	if captchaCode != string(decodeAes) {
-		failureMessage(c, "验证码错误")
+		common.GinFailureMessage(c, "验证码错误")
 		return
 	}
 	// 校验用户名和密码是否正确
-	user, err := service.GetUserByName(c, userParam.Name)
-	if handleErr(c, err) {
+	user, err := userservice.GetUserByName(c, userParam.Name)
+	if common.GinHandleErr(c, err) {
 		return
 	}
 	if user == nil {
-		failureMessage(c, "登录用户不存在")
+		common.GinFailureMessage(c, "登录用户不存在")
 		return
 	}
 	if len(user.Password) < 1 {
-		failureMessage(c, "用户未设置密码")
+		common.GinFailureMessage(c, "用户未设置密码")
 		return
 	}
 	// 密码混淆加强
-	pwdMd5 := util.Md5String([]byte(user.Password + captchaEncode))
+	pwdMd5 := utils.Md5String([]byte(user.Password + captchaEncode))
 	if userParam.Password == pwdMd5 {
 		// 登陆版本号增加
 		user.LoginVersion++
-		err = service.UpdateLoginIndex(c, user)
-		if handleErr(c, err) {
+		err = userservice.UpdateLoginIndex(c, user)
+		if common.GinHandleErr(c, err) {
 			return
 		}
 		// 生成Token
-		tokenStr, err := util.GenToken(&util.JwtData{
+		tokenStr, err := utils.GenToken(&utils.JwtData{
 			ID:      user.ID,
 			Name:    user.Name,
 			Version: user.LoginVersion,
 		})
-		if handleErr(c, err) {
+		if common.GinHandleErr(c, err) {
 			return
 		}
 		c.Header("Set-Cookie", "Authorization="+tokenStr)
-		successData(c, tokenStr)
+		common.GinSuccessData(c, tokenStr)
 		return
 	}
-	failureMessage(c, "用户名或密码错误")
+	common.GinFailureMessage(c, "用户名或密码错误")
 }
 
 func authLogout(c *gin.Context) {
 	loginUser, ok := c.Get(common.LoginUserKey)
 	if ok && loginUser != nil {
 		// 登陆版本号增加
-		user := loginUser.(*model.User)
+		user := loginUser.(*userservice.UserBO)
 		user.LoginVersion++
-		err := service.UpdateLoginIndex(c, user)
-		if handleErr(c, err) {
+		err := userservice.UpdateLoginIndex(c, user)
+		if common.GinHandleErr(c, err) {
 			return
 		}
 	}
 	c.Header("Set-Cookie", "Authorization=none")
-	success(c)
+	common.GinSuccess(c)
 }
 
 func authCaptcha(c *gin.Context) {
@@ -110,20 +110,20 @@ func authCaptcha(c *gin.Context) {
 	var buffer bytes.Buffer
 	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
 	_, err := img.WriteTo(encoder)
-	util.Close(encoder)
+	utils.Close(encoder)
 
 	// 验证码加密后存储到JWT
-	encodeAes, err := util.AesEncrypt([]byte(code), captchaAesKey)
-	if handleErr(c, err) {
+	encodeAes, err := utils.AesEncrypt([]byte(code), captchaAesKey)
+	if common.GinHandleErr(c, err) {
 		return
 	}
-	encodeJwt, err := util.GenTokenExpire(&util.JwtData{
-		Name: util.Base64EncodeString(encodeAes),
+	encodeJwt, err := utils.GenTokenExpire(&utils.JwtData{
+		Name: utils.Base64EncodeString(encodeAes),
 	}, time.Now().Add(time.Minute*10))
-	if handleErr(c, err) {
+	if common.GinHandleErr(c, err) {
 		return
 	}
-	successData(c, &common.CaptchaInfo{
+	common.GinSuccessData(c, &common.CaptchaInfo{
 		Encode: encodeJwt,
 		Image:  string(buffer.Bytes()),
 	})
@@ -131,7 +131,7 @@ func authCaptcha(c *gin.Context) {
 
 func authLoginer(c *gin.Context) {
 	user, _ := c.Get(common.LoginUserKey)
-	successData(c, user)
+	common.GinSuccessData(c, user)
 }
 
 // JWTAuthMW 基于JWT的认证中间件
@@ -153,7 +153,7 @@ func JWTAuthMW(c *gin.Context) {
 	// 从Cookie中获取
 	if len(tokenStr) < 1 {
 		cookie, err := c.Request.Cookie("Authorization")
-		if util.LogIfErr(err) {
+		if utils.LogIfErr(err) {
 			unauthorized(c)
 			return
 		}
@@ -165,8 +165,8 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 解析JWT
-	claims, err := util.ParseToken(tokenStr)
-	if util.LogIfErr(err) {
+	claims, err := utils.ParseToken(tokenStr)
+	if utils.LogIfErr(err) {
 		unauthorized(c)
 		return
 	}
@@ -177,8 +177,8 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 验证登陆版本是否失效
-	user, err := service.GetUserById(c, claims.ID)
-	if util.LogIfErr(err) {
+	user, err := userservice.GetUserById(c, claims.ID)
+	if utils.LogIfErr(err) {
 		unauthorized(c)
 		return
 	}

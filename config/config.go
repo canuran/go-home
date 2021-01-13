@@ -2,9 +2,6 @@ package config
 
 import (
 	"context"
-
-	"github.com/ewingtsai/go-web/model"
-	"github.com/ewingtsai/go-web/util"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -33,8 +30,6 @@ func initGorm(dail gorm.Dialector) {
 	if err != nil {
 		panic("connect database fail")
 	}
-	// 迁移 schema
-	util.LogIfErr(gormDB.AutoMigrate(&model.User{}))
 }
 
 func GetDB(ctx context.Context) *gorm.DB {

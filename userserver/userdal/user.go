@@ -1,19 +1,44 @@
-package dal
+package userdal
 
 import (
 	"context"
+	"github.com/ewingtsai/go-web/utils"
+	"time"
 
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/model"
 	"gorm.io/gorm"
 )
 
+type UserPO struct {
+	ID           int64     `json:"id,omitempty" gorm:"autoIncrement;primaryKey"`
+	Name         string    `json:"name,omitempty" gorm:"uniqueIndex;size:32"`
+	Password     string    `json:"password,omitempty" gorm:"size:32"`
+	Header       string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
+	Gender       string    `json:"gender,omitempty" gorm:"size:16"`
+	Role         string    `json:"role,omitempty" gorm:"size:32"`
+	Status       int       `json:"status,omitempty"`
+	LoginVersion int64     `json:"login_version"`
+	Sign         string    `json:"sign,omitempty" gorm:"size:128"`
+	CreatedAt    time.Time `json:"created_at,omitempty"`
+	UpdatedAt    time.Time `json:"updated_at,omitempty" gorm:"index"`
+}
+
+func (m *UserPO) TableName() string {
+	return "user"
+}
+
 type UserParam struct {
-	Entity       *model.User
+	Entity       *UserPO
 	SelectFields []string
 	OmitFields   []string
 	Offset       int
 	Limit        int
+}
+
+func Init() {
+	// 迁移 schema
+	gormDB := config.GetDB(context.Background())
+	utils.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
 }
 
 func SaveUser(ctx context.Context, userParam *UserParam) error {
@@ -26,14 +51,14 @@ func SaveUser(ctx context.Context, userParam *UserParam) error {
 		Create(userParam.Entity).Error
 }
 
-func QueryUser(ctx context.Context, userParam *UserParam) ([]*model.User, error) {
-	db := config.GetDB(ctx).Model(&model.User{})
-	var users []*model.User
+func QueryUser(ctx context.Context, userParam *UserParam) ([]*UserPO, error) {
+	db := config.GetDB(ctx).Model(&UserPO{})
+	var users []*UserPO
 	db = addUserParam(db, userParam).Find(&users)
 	return users, db.Error
 }
 
-func QueryFirstUser(ctx context.Context, userParam *UserParam) (*model.User, error) {
+func QueryFirstUser(ctx context.Context, userParam *UserParam) (*UserPO, error) {
 	if userParam != nil {
 		userParam.Limit = 1
 	}
@@ -45,7 +70,7 @@ func QueryFirstUser(ctx context.Context, userParam *UserParam) (*model.User, err
 }
 
 func CountUser(ctx context.Context, userParam *UserParam) (int64, error) {
-	db := config.GetDB(ctx).Model(&model.User{})
+	db := config.GetDB(ctx).Model(&UserPO{})
 	var users int64
 	db = addUserParam(db, userParam).Count(&users)
 	return users, db.Error
@@ -81,7 +106,7 @@ func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
 	return db
 }
 
-func DeleteUser(ctx context.Context, user *model.User) error {
+func DeleteUser(ctx context.Context, user *UserPO) error {
 	if user == nil || user.ID < 1 {
 		return nil
 	}

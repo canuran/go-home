@@ -1,18 +1,22 @@
-package dal
+package userdal
 
 import (
 	"context"
 	"fmt"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/model"
-	"github.com/ewingtsai/go-web/util"
+	"github.com/ewingtsai/go-web/utils"
 	"testing"
 )
 
-func TestSaveUser(t *testing.T) {
+func InitTest() {
 	config.InitTest()
+	Init()
+}
+
+func TestSaveUser(t *testing.T) {
+	InitTest()
 	err := SaveUser(context.Background(), &UserParam{
-		Entity: &model.User{
+		Entity: &UserPO{
 			ID:   123,
 			Name: "元宝",
 		},
@@ -20,15 +24,15 @@ func TestSaveUser(t *testing.T) {
 		Offset:       0,
 		Limit:        2,
 	})
-	if util.TestingErr(t, err) {
+	if utils.TestingErr(t, err) {
 		return
 	}
 }
 
 func TestQueryUser(t *testing.T) {
-	config.InitTest()
+	InitTest()
 	users, err := QueryUser(context.Background(), &UserParam{
-		Entity: &model.User{
+		Entity: &UserPO{
 			ID:   123,
 			Name: "元宝",
 		},
@@ -36,8 +40,8 @@ func TestQueryUser(t *testing.T) {
 		Offset:       0,
 		Limit:        2,
 	})
-	if util.TestingErr(t, err) {
+	if utils.TestingErr(t, err) {
 		return
 	}
-	fmt.Println(util.JsonMarshalString(users))
+	fmt.Println(utils.JsonMarshalString(users))
 }
