@@ -66,7 +66,7 @@ func authHandler(c *gin.Context) {
 		return
 	}
 	// 密码混淆加强
-	pwdMd5 := encoders.Md5String([]byte(user.Password + captchaEncode))
+	pwdMd5 := encoders.Md5String([]byte(user.Password + captchaCode))
 	if userParam.Password == pwdMd5 {
 		// 登陆版本号增加
 		user.LoginVersion++

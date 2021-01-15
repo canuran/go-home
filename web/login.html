@@ -26,7 +26,7 @@
 
         .login-main .login-bottom .center .item input {
             display: inline-block;
-            width: 227px;
+            width: 135px;
             height: 22px;
             padding: 0;
             position: absolute;
@@ -240,7 +240,7 @@
                     <input id="captchaEncodeInput" type="text" name="captcha_encode" hidden />
                     <div id="validatePanel" class="item" style="width:160px;">
                         <span class="icon icon-1"></span>
-                        <input type="text" name="captcha_code" lay-verify="required" placeholder="请输入验证码" />
+                        <input type="number" name="captcha_code" lay-verify="required" placeholder="请输入验证码" />
                         <img id="captchaImg" class="validateImg" src="images/captcha.jpg" onclick="refreshCaptcha()" />
                     </div>
                 </div>
@@ -297,7 +297,7 @@
         function submit(data) {
             data = data.field;
             // 密码混淆加强
-            data.password = md5(md5(data.password.repeat(8)) + data.captcha_encode);
+            data.password = md5(md5(data.password.repeat(8)) + data.captcha_code);
             $.ajax({
                 url: srvPath + "/auth",
                 method: "post",
