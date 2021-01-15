@@ -1,10 +1,13 @@
-package userweb
+package userapi
 
 import (
 	"bytes"
 	"github.com/ewingtsai/go-web/common"
-	"github.com/ewingtsai/go-web/userserver/userservice"
-	"github.com/ewingtsai/go-web/utils"
+	"github.com/ewingtsai/go-web/usersrv/userbiz"
+	"github.com/ewingtsai/go-web/utils/converter"
+	"github.com/ewingtsai/go-web/utils/encoders"
+	"github.com/ewingtsai/go-web/utils/images"
+	"github.com/ewingtsai/go-web/utils/strutil"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -21,11 +24,11 @@ type UserVO struct {
 	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 }
 
-func UserVO2BO(bo *UserVO) *userservice.UserBO {
+func UserVO2BO(bo *UserVO) *userbiz.UserBO {
 	if bo == nil {
 		return nil
 	}
-	return &userservice.UserBO{
+	return &userbiz.UserBO{
 		ID:           bo.ID,
 		Name:         bo.Name,
 		Password:     bo.Password,
@@ -38,7 +41,7 @@ func UserVO2BO(bo *UserVO) *userservice.UserBO {
 	}
 }
 
-func UserBO2VO(po *userservice.UserBO) *UserVO {
+func UserBO2VO(po *userbiz.UserBO) *UserVO {
 	if po == nil {
 		return nil
 	}
@@ -66,7 +69,7 @@ func User(group *gin.RouterGroup) {
 
 func filterName(c *gin.Context) {
 	name := c.Query("name")
-	common.GinSuccessData(c, utils.StandardizeRunes([]rune(name)))
+	common.GinSuccessData(c, strutil.StandardizeRunes([]rune(name)))
 }
 
 func saveUser(c *gin.Context) {
@@ -82,21 +85,21 @@ func saveUser(c *gin.Context) {
 			return
 		}
 		var buffer bytes.Buffer
-		err = utils.ConvertImage(&utils.ConvertOption{
+		err = images.ConvertImage(&images.ConvertOption{
 			Reader:        headerFile,
 			NewWidth:      100,
 			NewHeight:     100,
 			Writer:        &buffer,
 			OutFormat:     "jpg",
-			MaxJpgOutByte: userservice.MaxHeaderSize*0.75 - 20,
+			MaxJpgOutByte: userbiz.MaxHeaderSize*0.75 - 20,
 		})
 		if common.GinHandleErr(c, err) {
 			return
 		}
 		bts := buffer.Bytes()
-		user.Header = string(utils.Base64Encode(bts))
+		user.Header = string(encoders.Base64Encode(bts))
 	}
-	err = userservice.SaveUser(c, UserVO2BO(user))
+	err = userbiz.SaveUser(c, UserVO2BO(user))
 	if common.GinHandleErr(c, err) {
 		return
 	}
@@ -111,7 +114,7 @@ func queryUser(c *gin.Context) {
 	}
 
 	if c.Query("count") == "true" {
-		totals, err := userservice.CountUser(c, UserVO2BO(user))
+		totals, err := userbiz.CountUser(c, UserVO2BO(user))
 		if common.GinHandleErr(c, err) {
 			return
 		}
@@ -121,9 +124,9 @@ func queryUser(c *gin.Context) {
 
 	cPage := c.DefaultQuery("cPage", "1")
 	pSize := c.DefaultQuery("pSize", "10")
-	limit := int(utils.Int64ify(pSize))
-	offset := int(utils.Int64ify(cPage))*limit - limit
-	users, err := userservice.QueryUser(c, UserVO2BO(user), offset, limit)
+	limit := int(converter.Int64ify(pSize))
+	offset := int(converter.Int64ify(cPage))*limit - limit
+	users, err := userbiz.QueryUser(c, UserVO2BO(user), offset, limit)
 	if common.GinHandleErr(c, err) {
 		return
 	}
@@ -136,7 +139,7 @@ func deleteUser(c *gin.Context) {
 	if common.GinHandleErr(c, err) {
 		return
 	}
-	err = userservice.DeleteUser(c, UserVO2BO(user))
+	err = userbiz.DeleteUser(c, UserVO2BO(user))
 	if common.GinHandleErr(c, err) {
 		return
 	}

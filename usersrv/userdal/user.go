@@ -2,7 +2,7 @@ package userdal
 
 import (
 	"context"
-	"github.com/ewingtsai/go-web/utils"
+	"github.com/ewingtsai/go-web/common"
 	"time"
 
 	"github.com/ewingtsai/go-web/config"
@@ -38,7 +38,7 @@ type UserParam struct {
 func Init() {
 	// 迁移 schema
 	gormDB := config.GetDB(context.Background())
-	utils.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
+	common.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
 }
 
 func SaveUser(ctx context.Context, userParam *UserParam) error {

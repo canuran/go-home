@@ -1,8 +1,10 @@
-package userservice
+package userbiz
 
 import (
 	"context"
 	"fmt"
+	"github.com/ewingtsai/go-web/utils/encoders"
+	"github.com/ewingtsai/go-web/utils/strutil"
 	"log"
 	"strings"
 	"time"
@@ -10,8 +12,7 @@ import (
 	"github.com/ewingtsai/go-web/common"
 
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/userserver/userdal"
-	"github.com/ewingtsai/go-web/utils"
+	"github.com/ewingtsai/go-web/usersrv/userdal"
 )
 
 const (
@@ -71,7 +72,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		return nil
 	}
 	// 参数校验
-	user.Name = utils.StandardizeString(user.Name)
+	user.Name = strutil.StandardizeString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
 		return fmt.Errorf("用户名不能为空")
@@ -82,7 +83,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	if len(user.Password) > 32 {
 		return fmt.Errorf("用户密码太长")
 	}
-	if user.Password != utils.StandardizeString(user.Password) {
+	if user.Password != strutil.StandardizeString(user.Password) {
 		return fmt.Errorf("密码格式不正确")
 	}
 	if len(user.Header) > 5120 {
@@ -93,14 +94,14 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	userParam := &userdal.UserParam{Entity: UserBO2PO(user)}
 	userParam.OmitFields = append(userParam.OmitFields, "login_version")
 	existsUser, err := GetUserByName(ctx, user.Name)
-	if utils.LogIfErr(err) {
+	if common.LogIfErr(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
 		oldUser, err := GetUserById(ctx, user.ID)
-		if utils.LogIfErr(err) {
+		if common.LogIfErr(err) {
 			return err
 		}
 		if oldUser == nil {
@@ -115,7 +116,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		if len(user.Password) < 1 {
 			userParam.OmitFields = append(userParam.OmitFields, "password")
 		} else {
-			user.Password = utils.Md5String([]byte(strings.Repeat(user.Password, 8)))
+			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 	} else {
 		// 新增用户
@@ -128,7 +129,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		if len(user.Password) < 1 {
 			return fmt.Errorf("用户密码不能为空")
 		} else {
-			user.Password = utils.Md5String([]byte(strings.Repeat(user.Password, 8)))
+			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 	}
 

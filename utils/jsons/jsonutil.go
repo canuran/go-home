@@ -1,16 +1,19 @@
-package utils
+package jsons
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/ewingtsai/go-web/common"
+)
 
 func JsonMarshal(val interface{}) []byte {
 	bts, err := json.Marshal(val)
-	LogIfErr(err)
+	common.LogIfErr(err)
 	return bts
 }
 
 func JsonUnmarshal(bts []byte, val interface{}) {
 	err := json.Unmarshal(bts, val)
-	LogIfErr(err)
+	common.LogIfErr(err)
 }
 
 func JsonMarshalString(val interface{}) string {

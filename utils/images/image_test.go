@@ -1,18 +1,19 @@
-package utils
+package images
 
 import (
+	"github.com/ewingtsai/go-web/common"
 	"os"
 	"testing"
 )
 
 func TestImageResize(t *testing.T) {
 	file, err := os.Open("/Users/admin/Downloads/1.jpg")
-	if LogIfErr(err) {
+	if common.LogIfErr(err) {
 		return
 	}
 
 	file2, err := os.Create("/Users/admin/Downloads/res.jpg")
-	if LogIfErr(err) {
+	if common.LogIfErr(err) {
 		return
 	}
 
@@ -22,5 +23,5 @@ func TestImageResize(t *testing.T) {
 		OutFormat:     "jpg",
 		MaxJpgQuality: 20,
 	})
-	TestingErr(t, err)
+	common.TestingErr(t, err)
 }

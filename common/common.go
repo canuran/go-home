@@ -1,4 +1,4 @@
-package utils
+package common
 
 import (
 	"log"
@@ -20,10 +20,3 @@ func TestingErr(t *testing.T, err error) bool {
 	}
 	return false
 }
-
-func Close(cls interface{ Close() error }) {
-	if cls != nil {
-		LogIfErr(cls.Close())
-	}
-}
-

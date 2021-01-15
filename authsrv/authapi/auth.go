@@ -1,9 +1,12 @@
-package authweb
+package authapi
 
 import (
 	"bytes"
 	"encoding/base64"
-	"github.com/ewingtsai/go-web/userserver/userweb"
+	"github.com/ewingtsai/go-web/authsrv/authjwt"
+	"github.com/ewingtsai/go-web/usersrv/userapi"
+	"github.com/ewingtsai/go-web/utils/encoders"
+	"github.com/ewingtsai/go-web/utils/encriptor"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -12,8 +15,7 @@ import (
 
 	"github.com/dchest/captcha"
 	"github.com/ewingtsai/go-web/common"
-	"github.com/ewingtsai/go-web/userserver/userservice"
-	"github.com/ewingtsai/go-web/utils"
+	"github.com/ewingtsai/go-web/usersrv/userbiz"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,7 +30,7 @@ func Auth(group *gin.RouterGroup) {
 
 func authHandler(c *gin.Context) {
 	// 用户发送用户名和密码过来
-	var userParam userweb.UserVO
+	var userParam userapi.UserVO
 	err := c.ShouldBind(&userParam)
 	if common.GinHandleErr(c, err) {
 		return
@@ -36,13 +38,13 @@ func authHandler(c *gin.Context) {
 	// 获取并解析验证码
 	captchaEncode := c.PostForm("captcha_encode")
 	captchaCode := c.PostForm("captcha_code")
-	claims, err := utils.ParseToken(captchaEncode)
+	claims, err := authjwt.ParseToken(captchaEncode)
 	if err != nil {
 		common.GinFailureMessage(c, "验证码过期")
 		return
 	}
-	decode64 := utils.Base64DecodeString(claims.Name)
-	decodeAes, err := utils.AesDecrypt(decode64, captchaAesKey)
+	decode64 := encoders.Base64DecodeString(claims.Name)
+	decodeAes, err := encriptor.AesDecrypt(decode64, captchaAesKey)
 	if common.GinHandleErr(c, err) {
 		return
 	}
@@ -51,7 +53,7 @@ func authHandler(c *gin.Context) {
 		return
 	}
 	// 校验用户名和密码是否正确
-	user, err := userservice.GetUserByName(c, userParam.Name)
+	user, err := userbiz.GetUserByName(c, userParam.Name)
 	if common.GinHandleErr(c, err) {
 		return
 	}
@@ -64,16 +66,16 @@ func authHandler(c *gin.Context) {
 		return
 	}
 	// 密码混淆加强
-	pwdMd5 := utils.Md5String([]byte(user.Password + captchaEncode))
+	pwdMd5 := encoders.Md5String([]byte(user.Password + captchaEncode))
 	if userParam.Password == pwdMd5 {
 		// 登陆版本号增加
 		user.LoginVersion++
-		err = userservice.UpdateLoginIndex(c, user)
+		err = userbiz.UpdateLoginIndex(c, user)
 		if common.GinHandleErr(c, err) {
 			return
 		}
 		// 生成Token
-		tokenStr, err := utils.GenToken(&utils.JwtData{
+		tokenStr, err := authjwt.GenToken(&authjwt.JwtData{
 			ID:      user.ID,
 			Name:    user.Name,
 			Version: user.LoginVersion,
@@ -92,9 +94,9 @@ func authLogout(c *gin.Context) {
 	loginUser, ok := c.Get(common.LoginUserKey)
 	if ok && loginUser != nil {
 		// 登陆版本号增加
-		user := loginUser.(*userservice.UserBO)
+		user := loginUser.(*userbiz.UserBO)
 		user.LoginVersion++
-		err := userservice.UpdateLoginIndex(c, user)
+		err := userbiz.UpdateLoginIndex(c, user)
 		if common.GinHandleErr(c, err) {
 			return
 		}
@@ -110,15 +112,15 @@ func authCaptcha(c *gin.Context) {
 	var buffer bytes.Buffer
 	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
 	_, err := img.WriteTo(encoder)
-	utils.Close(encoder)
+	_ = encoder.Close()
 
 	// 验证码加密后存储到JWT
-	encodeAes, err := utils.AesEncrypt([]byte(code), captchaAesKey)
+	encodeAes, err := encriptor.AesEncrypt([]byte(code), captchaAesKey)
 	if common.GinHandleErr(c, err) {
 		return
 	}
-	encodeJwt, err := utils.GenTokenExpire(&utils.JwtData{
-		Name: utils.Base64EncodeString(encodeAes),
+	encodeJwt, err := authjwt.GenTokenExpire(&authjwt.JwtData{
+		Name: encoders.Base64EncodeString(encodeAes),
 	}, time.Now().Add(time.Minute*10))
 	if common.GinHandleErr(c, err) {
 		return
@@ -153,7 +155,7 @@ func JWTAuthMW(c *gin.Context) {
 	// 从Cookie中获取
 	if len(tokenStr) < 1 {
 		cookie, err := c.Request.Cookie("Authorization")
-		if utils.LogIfErr(err) {
+		if common.LogIfErr(err) {
 			unauthorized(c)
 			return
 		}
@@ -165,8 +167,8 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 解析JWT
-	claims, err := utils.ParseToken(tokenStr)
-	if utils.LogIfErr(err) {
+	claims, err := authjwt.ParseToken(tokenStr)
+	if common.LogIfErr(err) {
 		unauthorized(c)
 		return
 	}
@@ -177,8 +179,8 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 验证登陆版本是否失效
-	user, err := userservice.GetUserById(c, claims.ID)
-	if utils.LogIfErr(err) {
+	user, err := userbiz.GetUserById(c, claims.ID)
+	if common.LogIfErr(err) {
 		unauthorized(c)
 		return
 	}

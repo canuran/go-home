@@ -1,4 +1,4 @@
-package utils
+package authjwt
 
 import (
 	"fmt"
