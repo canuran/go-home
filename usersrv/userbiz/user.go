@@ -20,16 +20,16 @@ const (
 )
 
 type UserBO struct {
-	ID           int64     `json:"id,omitempty"`
-	Name         string    `json:"name,omitempty"`
-	Password     string    `json:"password,omitempty"`
-	Header       string    `json:"header,omitempty"` // 存储很小的头像
-	Gender       string    `json:"gender,omitempty"`
-	Role         string    `json:"role,omitempty"`
-	Status       int       `json:"status,omitempty"`
-	Sign         string    `json:"sign,omitempty"`
-	LoginVersion int64     `json:"login_version"`
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	ID          int64     `json:"id,omitempty"`
+	Name        string    `json:"name,omitempty"`
+	Password    string    `json:"password,omitempty"`
+	Header      string    `json:"header,omitempty"` // 存储很小的头像
+	Gender      string    `json:"gender,omitempty"`
+	Role        string    `json:"role,omitempty"`
+	Status      int       `json:"status,omitempty"`
+	Sign        string    `json:"sign,omitempty"`
+	AuthVersion int64     `json:"auth_version"`
+	UpdatedAt   time.Time `json:"updated_at,omitempty"`
 }
 
 func UserBO2PO(bo *UserBO) *userdal.UserPO {
@@ -37,15 +37,15 @@ func UserBO2PO(bo *UserBO) *userdal.UserPO {
 		return nil
 	}
 	return &userdal.UserPO{
-		ID:           bo.ID,
-		Name:         bo.Name,
-		Password:     bo.Password,
-		Header:       bo.Header,
-		Gender:       bo.Gender,
-		Role:         bo.Role,
-		Status:       bo.Status,
-		LoginVersion: bo.LoginVersion,
-		Sign:         bo.Sign,
+		ID:          bo.ID,
+		Name:        bo.Name,
+		Password:    bo.Password,
+		Header:      bo.Header,
+		Gender:      bo.Gender,
+		Role:        bo.Role,
+		Status:      bo.Status,
+		AuthVersion: bo.AuthVersion,
+		Sign:        bo.Sign,
 	}
 }
 
@@ -54,16 +54,16 @@ func UserPO2BO(po *userdal.UserPO) *UserBO {
 		return nil
 	}
 	return &UserBO{
-		ID:           po.ID,
-		Name:         po.Name,
-		Password:     po.Password,
-		Header:       po.Header,
-		Gender:       po.Gender,
-		Role:         po.Role,
-		Status:       po.Status,
-		LoginVersion: po.LoginVersion,
-		Sign:         po.Sign,
-		UpdatedAt:    po.UpdatedAt,
+		ID:          po.ID,
+		Name:        po.Name,
+		Password:    po.Password,
+		Header:      po.Header,
+		Gender:      po.Gender,
+		Role:        po.Role,
+		Status:      po.Status,
+		AuthVersion: po.AuthVersion,
+		Sign:        po.Sign,
+		UpdatedAt:   po.UpdatedAt,
 	}
 }
 
@@ -92,7 +92,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 
 	// 业务逻辑
 	userParam := &userdal.UserParam{Entity: UserBO2PO(user)}
-	userParam.OmitFields = append(userParam.OmitFields, "login_version")
+	userParam.OmitFields = append(userParam.OmitFields, "auth_version")
 	existsUser, err := GetUserByName(ctx, user.Name)
 	if common.LogIfErr(err) {
 		return err
@@ -183,7 +183,7 @@ func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 		return nil
 	}
 	return userdal.SaveUser(ctx, &userdal.UserParam{
-		Entity:       &userdal.UserPO{ID: user.ID, LoginVersion: user.LoginVersion},
-		SelectFields: []string{"id", "login_version"},
+		Entity:       &userdal.UserPO{ID: user.ID, AuthVersion: user.AuthVersion},
+		SelectFields: []string{"id", "auth_version"},
 	})
 }

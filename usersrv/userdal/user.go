@@ -10,17 +10,17 @@ import (
 )
 
 type UserPO struct {
-	ID           int64     `json:"id,omitempty" gorm:"autoIncrement;primaryKey"`
-	Name         string    `json:"name,omitempty" gorm:"uniqueIndex;size:32"`
-	Password     string    `json:"password,omitempty" gorm:"size:32"`
-	Header       string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
-	Gender       string    `json:"gender,omitempty" gorm:"size:16"`
-	Role         string    `json:"role,omitempty" gorm:"size:32"`
-	Status       int       `json:"status,omitempty"`
-	LoginVersion int64     `json:"login_version"`
-	Sign         string    `json:"sign,omitempty" gorm:"size:128"`
-	CreatedAt    time.Time `json:"created_at,omitempty"`
-	UpdatedAt    time.Time `json:"updated_at,omitempty" gorm:"index"`
+	ID          int64     `json:"id,omitempty" gorm:"autoIncrement;primaryKey"`
+	Name        string    `json:"name,omitempty" gorm:"uniqueIndex;size:32"`
+	Password    string    `json:"password,omitempty" gorm:"size:32"`
+	Header      string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
+	Gender      string    `json:"gender,omitempty" gorm:"size:16"`
+	Role        string    `json:"role,omitempty" gorm:"size:32"`
+	Status      int       `json:"status,omitempty"`
+	AuthVersion int64     `json:"auth_version"`
+	Sign        string    `json:"sign,omitempty" gorm:"size:128"`
+	CreatedAt   time.Time `json:"created_at,omitempty"`
+	UpdatedAt   time.Time `json:"updated_at,omitempty" gorm:"index"`
 }
 
 func (m *UserPO) TableName() string {

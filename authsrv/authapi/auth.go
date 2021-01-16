@@ -69,7 +69,7 @@ func authHandler(c *gin.Context) {
 	pwdMd5 := encoders.Md5String([]byte(user.Password + captchaCode))
 	if userParam.Password == pwdMd5 {
 		// 登陆版本号增加
-		user.LoginVersion++
+		user.AuthVersion++
 		err = userbiz.UpdateLoginIndex(c, user)
 		if common.GinHandleErr(c, err) {
 			return
@@ -78,7 +78,7 @@ func authHandler(c *gin.Context) {
 		tokenStr, err := authjwt.GenToken(&authjwt.JwtData{
 			ID:      user.ID,
 			Name:    user.Name,
-			Version: user.LoginVersion,
+			Version: user.AuthVersion,
 		})
 		if common.GinHandleErr(c, err) {
 			return
@@ -95,7 +95,7 @@ func authLogout(c *gin.Context) {
 	if ok && loginUser != nil {
 		// 登陆版本号增加
 		user := loginUser.(*userbiz.UserBO)
-		user.LoginVersion++
+		user.AuthVersion++
 		err := userbiz.UpdateLoginIndex(c, user)
 		if common.GinHandleErr(c, err) {
 			return
@@ -188,7 +188,7 @@ func JWTAuthMW(c *gin.Context) {
 		unauthorized(c)
 		return
 	}
-	if claims.Version < user.LoginVersion {
+	if claims.Version < user.AuthVersion {
 		unauthorized(c)
 		return
 	}
