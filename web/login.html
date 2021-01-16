@@ -217,114 +217,116 @@
 </head>
 
 <body>
-    <div class="main-body">
-        <div class="login-main">
-            <div class="login-top">
-                <span>用户登录</span>
-                <span class="bg1"></span>
-                <span class="bg2"></span>
-            </div>
-            <form class="layui-form login-bottom">
-                <div class="center">
-                    <div class="item">
-                        <span class="icon icon-2"></span>
-                        <input type="text" value="元宝" name="name" lay-verify="required" placeholder="请输入登录账号" />
-                    </div>
-
-                    <div class="item">
-                        <span class="icon icon-3"></span>
-                        <input type="password" value="yb" name="password" lay-verify="required" placeholder="请输入密码" />
-                        <span class="bind-password icon icon-4"></span>
-                    </div>
-
-                    <input id="captchaEncodeInput" type="text" name="captcha_encode" hidden />
-                    <div id="validatePanel" class="item" style="width:160px;">
-                        <span class="icon icon-1"></span>
-                        <input type="number" name="captcha_code" lay-verify="required" placeholder="请输入验证码" />
-                        <img id="captchaImg" class="validateImg" src="images/captcha.jpg" onclick="refreshCaptcha()" />
-                    </div>
-                </div>
-                <div class="layui-form-item" style="text-align:center;margin:0">
-                    <button class="login-btn" lay-submit lay-filter="login">立即登录</button>
-                </div>
-            </form>
+<div class="main-body">
+    <div class="login-main">
+        <div class="login-top">
+            <span>用户登录</span>
+            <span class="bg1"></span>
+            <span class="bg2"></span>
         </div>
+        <form class="layui-form login-bottom">
+            <div class="center">
+                <div class="item">
+                    <span class="icon icon-2"></span>
+                    <input type="text" value="元宝" name="name" lay-verify="required" placeholder="请输入登录账号"/>
+                </div>
+
+                <div class="item">
+                    <span class="icon icon-3"></span>
+                    <input type="password" value="yb" name="password" lay-verify="required" placeholder="请输入密码"/>
+                    <span class="bind-password icon icon-4"></span>
+                </div>
+
+                <input id="captchaEncodeInput" type="text" name="captcha_encode" hidden/>
+                <div id="validatePanel" class="item" style="width:160px">
+                    <span class="icon icon-1"></span>
+                    <input type="number" name="captcha_code" lay-verify="required" placeholder="请输入验证码"/>
+                    <img id="captchaImg" class="validateImg" src="images/captcha.jpg" onclick="refreshCaptcha()"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align:center;margin:0">
+                <button class="login-btn" lay-submit lay-filter="login">立即登录</button>
+            </div>
+        </form>
     </div>
-    <div class="footer">
-        用户平台 ©版权所有 2018-2020
-    </div>
+</div>
+<div class="footer">
+    用户平台 ©版权所有 2018-2020
+</div>
 
-    <script src="lib/layui/layui.js" charset="utf-8"></script>
-    <script src="lib/jquery/jquery.js" charset="utf-8"></script>
-    <script src="lib/jquery/md5.js" charset="utf-8"></script>
-    <script>
-        var srvPath = "/srv"
-        var webPath = "/web"
+<script src="lib/layui/layui.js" charset="utf-8"></script>
+<script src="lib/jquery/jquery.js" charset="utf-8"></script>
+<script src="lib/jquery/md5.js" charset="utf-8"></script>
+<script>
+    var srvPath = "/srv"
+    var webPath = "/web"
 
-        layui.use(['form', 'layer'], function () {
-            $('.icon-nocheck').on('click', function () {
-                if ($(this).hasClass('icon-check')) {
-                    $(this).removeClass('icon-check');
-                } else {
-                    $(this).addClass('icon-check');
-                }
-            });
-
-            refreshCaptcha();
-            $('.bind-password').on('click', bindPassword);
-
-            // 进行登录操作
-            layui.form.on('submit(login)', submit);
+    layui.use(['form', 'layer'], function () {
+        $('.icon-nocheck').on('click', function () {
+            if ($(this).hasClass('icon-check')) {
+                $(this).removeClass('icon-check');
+            } else {
+                $(this).addClass('icon-check');
+            }
         });
 
-        function refreshCaptcha() {
-            $.get(srvPath + '/captcha', {}, function (data) {
-                $('#captchaEncodeInput').val(data.data && data.data.encode);
-                $('#captchaImg').attr('src', 'data:image;base64,' + (data.data && data.data.image));
-            });
-        }
+        refreshCaptcha();
+        $('.bind-password').on('click', bindPassword);
 
-        function bindPassword() {
-            if ($(this).hasClass('icon-5')) {
-                $(this).removeClass('icon-5');
-                $("input[name='password']").attr('type', 'password');
-            } else {
-                $(this).addClass('icon-5');
-                $("input[name='password']").attr('type', 'text');
-            }
-        }
+        // 进行登录操作
+        layui.form.on('submit(login)', submit);
+    });
 
-        function submit(data) {
-            data = data.field;
-            // 密码混淆加强
-            data.password = md5(md5(data.password.repeat(8)) + data.captcha_code);
-            $.ajax({
-                url: srvPath + "/auth",
-                method: "post",
-                data: data,
-                dataType: "json",
-                success: function (result) {
-                    if (result && result.code === 0) {
-                        // 登陆完成清除控件密码
-                        $("input[name='password']").val("");
-                        if (top != self && window.parent) {
-                            if (window.parent.closeLoginLayer) {
-                                window.parent.closeLoginLayer()
-                            }
-                            if (window.parent.updateLoginInfo) {
-                                window.parent.updateLoginInfo()
-                            }
-                        } else {
-                            window.location.href = webPath + "/index.html"
+    function refreshCaptcha() {
+        $.get(srvPath + '/captcha', {}, function (data) {
+            $("input[name='captcha_code']").val("");
+            $("input[name='captcha_encode']").val(data.data && data.data.encode);
+            $('#captchaImg').attr('src', 'data:image;base64,' + (data.data && data.data.image));
+        });
+    }
+
+    function bindPassword() {
+        if ($(this).hasClass('icon-5')) {
+            $(this).removeClass('icon-5');
+            $("input[name='password']").attr('type', 'password');
+        } else {
+            $(this).addClass('icon-5');
+            $("input[name='password']").attr('type', 'text');
+        }
+    }
+
+    function submit(data) {
+        data = data.field;
+        // 密码混淆加强
+        data.password = md5(md5(data.password.repeat(8)) + data.captcha_code);
+        $.ajax({
+            url: srvPath + "/auth",
+            method: "post",
+            data: data,
+            dataType: "json",
+            success: function (result) {
+                if (result && result.code === 0) {
+                    // 登陆完成清除控件密码
+                    $("input[name='password']").val("");
+                    if (top !== self && window.parent) {
+                        if (window.parent.closeLoginLayer) {
+                            window.parent.closeLoginLayer()
+                        }
+                        if (window.parent.updateLoginInfo) {
+                            window.parent.updateLoginInfo()
                         }
                     } else {
-                        layui.layer.msg(result.message, { icon: 2 });
+                        window.location.href = webPath + "/index.html"
                     }
+                } else {
+                    layui.layer.msg(result.message, {icon: 2});
+                    refreshCaptcha();
                 }
-            });
-            return false;
-        }
-    </script>
+            }
+        });
+        return false;
+    }
+</script>
 </body>
 
 </html>

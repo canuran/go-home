@@ -26,215 +26,218 @@
 </head>
 
 <body class="layui-layout-body layuimini-all">
-    <div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin">
 
-        <div class="layui-header header">
-            <div class="layui-logo layuimini-logo layuimini-back-home"></div>
+    <div class="layui-header header">
+        <div class="layui-logo layuimini-logo layuimini-back-home"></div>
 
-            <div class="layuimini-header-content">
-                <a><div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div></a>
+        <div class="layuimini-header-content">
+            <a>
+                <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
+            </a>
 
-                <!--电脑端头部菜单-->
-                <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show"></ul>
+            <!--电脑端头部菜单-->
+            <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show"></ul>
 
-                <!--手机端头部菜单-->
-                <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
-                    <li class="layui-nav-item">
-                        <a href="javascript:;"><i class="fa fa-list-ul"></i> 模块导航</a>
-                        <dl class="layui-nav-child layuimini-menu-header-mobile">
-                        </dl>
-                    </li>
-                </ul>
+            <!--手机端头部菜单-->
+            <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="fa fa-list-ul"></i> 模块导航</a>
+                    <dl class="layui-nav-child layuimini-menu-header-mobile">
+                    </dl>
+                </li>
+            </ul>
 
-                <ul class="layui-nav layui-layout-right">
-                    <li class="layui-nav-item layuimini-setting" style="margin-right:10px">
-                        <a href="javascript:">
-                            <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"></img>
-                            <span id="loginerName">登陆</span>
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="javascript:" layuimini-content-href="page/user-profile.html" data-title="基本资料"
-                                    data-icon="fa fa-gears">基本资料</a></dd>
-                            <dd><a href="javascript:" layuimini-content-href="page/user-password.html" data-title="修改密码"
-                                    data-icon="fa fa-gears">修改密码</a></dd>
-                            <dd>
-                                <hr>
-                            </dd>
-                            <dd><a href="javascript:" id="login-out">退出登录</a></dd>
-                        </dl>
-                    </li>
-                    <li class="layui-nav-item" lay-unselect>
-                        <a href="javascript:" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
-                    </li>
-                    <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
-                        <a href="javascript:" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
-                    </li>
-                    <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
-                        <a href="javascript:" data-bgcolor="配色方案"><i class="fa fa-th-list"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!--无限极左侧菜单-->
-        <div class="layui-side layui-bg-black layuimini-menu-left"></div>
-
-        <!--手机端遮罩层-->
-        <div class="layuimini-make"></div>
-
-        <!-- 移动导航 -->
-        <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
-
-        <div class="layui-body">
-            <!-- 路径面包屑 -->
-            <div class="layui-card layuimini-page-header layui-hide">
-                <div class="layui-breadcrumb layuimini-page-title">
-                    <a lay-href="" href="/">主页</a><span lay-separator="">/</span>
-                    <a><cite>主页菜单</cite></a><span lay-separator="">/</span>
-                    <a><cite>欢迎页面</cite></a>
-                </div>
-            </div>
-
-            <!-- 主体区域 -->
-            <div class="layuimini-content-page"></div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item layuimini-setting" style="margin-right:10px">
+                    <a href="javascript:">
+                        <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"></img>
+                        <span id="loginerName">登陆</span>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:" layuimini-content-href="page/user-profile.html" data-title="基本资料"
+                               data-icon="fa fa-gears">基本资料</a></dd>
+                        <dd><a href="javascript:" layuimini-content-href="page/user-password.html" data-title="修改密码"
+                               data-icon="fa fa-gears">修改密码</a></dd>
+                        <dd>
+                            <hr>
+                        </dd>
+                        <dd><a href="javascript:" id="login-out">退出登录</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a href="javascript:" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
+                </li>
+                <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
+                    <a href="javascript:" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
+                </li>
+                <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
+                    <a href="javascript:" data-bgcolor="配色方案"><i class="fa fa-th-list"></i></a>
+                </li>
+            </ul>
         </div>
     </div>
-    <script src="lib/layui/layui.js" charset="utf-8"></script>
-    <script src="lib/jquery/jquery.js" charset="utf-8"></script>
-    <script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
-    <script src="lib/GridManager/js/gm.js"></script>
-    <script src="lib/jq-module/json-viewer/json-viewer.js"></script>
-    <script>
-        var srvPath = "/srv"
-        var webPath = "/web"
-        var userDefaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +
-            "BQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIAGQAZAMBIgAC" +
-            "EQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQy" +
-            "gZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeI" +
-            "iYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEB" +
-            "AQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEK" +
-            "FiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Sl" +
-            "pqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP0tooooAKKKKACi" +
-            "iigAooooAKKKKACiiigAooooAKKKKACiiigAopk0yW8LyyMFjQFmY9hXm2ueLrvVJmWGRre1BwqIcEj1JoA9NxSV49b6ld2kgkiu" +
-            "ZUcc5DmvQPCfif8AtuNoJwFu4xkkcBx60AdDRRRQAUUUUAFFFFABRRRQAUUUUAc947uGh0BlU48yRUP05P8ASvNq9U8U6c2p6JPF" +
-            "GN0q4dR6kf8A1s15X0oAK1PDE7W+v2TJ/FIEP0PFZdb3grTnvdbil2/urf52b37CgD0yiiigAooooAKKKKACiiigAoopGYIpZiFU" +
-            "ckk4AoAWvNvHGnw2GsBoQFEyeYyDsc4P510GteO7az3RWQF1KON/8A/xrhL29m1C5ee4cySt1J/lQBDXq3hrT4dP0e3WIDMiCR3/" +
-            "ALxIrymug0DxhcaOiwSr9otR0UnDL9D/AEoA9KoqjpetWesR7raUMw6xnhl+oq9QAUUUUAFFFFABRRRQAteW+IfEl1rFxIhcx2ysQ" +
-            "sSng47n1r1KuPn+HUMkzul7IisxIUxg4/HNAHCUV3H/AAreP/oIP/36H+NH/Ct4/wDoIP8A9+h/jQBw9Fdx/wAK3j/6CD/9+h/jR/" +
-            "wreP8A6CD/APfof40AcVDPJbSrJE7RyLyGU4Ir0jwfrs2tWUouADNCQpcfxZ7/AF4rM/4VvH/0EH/79D/Gt3w94ej8PwyokrTNKw" +
-            "LMwx06cUAatFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//"
 
-        layui.use(['layer', 'miniAdmin'], function () {
-            var options = {
-                iniUrl: "api/init.json",    // 初始化接口
-                renderPageVersion: true,    // 初始化页面是否加版本号
-                bgColorDefault: false,      // 主题默认配置
-                multiModule: true,          // 是否开启多模块
-                menuChildOpen: false,       // 是否默认展开菜单
-                pageAnim: true,             // 切换菜单动画
-            };
+    <!--无限极左侧菜单-->
+    <div class="layui-side layui-bg-black layuimini-menu-left"></div>
 
-            layui.miniAdmin.render(options);
-            updateLoginInfo();
+    <!--手机端遮罩层-->
+    <div class="layuimini-make"></div>
 
-            $('#login-out').on("click", function () {
-                $.get(srvPath + '/logout', {}, function () {
-                    window.location.href = webPath + "/login.html";
-                });
+    <!-- 移动导航 -->
+    <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
+
+    <div class="layui-body">
+        <!-- 路径面包屑 -->
+        <div class="layui-card layuimini-page-header layui-hide">
+            <div class="layui-breadcrumb layuimini-page-title">
+                <a lay-href="" href="/">主页</a><span lay-separator="">/</span>
+                <a><cite>主页菜单</cite></a><span lay-separator="">/</span>
+                <a><cite>欢迎页面</cite></a>
+            </div>
+        </div>
+
+        <!-- 主体区域 -->
+        <div class="layuimini-content-page"></div>
+    </div>
+</div>
+<script src="lib/layui/layui.js" charset="utf-8"></script>
+<script src="lib/jquery/jquery.js" charset="utf-8"></script>
+<script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script src="lib/GridManager/js/gm.js"></script>
+<script src="lib/jq-module/json-viewer/json-viewer.js"></script>
+<script>
+    var srvPath = "/srv"
+    var webPath = "/web"
+    var userDefaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +
+        "BQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIAGQAZAMBIgAC" +
+        "EQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQy" +
+        "gZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeI" +
+        "iYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEB" +
+        "AQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEK" +
+        "FiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Sl" +
+        "pqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP0tooooAKKKKACi" +
+        "iigAooooAKKKKACiiigAooooAKKKKACiiigAopk0yW8LyyMFjQFmY9hXm2ueLrvVJmWGRre1BwqIcEj1JoA9NxSV49b6ld2kgkiu" +
+        "ZUcc5DmvQPCfif8AtuNoJwFu4xkkcBx60AdDRRRQAUUUUAFFFFABRRRQAUUUUAc947uGh0BlU48yRUP05P8ASvNq9U8U6c2p6JPF" +
+        "GN0q4dR6kf8A1s15X0oAK1PDE7W+v2TJ/FIEP0PFZdb3grTnvdbil2/urf52b37CgD0yiiigAooooAKKKKACiiigAoopGYIpZiFU" +
+        "ckk4AoAWvNvHGnw2GsBoQFEyeYyDsc4P510GteO7az3RWQF1KON/8A/xrhL29m1C5ee4cySt1J/lQBDXq3hrT4dP0e3WIDMiCR3/" +
+        "ALxIrymug0DxhcaOiwSr9otR0UnDL9D/AEoA9KoqjpetWesR7raUMw6xnhl+oq9QAUUUUAFFFFABRRRQAteW+IfEl1rFxIhcx2ysQ" +
+        "sSng47n1r1KuPn+HUMkzul7IisxIUxg4/HNAHCUV3H/AAreP/oIP/36H+NH/Ct4/wDoIP8A9+h/jQBw9Fdx/wAK3j/6CD/9+h/jR/" +
+        "wreP8A6CD/APfof40AcVDPJbSrJE7RyLyGU4Ir0jwfrs2tWUouADNCQpcfxZ7/AF4rM/4VvH/0EH/79D/Gt3w94ej8PwyokrTNKw" +
+        "LMwx06cUAatFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//"
+
+    layui.use(['layer', 'miniAdmin'], function () {
+        var options = {
+            iniUrl: "api/init.json",    // 初始化接口
+            renderPageVersion: true,    // 初始化页面是否加版本号
+            bgColorDefault: false,      // 主题默认配置
+            multiModule: true,          // 是否开启多模块
+            menuChildOpen: false,       // 是否默认展开菜单
+            pageAnim: true,             // 切换菜单动画
+        };
+
+        layui.miniAdmin.render(options);
+        updateLoginInfo();
+
+        $('#login-out').on("click", function () {
+            $.get(srvPath + '/logout', {}, function () {
+                window.location.href = webPath + "/login.html";
             });
         });
+    });
 
-        $.ajaxSetup({
-            error: function (xhr) {
-                if (xhr.status === 401) {
-                    var loginerName = $('#loginerName');
-                    loginerName.html('登陆');
-                    loginerName.click(openLoginLayer);
-                    $('#loginerHeader').attr('src', 'data:image;base64,' + userDefaultHeader)
-                    openLoginLayer()
-                } else {
-                    layui.layer.msg("请求失败", { icon: 2 })
-                }
-            }
-        });
-
-        var loginLayerIndex;
-        function openLoginLayer() {
-            loginLayerIndex = layui.layer.open({
-                type: 2,
-                resize: false,
-                area: ['800px', '650px'],
-                title: '<i class="fa fa-list"></i> 登录失效 - 请您登录',
-                content: webPath + "/login.html"
-            });
-            return false;
-        }
-
-        function closeLoginLayer() {
-            layui.layer.close(loginLayerIndex);
-        }
-
-        function updateLoginInfo() {
-            $.get(srvPath + '/loginer', {}, function (data) {
+    $.ajaxSetup({
+        error: function (xhr) {
+            if (xhr.status === 401) {
                 var loginerName = $('#loginerName');
-                loginerName.html(data.data && data.data.name);
-                loginerName.unbind('click');
-                $('#loginerHeader').attr('src', 'data:image;base64,' + (data.data && data.data.header))
-            });
-        }
-
-        /*获取到Url里面的参数*/
-        function getUrlParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            var strs = window.location.href.split("?", 2);
-            if (strs[1]) {
-                var r = strs[1].match(reg);
-                if (r != null)
-                    return decodeURI(r[2]);
+                loginerName.html('登陆');
+                loginerName.click(openLoginLayer);
+                $('#loginerHeader').attr('src', 'data:image;base64,' + userDefaultHeader)
+                openLoginLayer()
+            } else {
+                layui.layer.msg("请求失败", {icon: 2})
             }
-            return null;
         }
+    });
 
-        function gmTimeTemplate(cell, row, index, key) {
-            var value = row[key] || "";
-            if (value && value.length > 19) {
-                value = value.substring(0, 19)
-            }
-            return value.replace("T", " ")
+    var loginLayerIndex;
+
+    function openLoginLayer() {
+        loginLayerIndex = layui.layer.open({
+            type: 2,
+            resize: false,
+            area: ['800px', '650px'],
+            title: '<i class="fa fa-list"></i> 登录失效 - 请您登录',
+            content: webPath + "/login.html"
+        });
+        return false;
+    }
+
+    function closeLoginLayer() {
+        layui.layer.close(loginLayerIndex);
+    }
+
+    function updateLoginInfo() {
+        $.get(srvPath + '/loginer', {}, function (data) {
+            var loginerName = $('#loginerName');
+            loginerName.html(data.data && data.data.name);
+            loginerName.unbind('click');
+            $('#loginerHeader').attr('src', 'data:image;base64,' + (data.data && data.data.header))
+        });
+    }
+
+    /*获取到Url里面的参数*/
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var strs = window.location.href.split("?", 2);
+        if (strs[1]) {
+            var r = strs[1].match(reg);
+            if (r != null)
+                return decodeURI(r[2]);
         }
+        return null;
+    }
 
-        function gmImageTemplate(cell, row, index, key) {
-            var value = row[key] || "";
-            if (value && !value.startsWith("http") && !value.startsWith("data:")) {
-                value = "data:image;base64," + value;
-            }
-            return value ? "<img style='border-radius:25px' src='" + value +
-                "' width='100%' onclick='openImgLayer(this)'/>" : ""
+    function gmTimeTemplate(cell, row, index, key) {
+        var value = row[key] || "";
+        if (value && value.length > 19) {
+            value = value.substring(0, 19)
         }
+        return value.replace("T", " ")
+    }
 
-        function openImgLayer(img) {
-            if (!img || !img.src) {
-                layui.layer.msg("无效操作", { icon: 2 });
-            }
-            layui.layer.open({
-                type: 1,
-                area: '600px',
-                title: '<i class="fa fa-photo"></i> 查看图片',
-                shadeClose: true,
-                content: "<img width='100%' src='" + img.src + "' alt='" + img.alt + "'/>"
-            })
+    function gmImageTemplate(cell, row, index, key) {
+        var value = row[key] || "";
+        if (value && !value.startsWith("http") && !value.startsWith("data:")) {
+            value = "data:image;base64," + value;
         }
+        return value ? "<img style='border-radius:25px' src='" + value +
+            "' width='100%' onclick='openImgLayer(this)'/>" : ""
+    }
 
-        function ajaxGetTotals(settings, params) {
-            return new Promise(resolve => {
-                params.count = true
-                $.get(settings.ajaxData, params, function (data) {
-                    resolve(data.totals);
-                }, 'json')
-            });
+    function openImgLayer(img) {
+        if (!img || !img.src) {
+            layui.layer.msg("无效操作", {icon: 2});
         }
+        layui.layer.open({
+            type: 1,
+            area: '600px',
+            title: '<i class="fa fa-photo"></i> 查看图片',
+            shadeClose: true,
+            content: "<img width='100%' src='" + img.src + "' alt='" + img.alt + "'/>"
+        })
+    }
 
-    </script>
+    function ajaxGetTotals(settings, params) {
+        return new Promise(resolve => {
+            params.count = true
+            $.get(settings.ajaxData, params, function (data) {
+                resolve(data.totals);
+            }, 'json')
+        });
+    }
+
+</script>
 </body>
 
 </html>

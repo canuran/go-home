@@ -107,7 +107,7 @@ func authLogout(c *gin.Context) {
 
 func authCaptcha(c *gin.Context) {
 	// 生成图片转Base64
-	code := strconv.Itoa(rand.Intn(8888) + 1000)
+	code := strconv.Itoa(rand.Intn(90000) + 10000)
 	img := captcha.NewImage(code, digitBytes([]rune(code)), 150, 50)
 	var buffer bytes.Buffer
 	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
