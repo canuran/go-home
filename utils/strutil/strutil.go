@@ -1,6 +1,10 @@
 package strutil
 
-import "unicode"
+import (
+	"reflect"
+	"unicode"
+	"unsafe"
+)
 
 // 去掉所有不可见字符
 // 去掉开头和结尾的空白字符
@@ -70,4 +74,22 @@ func minimum(a, b, c int) int {
 		}
 	}
 	return c
+}
+
+func FastString2Bytes(b []byte) (s string) {
+	// SliceHeader 和 StringHeader 只是用来对应 []byte 和 string 的内存分布
+	bytesPtr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+	stringPtr := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	stringPtr.Data = bytesPtr.Data
+	stringPtr.Len = bytesPtr.Len
+	return
+}
+
+func FastBytes2String(s string) (b []byte) {
+	bytesPtr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+	stringPtr := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	bytesPtr.Data = stringPtr.Data
+	bytesPtr.Len = stringPtr.Len
+	bytesPtr.Cap = stringPtr.Len
+	return
 }
