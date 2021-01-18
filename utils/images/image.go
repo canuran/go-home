@@ -55,19 +55,38 @@ func writeImage(img image.Image, option *ConvertOption) error {
 		strings.HasSuffix(outFormat, "jpg"),
 		strings.HasSuffix(outFormat, "jpeg"):
 		maxQuality := option.MaxJpgQuality
-		if maxQuality < 1 { // 默认80
-			maxQuality = 80
+		if maxQuality < 1 { // 默认100
+			maxQuality = 100
 		}
 
 		if option.MaxJpgOutByte > 0 {
-			for quality := maxQuality; quality > 0; quality-- {
-				var out bytes.Buffer
-				err := jpeg.Encode(&out, img, &jpeg.Options{Quality: quality})
-				if err != nil {
-					return err
+			// 二分法寻找满足输出大小的最佳质量
+			minQuality := 1
+			bufferMap := map[int]bytes.Buffer{}
+
+			for minQuality < maxQuality {
+				middleQuality := (minQuality + maxQuality) / 2
+				var curBuf bytes.Buffer
+				if buffer, ok := bufferMap[middleQuality]; ok {
+					curBuf = buffer
+				} else {
+					err := jpeg.Encode(&curBuf, img, &jpeg.Options{Quality: middleQuality})
+					if err != nil {
+						return err
+					}
+					bufferMap[middleQuality] = curBuf
 				}
-				if out.Len() <= option.MaxJpgOutByte {
-					_, err := option.Writer.Write(out.Bytes())
+
+				if curBuf.Len() > option.MaxJpgOutByte { // 大了
+					maxQuality = middleQuality
+				} else if curBuf.Len() < option.MaxJpgOutByte { // 小了
+					if minQuality >= middleQuality {
+						_, err := option.Writer.Write(curBuf.Bytes())
+						return err
+					}
+					minQuality = middleQuality
+				} else { // 刚好
+					_, err := option.Writer.Write(curBuf.Bytes())
 					return err
 				}
 			}

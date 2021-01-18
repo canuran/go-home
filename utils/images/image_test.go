@@ -1,27 +1,35 @@
 package images
 
 import (
+	"bytes"
+	"fmt"
 	"github.com/ewingtsai/go-web/common"
-	"os"
+	"io/ioutil"
 	"testing"
 )
 
 func TestImageResize(t *testing.T) {
-	file, err := os.Open("/Users/admin/Downloads/1.jpg")
+	fileBts, err := ioutil.ReadFile("test.jpg")
 	if common.LogIfErr(err) {
 		return
 	}
-
-	file2, err := os.Create("/Users/admin/Downloads/res.jpg")
-	if common.LogIfErr(err) {
-		return
+	for i := 80; i < 120; i++ {
+		var reader bytes.Buffer
+		reader.Write(fileBts)
+		var buffer bytes.Buffer
+		option := &ConvertOption{
+			Reader:        &reader,
+			Writer:        &buffer,
+			NewHeight:     100,
+			NewWidth:      100,
+			OutFormat:     "jpg",
+			MaxJpgOutByte: i * 10,
+		}
+		err = ConvertImage(option)
+		if err != nil {
+			fmt.Println(option.MaxJpgOutByte, ">", err.Error())
+		} else {
+			fmt.Println(option.MaxJpgOutByte, ">", buffer.Len())
+		}
 	}
-
-	err = ConvertImage(&ConvertOption{
-		Reader:        file,
-		Writer:        file2,
-		OutFormat:     "jpg",
-		MaxJpgQuality: 20,
-	})
-	common.TestingErr(t, err)
 }
