@@ -55,12 +55,15 @@ func writeImage(img image.Image, option *ConvertOption) error {
 		strings.HasSuffix(outFormat, "jpg"),
 		strings.HasSuffix(outFormat, "jpeg"):
 		maxQuality := option.MaxJpgQuality
-		if maxQuality < 1 { // 默认100
+		if maxQuality < 1 {
+			maxQuality = 100 // 默认100
+		} else if maxQuality > 100 {
 			maxQuality = 100
 		}
 
 		if option.MaxJpgOutByte > 0 {
 			// 二分法寻找满足输出大小的最佳质量
+			maxQuality++
 			minQuality := 1
 			bufferMap := map[int]bytes.Buffer{}
 
