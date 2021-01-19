@@ -10,7 +10,7 @@ func TestStandardizeRunes(t *testing.T) {
 	fmt.Println(string(StandardizeRunes([]rune(" 好 \n\t\r 好的 1@　#er ☁ ☯ ☸...  "))))
 }
 
-func TestString2BytesUnsafe(t *testing.T) {
+func TestFastString2Bytes(t *testing.T) {
 	str := "小乔要努力变强123"
 	fmt.Println(str)
 

@@ -150,7 +150,7 @@
     function loadTable(options) {
         // 单页面可能需要重新刷新
         GridManager.destroy('main-table');
-        var offset = $('#main-table').offset().top + 20;
+        var offset = $('#main-table').offset().top + 10;
         document.querySelector('#main-table').GM({
             gridManagerName: 'main-table',
             ajaxData: options.url,
@@ -196,7 +196,7 @@
         layui.layer.open({
             id: 'main-edit-win-open',
             title: '<i class="fa fa-list"></i> 表单数据',
-            offset: '170px',
+            offset: '160px',
             area: '600px',
             type: 1,
             content: $('#main-edit-win').html()

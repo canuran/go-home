@@ -48,7 +48,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
             options.homeInfo = options.homeInfo || {};
             options.homeInfo.href = options.homeInfo.href || '';
             options.renderPageVersion = options.renderPageVersion || false;
-            $('.layuimini-page-header').addClass('layui-hide');
             miniPage.renderPageContent(options.homeInfo.href, options);
         },
 
@@ -58,41 +57,9 @@ layui.define(["form", "element", "jquery"], function (exports) {
          * @param options
          */
         renderPage: function (href, options) {
-            miniPage.renderPageTitle(href, options);
             miniPage.renderPageContent(href, options);
         },
 
-        /**
-         * 初始化页面标题
-         * @param href
-         * @param options
-         */
-        renderPageTitle: function (href, options) {
-            options.homeInfo = options.homeInfo || {};
-            options.homeInfo.title = options.homeInfo.title || '主页';
-            options.menuList = options.menuList || [];
-            $('.layuimini-page-header').removeClass('layui-hide');
-            var pageTitleHtml = '<a lay-href="" href="javascript:;" class="layuimini-back-home">' + options.homeInfo.title + '</a><span lay-separator="">/</span>\n';
-            var pageTitleArray = miniPage.buildPageTitleArray(href, options.menuList);
-            if (pageTitleArray.length > 0) {
-                for (var key in pageTitleArray) {
-                    key = parseInt(key);
-                    if (key !== pageTitleArray.length - 1) {
-                        pageTitleHtml += '<a><cite>' + pageTitleArray[key] + '</cite></a><span lay-separator="">/</span>\n';
-                    } else {
-                        pageTitleHtml += '<a><cite>' + pageTitleArray[key] + '</cite></a>\n';
-                    }
-                }
-            } else {
-                var title = sessionStorage.getItem('layuimini_page_title');
-                if (title === null || title === undefined || title === '') {
-                    $('.layuimini-page-header').addClass('layui-hide');
-                } else {
-                    pageTitleHtml += '<a><cite>' + title + '</cite></a>\n';
-                }
-            }
-            $('.layuimini-page-header .layuimini-page-title').empty().html(pageTitleHtml);
-        },
 
         /**
          * 初始化页面内容
@@ -106,12 +73,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
                 var v = new Date().getTime();
                 href = href.indexOf("?") > -1 ? href + '&v=' + v : href + '?v=' + v;
             }
-            if ($(".layuimini-page-header").hasClass("layui-hide")) {
-                $(container).removeAttr("style");
-            } else {
-                $(container).attr("style", "height: calc(100% - 36px)");
-            }
-            $(container).html('');
+            $(container).empty();
             $.ajax({
                 url: href,
                 type: 'get',
@@ -138,32 +100,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
             } else {
                 miniPage.renderPageContent(href, options);
             }
-        },
-
-        /**
-         * 构建页面标题数组
-         * @param href
-         * @param menuList
-         */
-        buildPageTitleArray: function (href, menuList) {
-            var array = [],
-                newArray = [];
-            for (key in menuList) {
-                var item = menuList[key];
-                if (item.href === href) {
-                    array.push(item.title);
-                    break;
-                }
-                if (item.child) {
-                    newArray = miniPage.buildPageTitleArray(href, item.child);
-                    if (newArray.length > 0) {
-                        newArray.unshift(item.title);
-                        array = array.concat(newArray);
-                        break;
-                    }
-                }
-            }
-            return array;
         },
 
         /**
@@ -292,7 +228,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
          * @param options
          */
         listen: function (options) {
-
             /**
              * 打开新窗口
              */

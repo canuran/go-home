@@ -76,7 +76,7 @@ func minimum(a, b, c int) int {
 	return c
 }
 
-func FastString2Bytes(b []byte) (s string) {
+func FastBytes2String(b []byte) (s string) {
 	// SliceHeader 和 StringHeader 只是用来对应 []byte 和 string 的内存分布
 	bytesPtr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
 	stringPtr := (*reflect.StringHeader)(unsafe.Pointer(&s))
@@ -85,7 +85,7 @@ func FastString2Bytes(b []byte) (s string) {
 	return
 }
 
-func FastBytes2String(s string) (b []byte) {
+func FastString2Bytes(s string) (b []byte) {
 	bytesPtr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
 	stringPtr := (*reflect.StringHeader)(unsafe.Pointer(&s))
 	bytesPtr.Data = stringPtr.Data
