@@ -38,7 +38,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" class="layui-input" placeholder="请输入用户名" lay-verify="required"/>
+                    <input type="text" name="name" class="layui-input"
+                           placeholder="请输入用户名" lay-verify="required"/>
                 </div>
             </div>
 
@@ -52,10 +53,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">新头像</label>
                 <div class="layui-input-block">
-                    <input id="form-header-img" type="file" name="header_file"
-                           onchange="$('#show-header-img').val($(this).val())" hidden/>
-                    <input id="show-header-img" class="layui-input" style="cursor:pointer"
-                           placeholder="请选择新头像" onclick="$('#form-header-img').click()" readonly/>
+                    <input type="file" name="header_file" placeholder="点击兄弟节点"
+                           onchange="$(this).next().val($(this).val())" hidden/>
+                    <input class="layui-input" style="cursor:pointer" placeholder="请选择新头像"
+                           onclick="$(this).prev().click()" readonly/>
                 </div>
             </div>
 
