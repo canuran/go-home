@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="cn">
 
 <head>
     <meta charset="utf-8">
@@ -50,7 +50,7 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item layuimini-setting" style="margin-right:10px">
                     <a href="javascript:">
-                        <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"></img>
+                        <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"/>
                         <span id="loginerName">登陆</span>
                     </a>
                     <dl class="layui-nav-child">
@@ -99,7 +99,7 @@
 <script>
     var srvPath = "/srv"
     var webPath = "/web"
-    var userDefaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +
+    var defaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +
         "BQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIAGQAZAMBIgAC" +
         "EQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQy" +
         "gZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeI" +
@@ -142,7 +142,7 @@
                 var loginerName = $('#loginerName');
                 loginerName.html('登陆');
                 loginerName.click(openLoginLayer);
-                $('#loginerHeader').attr('src', 'data:image;base64,' + userDefaultHeader)
+                $('#loginerHeader').attr('src', 'data:image;base64,' + defaultHeader)
                 openLoginLayer()
             } else {
                 layui.layer.msg("请求失败", {icon: 2})
