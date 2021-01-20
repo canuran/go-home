@@ -11,7 +11,6 @@ func TestLogIfErr(t *testing.T) {
 }
 
 func TestStringMd5(t *testing.T) {
-	fmt.Println(UserDefaultHeader)
 	fmt.Println(encoders.Md5String([]byte("")))
-	fmt.Println(encoders.Md5String([]byte("ybybybyb")))
+	fmt.Println(encoders.Md5String([]byte("1233")))
 }

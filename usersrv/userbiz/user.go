@@ -124,7 +124,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 			return fmt.Errorf("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
-			user.Header = common.UserDefaultHeader
+			user.Header = common.DefaultHeader
 		}
 		if len(user.Password) < 1 {
 			return fmt.Errorf("用户密码不能为空")
