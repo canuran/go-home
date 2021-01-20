@@ -2,27 +2,24 @@
 
     <form class="layui-form layui-form-pane">
         <div class="layui-form-item" style="margin-bottom:5px">
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">用户ID</label>
-                <div class="layui-input-inline" style="width: 100px">
+            <div class="layui-inline layui-col-sm3">
+                <label class="layui-form-label">用户ID</label>
+                <div class="layui-input-inline form-labeled-width">
                     <input type="number" name="id" class="layui-input"/>
                 </div>
             </div>
 
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">用户名</label>
-                <div class="layui-input-inline" style="width: 200px">
+            <div class="layui-inline layui-col-sm4">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline form-labeled-width">
                     <input type="text" name="name" class="layui-input"/>
                 </div>
             </div>
 
-            <div class="layui-inline">
+            <div class="layui-inline layui-col-sm3">
                 <button type="submit" class="layui-btn" lay-submit lay-filter="search-btn">
                     <i class="fa fa-search"></i>搜索
                 </button>
-            </div>
-
-            <div class="layui-inline">
                 <button type="button" class="layui-btn layui-btn-normal" onclick="openEditWin()">
                     <i class="fa fa-plus"></i>添加
                 </button>

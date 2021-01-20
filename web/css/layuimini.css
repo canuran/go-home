@@ -820,3 +820,7 @@
     font-size: 10px;
     color: #a29c9c;
 }
+
+.form-labeled-width {
+    width: calc(100% - 120px) !important;
+}
