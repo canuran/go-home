@@ -107,15 +107,16 @@ func authLogout(c *gin.Context) {
 
 func authCaptcha(c *gin.Context) {
 	// 生成图片转Base64
-	code := strconv.Itoa(rand.Intn(90000) + 10000)
-	img := captcha.NewImage(code, digitBytes([]rune(code)), 150, 50)
+	code := strconv.Itoa(rand.Intn(9000) + 1000)
+	codeBts := []byte(code)
+	img := captcha.NewImage(code, digitBytes(codeBts), 150, 50)
 	var buffer bytes.Buffer
 	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
 	_, err := img.WriteTo(encoder)
 	_ = encoder.Close()
 
 	// 验证码加密后存储到JWT
-	encodeAes, err := encriptor.AesEncrypt([]byte(code), captchaAesKey)
+	encodeAes, err := encriptor.AesEncrypt(codeBts, captchaAesKey)
 	if common.GinHandleErr(c, err) {
 		return
 	}
@@ -203,11 +204,11 @@ func unauthorized(c *gin.Context) {
 	c.Abort()
 }
 
-func digitBytes(input []rune) []byte {
+func digitBytes(input []byte) []byte {
 	var res []byte
 	for _, v := range input {
 		if v <= '9' && v >= '0' {
-			res = append(res, byte(v-'0'))
+			res = append(res, v-'0')
 		}
 	}
 	return res
