@@ -52,8 +52,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">新头像</label>
                 <div class="layui-input-block">
-                    <input id="form-header-img" type="file" name="header_file" style="display:none"
-                           onchange="$('#show-header-img').val($(this).val())"/>
+                    <input id="form-header-img" type="file" name="header_file"
+                           onchange="$('#show-header-img').val($(this).val())" hidden/>
                     <input id="show-header-img" class="layui-input" style="cursor:pointer"
                            placeholder="请选择新头像" onclick="$('#form-header-img').click()" readonly/>
                 </div>
