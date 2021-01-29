@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	debug               bool
-	gormDB              *gorm.DB
-	txDbKey             = "txDbKey"
+	debug             bool
+	gormDB            *gorm.DB
+	txDbKey           = "txDbKey"
 	ConflictUpdateAll = clause.OnConflict{UpdateAll: true}
 )
 

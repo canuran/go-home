@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/strutil"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"strings"
 	"time"
 

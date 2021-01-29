@@ -3,8 +3,9 @@ package main
 import (
 	"github.com/ewingtsai/go-web/authsrv/authapi"
 	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/config/configdal"
 	"github.com/ewingtsai/go-web/usersrv"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/ewingtsai/go-web/config"
@@ -15,6 +16,7 @@ import (
 func main() {
 	// 按需初始化
 	config.Init()
+	configdal.Init()
 	usersrv.Init()
 
 	engine := gin.Default()

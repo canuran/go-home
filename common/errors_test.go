@@ -7,7 +7,9 @@ import (
 )
 
 func TestLogIfErr(t *testing.T) {
-	LogIfErr(fmt.Errorf("hello"))
+	LogIfErr(fmt.Errorf("hello1"))
+	LogIfErr(fmt.Errorf("hello2"))
+	LogIfErr(fmt.Errorf("hello3"))
 }
 
 func TestStringMd5(t *testing.T) {

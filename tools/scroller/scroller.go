@@ -1,0 +1,253 @@
+package scroller
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"github.com/ewingtsai/go-web/config/configdal"
+	"github.com/ewingtsai/go-web/utils/converter"
+	"github.com/ewingtsai/go-web/utils/jsons"
+	log "github.com/sirupsen/logrus"
+	"math"
+	"reflect"
+	"runtime"
+	"sync"
+	"sync/atomic"
+	"time"
+)
+
+var MinId int64 = 0
+var MaxId int64 = math.MaxInt64
+var EmptyCheckErr = errors.New("empty check error")
+
+type Worker struct {
+	Total   int64
+	Success int64
+	Fail    int64
+	Skip    int64
+	PreId   int64
+	CostMs  int64
+}
+
+type Params struct {
+	Runners   int64       // 并发数，默认10
+	QuerySize int64       // 一次查询量，默认100
+	Reset     bool        // 是否重置进度，默认不重置
+	IdDesc    bool        // 是否降序滚动，默认为升序
+	ConfigKey string      // 进度存储配置Key，默认不存储进度
+	CustomArg interface{} // 用于传给自定义的函数使用
+
+	// QueryFunc 单协程循环调用，返回的数据类型必须是数组或切片
+	QueryFunc func(ctx context.Context, customArg interface{}, preId, querySize int64) (interface{}, error)
+
+	// GetIdFunc 单协程循环调用，返回当前数据的ID
+	GetIdFunc func(ctx context.Context, customArg interface{}, each interface{}) int64
+
+	// FilterFunc 异步并发调用，返回是否让 RunFunc 处理该数据并统计跳过数
+	FilterFunc func(ctx context.Context, customArg interface{}, each interface{}) bool
+
+	// RunFunc 异步并发调用，返回是否出错并统计成功和失败数
+	RunFunc func(ctx context.Context, customArg interface{}, each interface{}) error
+}
+
+// Scrolling 滚动执行
+func Scrolling(ctx context.Context, params *Params) error {
+	if params == nil || params.QueryFunc == nil || params.GetIdFunc == nil || params.RunFunc == nil {
+		return EmptyCheckErr
+	}
+
+	worker := &Worker{}
+	defer func() {
+		if r := recover(); r != nil {
+			stack := make([]byte, 4096)
+			size := runtime.Stack(stack, false)
+			log.Errorf("Scrolling panic:worker=%s, r=%v, stack=%v",
+				jsons.JsonMarshalString(worker), r, string(stack[:size]))
+		}
+	}()
+
+	// 控制并发
+	runners := params.Runners
+	if runners < 1 {
+		runners = 10
+	}
+
+	// 查询数量
+	querySize := params.QuerySize
+	if querySize < 1 {
+		querySize = 100
+	}
+
+	// 重置进度
+	if params.Reset {
+		if len(params.ConfigKey) > 0 {
+			_ = configdal.SaveConfig(ctx, &configdal.ConfigDO{
+				Config: params.ConfigKey, Num: 0, Value: "{}",
+			})
+		}
+	}
+
+	// 获取进度
+	if len(params.ConfigKey) > 0 {
+		serviceConfig, _ := configdal.GetConfig(context.Background(), params.ConfigKey)
+		if serviceConfig != nil {
+			_ = json.Unmarshal([]byte(serviceConfig.Value), worker)
+			worker.PreId = serviceConfig.Num
+		} else {
+			_ = configdal.SaveConfig(ctx, &configdal.ConfigDO{
+				Config: params.ConfigKey, Num: 0, Value: "{}",
+			})
+		}
+	}
+
+	log.Infof("Scrolling begin:worker=%s", jsons.JsonMarshalString(worker))
+
+	var runningIdMap sync.Map
+	runningQueue := make(chan int, runners)
+	var wg sync.WaitGroup
+	for {
+		start := time.Now()
+		// 循环滚动遍历数据
+		log.Infof("Scrolling batch begin:worker=%s", jsons.JsonMarshalString(worker))
+		results, err := params.QueryFunc(ctx, params.CustomArg, worker.PreId, querySize)
+		if err != nil {
+			log.Errorf("Scrolling query error:worker=%s", jsons.JsonMarshalString(worker))
+			time.Sleep(time.Second)
+			continue
+		}
+		if results == nil {
+			log.Infof("Scrolling query nil:worker=%s", jsons.JsonMarshalString(worker))
+			break
+		}
+		kind := reflect.TypeOf(results).Kind()
+		if kind != reflect.Slice && kind != reflect.Array {
+			log.Errorf("Scrolling query unsupported result type:worker=%s", jsons.JsonMarshalString(worker))
+			break
+		}
+		slice := reflect.ValueOf(results)
+		if slice.Len() < 1 {
+			log.Infof("Scrolling query empty:worker=%s", jsons.JsonMarshalString(worker))
+			break
+		}
+
+		// 保存进度
+		saveProcessing(ctx, params, &runningIdMap, worker)
+
+		// 循环跑任务
+		for i := 0; i < slice.Len(); i++ {
+			worker.Total++
+			runRow := slice.Index(i).Interface()
+			runCtx := context.Background()
+			// ID滚动
+			runId := params.GetIdFunc(runCtx, params.CustomArg, runRow)
+			if params.IdDesc {
+				if worker.PreId > runId {
+					worker.PreId = runId
+				}
+			} else {
+				if worker.PreId < runId {
+					worker.PreId = runId
+				}
+			}
+
+			// 并行处理
+			runningQueue <- 1
+			wg.Add(1)
+			go func(goCtx context.Context, goRow interface{}, goId int64) {
+				defer func() {
+					if r := recover(); r != nil {
+						atomic.AddInt64(&worker.Fail, 1)
+						stack := make([]byte, 4096)
+						size := runtime.Stack(stack, false)
+						log.Errorf("Scrolling each panic:id=%d, r=%v, stack=%v",
+							jsons.JsonMarshalString(worker), r, string(stack[:size]))
+					}
+					<-runningQueue
+					wg.Done()
+					runningIdMap.Delete(goId)
+				}()
+				runningIdMap.Store(goId, true)
+
+				// 过滤数据
+				if params.FilterFunc != nil {
+					if !params.FilterFunc(goCtx, params.CustomArg, goRow) {
+						atomic.AddInt64(&worker.Skip, 1)
+						return
+					}
+				}
+
+				// 跑任务
+				begin := time.Now()
+				goErr := params.RunFunc(goCtx, params.CustomArg, goRow)
+				if goErr != nil {
+					atomic.AddInt64(&worker.Fail, 1)
+					log.Errorf("Scrolling RunFunc error:id=%d,err=%v", goId, goErr)
+				} else {
+					atomic.AddInt64(&worker.Success, 1)
+					log.Errorf("Scrolling RunFunc done:id=%d,cost=%v", goId, time.Since(begin))
+				}
+			}(runCtx, runRow, runId)
+		}
+
+		log.Infof("Scrolling batch done:worker=%s", jsons.JsonMarshalString(worker))
+		time.Sleep(time.Millisecond * 10)
+		atomic.AddInt64(&worker.CostMs, int64(time.Since(start)/time.Millisecond))
+	}
+	wg.Wait()
+	log.Infof("Scrolling end:worker=%s", jsons.JsonMarshalString(worker))
+	return nil
+}
+
+func saveProcessing(ctx context.Context, params *Params, runningIdMap *sync.Map, worker *Worker) {
+	if params.IdDesc { // 降序
+		// 找到最大的正在跑的
+		maxRunning := MinId
+		runningIdMap.Range(func(key, value interface{}) bool {
+			keyInt := converter.Int64ify(key)
+			if keyInt > maxRunning {
+				maxRunning = keyInt
+			}
+			return true
+		})
+
+		log.Infof("Scrolling saveProcessing:maxRunning=%d,worker=%s",
+			maxRunning, jsons.JsonMarshalString(worker))
+
+		if maxRunning == MinId { // 没有最大正在跑的
+			maxRunning = worker.PreId
+		}
+
+		if len(params.ConfigKey) > 0 {
+			_ = configdal.UpdateConfigNotEmpty(context.Background(), &configdal.ConfigDO{
+				Config: params.ConfigKey,
+				Num:    maxRunning + 1, // 正在跑的加1则是最跑完的
+				Value:  jsons.JsonMarshalString(worker),
+			})
+		}
+	} else { // 升序
+		// 找到最小的正在跑的
+		minRunning := MaxId
+		runningIdMap.Range(func(key, value interface{}) bool {
+			keyInt := converter.Int64ify(key)
+			if keyInt < minRunning {
+				minRunning = keyInt
+			}
+			return true
+		})
+
+		log.Infof("Scrolling saveProcessing:minRunning=%d,worker=%s",
+			minRunning, jsons.JsonMarshalString(worker))
+
+		if minRunning == MaxId { // 没有最小正在跑的
+			minRunning = worker.PreId
+		}
+
+		if len(params.ConfigKey) > 0 {
+			_ = configdal.UpdateConfigNotEmpty(context.Background(), &configdal.ConfigDO{
+				Config: params.ConfigKey,
+				Num:    minRunning - 1, // 正在跑的减1则是最跑完的
+				Value:  jsons.JsonMarshalString(worker),
+			})
+		}
+	}
+}
