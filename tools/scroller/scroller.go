@@ -184,17 +184,17 @@ func Scrolling(ctx context.Context, params *Params) error {
 		}
 
 		time.Sleep(time.Millisecond * 10)
-		saveProcessing(params, &runningIdMap, worker) // 保存进度
+		saveProgress(params, &runningIdMap, worker) // 保存进度
 		log.Infof("Scrolling batch done:worker=%s", jsons.JsonMarshalString(worker))
 		atomic.AddInt64(&worker.CostMs, int64(time.Since(start)/time.Millisecond))
 	}
 	wg.Wait()
-	saveProcessing(params, &runningIdMap, worker) // 保存进度
+	saveProgress(params, &runningIdMap, worker) // 保存进度
 	log.Infof("Scrolling done:worker=%s", jsons.JsonMarshalString(worker))
 	return nil
 }
 
-func saveProcessing(params *Params, runningIdMap *sync.Map, worker *Worker) {
+func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 	// 找到最大的正在跑的
 	saveId := worker.PreId
 	runningIdMap.Range(func(key, value interface{}) bool {
@@ -211,7 +211,7 @@ func saveProcessing(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		return true
 	})
 
-	log.Infof("Scrolling saveProcessing:saveId=%d,worker=%s",
+	log.Infof("Scrolling saveProgress:saveId=%d,worker=%s",
 		saveId, jsons.JsonMarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {
