@@ -24,17 +24,17 @@ type Worker struct {
 	Skip    int64
 	PreId   int64
 	CostMs  int64
+	Qps     int64
 }
 
 type Params struct {
 	Runners   int64  // 并发数，默认10
-	QuerySize int64  // 一次查询量，默认100
 	Reset     bool   // 是否重置进度，默认不重置
 	IdDesc    bool   // 是否降序滚动，默认为升序
 	ConfigKey string // 进度存储配置Key，默认不存储进度
 
 	// QueryFunc 单协程循环调用，返回的数据类型必须是数组或切片
-	QueryFunc func(ctx context.Context, preId, querySize int64) (interface{}, error)
+	QueryFunc func(ctx context.Context, preId int64) (interface{}, error)
 
 	// GetIdFunc 单协程循环调用，返回当前数据的ID
 	GetIdFunc func(ctx context.Context, each interface{}) int64
@@ -69,12 +69,6 @@ func Scrolling(ctx context.Context, params *Params) error {
 		runners = 10
 	}
 
-	// 查询数量
-	querySize := params.QuerySize
-	if querySize < 1 {
-		querySize = 100
-	}
-
 	// 重置进度
 	if params.Reset {
 		if len(params.ConfigKey) > 0 {
@@ -106,7 +100,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 		start := time.Now()
 		// 循环滚动遍历数据
 		log.Infof("Scrolling batch begin:worker=%s", jsons.JsonMarshalString(worker))
-		results, err := params.QueryFunc(ctx, worker.PreId, querySize)
+		results, err := params.QueryFunc(ctx, worker.PreId)
 		if err != nil {
 			log.Errorf("Scrolling query error:worker=%s", jsons.JsonMarshalString(worker))
 			time.Sleep(time.Second)
@@ -211,13 +205,14 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		return true
 	})
 
+	worker.Qps = worker.Total * 1000 / worker.CostMs
 	log.Infof("Scrolling saveProgress:saveId=%d,worker=%s",
 		saveId, jsons.JsonMarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {
 		_ = configdal.UpdateConfigNotEmpty(context.Background(), &configdal.ConfigDO{
 			Config: params.ConfigKey,
-			Num:    saveId, // 正在跑的加1则是最跑完的
+			Num:    saveId,
 			Value:  jsons.JsonMarshalString(worker),
 		})
 	}
