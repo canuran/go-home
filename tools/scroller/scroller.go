@@ -205,7 +205,9 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		return true
 	})
 
-	worker.Qps = worker.Total * 1000 / worker.CostMs
+	if worker.CostMs > 0 {
+		worker.Qps = worker.Total * 1000 / worker.CostMs
+	}
 	log.Infof("Scrolling saveProgress:saveId=%d,worker=%s",
 		saveId, jsons.JsonMarshalString(worker))
 
