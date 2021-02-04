@@ -13,13 +13,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="images/favicon.ico">
+    <link rel="icon" href="image/favicon.ico">
     <link rel="stylesheet" href="lib/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="css/layuimini.css?v=2.0.1" media="all">
     <link rel="stylesheet" href="css/themes/default.css" media="all">
     <link rel="stylesheet" href="lib/GridManager/css/gm.css" media="all">
-    <link rel="stylesheet" href="lib/jq-module/json-viewer/json-viewer.css" media="all">
+    <link rel="stylesheet" href="lib/json-viewer/json-viewer.css" media="all">
     <style id="layuimini-bg-color">
     </style>
 </head>
@@ -41,7 +41,7 @@
             <!--手机端头部菜单-->
             <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
                 <li class="layui-nav-item">
-                    <a href="javascript:;"><i class="fa fa-list-ul"></i> 模块导航</a>
+                    <a><i class="fa fa-list-ul"></i> 模块导航</a>
                     <dl class="layui-nav-child layuimini-menu-header-mobile">
                     </dl>
                 </li>
@@ -54,14 +54,14 @@
                         <span id="loginerName">登陆</span>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:" layuimini-content-href="page/user-profile.html" data-title="基本资料"
+                        <dd><a layuimini-content-href="page/user/user-profile.html" data-title="基本资料"
                                data-icon="fa fa-gears">基本资料</a></dd>
-                        <dd><a href="javascript:" layuimini-content-href="page/user-password.html" data-title="修改密码"
+                        <dd><a layuimini-content-href="page/user/user-password.html" data-title="修改密码"
                                data-icon="fa fa-gears">修改密码</a></dd>
                         <dd>
                             <hr>
                         </dd>
-                        <dd><a href="javascript:" id="login-out">退出登录</a></dd>
+                        <dd><a id="login-out">退出登录</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
@@ -93,10 +93,10 @@
 </div>
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script src="lib/jquery/jquery.js" charset="utf-8"></script>
-<script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script src="lib/xm-select/xm-select.js" charset="utf-8"></script>
 <script src="lib/GridManager/js/gm.js" charset="utf-8"></script>
-<script src="lib/jq-module/json-viewer/json-viewer.js"></script>
+<script src="lib/json-viewer/json-viewer.js"></script>
+<script src="lay/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
     var webPath = "/web"

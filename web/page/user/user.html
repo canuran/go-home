@@ -205,6 +205,8 @@
             var row = GridManager.getRowData('main-table', btn.parentElement.parentElement);
             row.header_file = "";
             layui.form.val('main-edit-form', row);
+            // 获取下拉组件赋值，true表示获取单个
+            xmSelect.get('#select_role', true).setValue((row.role || "").split(","));
         }
         // 监听编辑提交
         layui.form.on('submit(main-edit-ok)', editFormSubmit);

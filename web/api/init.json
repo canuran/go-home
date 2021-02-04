@@ -23,7 +23,7 @@
         },
         {
           "title": "用户管理",
-          "href": "page/user.html",
+          "href": "page/user/user.html",
           "icon": "fa fa-user",
           "target": "_self"
         }
@@ -43,7 +43,7 @@
         },
         {
           "title": "字典管理",
-          "href": "page/dict.html",
+          "href": "page/dict/dict.html",
           "icon": "fa fa-home",
           "target": "_self"
         }
