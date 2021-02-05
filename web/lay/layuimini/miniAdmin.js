@@ -77,7 +77,7 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
          * @param data
          */
         renderLogo: function (data) {
-            var html = '<a href="javascript:;"><img src="' + data.image + '" alt="logo"><h1>' + data.title + '</h1></a>';
+            var html = '<a"><img src="' + data.image + '" alt="logo"><h1>' + data.title + '</h1></a>';
             $('.layuimini-logo').html(html);
         },
 

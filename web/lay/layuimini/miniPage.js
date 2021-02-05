@@ -8,7 +8,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
     var element = layui.element,
      form = layui.form,
         $ = layui.$,
-        // miniAdmin = layui.miniAdmin,
         layer = layui.layer;
 
 
