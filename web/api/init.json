@@ -3,11 +3,6 @@
     "title": "首页",
     "href": "page/welcome.html"
   },
-  "logoInfo": {
-    "title": "用户平台",
-    "image": "images/logo.png",
-    "href": ""
-  },
   "menuInfo": [
     {
       "title": "用户平台",

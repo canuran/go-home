@@ -37,11 +37,11 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
             options.pageAnim = options.pageAnim || false;
+            miniAdmin.renderLogo();
             $.getJSON(options.iniUrl, function (data) {
                 if (data == null) {
                     miniAdmin.error('暂无菜单信息')
                 } else {
-                    miniAdmin.renderLogo(data.logoInfo);
                     miniAdmin.renderAnim(options.pageAnim);
                     miniAdmin.listen({
                         homeInfo: data.homeInfo,
@@ -76,8 +76,8 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
          * 初始化logo
          * @param data
          */
-        renderLogo: function (data) {
-            var html = '<a><img src="' + data.image + '" alt="logo"><h1>' + data.title + '</h1></a>';
+        renderLogo: function () {
+            var html = '<a><img src="image/logo.png" alt="logo"><h1>用户平台</h1></a>';
             $('.layuimini-logo').html(html);
         },
 
