@@ -95,7 +95,6 @@
 <script src="lib/jquery/jquery.js" charset="utf-8"></script>
 <script src="lib/xm-select/xm-select.js" charset="utf-8"></script>
 <script src="lib/GridManager/js/gm.js" charset="utf-8"></script>
-<script src="lib/json-viewer/json-viewer.js"></script>
 <script src="lay/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
@@ -231,15 +230,22 @@
         })
     }
 
-    function ajaxGetTotals(settings, params) {
+    function gmAjaxTotals(settings, params) {
         return new Promise(resolve => {
             params.count = true
-            $.get(settings.ajaxData, params, function (data) {
+            $.post(settings.ajaxUrl || "", params, function (data) {
                 resolve(data.totals);
             }, 'json')
         });
     }
 
+    function gmAjaxData(settings, params) {
+        return new Promise(resolve => {
+            $.post(settings.ajaxUrl || "", params, function (data) {
+                resolve(data);
+            }, 'json');
+        });
+    }
 </script>
 </body>
 

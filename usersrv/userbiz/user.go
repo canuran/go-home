@@ -157,12 +157,12 @@ func GetUserByName(ctx context.Context, name string) (*UserBO, error) {
 }
 
 func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO, error) {
-	var userBos []*UserBO
 	userPos, err := userdal.QueryUser(ctx,
 		&userdal.UserParam{Entity: UserBO2PO(user),
 			Offset:     offset,
 			Limit:      limit,
 			OmitFields: []string{"password"}})
+	userBos := make([]*UserBO, 0, len(userPos))
 	for _, po := range userPos {
 		userBos = append(userBos, UserPO2BO(po))
 	}

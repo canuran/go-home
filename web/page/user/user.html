@@ -142,7 +142,7 @@
             return false;
         });
 
-        loadTable({url: srvPath + "/user/query"});
+        loadTable();
     }
 
     function initSelect() {
@@ -158,27 +158,27 @@
     }
 
     // 加载表格
-    function loadTable(options) {
+    function loadTable() {
         // 单页面可能需要重新刷新
         GridManager.destroy('main-table');
         var offset = $('#main-table').offset().top + 10;
         document.querySelector('#main-table').GM({
             gridManagerName: 'main-table',
-            ajaxData: options.url,
-            query: options.query,
-            ajaxType: 'GET',
+            ajaxUrl: srvPath + "/user/query",
+            ajaxData: gmAjaxData,
+            ajaxType: 'POST',
             height: '100vh - ' + offset + 'px',
             width: '100%',
             supportAjaxPage: true,
-            sizeData: [10, 20, 100],
+            sizeData: [10, 20, 50, 100],
             supportCheckbox: false,
             supportMenu: true,
             useWordBreak: true,
             disableLine: true,
             supportAutoOrder: false,
             asyncTotals: {
-                text: '<span>加载中</span>',
-                handler: ajaxGetTotals
+                text: '加载中',
+                handler: gmAjaxTotals
             },
             columnData: [
                 {key: 'id', text: '用户ID', width: '100px', fixed: 'left'},

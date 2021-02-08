@@ -2,8 +2,9 @@ package common
 
 import (
 	"github.com/ewingtsai/go-web/utils/converter"
+	"github.com/ewingtsai/go-web/utils/strutil"
 	"gorm.io/gorm"
-	"unicode"
+	"strings"
 )
 
 func WhereIfTrue(db *gorm.DB, value bool, where string, arg interface{}) *gorm.DB {
@@ -26,12 +27,14 @@ func WhereIfHasLen(db *gorm.DB, where string, arg string) *gorm.DB {
 }
 
 func WhereIfHasText(db *gorm.DB, where string, arg string) *gorm.DB {
-	if db != nil && len(where) > 0 {
-		for _, char := range []rune(arg) {
-			if !unicode.IsSpace(char) {
-				return db.Where(where, arg)
-			}
-		}
-	}
-	return db
+	return WhereIfTrue(db, strutil.HasText(arg), where, arg)
+}
+
+func LikeStartWith(value string) string {
+	return RemoveWildcard(value) + "%"
+}
+
+func RemoveWildcard(value string) string {
+	value = strings.ReplaceAll(value, "%", "")
+	return strings.ReplaceAll(value, "_", "")
 }

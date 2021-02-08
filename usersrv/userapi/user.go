@@ -13,15 +13,15 @@ import (
 )
 
 type UserVO struct {
-	ID           int64     `json:"id,omitempty" form:"id"`
-	Name         string    `json:"name,omitempty" form:"name"`
-	Password     string    `json:"password,omitempty" form:"password"`
-	Header       string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
-	Gender       string    `json:"gender,omitempty" form:"gender"`
-	Role         string    `json:"role,omitempty" form:"role"`
-	Status       int       `json:"status,omitempty" form:"status"`
-	Sign         string    `json:"sign,omitempty" form:"sign"`
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	ID        int64     `json:"id,omitempty" form:"id"`
+	Name      string    `json:"name,omitempty" form:"name"`
+	Password  string    `json:"password,omitempty" form:"password"`
+	Header    string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
+	Gender    string    `json:"gender,omitempty" form:"gender"`
+	Role      string    `json:"role,omitempty" form:"role"`
+	Status    int       `json:"status,omitempty" form:"status"`
+	Sign      string    `json:"sign,omitempty" form:"sign"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
 
 func UserVO2BO(bo *UserVO) *userbiz.UserBO {
@@ -29,15 +29,15 @@ func UserVO2BO(bo *UserVO) *userbiz.UserBO {
 		return nil
 	}
 	return &userbiz.UserBO{
-		ID:           bo.ID,
-		Name:         bo.Name,
-		Password:     bo.Password,
-		Header:       bo.Header,
-		Gender:       bo.Gender,
-		Role:         bo.Role,
-		Status:       bo.Status,
-		Sign:         bo.Sign,
-		UpdatedAt:    bo.UpdatedAt,
+		ID:        bo.ID,
+		Name:      bo.Name,
+		Password:  bo.Password,
+		Header:    bo.Header,
+		Gender:    bo.Gender,
+		Role:      bo.Role,
+		Status:    bo.Status,
+		Sign:      bo.Sign,
+		UpdatedAt: bo.UpdatedAt,
 	}
 }
 
@@ -46,15 +46,15 @@ func UserBO2VO(po *userbiz.UserBO) *UserVO {
 		return nil
 	}
 	return &UserVO{
-		ID:           po.ID,
-		Name:         po.Name,
-		Password:     po.Password,
-		Header:       po.Header,
-		Gender:       po.Gender,
-		Role:         po.Role,
-		Status:       po.Status,
-		Sign:         po.Sign,
-		UpdatedAt:    po.UpdatedAt,
+		ID:        po.ID,
+		Name:      po.Name,
+		Password:  po.Password,
+		Header:    po.Header,
+		Gender:    po.Gender,
+		Role:      po.Role,
+		Status:    po.Status,
+		Sign:      po.Sign,
+		UpdatedAt: po.UpdatedAt,
 	}
 }
 
@@ -62,13 +62,13 @@ func UserBO2VO(po *userbiz.UserBO) *UserVO {
 func User(group *gin.RouterGroup) {
 	// 注册路由
 	group.POST("user/save", saveUser)
-	group.GET("user/query", queryUser)
+	group.POST("user/query", queryUser)
 	group.POST("user/delete", deleteUser)
-	group.GET("filter_name", filterName)
+	group.POST("filter_name", filterName)
 }
 
 func filterName(c *gin.Context) {
-	name := c.Query("name")
+	name := c.PostForm("name")
 	common.GinSuccessData(c, strutil.StandardizeRunes([]rune(name)))
 }
 
@@ -108,12 +108,12 @@ func saveUser(c *gin.Context) {
 
 func queryUser(c *gin.Context) {
 	user := &UserVO{}
-	err := c.ShouldBindQuery(user)
+	err := c.ShouldBind(user)
 	if common.GinHandleErr(c, err) {
 		return
 	}
 
-	if c.Query("count") == "true" {
+	if c.PostForm("count") == "true" {
 		totals, err := userbiz.CountUser(c, UserVO2BO(user))
 		if common.GinHandleErr(c, err) {
 			return
@@ -122,8 +122,8 @@ func queryUser(c *gin.Context) {
 		return
 	}
 
-	cPage := c.DefaultQuery("cPage", "1")
-	pSize := c.DefaultQuery("pSize", "10")
+	cPage := c.DefaultPostForm("cPage", "1")
+	pSize := c.DefaultPostForm("pSize", "10")
 	limit := int(converter.Int64ify(pSize))
 	offset := int(converter.Int64ify(cPage))*limit - limit
 	users, err := userbiz.QueryUser(c, UserVO2BO(user), offset, limit)

@@ -6,6 +6,15 @@ import (
 	"unsafe"
 )
 
+func HasText(value string) bool {
+	for _, char := range []rune(value) {
+		if !unicode.IsSpace(char) {
+			return true
+		}
+	}
+	return false
+}
+
 // 去掉所有不可见字符
 // 去掉开头和结尾的空白字符
 // 单个或多个空白字符以单个空格代替

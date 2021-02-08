@@ -3,6 +3,7 @@ package userdal
 import (
 	"context"
 	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/utils/strutil"
 	"time"
 
 	"github.com/ewingtsai/go-web/config"
@@ -88,7 +89,8 @@ func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
 	}
 	if userParam.Entity != nil {
 		db = common.WhereIfGtZero(db, "id = ?", userParam.Entity.ID)
-		db = common.WhereIfHasText(db, "name = ?", userParam.Entity.Name)
+		db = common.WhereIfTrue(db, strutil.HasText(common.RemoveWildcard(userParam.Entity.Name)),
+			"name like ?", common.LikeStartWith(userParam.Entity.Name))
 		db = common.WhereIfGtZero(db, "status = ?", userParam.Entity.Status)
 		db = common.WhereIfHasText(db, "gender = ?", userParam.Entity.Gender)
 	}
