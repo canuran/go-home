@@ -87,15 +87,10 @@ func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
 		db = db.Omit(userParam.OmitFields...)
 	}
 	if userParam.Entity != nil {
-		if userParam.Entity.ID > 0 {
-			db = db.Where("id = ?", userParam.Entity.ID)
-		}
-		if len(userParam.Entity.Name) > 0 {
-			db = db.Where("name = ?", userParam.Entity.Name)
-		}
-		if userParam.Entity.Status > 0 {
-			db = db.Where("status = ?", userParam.Entity.Status)
-		}
+		db = common.WhereIfGtZero(db, "id = ?", userParam.Entity.ID)
+		db = common.WhereIfHasText(db, "name = ?", userParam.Entity.Name)
+		db = common.WhereIfGtZero(db, "status = ?", userParam.Entity.Status)
+		db = common.WhereIfHasText(db, "gender = ?", userParam.Entity.Gender)
 	}
 	if userParam.Offset > 0 {
 		db = db.Offset(userParam.Offset)
