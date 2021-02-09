@@ -3,7 +3,7 @@ package configdal
 import (
 	"context"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/tools/errer"
+	"github.com/ewingtsai/go-web/utils/errorer"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"time"
@@ -28,7 +28,7 @@ func (do ConfigDO) TableName() string {
 func Init() {
 	// 迁移 schema
 	gormDB := config.GetDB(context.Background())
-	errer.LogIfErr(gormDB.AutoMigrate(&ConfigDO{}))
+	errorer.LogIfErr(gormDB.AutoMigrate(&ConfigDO{}))
 }
 
 func GetConfig(ctx context.Context, configKey string) (*ConfigDO, error) {

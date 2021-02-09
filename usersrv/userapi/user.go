@@ -6,8 +6,8 @@ import (
 	"github.com/ewingtsai/go-web/usersrv/userbiz"
 	"github.com/ewingtsai/go-web/utils/converter"
 	"github.com/ewingtsai/go-web/utils/encoders"
-	"github.com/ewingtsai/go-web/utils/images"
-	"github.com/ewingtsai/go-web/utils/strutil"
+	"github.com/ewingtsai/go-web/utils/imager"
+	"github.com/ewingtsai/go-web/utils/stringer"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -69,7 +69,7 @@ func User(group *gin.RouterGroup) {
 
 func filterName(c *gin.Context) {
 	name := c.PostForm("name")
-	giner.GinSuccessData(c, strutil.StandardizeRunes([]rune(name)))
+	giner.GinSuccessData(c, stringer.StandardizeRunes([]rune(name)))
 }
 
 func saveUser(c *gin.Context) {
@@ -85,7 +85,7 @@ func saveUser(c *gin.Context) {
 			return
 		}
 		var buffer bytes.Buffer
-		err = images.ConvertImage(&images.ConvertOption{
+		err = imager.ConvertImage(&imager.ConvertOption{
 			Reader:        headerFile,
 			NewWidth:      100,
 			NewHeight:     100,

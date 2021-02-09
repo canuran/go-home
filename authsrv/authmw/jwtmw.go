@@ -3,8 +3,8 @@ package authmw
 import (
 	"github.com/ewingtsai/go-web/authsrv/authjwt"
 	"github.com/ewingtsai/go-web/common/consts"
-	"github.com/ewingtsai/go-web/tools/errer"
 	"github.com/ewingtsai/go-web/usersrv/userbiz"
+	"github.com/ewingtsai/go-web/utils/errorer"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -29,7 +29,7 @@ func JWTAuthMW(c *gin.Context) {
 	// 从Cookie中获取
 	if len(tokenStr) < 1 {
 		cookie, err := c.Request.Cookie("Authorization")
-		if errer.LogIfErr(err) {
+		if errorer.LogIfErr(err) {
 			unauthorized(c)
 			return
 		}
@@ -42,7 +42,7 @@ func JWTAuthMW(c *gin.Context) {
 
 	// 解析JWT
 	claims, err := authjwt.ParseToken(tokenStr)
-	if errer.LogIfErr(err) {
+	if errorer.LogIfErr(err) {
 		unauthorized(c)
 		return
 	}
@@ -54,7 +54,7 @@ func JWTAuthMW(c *gin.Context) {
 
 	// 验证登陆版本是否失效
 	user, err := userbiz.GetUserById(c, claims.ID)
-	if errer.LogIfErr(err) {
+	if errorer.LogIfErr(err) {
 		unauthorized(c)
 		return
 	}

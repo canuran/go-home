@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/tools/errer"
-	"github.com/ewingtsai/go-web/utils/jsons"
+	"github.com/ewingtsai/go-web/utils/errorer"
+	"github.com/ewingtsai/go-web/utils/jsoner"
 	"testing"
 )
 
@@ -25,7 +25,7 @@ func TestSaveUser(t *testing.T) {
 		Offset:       0,
 		Limit:        2,
 	})
-	if errer.TestingErr(t, err) {
+	if errorer.TestingErr(t, err) {
 		return
 	}
 }
@@ -41,8 +41,8 @@ func TestQueryUser(t *testing.T) {
 		Offset:       0,
 		Limit:        2,
 	})
-	if errer.TestingErr(t, err) {
+	if errorer.TestingErr(t, err) {
 		return
 	}
-	fmt.Println(jsons.JsonMarshalString(users))
+	fmt.Println(jsoner.JsonMarshalString(users))
 }

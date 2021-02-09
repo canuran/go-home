@@ -3,7 +3,7 @@ package configdal
 import (
 	"context"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/utils/jsons"
+	"github.com/ewingtsai/go-web/utils/jsoner"
 	"testing"
 )
 
@@ -18,7 +18,7 @@ func TestGetConfig(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	println(jsons.JsonMarshalString(configDO))
+	println(jsoner.JsonMarshalString(configDO))
 }
 
 func TestSaveConfig(t *testing.T) {

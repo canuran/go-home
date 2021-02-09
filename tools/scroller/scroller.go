@@ -6,7 +6,7 @@ import (
 	"errors"
 	"github.com/ewingtsai/go-web/config/configdal"
 	"github.com/ewingtsai/go-web/utils/converter"
-	"github.com/ewingtsai/go-web/utils/jsons"
+	"github.com/ewingtsai/go-web/utils/jsoner"
 	log "github.com/sirupsen/logrus"
 	"reflect"
 	"runtime"
@@ -59,7 +59,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 			stack := make([]byte, 4096)
 			size := runtime.Stack(stack, false)
 			log.Errorf("Scrolling panic:worker=%s, r=%v, stack=%v",
-				jsons.JsonMarshalString(worker), r, string(stack[:size]))
+				jsoner.JsonMarshalString(worker), r, string(stack[:size]))
 		}
 	}()
 
@@ -91,7 +91,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 		}
 	}
 
-	log.Infof("Scrolling begin:worker=%s", jsons.JsonMarshalString(worker))
+	log.Infof("Scrolling begin:worker=%s", jsoner.JsonMarshalString(worker))
 
 	var runningIdMap sync.Map
 	runningQueue := make(chan int, runners)
@@ -99,25 +99,25 @@ func Scrolling(ctx context.Context, params *Params) error {
 	for {
 		start := time.Now()
 		// 循环滚动遍历数据
-		log.Infof("Scrolling batch begin:worker=%s", jsons.JsonMarshalString(worker))
+		log.Infof("Scrolling batch begin:worker=%s", jsoner.JsonMarshalString(worker))
 		results, err := params.QueryFunc(ctx, worker.PreId)
 		if err != nil {
-			log.Errorf("Scrolling query error:worker=%s", jsons.JsonMarshalString(worker))
+			log.Errorf("Scrolling query error:worker=%s", jsoner.JsonMarshalString(worker))
 			time.Sleep(time.Second)
 			continue
 		}
 		if results == nil {
-			log.Infof("Scrolling query nil:worker=%s", jsons.JsonMarshalString(worker))
+			log.Infof("Scrolling query nil:worker=%s", jsoner.JsonMarshalString(worker))
 			break
 		}
 		kind := reflect.TypeOf(results).Kind()
 		if kind != reflect.Slice && kind != reflect.Array {
-			log.Errorf("Scrolling query unsupported result type:worker=%s", jsons.JsonMarshalString(worker))
+			log.Errorf("Scrolling query unsupported result type:worker=%s", jsoner.JsonMarshalString(worker))
 			break
 		}
 		slice := reflect.ValueOf(results)
 		if slice.Len() < 1 {
-			log.Infof("Scrolling query empty:worker=%s", jsons.JsonMarshalString(worker))
+			log.Infof("Scrolling query empty:worker=%s", jsoner.JsonMarshalString(worker))
 			break
 		}
 
@@ -148,7 +148,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 						stack := make([]byte, 4096)
 						size := runtime.Stack(stack, false)
 						log.Errorf("Scrolling each panic:id=%d, r=%v, stack=%v",
-							jsons.JsonMarshalString(worker), r, string(stack[:size]))
+							jsoner.JsonMarshalString(worker), r, string(stack[:size]))
 					}
 					<-runningQueue
 					wg.Done()
@@ -179,12 +179,12 @@ func Scrolling(ctx context.Context, params *Params) error {
 
 		time.Sleep(time.Millisecond * 10)
 		saveProgress(params, &runningIdMap, worker) // 保存进度
-		log.Infof("Scrolling batch done:worker=%s", jsons.JsonMarshalString(worker))
+		log.Infof("Scrolling batch done:worker=%s", jsoner.JsonMarshalString(worker))
 		atomic.AddInt64(&worker.CostMs, int64(time.Since(start)/time.Millisecond))
 	}
 	wg.Wait()
 	saveProgress(params, &runningIdMap, worker) // 保存进度
-	log.Infof("Scrolling done:worker=%s", jsons.JsonMarshalString(worker))
+	log.Infof("Scrolling done:worker=%s", jsoner.JsonMarshalString(worker))
 	return nil
 }
 
@@ -209,13 +209,13 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		worker.Qps = worker.Total * 1000 / worker.CostMs
 	}
 	log.Infof("Scrolling saveProgress:saveId=%d,worker=%s",
-		saveId, jsons.JsonMarshalString(worker))
+		saveId, jsoner.JsonMarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {
 		_ = configdal.UpdateConfigNotEmpty(context.Background(), &configdal.ConfigDO{
 			Config: params.ConfigKey,
 			Num:    saveId,
-			Value:  jsons.JsonMarshalString(worker),
+			Value:  jsoner.JsonMarshalString(worker),
 		})
 	}
 }

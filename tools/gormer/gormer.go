@@ -2,7 +2,7 @@ package gormer
 
 import (
 	"github.com/ewingtsai/go-web/utils/converter"
-	"github.com/ewingtsai/go-web/utils/strutil"
+	"github.com/ewingtsai/go-web/utils/stringer"
 	"gorm.io/gorm"
 	"strings"
 )
@@ -27,7 +27,7 @@ func WhereIfHasLen(db *gorm.DB, where string, arg string) *gorm.DB {
 }
 
 func WhereIfHasText(db *gorm.DB, where string, arg string) *gorm.DB {
-	return WhereIfTrue(db, strutil.HasText(arg), where, arg)
+	return WhereIfTrue(db, stringer.HasText(arg), where, arg)
 }
 
 func LikeStartWith(value string) string {

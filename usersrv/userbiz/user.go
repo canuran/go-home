@@ -4,9 +4,9 @@ import (
 	"context"
 	"github.com/ewingtsai/go-web/common/consts"
 	"github.com/ewingtsai/go-web/common/hinterr"
-	"github.com/ewingtsai/go-web/tools/errer"
 	"github.com/ewingtsai/go-web/utils/encoders"
-	"github.com/ewingtsai/go-web/utils/strutil"
+	"github.com/ewingtsai/go-web/utils/errorer"
+	"github.com/ewingtsai/go-web/utils/stringer"
 	log "github.com/sirupsen/logrus"
 	"strings"
 	"time"
@@ -72,7 +72,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		return nil
 	}
 	// 参数校验
-	user.Name = strutil.StandardizeString(user.Name)
+	user.Name = stringer.StandardizeString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
 		return hinterr.Format("用户名不能为空")
@@ -83,7 +83,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	if len(user.Password) > 32 {
 		return hinterr.Format("用户密码太长")
 	}
-	if user.Password != strutil.StandardizeString(user.Password) {
+	if user.Password != stringer.StandardizeString(user.Password) {
 		return hinterr.Format("密码格式不正确")
 	}
 	if len(user.Header) > 5120 {
@@ -93,14 +93,14 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	// 业务逻辑
 	userParam := &userdal.UserParam{}
 	existsUser, err := GetUserByName(ctx, user.Name)
-	if errer.LogIfErr(err) {
+	if errorer.LogIfErr(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
 		oldUser, err := GetUserById(ctx, user.ID)
-		if errer.LogIfErr(err) {
+		if errorer.LogIfErr(err) {
 			return err
 		}
 		if oldUser == nil {

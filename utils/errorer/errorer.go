@@ -1,4 +1,4 @@
-package errer
+package errorer
 
 import (
 	log "github.com/sirupsen/logrus"

@@ -1,19 +1,19 @@
-package jsons
+package jsoner
 
 import (
 	"encoding/json"
-	"github.com/ewingtsai/go-web/tools/errer"
+	"github.com/ewingtsai/go-web/utils/errorer"
 )
 
 func JsonMarshal(val interface{}) []byte {
 	bts, err := json.Marshal(val)
-	errer.LogIfErr(err)
+	errorer.LogIfErr(err)
 	return bts
 }
 
 func JsonUnmarshal(bts []byte, val interface{}) {
 	err := json.Unmarshal(bts, val)
-	errer.LogIfErr(err)
+	errorer.LogIfErr(err)
 }
 
 func JsonMarshalString(val interface{}) string {

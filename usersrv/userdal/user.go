@@ -2,9 +2,9 @@ package userdal
 
 import (
 	"context"
-	"github.com/ewingtsai/go-web/tools/errer"
 	"github.com/ewingtsai/go-web/tools/gormer"
-	"github.com/ewingtsai/go-web/utils/strutil"
+	"github.com/ewingtsai/go-web/utils/errorer"
+	"github.com/ewingtsai/go-web/utils/stringer"
 	"time"
 
 	"github.com/ewingtsai/go-web/config"
@@ -40,7 +40,7 @@ type UserParam struct {
 func Init() {
 	// 迁移 schema
 	gormDB := config.GetDB(context.Background())
-	errer.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
+	errorer.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
 }
 
 func SaveUser(ctx context.Context, userParam *UserParam) error {
@@ -90,7 +90,7 @@ func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
 	}
 	if userParam.Entity != nil {
 		db = gormer.WhereIfGtZero(db, "id = ?", userParam.Entity.ID)
-		db = gormer.WhereIfTrue(db, strutil.HasText(gormer.RemoveWildcard(userParam.Entity.Name)),
+		db = gormer.WhereIfTrue(db, stringer.HasText(gormer.RemoveWildcard(userParam.Entity.Name)),
 			"name like ?", gormer.LikeStartWith(userParam.Entity.Name))
 		db = gormer.WhereIfGtZero(db, "status = ?", userParam.Entity.Status)
 		db = gormer.WhereIfHasText(db, "gender = ?", userParam.Entity.Gender)

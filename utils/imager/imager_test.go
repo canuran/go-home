@@ -1,16 +1,16 @@
-package images
+package imager
 
 import (
 	"bytes"
 	"fmt"
-	"github.com/ewingtsai/go-web/tools/errer"
+	"github.com/ewingtsai/go-web/utils/errorer"
 	"io/ioutil"
 	"testing"
 )
 
 func TestImageResize(t *testing.T) {
 	fileBts, err := ioutil.ReadFile("test.jpg")
-	if errer.LogIfErr(err) {
+	if errorer.LogIfErr(err) {
 		return
 	}
 	for i := 80; i < 120; i++ {

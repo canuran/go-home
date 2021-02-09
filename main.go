@@ -24,7 +24,7 @@ func main() {
 	// 静态目录
 	engine.Static(consts.WebPath, "web")
 	// 指定文件
-	engine.StaticFile("/favicon.ico", consts.WebPath+"/images/favicon.ico")
+	engine.StaticFile("/favicon.ico", consts.WebPath+"/image/favicon.ico")
 
 	// 注册路由
 	engine.NoRoute(home)

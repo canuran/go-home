@@ -1,4 +1,4 @@
-package errer
+package errorer
 
 import (
 	"fmt"
