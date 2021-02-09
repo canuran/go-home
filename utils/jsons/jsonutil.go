@@ -2,18 +2,18 @@ package jsons
 
 import (
 	"encoding/json"
-	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/tools/errer"
 )
 
 func JsonMarshal(val interface{}) []byte {
 	bts, err := json.Marshal(val)
-	common.LogIfErr(err)
+	errer.LogIfErr(err)
 	return bts
 }
 
 func JsonUnmarshal(bts []byte, val interface{}) {
 	err := json.Unmarshal(bts, val)
-	common.LogIfErr(err)
+	errer.LogIfErr(err)
 }
 
 func JsonMarshalString(val interface{}) string {

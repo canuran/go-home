@@ -2,14 +2,14 @@ package userbiz
 
 import (
 	"context"
-	"fmt"
+	"github.com/ewingtsai/go-web/common/consts"
+	"github.com/ewingtsai/go-web/common/hinterr"
+	"github.com/ewingtsai/go-web/tools/errer"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/strutil"
 	log "github.com/sirupsen/logrus"
 	"strings"
 	"time"
-
-	"github.com/ewingtsai/go-web/common"
 
 	"github.com/ewingtsai/go-web/config"
 	"github.com/ewingtsai/go-web/usersrv/userdal"
@@ -75,40 +75,39 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	user.Name = strutil.StandardizeString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
-		return fmt.Errorf("用户名不能为空")
+		return hinterr.Format("用户名不能为空")
 	}
 	if len(user.Name) > 32 {
-		return fmt.Errorf("用户名太长")
+		return hinterr.Format("用户名太长")
 	}
 	if len(user.Password) > 32 {
-		return fmt.Errorf("用户密码太长")
+		return hinterr.Format("用户密码太长")
 	}
 	if user.Password != strutil.StandardizeString(user.Password) {
-		return fmt.Errorf("密码格式不正确")
+		return hinterr.Format("密码格式不正确")
 	}
 	if len(user.Header) > 5120 {
-		return fmt.Errorf("头像图片太大")
+		return hinterr.Format("头像图片太大")
 	}
 
 	// 业务逻辑
-	userParam := &userdal.UserParam{Entity: UserBO2PO(user)}
-	userParam.OmitFields = append(userParam.OmitFields, "auth_version")
+	userParam := &userdal.UserParam{}
 	existsUser, err := GetUserByName(ctx, user.Name)
-	if common.LogIfErr(err) {
+	if errer.LogIfErr(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
 		oldUser, err := GetUserById(ctx, user.ID)
-		if common.LogIfErr(err) {
+		if errer.LogIfErr(err) {
 			return err
 		}
 		if oldUser == nil {
-			return fmt.Errorf("用户%d不存在", user.ID)
+			return hinterr.Format("用户%d不存在", user.ID)
 		}
 		if existsUser != nil && existsUser.ID != user.ID {
-			return fmt.Errorf("用户名%s已存在", user.Name)
+			return hinterr.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
 			userParam.OmitFields = append(userParam.OmitFields, "header")
@@ -118,21 +117,23 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		} else {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
+		userParam.OmitFields = append(userParam.OmitFields, "auth_version")
 	} else {
 		// 新增用户
 		if existsUser != nil {
-			return fmt.Errorf("用户名%s已存在", user.Name)
+			return hinterr.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
-			user.Header = common.DefaultHeader
+			user.Header = consts.DefaultHeader
 		}
 		if len(user.Password) < 1 {
-			return fmt.Errorf("用户密码不能为空")
+			return hinterr.Format("用户密码不能为空")
 		} else {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 	}
 
+	userParam.Entity = UserBO2PO(user)
 	return config.Transaction(ctx, func(ctx context.Context) error {
 		return userdal.SaveUser(ctx, userParam)
 	})

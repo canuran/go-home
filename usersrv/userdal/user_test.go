@@ -3,8 +3,8 @@ package userdal
 import (
 	"context"
 	"fmt"
-	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/config"
+	"github.com/ewingtsai/go-web/tools/errer"
 	"github.com/ewingtsai/go-web/utils/jsons"
 	"testing"
 )
@@ -25,7 +25,7 @@ func TestSaveUser(t *testing.T) {
 		Offset:       0,
 		Limit:        2,
 	})
-	if common.TestingErr(t, err) {
+	if errer.TestingErr(t, err) {
 		return
 	}
 }
@@ -41,7 +41,7 @@ func TestQueryUser(t *testing.T) {
 		Offset:       0,
 		Limit:        2,
 	})
-	if common.TestingErr(t, err) {
+	if errer.TestingErr(t, err) {
 		return
 	}
 	fmt.Println(jsons.JsonMarshalString(users))

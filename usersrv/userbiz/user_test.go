@@ -3,7 +3,7 @@ package userbiz
 import (
 	"context"
 	"fmt"
-	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/tools/errer"
 	"github.com/ewingtsai/go-web/usersrv/userdal"
 	"github.com/ewingtsai/go-web/utils/jsons"
 	"testing"
@@ -21,7 +21,7 @@ func TestSaveUser(t *testing.T) {
 	err := SaveUser(context.Background(), &UserBO{
 		ID: 123, Name: "元宝", Password: "yb",
 	})
-	common.TestingErr(t, err)
+	errer.TestingErr(t, err)
 }
 
 func TestQueryUser(t *testing.T) {
@@ -29,19 +29,19 @@ func TestQueryUser(t *testing.T) {
 	users, err := QueryUser(context.Background(), &UserBO{
 		ID: 123, Name: "元宝",
 	}, 0, 2)
-	common.TestingErr(t, err)
+	errer.TestingErr(t, err)
 	fmt.Println(jsons.JsonMarshalString(users))
 }
 
 func TestCountUser(t *testing.T) {
 	InitTest()
 	users, err := CountUser(context.Background(), nil)
-	common.TestingErr(t, err)
+	errer.TestingErr(t, err)
 	fmt.Println(users)
 }
 
 func TestDeleteUser(t *testing.T) {
 	InitTest()
 	err := DeleteUser(context.Background(), &UserBO{ID: 1})
-	common.TestingErr(t, err)
+	errer.TestingErr(t, err)
 }

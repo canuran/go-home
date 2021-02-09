@@ -6,8 +6,3 @@ type Response struct {
 	Totals  int64       `json:"totals,omitempty"`
 	Data    interface{} `json:"data,omitempty"`
 }
-
-type CaptchaInfo struct {
-	Encode string `json:"encode,omitempty"`
-	Image string `json:"image,omitempty"`
-}

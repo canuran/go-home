@@ -3,14 +3,14 @@ package images
 import (
 	"bytes"
 	"fmt"
-	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/tools/errer"
 	"io/ioutil"
 	"testing"
 )
 
 func TestImageResize(t *testing.T) {
 	fileBts, err := ioutil.ReadFile("test.jpg")
-	if common.LogIfErr(err) {
+	if errer.LogIfErr(err) {
 		return
 	}
 	for i := 80; i < 120; i++ {

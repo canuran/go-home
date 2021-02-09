@@ -1,4 +1,4 @@
-package common
+package errer
 
 import (
 	log "github.com/sirupsen/logrus"

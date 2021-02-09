@@ -2,7 +2,8 @@ package userdal
 
 import (
 	"context"
-	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/tools/errer"
+	"github.com/ewingtsai/go-web/tools/gormer"
 	"github.com/ewingtsai/go-web/utils/strutil"
 	"time"
 
@@ -39,7 +40,7 @@ type UserParam struct {
 func Init() {
 	// 迁移 schema
 	gormDB := config.GetDB(context.Background())
-	common.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
+	errer.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
 }
 
 func SaveUser(ctx context.Context, userParam *UserParam) error {
@@ -88,11 +89,11 @@ func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
 		db = db.Omit(userParam.OmitFields...)
 	}
 	if userParam.Entity != nil {
-		db = common.WhereIfGtZero(db, "id = ?", userParam.Entity.ID)
-		db = common.WhereIfTrue(db, strutil.HasText(common.RemoveWildcard(userParam.Entity.Name)),
-			"name like ?", common.LikeStartWith(userParam.Entity.Name))
-		db = common.WhereIfGtZero(db, "status = ?", userParam.Entity.Status)
-		db = common.WhereIfHasText(db, "gender = ?", userParam.Entity.Gender)
+		db = gormer.WhereIfGtZero(db, "id = ?", userParam.Entity.ID)
+		db = gormer.WhereIfTrue(db, strutil.HasText(gormer.RemoveWildcard(userParam.Entity.Name)),
+			"name like ?", gormer.LikeStartWith(userParam.Entity.Name))
+		db = gormer.WhereIfGtZero(db, "status = ?", userParam.Entity.Status)
+		db = gormer.WhereIfHasText(db, "gender = ?", userParam.Entity.Gender)
 	}
 	if userParam.Offset > 0 {
 		db = db.Offset(userParam.Offset)

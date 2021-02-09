@@ -2,7 +2,7 @@ package userapi
 
 import (
 	"bytes"
-	"github.com/ewingtsai/go-web/common"
+	"github.com/ewingtsai/go-web/tools/giner"
 	"github.com/ewingtsai/go-web/usersrv/userbiz"
 	"github.com/ewingtsai/go-web/utils/converter"
 	"github.com/ewingtsai/go-web/utils/encoders"
@@ -69,19 +69,19 @@ func User(group *gin.RouterGroup) {
 
 func filterName(c *gin.Context) {
 	name := c.PostForm("name")
-	common.GinSuccessData(c, strutil.StandardizeRunes([]rune(name)))
+	giner.GinSuccessData(c, strutil.StandardizeRunes([]rune(name)))
 }
 
 func saveUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if common.GinHandleErr(c, err) {
+	if giner.GinHandleErr(c, err) {
 		return
 	}
 	headerImg, err := c.FormFile("header_file")
 	if err == nil {
 		headerFile, err := headerImg.Open()
-		if common.GinHandleErr(c, err) {
+		if giner.GinHandleErr(c, err) {
 			return
 		}
 		var buffer bytes.Buffer
@@ -93,32 +93,32 @@ func saveUser(c *gin.Context) {
 			OutFormat:     "jpg",
 			MaxJpgOutByte: userbiz.MaxHeaderSize*0.75 - 20,
 		})
-		if common.GinHandleErr(c, err) {
+		if giner.GinHandleErr(c, err) {
 			return
 		}
 		bts := buffer.Bytes()
 		user.Header = string(encoders.Base64Encode(bts))
 	}
 	err = userbiz.SaveUser(c, UserVO2BO(user))
-	if common.GinHandleErr(c, err) {
+	if giner.GinHandleErr(c, err) {
 		return
 	}
-	common.GinSuccess(c)
+	giner.GinSuccess(c)
 }
 
 func queryUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if common.GinHandleErr(c, err) {
+	if giner.GinHandleErr(c, err) {
 		return
 	}
 
 	if c.PostForm("count") == "true" {
 		totals, err := userbiz.CountUser(c, UserVO2BO(user))
-		if common.GinHandleErr(c, err) {
+		if giner.GinHandleErr(c, err) {
 			return
 		}
-		common.GinSuccessTotals(c, totals)
+		giner.GinSuccessTotals(c, totals)
 		return
 	}
 
@@ -127,21 +127,21 @@ func queryUser(c *gin.Context) {
 	limit := int(converter.Int64ify(pSize))
 	offset := int(converter.Int64ify(cPage))*limit - limit
 	users, err := userbiz.QueryUser(c, UserVO2BO(user), offset, limit)
-	if common.GinHandleErr(c, err) {
+	if giner.GinHandleErr(c, err) {
 		return
 	}
-	common.GinSuccessData(c, users)
+	giner.GinSuccessData(c, users)
 }
 
 func deleteUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if common.GinHandleErr(c, err) {
+	if giner.GinHandleErr(c, err) {
 		return
 	}
 	err = userbiz.DeleteUser(c, UserVO2BO(user))
-	if common.GinHandleErr(c, err) {
+	if giner.GinHandleErr(c, err) {
 		return
 	}
-	common.GinSuccess(c)
+	giner.GinSuccess(c)
 }

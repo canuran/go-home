@@ -1,4 +1,4 @@
-package common
+package consts
 
 const (
 	CodeOk      = 0

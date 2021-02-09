@@ -1,8 +1,8 @@
 package authjwt
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/ewingtsai/go-web/common/hinterr"
 	"time"
 )
 
@@ -60,5 +60,5 @@ func ParseToken(tokenStr string) (*JwtClaims, error) {
 	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
 		return claims, nil
 	}
-	return nil, fmt.Errorf("invalid json web token")
+	return nil, hinterr.New("身份验证信息已失效")
 }
