@@ -152,6 +152,31 @@ func FormatFloat32(float float32) string {
 	return FormatFloat(float64(float))
 }
 
+// 把byte切片平均分成count个小切片
+func SplitBytes(bts []byte, count int) [][]byte {
+	results := make([][]byte, 0, count)
+	each := len(bts) / count
+	mod := len(bts) % count
+	index := 0
+
+	for count > 0 {
+		count--
+		end := index + each
+		// 余数表示多出来的，划分到前mod个切片
+		if mod > 0 {
+			end++
+			mod--
+		}
+		if end > len(bts) {
+			end = len(bts)
+		}
+		results = append(results, bts[index:end])
+		index = end
+	}
+	return results
+}
+
+// 从字符串中提取整数
 func Int64Slice(input []rune) []int64 {
 	var res []int64
 	var numPre bool

@@ -1,4 +1,4 @@
-package configdal
+package dalconfig
 
 import (
 	"context"

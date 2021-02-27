@@ -6,9 +6,23 @@ import (
 	"unsafe"
 )
 
+// 是否包含文本字符
 func HasText(value string) bool {
-	for _, char := range []rune(value) {
-		if !unicode.IsSpace(char) {
+	return HasTextRunes([]rune(value))
+}
+
+// 是否包含文本字符
+func HasTextPtr(value *string) bool {
+	if value == nil {
+		return false
+	}
+	return HasTextRunes([]rune(*value))
+}
+
+// 是否包含文本字符
+func HasTextRunes(runes []rune) bool {
+	for _, r := range runes {
+		if !unicode.IsSpace(r) {
 			return true
 		}
 	}
@@ -101,4 +115,69 @@ func FastString2Bytes(s string) (b []byte) {
 	bytesPtr.Len = stringPtr.Len
 	bytesPtr.Cap = stringPtr.Len
 	return
+}
+
+// 移除空白字符，即使是中文全角空格
+func RemoveAllSpace(input []rune) string {
+	newRunes := make([]rune, 0, len(input))
+	for _, r := range input {
+		if !unicode.IsSpace(r) {
+			newRunes = append(newRunes, r)
+		}
+	}
+	return string(newRunes)
+}
+
+// 安全子字符串
+func SubstringSafely(input string, from int, to int) string {
+	runes := []rune(input)
+	length := len(runes)
+	if length == 0 {
+		return ""
+	}
+
+	if from < 0 {
+		from = 0
+	} else if from >= length {
+		return ""
+	}
+
+	if to < 0 {
+		return ""
+	} else if to >= length {
+		to = length
+	}
+
+	return string(runes[from:to])
+}
+
+// 是否整数或小数
+func IsNumber(s []rune) bool {
+	preNum := false
+	dotFound := false
+	maxIndex := len(s) - 1
+	for i, v := range s {
+		if v == '-' { // 负号
+			if i > 0 || i == maxIndex {
+				return false
+			}
+			continue
+		}
+		if v == '.' { // 浮点
+			if dotFound || !preNum {
+				return false
+			}
+			if i == 0 || i == maxIndex {
+				return false
+			}
+			dotFound = true
+			continue
+		}
+		if v < '0' || v > '9' { // 数字
+			return false
+		} else {
+			preNum = true
+		}
+	}
+	return true
 }
