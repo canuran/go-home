@@ -2,20 +2,9 @@ package encoders
 
 import (
 	"bytes"
-	"crypto/md5"
 	"encoding/base64"
-	"encoding/hex"
 	"io"
 )
-
-func Md5(input []byte) []byte {
-	bts := md5.Sum(input)
-	return bts[:]
-}
-
-func Md5String(input []byte) string {
-	return hex.EncodeToString(Md5(input))
-}
 
 func Base64EncodeString(data []byte) string {
 	return string(Base64Encode(data))

@@ -1,8 +1,19 @@
 package encoders
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"hash/fnv"
 )
+
+func Md5(input []byte) []byte {
+	bts := md5.Sum(input)
+	return bts[:]
+}
+
+func Md5String(input []byte) string {
+	return hex.EncodeToString(Md5(input))
+}
 
 func StringHash64(input string) int64 {
 	hash := StringHashU64(input)
