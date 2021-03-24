@@ -24,7 +24,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
             options.renderPageVersion = options.renderPageVersion || false;
             options.listenSwichCallback = options.listenSwichCallback || function () {
             };
-            var href = location.hash.replace(/^#\//, '');
+            var href = location.hash.replace(/^#\/([^?]*).*/, '$1');
             if (href === null || href === undefined || href === '') {
                 miniPage.renderHome(options);
             } else {
@@ -93,7 +93,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
          * @param options
          */
         refresh: function (options) {
-            var href = location.hash.replace(/^#\//, '');
+            var href = location.hash.replace(/^#\/([^?]*).*/, '$1');
             if (href === null || href === undefined || href === '') {
                 miniPage.renderHome(options);
             } else {
@@ -295,7 +295,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
             options.listenSwichCallback = options.listenSwichCallback || function () {
             };
             window.onhashchange = function () {
-                var href = location.hash.replace(/^#\/([^?]*)[?]?.*/, '$1');
+                var href = location.hash.replace(/^#\/([^?]*).*/, '$1');
                 if (typeof options.listenSwichCallback === 'function') {
                     options.listenSwichCallback();
                 }
