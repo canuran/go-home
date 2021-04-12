@@ -176,16 +176,46 @@
         });
     }
 
-    /*获取到Url里面的参数*/
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var strs = window.location.href.split("?", 2);
-        if (strs[1]) {
-            var r = strs[1].match(reg);
-            if (r != null)
-                return decodeURI(r[2]);
+    /*获取当前Url里面的参数*/
+    function getUrlParams() {
+        return getParamsByUrl(window.location.href);
+    }
+
+    /*获取指定Url里面的参数*/
+    function getParamsByUrl(url) {
+        var params = {}
+        var reg = /[?&](\w+)=([^&]*)/g;
+        var matches = (url || "").matchAll(reg);
+        for (var match of matches) {
+            params[match[1]] = decodeURIComponent(match[2]);
         }
-        return null;
+        return params;
+    }
+
+    function encodeUriParams(params) {
+        params = params || {};
+        var paramStr = ""
+        for (const key in params) {
+            var value = encodeURIComponent(params[key] || "");
+            if (value.length < 102400) {
+                paramStr += (paramStr ? "&" : "") + key + "=" + value;
+            } else {
+                console.log(paramStr + " too long");
+            }
+        }
+        return paramStr;
+    }
+
+    // 设置当前浏览器url参数
+    function setUrlParams(params) {
+        var paramStr = encodeUriParams(params);
+        paramStr = paramStr ? "?" + paramStr : paramStr;
+        var href = window.location.href;
+        var uriEnd = href.indexOf("?");
+        if (uriEnd > 0) {
+            href = window.location.href.substr(0, uriEnd);
+        }
+        window.history.replaceState({}, "", href + paramStr);
     }
 
     function gmTimeTemplate(cell, row, index, key) {
