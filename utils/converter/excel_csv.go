@@ -29,8 +29,11 @@ func ExcelToMap(reader io.Reader) (records []map[string]interface{}) {
 		fmt.Println(err)
 		return
 	}
-	name := xlsx.GetSheetName(1)
-	rows := xlsx.GetRows(name)
+	sheetMap := xlsx.GetSheetMap()
+	var rows [][]string
+	for _, name := range sheetMap {
+		rows = append(rows, xlsx.GetRows(name)...)
+	}
 	if len(rows) < 2 {
 		fmt.Println("empty data row")
 		return
