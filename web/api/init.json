@@ -1,6 +1,7 @@
 {
   "homeInfo": {
     "title": "首页",
+    "baseTitle": "用户平台",
     "href": "page/welcome.html"
   },
   "menuInfo": [

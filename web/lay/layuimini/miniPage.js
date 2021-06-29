@@ -100,7 +100,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
                 success: function (data) {
                     var menu = findMenuByHref(href, options.menuList);
                     if (menu && menu.title) {
-                        document.title = menu.title + " - " + options.logoInfo.title;
+                        document.title = menu.title + " - " + options.homeInfo.baseTitle;
                     }
                     $(container).html(data);
                     element.render();
