@@ -55,6 +55,7 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
                     miniPage.render({
                         homeInfo: data.homeInfo,
                         menuList: data.menuInfo,
+                        logoInfo: data.logoInfo,
                         multiModule: options.multiModule,
                         renderPageVersion: options.renderPageVersion,
                         menuChildOpen: options.menuChildOpen,

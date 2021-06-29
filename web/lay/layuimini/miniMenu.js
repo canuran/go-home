@@ -165,7 +165,6 @@ layui.define(["element", "laytpl", "jquery"], function (exports) {
                 headerMobileMenuHtml += me.compileMenu({
                     id: id,
                     menu: menu,
-                    id: id,
                     icon: val.icon,
                     title: val.title,
                 }, true);

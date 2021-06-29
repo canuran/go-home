@@ -10,6 +10,26 @@ layui.define(["form", "element", "jquery"], function (exports) {
         $ = layui.$,
         layer = layui.layer;
 
+    function findMenuByHref(href, menuList) {
+        let indexOf = href.indexOf("?");
+        if (indexOf > 0) {
+            href = href.substr(0, indexOf);
+        }
+        if (!menuList instanceof Array) {
+            return;
+        }
+        for (let menu of menuList) {
+            if (menu.href.indexOf(href) > -1) {
+                return menu;
+            }
+            if (menu.child instanceof Array) {
+                let res = findMenuByHref(href, menu.child);
+                if (res) {
+                    return res;
+                }
+            }
+        }
+    }
 
     var miniPage = {
 
@@ -78,6 +98,10 @@ layui.define(["form", "element", "jquery"], function (exports) {
                 type: 'get',
                 dataType: 'html',
                 success: function (data) {
+                    var menu = findMenuByHref(href, options.menuList);
+                    if (menu && menu.title) {
+                        document.title = menu.title + " - " + options.logoInfo.title;
+                    }
                     $(container).html(data);
                     element.render();
                     form.render();
