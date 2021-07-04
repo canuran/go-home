@@ -10,17 +10,15 @@ import (
 
 func TestGetJson(t *testing.T) {
 	Convey("description", t, func() {
-		Convey("description", func() {
-			patches := ApplyFunc(json.Unmarshal,
-				func(in []byte, data interface{}) error {
-					pData := data.(*map[string]interface{})
-					*pData = map[string]interface{}{string(in): 123}
-					return nil
-				})
-			defer patches.Reset()
-			data, err := GetJson("abc")
-			ShouldNotBeNil(err)
-			println(jsoner.JsonMarshalString(data))
-		})
+		patches := ApplyFunc(json.Unmarshal,
+			func(in []byte, data interface{}) error {
+				pData := data.(*map[string]interface{})
+				*pData = map[string]interface{}{string(in): 123}
+				return nil
+			})
+		defer patches.Reset()
+		data, err := GetJson("abc")
+		ShouldNotBeNil(err)
+		println(jsoner.JsonMarshalString(data))
 	})
 }
