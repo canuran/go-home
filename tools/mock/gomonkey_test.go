@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestGetJson(t *testing.T) {
+func TestGetJsonMap(t *testing.T) {
 	Convey("description", t, func() {
 		patches := ApplyFunc(json.Unmarshal,
 			func(in []byte, data interface{}) error {
@@ -17,7 +17,7 @@ func TestGetJson(t *testing.T) {
 				return nil
 			})
 		defer patches.Reset()
-		data, err := GetJson("abc")
+		data, err := GetJsonMap("abc")
 		ShouldNotBeNil(err)
 		println(jsoner.JsonMarshalString(data))
 	})

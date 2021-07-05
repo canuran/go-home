@@ -1,6 +1,8 @@
 package mock
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 var (
 	// 依赖
@@ -18,7 +20,7 @@ func GetAB(in string) string {
 	return getAFunc(getBFunc(in))
 }
 
-func GetJson(in string) (interface{}, error) {
+func GetJsonMap(in string) (interface{}, error) {
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(in), &data)
 	data["extra"] = 250
