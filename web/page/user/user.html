@@ -123,7 +123,15 @@
 </template>
 
 <script type="application/javascript">
-    layui.use(['form', 'layer', 'element'], ready);
+    $(document).ready(function () {
+        // 监听搜索按钮
+        layui.form.on('submit(search-btn)', function (form) {
+            GridManager.setQuery('main-table', form.field);
+            return false;
+        });
+
+        loadTable();
+    });
 
     var statuses = {
         0: '<span style="color:gray">未知</span>',
@@ -133,16 +141,6 @@
 
     function statusTemplate(cell, row) {
         return statuses[row.status || 0] || row.status;
-    }
-
-    function ready() {
-        // 监听搜索按钮
-        layui.form.on('submit(search-btn)', function (form) {
-            GridManager.setQuery('main-table', form.field);
-            return false;
-        });
-
-        loadTable();
     }
 
     function initSelect() {

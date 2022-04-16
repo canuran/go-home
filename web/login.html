@@ -261,7 +261,7 @@
     var srvPath = "/srv"
     var webPath = "/web"
 
-    layui.use(['form', 'layer'], function () {
+    $(document).ready(function () {
         $('.icon-nocheck').on('click', function () {
             if ($(this).hasClass('icon-check')) {
                 $(this).removeClass('icon-check');
