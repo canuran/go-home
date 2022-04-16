@@ -3,7 +3,7 @@ package giner
 import (
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/common/consts"
-	"github.com/ewingtsai/go-web/common/hinterr"
+	"github.com/ewingtsai/go-web/common/showerr"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 
@@ -33,8 +33,8 @@ func GinFailureMessage(c *gin.Context, message string) {
 func GinHandleErr(c *gin.Context, err error) bool {
 	if err != nil {
 		log.Println(err)
-		// 只有 HintErr 可以直接展示给用户
-		if he, ok := err.(hinterr.HintErr); ok {
+		// 只有 ShowErr 可以直接展示给用户
+		if he, ok := err.(showerr.ShowErr); ok {
 			c.JSON(http.StatusOK, &common.Response{
 				Code:    he.Code,
 				Message: he.Error(),

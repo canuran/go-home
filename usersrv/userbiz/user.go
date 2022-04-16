@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/common/consts"
-	"github.com/ewingtsai/go-web/common/hinterr"
+	"github.com/ewingtsai/go-web/common/showerr"
 	"github.com/ewingtsai/go-web/generate/gormgen/model"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/errorer"
@@ -77,19 +77,19 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	user.Name = stringer.StandardizeString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
-		return hinterr.Format("用户名不能为空")
+		return showerr.Format("用户名不能为空")
 	}
 	if len(user.Name) > 32 {
-		return hinterr.Format("用户名太长")
+		return showerr.Format("用户名太长")
 	}
 	if len(user.Password) > 32 {
-		return hinterr.Format("用户密码太长")
+		return showerr.Format("用户密码太长")
 	}
 	if user.Password != stringer.StandardizeString(user.Password) {
-		return hinterr.Format("密码格式不正确")
+		return showerr.Format("密码格式不正确")
 	}
 	if len(user.Header) > 5120 {
-		return hinterr.Format("头像图片太大")
+		return showerr.Format("头像图片太大")
 	}
 
 	// 业务逻辑
@@ -106,10 +106,10 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 			return err
 		}
 		if oldUser == nil {
-			return hinterr.Format("用户%d不存在", user.ID)
+			return showerr.Format("用户%d不存在", user.ID)
 		}
 		if existsUser != nil && existsUser.ID != user.ID {
-			return hinterr.Format("用户名%s已存在", user.Name)
+			return showerr.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Password) > 0 {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
@@ -120,13 +120,13 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	} else {
 		// 新增用户
 		if existsUser != nil {
-			return hinterr.Format("用户名%s已存在", user.Name)
+			return showerr.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
 			user.Header = consts.DefaultHeader
 		}
 		if len(user.Password) < 1 {
-			return hinterr.Format("用户密码不能为空")
+			return showerr.Format("用户密码不能为空")
 		} else {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}

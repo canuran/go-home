@@ -2,7 +2,7 @@ package authjwt
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ewingtsai/go-web/common/hinterr"
+	"github.com/ewingtsai/go-web/common/showerr"
 	"time"
 )
 
@@ -60,5 +60,5 @@ func ParseToken(tokenStr string) (*JwtClaims, error) {
 	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
 		return claims, nil
 	}
-	return nil, hinterr.New("身份验证信息已失效")
+	return nil, showerr.New("身份验证信息已失效")
 }
