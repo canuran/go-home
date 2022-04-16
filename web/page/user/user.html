@@ -1,6 +1,5 @@
 <div class="layuimini-main">
-
-    <form class="layui-form layui-form-pane">
+    <form class="layui-form layui-form-pane" lay-filter="search-form">
         <div class="layui-form-item" style="margin-bottom:5px">
             <div class="layui-inline layui-col-sm2">
                 <label class="layui-form-label">用户ID</label>
@@ -29,7 +28,7 @@
             </div>
 
             <div class="layui-btn-group layui-col-sm4">
-                <button type="submit" class="layui-btn" lay-submit lay-filter="search-btn">
+                <button type="submit" class="layui-btn" lay-submit lay-filter="search-submit">
                     <i class="fa fa-search"></i>搜索
                 </button>
                 <button type="button" class="layui-btn layui-btn-normal" onclick="openEditWin()">
@@ -122,15 +121,37 @@
     </div>
 </template>
 
+<template id="user_detail">
+    <div class="layui-inline">
+        <img style="border-radius:5px;margin:20px;width:200px"
+             alt="无法显示" src="data:image;base64,{{header}}"/>
+    </div>
+    <div class="layui-inline" style="vertical-align:top;margin:25px">
+        <h2>{{name}}</h2>
+        <hr/>
+        <h3>性别：{{gender}}</h3>
+        <br/>
+        <h3>角色：{{role}}</h3>
+        <br/>
+        <h3>签名：{{sign}}</h3>
+        <br/>
+        <h3>更新时间：{{updated_at}}</h3>
+    </div>
+</template>
+
 <script type="application/javascript">
     $(document).ready(function () {
+        var params = getUrlParams();
+        layui.form.val('search-form', getUrlParams(params))
+
         // 监听搜索按钮
-        layui.form.on('submit(search-btn)', function (form) {
+        layui.form.on('submit(search-submit)', function (form) {
+            setUrlParams(form.field);
             GridManager.setQuery('main-table', form.field);
             return false;
         });
 
-        loadTable();
+        loadTable(params);
     });
 
     var statuses = {
@@ -156,13 +177,14 @@
     }
 
     // 加载表格
-    function loadTable() {
+    function loadTable(params) {
         // 单页面可能需要重新刷新
         GridManager.destroy('main-table');
-        var offset = $('#main-table').offset().top + 10;
+        var offset = $('#main-table').offset().top + 15;
         document.querySelector('#main-table').GM({
             gridManagerName: 'main-table',
             ajaxUrl: srvPath + "/user/query",
+            query: params,
             ajaxData: gmAjaxData,
             ajaxType: 'POST',
             height: '100vh - ' + offset + 'px',
@@ -186,17 +208,27 @@
                 {key: 'gender', text: '性别', width: '200px'},
                 {key: 'role', text: '角色', width: '200px'},
                 {key: 'sign', text: '签名', width: '300px', template: gmPreTemplate},
-                {key: 'updated_at', text: '更新时间', width: '200px', template: gmTimeTemplate},
-                {key: '_operate_', text: '操作', width: '135px', fixed: 'right', template: rowOperates}
-            ]
+                {key: 'updated_at', text: '更新时间', width: '200px', template: gmTimeTemplate, isShow: false},
+                {key: '_operate_', text: '操作', width: '150px', fixed: 'right', template: rowOperates}
+            ],
+            fullColumn: {
+                useFold: true,
+                fixed: 'left',
+                bottomTemplate: function (row, index) {
+                    var html = $('#user_detail').html().replaceAll("{{header}}", row.header);
+                    html = html.replaceAll("{{name}}", row.name).replaceAll("{{gender}}", row.gender);
+                    html = html.replaceAll("{{role}}", row.role).replaceAll("{{sign}}", row.sign);
+                    return html.replaceAll("{{updated_at}}", formatDateTime(row.updated_at));
+                }
+            },
         });
     }
 
     function rowOperates() {
-        return '<button class="layui-btn layui-btn-normal layui-btn-xs" ' +
+        return '<button class="layui-btn layui-btn-normal layui-btn-sm" ' +
             'onclick="openEditWin(this)">' +
             '<span class="fa fa-pencil"/>修改</button>' +
-            '<button class="layui-btn layui-btn-danger layui-btn-xs" ' +
+            '<button class="layui-btn layui-btn-danger layui-btn-sm" ' +
             'onclick="deleteAction(this)">' +
             '<span class="fa fa-remove"/>删除</button>';
     }

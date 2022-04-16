@@ -198,7 +198,7 @@
         for (const key in params) {
             var value = encodeURIComponent(params[key] || "");
             if (value.length < 102400) {
-                paramStr += (paramStr ? "&" : "") + key + "=" + value;
+                paramStr += value ? ((paramStr ? "&" : "") + key + "=" + value) : "";
             } else {
                 console.log(paramStr + " too long");
             }
@@ -213,25 +213,24 @@
         var href = window.location.href;
         var uriEnd = href.indexOf("?");
         if (uriEnd > 0) {
-            href = window.location.href.substr(0, uriEnd);
+            href = window.location.href.substring(0, uriEnd);
         }
         window.history.replaceState({}, "", href + paramStr);
     }
 
-    function gmTimeTemplate(cell, row, index, key) {
-        var value = row[key] || "";
+    function formatDateTime(value) {
         if (value && value.length > 19) {
             value = value.substring(0, 19)
         }
-        return value.replace("T", " ")
+        return value && value.replace("T", " ")
+    }
+
+    function gmTimeTemplate(cell, row, index, key) {
+        return formatDateTime(row[key]);
     }
 
     function gmPreTemplate(cell, row, index, key) {
         return '<pre>' + replaceHtmlTag(row[key]) + '</pre>'
-    }
-
-    function gmJsonTemplate(cell, row, index, key) {
-        return '<pre>' + replaceHtmlTag(JSON.stringify(row[key])) + '</pre>'
     }
 
     function replaceHtmlTag(input) {
@@ -243,7 +242,7 @@
         if (value && !value.startsWith("http") && !value.startsWith("data:")) {
             value = "data:image;base64," + value;
         }
-        return value ? "<img style='border-radius:25px' src='" + value +
+        return value ? "<img style='border-radius:50px' src='" + value +
             "' width='100%' onclick='openImgLayer(this)'/>" : ""
     }
 
