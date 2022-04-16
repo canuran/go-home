@@ -58,7 +58,6 @@ func BenchmarkGoja(b *testing.B) {
 	}
 }
 
-
 func BenchmarkGojaFunc(b *testing.B) {
 	row := map[string]interface{}{"detail": `{"type":"user"}`}
 	filter := getFilterFunc()
