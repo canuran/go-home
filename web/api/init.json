@@ -1,12 +1,12 @@
 {
   "homeInfo": {
     "title": "首页",
-    "baseTitle": "用户平台",
+    "baseTitle": "管理平台",
     "href": "page/welcome.html"
   },
   "menuInfo": [
     {
-      "title": "用户平台",
+      "title": "管理平台",
       "icon": "fa fa-user",
       "href": "",
       "target": "_self",
