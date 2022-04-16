@@ -2,8 +2,10 @@ package userbiz
 
 import (
 	"context"
+	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/common/consts"
 	"github.com/ewingtsai/go-web/common/hinterr"
+	"github.com/ewingtsai/go-web/generate/gormgen/model"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/errorer"
 	"github.com/ewingtsai/go-web/utils/stringer"
@@ -26,44 +28,44 @@ type UserBO struct {
 	Header      string    `json:"header,omitempty"` // 存储很小的头像
 	Gender      string    `json:"gender,omitempty"`
 	Role        string    `json:"role,omitempty"`
-	Status      int       `json:"status,omitempty"`
+	Status      int64     `json:"status,omitempty"`
 	Sign        string    `json:"sign,omitempty"`
 	AuthVersion int64     `json:"auth_version"`
 	UpdatedAt   time.Time `json:"updated_at,omitempty"`
 }
 
-func UserBO2PO(bo *UserBO) *userdal.UserPO {
-	if bo == nil {
+func UserBO2DO(user *UserBO) *model.User {
+	if user == nil {
 		return nil
 	}
-	return &userdal.UserPO{
-		ID:          bo.ID,
-		Name:        bo.Name,
-		Password:    bo.Password,
-		Header:      bo.Header,
-		Gender:      bo.Gender,
-		Role:        bo.Role,
-		Status:      bo.Status,
-		AuthVersion: bo.AuthVersion,
-		Sign:        bo.Sign,
+	return &model.User{
+		ID:          user.ID,
+		Name:        user.Name,
+		Password:    user.Password,
+		Header:      user.Header,
+		Gender:      user.Gender,
+		Role:        user.Role,
+		Status:      user.Status,
+		AuthVersion: user.AuthVersion,
+		Sign:        user.Sign,
 	}
 }
 
-func UserPO2BO(po *userdal.UserPO) *UserBO {
-	if po == nil {
+func UserDO2BO(user *model.User) *UserBO {
+	if user == nil {
 		return nil
 	}
 	return &UserBO{
-		ID:          po.ID,
-		Name:        po.Name,
-		Password:    po.Password,
-		Header:      po.Header,
-		Gender:      po.Gender,
-		Role:        po.Role,
-		Status:      po.Status,
-		AuthVersion: po.AuthVersion,
-		Sign:        po.Sign,
-		UpdatedAt:   po.UpdatedAt,
+		ID:          user.ID,
+		Name:        user.Name,
+		Password:    user.Password,
+		Header:      user.Header,
+		Gender:      user.Gender,
+		Role:        user.Role,
+		Status:      user.Status,
+		AuthVersion: user.AuthVersion,
+		Sign:        user.Sign,
+		UpdatedAt:   user.UpdatedAt,
 	}
 }
 
@@ -91,7 +93,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	}
 
 	// 业务逻辑
-	userParam := &userdal.UserParam{}
+	option := userdal.SaveOption{}
 	existsUser, err := GetUserByName(ctx, user.Name)
 	if errorer.LogIfErr(err) {
 		return err
@@ -109,15 +111,12 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		if existsUser != nil && existsUser.ID != user.ID {
 			return hinterr.Format("用户名%s已存在", user.Name)
 		}
-		if len(user.Header) < 1 {
-			userParam.OmitFields = append(userParam.OmitFields, "header")
-		}
-		if len(user.Password) < 1 {
-			userParam.OmitFields = append(userParam.OmitFields, "password")
-		} else {
+		if len(user.Password) > 0 {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
-		userParam.OmitFields = append(userParam.OmitFields, "auth_version")
+		option.OmitHeader = len(user.Header) < 1
+		option.OmitPassword = len(user.Password) < 1
+		option.OmitAuthVersion = true
 	} else {
 		// 新增用户
 		if existsUser != nil {
@@ -133,9 +132,8 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		}
 	}
 
-	userParam.Entity = UserBO2PO(user)
 	return config.Transaction(ctx, func(ctx context.Context) error {
-		return userdal.SaveUser(ctx, userParam)
+		return userdal.SaveUser(ctx, UserBO2DO(user), option)
 	})
 }
 
@@ -143,48 +141,52 @@ func GetUserById(ctx context.Context, id int64) (*UserBO, error) {
 	if id < 1 {
 		return nil, nil
 	}
-	userPo, err := userdal.QueryFirstUser(ctx,
-		&userdal.UserParam{Entity: &userdal.UserPO{ID: id}})
-	return UserPO2BO(userPo), err
+	userPo, err := userdal.QueryFirstUser(ctx, userdal.QueryOption{IdEq: id})
+	return UserDO2BO(userPo), err
 }
 
 func GetUserByName(ctx context.Context, name string) (*UserBO, error) {
 	if len(name) < 1 {
 		return nil, nil
 	}
-	userPo, err := userdal.QueryFirstUser(ctx,
-		&userdal.UserParam{Entity: &userdal.UserPO{Name: name}})
-	return UserPO2BO(userPo), err
+	userPo, err := userdal.QueryFirstUser(ctx, userdal.QueryOption{NameEq: name})
+	return UserDO2BO(userPo), err
 }
 
 func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO, error) {
-	userPos, err := userdal.QueryUser(ctx,
-		&userdal.UserParam{Entity: UserBO2PO(user),
-			Offset:     offset,
-			Limit:      limit,
-			OmitFields: []string{"password"}})
+	userPos, _, err := userdal.QueryUser(ctx, userdal.QueryOption{
+		IdEq:          user.ID,
+		NameStartWith: user.Name,
+		GenderEq:      user.Gender,
+		StatusEq:      user.Status,
+		OmitPassword:  true,
+	}, common.Pager{Offset: offset,
+		Limit:   limit,
+		GetRows: true})
 	userBos := make([]*UserBO, 0, len(userPos))
 	for _, po := range userPos {
-		userBos = append(userBos, UserPO2BO(po))
+		userBos = append(userBos, UserDO2BO(po))
 	}
 	return userBos, err
 }
 
 func CountUser(ctx context.Context, user *UserBO) (int64, error) {
-	return userdal.CountUser(ctx,
-		&userdal.UserParam{Entity: UserBO2PO(user)})
+	_, count, err := userdal.QueryUser(ctx, userdal.QueryOption{
+		IdEq:          user.ID,
+		NameStartWith: user.Name,
+		GenderEq:      user.Gender,
+		StatusEq:      user.Status,
+	}, common.Pager{GetCount: true})
+	return count, err
 }
 
 func DeleteUser(ctx context.Context, user *UserBO) error {
-	return userdal.DeleteUser(ctx, UserBO2PO(user))
+	return userdal.DeleteUser(ctx, UserBO2DO(user))
 }
 
 func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 	if user == nil || user.ID < 0 {
 		return nil
 	}
-	return userdal.SaveUser(ctx, &userdal.UserParam{
-		Entity:       &userdal.UserPO{ID: user.ID, AuthVersion: user.AuthVersion},
-		SelectFields: []string{"id", "auth_version"},
-	})
+	return userdal.UpdateAuthVersion(ctx, UserBO2DO(user))
 }

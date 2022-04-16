@@ -3,6 +3,7 @@ package converter
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -152,7 +153,7 @@ func FormatFloat32(float float32) string {
 	return FormatFloat(float64(float))
 }
 
-// 把byte切片平均分成count个小切片
+// SplitBytes 把byte切片平均分成count个小切片
 func SplitBytes(bts []byte, count int) [][]byte {
 	results := make([][]byte, 0, count)
 	each := len(bts) / count
@@ -176,7 +177,7 @@ func SplitBytes(bts []byte, count int) [][]byte {
 	return results
 }
 
-// 从字符串中提取整数
+// Int64Slice 从字符串中提取整数
 func Int64Slice(input []rune) []int64 {
 	var res []int64
 	var numPre bool
@@ -213,4 +214,9 @@ func Int64Slice(input []rune) []int64 {
 		}
 	}
 	return res
+}
+
+func RemoveSqlWildcard(value string) string {
+	value = strings.ReplaceAll(value, "%", "")
+	return strings.ReplaceAll(value, "_", "")
 }

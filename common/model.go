@@ -6,3 +6,10 @@ type Response struct {
 	Totals  int64       `json:"totals,omitempty"`
 	Data    interface{} `json:"data,omitempty"`
 }
+
+type Pager struct {
+	Offset   int
+	Limit    int
+	GetRows  bool
+	GetCount bool
+}

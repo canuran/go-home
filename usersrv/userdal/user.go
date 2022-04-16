@@ -2,112 +2,129 @@ package userdal
 
 import (
 	"context"
-	"github.com/ewingtsai/go-web/tools/gormer"
-	"github.com/ewingtsai/go-web/utils/errorer"
-	"github.com/ewingtsai/go-web/utils/stringer"
-	"time"
-
+	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/config"
-	"gorm.io/gorm"
+	"github.com/ewingtsai/go-web/generate/gormgen/model"
+	"github.com/ewingtsai/go-web/generate/gormgen/query"
+	"github.com/ewingtsai/go-web/utils/converter"
+	"gorm.io/gen/field"
 )
 
-type UserPO struct {
-	ID          int64     `json:"id,omitempty" gorm:"autoIncrement;primaryKey"`
-	Name        string    `json:"name,omitempty" gorm:"uniqueIndex;size:32"`
-	Password    string    `json:"password,omitempty" gorm:"size:32"`
-	Header      string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
-	Gender      string    `json:"gender,omitempty" gorm:"size:16"`
-	Role        string    `json:"role,omitempty" gorm:"size:32"`
-	Status      int       `json:"status,omitempty"`
-	AuthVersion int64     `json:"auth_version"`
-	Sign        string    `json:"sign,omitempty" gorm:"size:128"`
-	CreatedAt   time.Time `json:"created_at,omitempty"`
-	UpdatedAt   time.Time `json:"updated_at,omitempty" gorm:"index"`
+type SaveOption struct {
+	OmitHeader        bool
+	OmitPassword      bool
+	OmitAuthVersion   bool
+	SelectAuthVersion bool
 }
 
-func (m *UserPO) TableName() string {
-	return "user"
+type QueryOption struct {
+	IdEq          int64
+	NameEq        string
+	NameStartWith string
+	GenderEq      string
+	StatusEq      int64
+	OmitHeader    bool
+	OmitPassword  bool
 }
 
-type UserParam struct {
-	Entity       *UserPO
-	SelectFields []string
-	OmitFields   []string
-	Offset       int
-	Limit        int
-}
-
-func Init() {
-	// 迁移 schema
-	gormDB := config.GetDB(context.Background())
-	errorer.LogIfErr(gormDB.AutoMigrate(&UserPO{}))
-}
-
-func SaveUser(ctx context.Context, userParam *UserParam) error {
+func UpdateAuthVersion(ctx context.Context, user *model.User) error {
 	db := config.GetDB(ctx)
-	db = addUserParam(db, &UserParam{
-		SelectFields: userParam.SelectFields,
-		OmitFields:   userParam.OmitFields,
-	})
-	return db.Clauses(config.ConflictUpdateAll).
-		Create(userParam.Entity).Error
+	u := query.Use(db).User
+	_, err := u.Where(u.ID.Eq(user.ID)).
+		Update(u.AuthVersion, u.AuthVersion)
+	return err
 }
 
-func QueryUser(ctx context.Context, userParam *UserParam) ([]*UserPO, error) {
-	db := config.GetDB(ctx).Model(&UserPO{})
-	var users []*UserPO
-	db = addUserParam(db, userParam).Find(&users)
-	return users, db.Error
-}
+func SaveUser(ctx context.Context, user *model.User, option SaveOption) error {
+	db := config.GetDB(ctx)
+	u := query.Use(db).User
 
-func QueryFirstUser(ctx context.Context, userParam *UserParam) (*UserPO, error) {
-	if userParam != nil {
-		userParam.Limit = 1
+	var omitFields []field.Expr
+	if option.OmitHeader {
+		omitFields = append(omitFields, u.Header)
 	}
-	users, err := QueryUser(ctx, userParam)
+	if option.OmitPassword {
+		omitFields = append(omitFields, u.Password)
+	}
+	if option.OmitAuthVersion {
+		omitFields = append(omitFields, u.AuthVersion)
+	}
+
+	var selectFields []field.Expr
+	if option.SelectAuthVersion {
+		selectFields = append(selectFields, u.AuthVersion)
+	}
+
+	err := u.Select(selectFields...).
+		Omit(omitFields...).
+		Clauses(config.ConflictUpdateAll).
+		Save(user)
+	return err
+}
+
+func QueryUser(ctx context.Context, option QueryOption, pager common.Pager) ([]*model.User, int64, error) {
+	db := config.GetDB(ctx)
+	u := query.Use(db).User
+
+	var omitFields []field.Expr
+	if option.OmitHeader {
+		omitFields = append(omitFields, u.Header)
+	}
+	if option.OmitPassword {
+		omitFields = append(omitFields, u.Password)
+	}
+	udo := u.Omit(omitFields...)
+
+	if option.IdEq > 0 {
+		udo = udo.Where(u.ID.Eq(option.IdEq))
+	}
+	if len(option.NameEq) > 0 {
+		udo = udo.Where(u.Name.Eq(option.NameEq))
+	}
+	nameStartWith := converter.RemoveSqlWildcard(option.NameStartWith)
+	if len(nameStartWith) > 0 {
+		udo = udo.Where(u.Name.Like(nameStartWith + "%"))
+	}
+	if len(option.GenderEq) > 0 {
+		udo = udo.Where(u.Gender.Eq(option.GenderEq))
+	}
+	if option.StatusEq > 0 {
+		udo = udo.Where(u.Status.Eq(option.StatusEq))
+	}
+
+	var err error
+	var count int64
+	var data []*model.User
+	if pager.GetCount {
+		count, err = udo.Count()
+		if err != nil {
+			return data, count, err
+		}
+	}
+	if pager.GetRows && (!pager.GetCount || count > 0) {
+		data, err = udo.Find()
+		if err != nil {
+			return data, count, err
+		}
+	}
+	return data, count, err
+}
+
+func QueryFirstUser(ctx context.Context, option QueryOption) (*model.User, error) {
+	users, _, err := QueryUser(ctx, option,
+		common.Pager{Limit: 1, GetRows: true})
 	if len(users) > 0 {
 		return users[0], err
 	}
 	return nil, err
 }
 
-func CountUser(ctx context.Context, userParam *UserParam) (int64, error) {
-	db := config.GetDB(ctx).Model(&UserPO{})
-	var users int64
-	db = addUserParam(db, userParam).Count(&users)
-	return users, db.Error
-}
-
-func addUserParam(db *gorm.DB, userParam *UserParam) *gorm.DB {
-	if userParam == nil {
-		return db
-	}
-	if len(userParam.SelectFields) > 0 {
-		db = db.Select(userParam.SelectFields)
-	}
-	if len(userParam.OmitFields) > 0 {
-		db = db.Omit(userParam.OmitFields...)
-	}
-	if userParam.Entity != nil {
-		db = gormer.WhereIfGtZero(db, "id = ?", userParam.Entity.ID)
-		db = gormer.WhereIfTrue(db, stringer.HasText(gormer.RemoveWildcard(userParam.Entity.Name)),
-			"name like ?", gormer.LikeStartWith(userParam.Entity.Name))
-		db = gormer.WhereIfGtZero(db, "status = ?", userParam.Entity.Status)
-		db = gormer.WhereIfHasText(db, "gender = ?", userParam.Entity.Gender)
-	}
-	if userParam.Offset > 0 {
-		db = db.Offset(userParam.Offset)
-	}
-	if userParam.Limit > 0 {
-		db = db.Limit(userParam.Limit)
-	}
-	return db
-}
-
-func DeleteUser(ctx context.Context, user *UserPO) error {
+func DeleteUser(ctx context.Context, user *model.User) error {
 	if user == nil || user.ID < 1 {
 		return nil
 	}
-	db := config.GetDB(ctx).Delete(&user)
-	return db.Error
+	db := config.GetDB(ctx)
+	u := query.Use(db).User
+	_, err := u.Where(u.ID.Eq(user.ID)).Delete()
+	return err
 }

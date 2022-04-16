@@ -19,7 +19,7 @@ type UserVO struct {
 	Header    string    `json:"header,omitempty" gorm:"size:5120"` // 存储很小的头像
 	Gender    string    `json:"gender,omitempty" form:"gender"`
 	Role      string    `json:"role,omitempty" form:"role"`
-	Status    int       `json:"status,omitempty" form:"status"`
+	Status    int64     `json:"status,omitempty" form:"status"`
 	Sign      string    `json:"sign,omitempty" form:"sign"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }

@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/ewingtsai/go-web/config/dalconfig"
+	"github.com/ewingtsai/go-web/config/configdal"
 	"github.com/ewingtsai/go-web/utils/converter"
 	"github.com/ewingtsai/go-web/utils/jsoner"
 	log "github.com/sirupsen/logrus"
@@ -72,7 +72,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 	// 重置进度
 	if params.Reset {
 		if len(params.ConfigKey) > 0 {
-			_ = dalconfig.SaveConfig(ctx, &dalconfig.ConfigDO{
+			_ = configdal.SaveConfig(ctx, &configdal.ConfigDO{
 				Config: params.ConfigKey, Num: 0, Value: "{}",
 			})
 		}
@@ -80,12 +80,12 @@ func Scrolling(ctx context.Context, params *Params) error {
 
 	// 获取进度
 	if len(params.ConfigKey) > 0 {
-		Config, _ := dalconfig.GetConfig(context.Background(), params.ConfigKey)
+		Config, _ := configdal.GetConfig(context.Background(), params.ConfigKey)
 		if Config != nil {
 			_ = json.Unmarshal([]byte(Config.Value), worker)
 			worker.PreId = Config.Num
 		} else {
-			_ = dalconfig.SaveConfig(ctx, &dalconfig.ConfigDO{
+			_ = configdal.SaveConfig(ctx, &configdal.ConfigDO{
 				Config: params.ConfigKey, Num: 0, Value: "{}",
 			})
 		}
@@ -212,7 +212,7 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		saveId, jsoner.JsonMarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {
-		_ = dalconfig.UpdateConfigNotEmpty(context.Background(), &dalconfig.ConfigDO{
+		_ = configdal.UpdateConfigNotEmpty(context.Background(), &configdal.ConfigDO{
 			Config: params.ConfigKey,
 			Num:    saveId,
 			Value:  jsoner.JsonMarshalString(worker),

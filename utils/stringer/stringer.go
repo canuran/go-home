@@ -6,12 +6,12 @@ import (
 	"unsafe"
 )
 
-// 是否包含文本字符
+// HasText 是否包含文本字符
 func HasText(value string) bool {
 	return HasTextRunes([]rune(value))
 }
 
-// 是否包含文本字符
+// HasTextPtr 是否包含文本字符
 func HasTextPtr(value *string) bool {
 	if value == nil {
 		return false
@@ -19,7 +19,7 @@ func HasTextPtr(value *string) bool {
 	return HasTextRunes([]rune(*value))
 }
 
-// 是否包含文本字符
+// HasTextRunes 是否包含文本字符
 func HasTextRunes(runes []rune) bool {
 	for _, r := range runes {
 		if !unicode.IsSpace(r) {
@@ -29,7 +29,7 @@ func HasTextRunes(runes []rune) bool {
 	return false
 }
 
-// 去掉所有不可见字符
+// StandardizeRunes 去掉所有不可见字符
 // 去掉开头和结尾的空白字符
 // 单个或多个空白字符以单个空格代替
 func StandardizeRunes(input []rune) []rune {
@@ -80,7 +80,7 @@ func FastString2Bytes(s string) (b []byte) {
 	return
 }
 
-// 移除空白字符，即使是中文全角空格
+// RemoveAllSpace 移除空白字符，即使是中文全角空格
 func RemoveAllSpace(input []rune) string {
 	newRunes := make([]rune, 0, len(input))
 	for _, r := range input {
@@ -91,7 +91,7 @@ func RemoveAllSpace(input []rune) string {
 	return string(newRunes)
 }
 
-// 安全子字符串
+// SubstringSafely 安全子字符串
 func SubstringSafely(input string, from int, to int) string {
 	runes := []rune(input)
 	length := len(runes)
@@ -114,7 +114,7 @@ func SubstringSafely(input string, from int, to int) string {
 	return string(runes[from:to])
 }
 
-// 是否整数或小数
+// IsNumber 是否整数或小数
 func IsNumber(s []rune) bool {
 	preNum := false
 	dotFound := false
