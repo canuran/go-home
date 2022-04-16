@@ -15,7 +15,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
         if (indexOf > 0) {
             href = href.substr(0, indexOf);
         }
-        if (!menuList instanceof Array) {
+        if (!(menuList instanceof Array)) {
             return;
         }
         for (let menu of menuList) {
