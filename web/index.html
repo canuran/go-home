@@ -51,13 +51,11 @@
                 <li class="layui-nav-item layuimini-setting" style="margin-right:10px">
                     <a href="javascript:">
                         <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"/>
-                        <span id="loginerName">登陆</span>
+                        <span id="loginerName">点击登录</span>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a layuimini-content-href="page/user/user-profile.html" data-title="基本资料"
-                               data-icon="fa fa-gears">基本资料</a></dd>
-                        <dd><a layuimini-content-href="page/user/user-password.html" data-title="修改密码"
-                               data-icon="fa fa-gears">修改密码</a></dd>
+                               data-icon="fa fa-gears">用户设置</a></dd>
                         <dd>
                             <hr>
                         </dd>
@@ -140,7 +138,7 @@
         error: function (xhr) {
             if (xhr.status === 401) {
                 var loginerName = $('#loginerName');
-                loginerName.html('登陆');
+                loginerName.html('点击登录');
                 loginerName.click(openLoginLayer);
                 $('#loginerHeader').attr('src', 'data:image;base64,' + defaultHeader)
                 openLoginLayer()
@@ -150,21 +148,22 @@
         }
     });
 
-    var loginLayerIndex;
+    var loginIndex = 0;
 
     function openLoginLayer() {
-        loginLayerIndex = layui.layer.open({
+        loginIndex = loginIndex ? loginIndex : layui.layer.open({
             type: 2,
             resize: false,
             area: ['800px', '650px'],
-            title: '<i class="fa fa-list"></i> 请您登录',
+            title: '<i class="fa fa-list"></i> 用户登录',
             content: webPath + "/login.html"
         });
         return false;
     }
 
     function closeLoginLayer() {
-        layui.layer.close(loginLayerIndex);
+        layui.layer.close(loginIndex);
+        loginIndex = 0;
     }
 
     function updateLoginInfo() {
@@ -197,7 +196,7 @@
         var paramStr = ""
         for (const key in params) {
             var value = encodeURIComponent(params[key] || "");
-            if (value.length < 102400) {
+            if (value.length < 1024) {
                 paramStr += value ? ((paramStr ? "&" : "") + key + "=" + value) : "";
             } else {
                 console.log(paramStr + " too long");
