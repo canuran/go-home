@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-// 用于提示用户的错误
+// HintErr 用于提示用户的错误
 type HintErr struct {
 	error
 	Code int
