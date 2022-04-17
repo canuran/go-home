@@ -189,27 +189,35 @@
             ajaxType: 'POST',
             height: '100vh - ' + offset + 'px',
             width: '100%',
+            disableCache: false,
             supportAjaxPage: true,
             sizeData: [10, 20, 50, 100],
             supportCheckbox: false,
             supportMenu: true,
             useWordBreak: true,
             disableLine: true,
+            disableBorder: false,
             supportAutoOrder: false,
             asyncTotals: {
                 text: '加载中',
                 handler: gmAjaxTotals
             },
             columnData: [
-                {key: 'id', text: '用户ID', width: '80px', fixed: 'left', align: 'center'},
-                {key: 'name', text: '用户名', width: '200px'},
-                {key: 'header', text: '用户头像', width: '200px', template: gmHeaderTemplate},
-                {key: 'status', text: '状态', width: '200px', template: statusTemplate},
-                {key: 'gender', text: '性别', width: '200px'},
-                {key: 'role', text: '角色', width: '200px'},
-                {key: 'sign', text: '签名', width: '400px', template: gmPreTemplate},
-                {key: 'updated_at', text: '更新时间', width: '200px', template: gmTimeTemplate, isShow: false},
-                {key: '_operate_', text: '操作', width: '150px', fixed: 'right', template: rowOperates}
+                {key: 'id', text: '<strong>用户ID</strong>', width: '80px', fixed: 'left', template: gmStrongTemplate},
+                {key: 'name', text: '<strong>用户名</strong>', width: '200px'},
+                {key: 'header', text: '<strong>用户头像</strong>', width: '200px', template: gmHeaderTemplate},
+                {key: 'status', text: '<strong>状态</strong>', width: '200px', template: statusTemplate},
+                {key: 'gender', text: '<strong>性别</strong>', width: '200px'},
+                {key: 'role', text: '<strong>角色</strong>', width: '200px'},
+                {key: 'sign', text: '<strong>签名</strong>', width: '400px', template: gmPreTemplate},
+                {
+                    key: 'updated_at',
+                    text: '<strong>更新时间</strong>',
+                    width: '200px',
+                    template: gmTimeTemplate,
+                    isShow: false
+                },
+                {key: '_operate_', text: '<strong>操作</strong>', width: '160px', fixed: 'right', template: rowOperates}
             ],
             fullColumn: {
                 useFold: true,

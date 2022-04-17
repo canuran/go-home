@@ -8,8 +8,6 @@
     {
       "title": "管理平台",
       "icon": "fa fa-user",
-      "href": "",
-      "target": "_self",
       "child": [
         {
           "title": "主页",
@@ -22,14 +20,57 @@
           "href": "page/user/user.html",
           "icon": "fa fa-user",
           "target": "_self"
+        },
+        {
+          "title": "多级菜单",
+          "icon": "fa fa-th-list",
+          "child": [
+            {
+              "title": "二级菜单",
+              "icon": "fa fa-file-text",
+              "target": "_self"
+            },
+            {
+              "title": "二级菜单",
+              "icon": "fa fa-th-list",
+              "child": [
+                {
+                  "title": "三级菜单",
+                  "icon": "fa fa-file-text",
+                  "target": "_self"
+                },
+                {
+                  "title": "三级菜单",
+                  "icon": "fa fa-th-list",
+                  "target": "_self",
+                  "child": [
+                    {
+                      "title": "四级菜单",
+                      "icon": "fa fa-file-text",
+                      "target": "_self"
+                    },
+                    {
+                      "title": "四级菜单",
+                      "icon": "fa fa-file-text",
+                      "target": "_self"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "字体图标",
+          "href": "page/font-icon.html",
+          "icon": "fa fa-star",
+          "target": "_self"
         }
       ]
     },
     {
       "title": "平台配置",
       "icon": "fa fa-gears",
-      "href": "page/welcome.html",
-      "target": "_self",
       "child": [
         {
           "title": "主页",

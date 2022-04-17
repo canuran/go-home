@@ -6,20 +6,16 @@
  */
 layui.define(["form", "element", "jquery"], function (exports) {
     var element = layui.element,
-     form = layui.form,
+        form = layui.form,
         $ = layui.$,
         layer = layui.layer;
 
     function findMenuByHref(href, menuList) {
-        let indexOf = href.indexOf("?");
-        if (indexOf > 0) {
-            href = href.substr(0, indexOf);
-        }
         if (!(menuList instanceof Array)) {
             return;
         }
         for (let menu of menuList) {
-            if (menu.href.indexOf(href) > -1) {
+            if (menu.href && menu.href.indexOf(href) > -1) {
                 return menu;
             }
             if (menu.child instanceof Array) {
@@ -41,7 +37,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
             options.homeInfo = options.homeInfo || {};
             options.menuList = options.menuList || [];
             options.multiModule = options.multiModule || false;
-            options.renderPageVersion = options.renderPageVersion || false;
             options.listenSwichCallback = options.listenSwichCallback || function () {
             };
             var href = location.hash.replace(/^#\/([^?]*).*/, '$1');
@@ -66,7 +61,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
         renderHome: function (options) {
             options.homeInfo = options.homeInfo || {};
             options.homeInfo.href = options.homeInfo.href || '';
-            options.renderPageVersion = options.renderPageVersion || false;
             miniPage.renderPageContent(options.homeInfo.href, options);
         },
 
@@ -86,12 +80,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
          * @param href
          */
         renderPageContent: function (href, options) {
-            options.renderPageVersion = options.renderPageVersion || false;
             var container = '.layuimini-content-page';
-            if (options.renderPageVersion) {
-                var v = new Date().getTime();
-                href = href.indexOf("?") > -1 ? href + '&v=' + v : href + '?v=' + v;
-            }
             $(container).empty();
             $.ajax({
                 url: href,
@@ -106,7 +95,7 @@ layui.define(["form", "element", "jquery"], function (exports) {
                     element.render();
                     form.render();
                 },
-                error: function (xhr, textstatus, thrown) {
+                error: function (xhr, textStatus, thrown) {
                     return layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
                 }
             });
@@ -123,41 +112,6 @@ layui.define(["form", "element", "jquery"], function (exports) {
             } else {
                 miniPage.renderPageContent(href, options);
             }
-        },
-
-        /**
-         * 获取指定链接内容
-         * @param href
-         * @returns {string}
-         */
-        getHrefContent: function (href) {
-            var content = '';
-            var v = new Date().getTime();
-            $.ajax({
-                url: href.indexOf("?") > -1 ? href + '&v=' + v : href + '?v=' + v,
-                type: 'get',
-                dataType: 'html',
-                async: false,
-                success: function (data) {
-                    content = data;
-                },
-                error: function (xhr, textstatus, thrown) {
-                    return layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
-                }
-            });
-            return content;
-        },
-
-        /**
-         * 获取弹出层的宽高
-         * @returns {jQuery[]}
-         */
-        getOpenWidthHeight: function () {
-            var clienWidth = $(".layuimini-content-page").width();
-            var clientHeight = $(".layuimini-content-page").height();
-            var offsetLeft = $(".layuimini-content-page").offset().left;
-            var offsetTop = $(".layuimini-content-page").offset().top;
-            return [clienWidth, clientHeight, offsetTop, offsetLeft];
         },
 
         /**

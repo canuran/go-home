@@ -38,15 +38,13 @@ layui.define(["element", "laytpl", "jquery"], function (exports) {
         renderSingleModule: function (menuList, menuChildOpen) {
             menuList = menuList || [];
             var leftMenuHtml = '',
-                childOpenClass = '',
-                leftMenuCheckDefault = 'layui-this';
-            var me = this;
-            if (menuChildOpen) childOpenClass = ' layui-nav-itemed';
+                childOpenClass = menuChildOpen ? ' layui-nav-itemed' : '';
+
             leftMenuHtml = this.renderLeftMenu(menuList, {childOpenClass: childOpenClass});
             $('.layui-layout-body').addClass('layuimini-single-module'); //单模块标识
+
             $('.layuimini-header-menu').remove();
             $('.layuimini-menu-left').html(leftMenuHtml);
-
             element.init();
         },
 
@@ -54,6 +52,8 @@ layui.define(["element", "laytpl", "jquery"], function (exports) {
          * 渲染一级菜单
          */
         compileMenu: function (menu, isSub) {
+            menu.className = menu.className || '';
+            menu.childOpenClass = menu.childOpenClass || '';
             var menuHtml = '<li {{#if( d.menu){ }}  data-menu="{{d.menu}}" {{#}}} ' +
                 'class="layui-nav-item menu-li {{d.childOpenClass}} {{d.className}}" ' +
                 '{{#if( d.id){ }}  id="{{d.id}}" {{#}}}> <a {{#if( d.href){ }} layuimini-href="{{d.href}}" ' +
@@ -99,7 +99,6 @@ layui.define(["element", "laytpl", "jquery"], function (exports) {
                         {childOpenClass: options.childOpenClass || ''});
                 }
                 menu.className = "";
-                menu.childOpenClass = options.childOpenClass || ''
                 return me.compileMenu(menu, true)
             }).join("");
             return me.compileMenuContainer({children: html}, true)
@@ -110,7 +109,7 @@ layui.define(["element", "laytpl", "jquery"], function (exports) {
             var leftMenusHtml = me.each(leftMenus || [], function (idx, leftMenu) { // 左侧菜单遍历
                 var children = me.renderChildrenMenu(leftMenu.child,
                     {childOpenClass: options.childOpenClass});
-                var leftMenuHtml = me.compileMenu({
+                return me.compileMenu({
                     href: leftMenu.href,
                     target: leftMenu.target,
                     childOpenClass: options.childOpenClass,
@@ -118,7 +117,6 @@ layui.define(["element", "laytpl", "jquery"], function (exports) {
                     title: leftMenu.title,
                     children: children
                 });
-                return leftMenuHtml;
             }).join("");
 
             leftMenusHtml = me.compileMenuContainer({

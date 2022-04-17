@@ -23,7 +23,6 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
          * 后台框架初始化
          * @param options.iniUrl   后台初始化接口地址
          * @param options.clearUrl   后台清理缓存接口
-         * @param options.renderPageVersion 初始化页面是否加版本号
          * @param options.bgColorDefault 默认皮肤
          * @param options.multiModule 是否开启多模块
          * @param options.menuChildOpen 是否展开子菜单
@@ -32,7 +31,6 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
         render: function (options) {
             options.iniUrl = options.iniUrl || null;
             options.clearUrl = options.clearUrl || null;
-            options.renderPageVersion = options.renderPageVersion || false;
             options.bgColorDefault = options.bgColorDefault || 0;
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
@@ -56,7 +54,6 @@ layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme"], functio
                         homeInfo: data.homeInfo,
                         menuList: data.menuInfo,
                         multiModule: options.multiModule,
-                        renderPageVersion: options.renderPageVersion,
                         menuChildOpen: options.menuChildOpen,
                         listenSwichCallback: function () {
                             miniAdmin.renderDevice();
