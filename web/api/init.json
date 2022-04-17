@@ -24,7 +24,13 @@
         {
           "title": "字体图标",
           "href": "page/font-icon.html",
-          "icon": "fa fa-star",
+          "icon": "fa fa-chrome",
+          "target": "_self"
+        },
+        {
+          "title": "图片裁剪",
+          "href": "page/cropper.html",
+          "icon": "fa fa-image",
           "target": "_self"
         }
       ]

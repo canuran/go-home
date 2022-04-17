@@ -8,9 +8,9 @@
 
 #### Layui
 
-[查看示例](https://www.bejson.com/doc/layui/demo/index.html)
+[查看示例](http://layui.org.cn/demo/index.html)
 
-[查看文档](https://www.bejson.com/doc/layui/doc/index.html)
+[查看文档](http://layui.org.cn/doc/index.html)
 
 #### GridManager
 

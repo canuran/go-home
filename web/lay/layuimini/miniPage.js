@@ -4,10 +4,9 @@
  * version:2.0
  * description:layuimini 单页框架扩展
  */
-layui.define(["form", "element", "jquery"], function (exports) {
+layui.define(function (exports) {
     var element = layui.element,
         form = layui.form,
-        $ = layui.$,
         layer = layui.layer;
 
     function findMenuByHref(href, menuList) {

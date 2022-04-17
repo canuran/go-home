@@ -4,9 +4,8 @@
  * version:2.0
  * description:layuimini 菜单框架扩展
  */
-layui.define(["element", "laytpl", "jquery"], function (exports) {
+layui.define(function (exports) {
     var element = layui.element,
-        $ = layui.$,
         laytpl = layui.laytpl,
         layer = layui.layer;
 
