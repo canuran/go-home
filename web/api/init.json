@@ -22,6 +22,30 @@
           "target": "_self"
         },
         {
+          "title": "字体图标",
+          "href": "page/font-icon.html",
+          "icon": "fa fa-star",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "title": "平台配置",
+      "icon": "fa fa-gears",
+      "child": [
+        {
+          "title": "主页",
+          "href": "page/welcome.html",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "字典管理",
+          "href": "page/dict/dict.html",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
           "title": "多级菜单",
           "icon": "fa fa-th-list",
           "child": [
@@ -59,30 +83,6 @@
               ]
             }
           ]
-        },
-        {
-          "title": "字体图标",
-          "href": "page/font-icon.html",
-          "icon": "fa fa-star",
-          "target": "_self"
-        }
-      ]
-    },
-    {
-      "title": "平台配置",
-      "icon": "fa fa-gears",
-      "child": [
-        {
-          "title": "主页",
-          "href": "page/welcome.html",
-          "icon": "fa fa-home",
-          "target": "_self"
-        },
-        {
-          "title": "字典管理",
-          "href": "page/dict/dict.html",
-          "icon": "fa fa-home",
-          "target": "_self"
         }
       ]
     }
