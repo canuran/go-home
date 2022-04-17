@@ -2,14 +2,14 @@
 
 <div class="layui-card" style="margin:10px;padding:10px">
     <div class="layui-row">
-        <div class="layui-col-sm3">
+        <div class="layui-col-sm4">
             <label style="cursor:pointer;margin:10px">
                 <img id="avatar" src="image/logo.png" alt="avatar"
                      style="width:200px;border-radius:100px"/>
                 <input type="file" id="input" name="image" accept="image/*" hidden/>
             </label>
         </div>
-        <div class="layui-col-sm3">
+        <div class="layui-col-sm4">
             <div id="preview" style="width:200px;height:200px;border-radius:100px;overflow:hidden"></div>
         </div>
     </div>
@@ -91,8 +91,8 @@
         $('#crop').on('click', function () {
             if (cropper) {
                 var canvas = cropper.getCroppedCanvas({
-                    width: 200,
-                    height: 200,
+                    width: 500,
+                    height: 500,
                 });
                 avatar.src = canvas.toDataURL();
             }
