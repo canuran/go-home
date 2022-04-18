@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="image/favicon.ico">
     <link rel="stylesheet" href="lib/layui/css/layui.css" media="all">
     <style>
         .main-body {
@@ -145,7 +146,11 @@
         }
 
         body {
-            background: url(image/loginbg.jpg) 0 0 / cover no-repeat;
+            background-image: url(image/back.jpg);
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             position: static;
             font-size: 12px;
         }
@@ -241,7 +246,7 @@
                 <div id="validatePanel" class="item" style="width:160px">
                     <span class="icon icon-1"></span>
                     <input type="number" name="captcha_code" lay-verify="required" placeholder="请输入验证码"/>
-                    <img id="captchaImg" class="validateImg" src="image/captcha.jpg" onclick="refreshCaptcha()"/>
+                    <img id="captchaImg" class="validateImg" src="image/captcha.jpg"/>
                 </div>
             </div>
             <div class="layui-form-item" style="text-align:center;margin:0">
@@ -262,6 +267,56 @@
     var webPath = "/web"
 
     $(document).ready(function () {
+        function refreshCaptcha() {
+            $.get(srvPath + '/captcha', {}, function (data) {
+                $("input[name='captcha_code']").val("");
+                $("input[name='captcha_encode']").val(data.data && data.data.encode);
+                $('#captchaImg').attr('src', 'data:image;base64,' + (data.data && data.data.image));
+            });
+        }
+
+        function bindPassword() {
+            if ($(this).hasClass('icon-5')) {
+                $(this).removeClass('icon-5');
+                $("input[name='password']").attr('type', 'password');
+            } else {
+                $(this).addClass('icon-5');
+                $("input[name='password']").attr('type', 'text');
+            }
+        }
+
+        function submit(data) {
+            data = data.field;
+            // 密码混淆加强
+            data.password = md5(md5(data.password.repeat(8)) + data.captcha_code);
+            $.ajax({
+                url: srvPath + "/auth",
+                method: "post",
+                data: data,
+                dataType: "json",
+                success: function (result) {
+                    if (result && result.code === 0) {
+                        // 登陆完成清除控件密码
+                        $("input[name='password']").val("");
+                        if (top !== self && window.parent) {
+                            if (window.parent.closeLoginLayer) {
+                                window.parent.closeLoginLayer()
+                            }
+                            if (window.parent.updateLoginInfo) {
+                                window.parent.updateLoginInfo()
+                            }
+                        } else {
+                            window.location.href = webPath + "/index.html"
+                        }
+                    } else {
+                        layui.layer.msg(result.message, {icon: 2});
+                        refreshCaptcha();
+                    }
+                }
+            });
+            return false;
+        }
+
         $('.icon-nocheck').on('click', function () {
             if ($(this).hasClass('icon-check')) {
                 $(this).removeClass('icon-check');
@@ -270,62 +325,13 @@
             }
         });
 
-        refreshCaptcha();
         $('.bind-password').on('click', bindPassword);
+        $('#captchaImg').on('click', refreshCaptcha);
 
         // 进行登录操作
         layui.form.on('submit(login)', submit);
+        refreshCaptcha();
     });
-
-    function refreshCaptcha() {
-        $.get(srvPath + '/captcha', {}, function (data) {
-            $("input[name='captcha_code']").val("");
-            $("input[name='captcha_encode']").val(data.data && data.data.encode);
-            $('#captchaImg').attr('src', 'data:image;base64,' + (data.data && data.data.image));
-        });
-    }
-
-    function bindPassword() {
-        if ($(this).hasClass('icon-5')) {
-            $(this).removeClass('icon-5');
-            $("input[name='password']").attr('type', 'password');
-        } else {
-            $(this).addClass('icon-5');
-            $("input[name='password']").attr('type', 'text');
-        }
-    }
-
-    function submit(data) {
-        data = data.field;
-        // 密码混淆加强
-        data.password = md5(md5(data.password.repeat(8)) + data.captcha_code);
-        $.ajax({
-            url: srvPath + "/auth",
-            method: "post",
-            data: data,
-            dataType: "json",
-            success: function (result) {
-                if (result && result.code === 0) {
-                    // 登陆完成清除控件密码
-                    $("input[name='password']").val("");
-                    if (top !== self && window.parent) {
-                        if (window.parent.closeLoginLayer) {
-                            window.parent.closeLoginLayer()
-                        }
-                        if (window.parent.updateLoginInfo) {
-                            window.parent.updateLoginInfo()
-                        }
-                    } else {
-                        window.location.href = webPath + "/index.html"
-                    }
-                } else {
-                    layui.layer.msg(result.message, {icon: 2});
-                    refreshCaptcha();
-                }
-            }
-        });
-        return false;
-    }
 </script>
 </body>
 

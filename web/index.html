@@ -238,28 +238,6 @@
         return (input || "").replace(/</g, "&lt;").replace(/</g, "&gt;")
     }
 
-    function gmImageTemplate(cell, row, index, key) {
-        var value = row[key] || "";
-        if (value && !value.startsWith("http") && !value.startsWith("data:")) {
-            value = "data:image;base64," + value;
-        }
-        return value ? "<img style='border-radius:50px' src='" + value +
-            "' width='100%' onclick='openImgLayer(this)'/>" : ""
-    }
-
-    function openImgLayer(img) {
-        if (!img || !img.src) {
-            layui.layer.msg("无效操作", {icon: 2});
-        }
-        layui.layer.open({
-            type: 1,
-            area: '600px',
-            title: '<i class="fa fa-photo"></i> 查看图片',
-            shadeClose: true,
-            content: "<img width='100%' src='" + img.src + "' alt='" + img.alt + "'/>"
-        })
-    }
-
     function gmAjaxTotals(settings, params) {
         return new Promise(resolve => {
             params.count = true

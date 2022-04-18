@@ -1,51 +1,75 @@
+<!--该页由index.html加载，所有资源路径应该相对于index.html-->
 <link rel="stylesheet" href="lib/cropper/cropper.css">
+
+<style>
+    #avatar {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px
+    }
+
+    #preview {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        overflow: hidden
+    }
+
+    #avatar:hover {
+        filter: alpha(Opacity=80);
+        -moz-opacity: 0.8;
+        opacity: 0.8
+    }
+</style>
 
 <div class="layui-card" style="margin:10px;padding:10px">
     <div class="layui-row">
         <div class="layui-col-sm4">
             <label style="cursor:pointer;margin:10px">
-                <img id="avatar" src="image/logo.png" alt="avatar"
-                     style="width:200px;border-radius:100px"/>
+                <img id="avatar" src="image/back.jpg" alt="avatar"/>
                 <input type="file" id="input" name="image" accept="image/*" hidden/>
             </label>
         </div>
         <div class="layui-col-sm4">
-            <div id="preview" style="width:200px;height:200px;border-radius:100px;overflow:hidden"></div>
+            <div id="preview"></div>
         </div>
     </div>
 
     <div style="margin:10px;width:800px">
         <div class="layui-btn-group" style="margin:10px">
             <button class="layui-btn" id="crop">裁剪</button>
-            <button class="layui-btn layui-btn-warm" id="rotate">旋转</button>
-            <button class="layui-btn" id="scaleX">左右翻转</button>
-            <button class="layui-btn layui-btn-normal" id="scaleY">上下翻转</button>
-            <button class="layui-btn layui-btn-danger" id="cancel">取消</button>
+            <button class="layui-btn layui-btn-normal" id="rotateL">左旋转</button>
+            <button class="layui-btn layui-btn-warm" id="rotateR">右旋转</button>
+            <button class="layui-btn layui-btn-normal" id="scaleX">左右翻转</button>
+            <button class="layui-btn layui-btn-warm" id="scaleY">上下翻转</button>
         </div>
-        <img id="image" src="image/logo.png" width="800px" alt="avatar"/>
+        <img id="image" src="image/back.jpg" width="800px" alt="avatar"/>
     </div>
 </div>
 <script src="lib/cropper/cropper.js"></script>
 
-<script>
-    function newCropper(image) {
-        return new Cropper(image, {
-            aspectRatio: 1,
-            viewMode: 1,
-            preview: document.getElementById('preview')
-        });
-    }
-
+<script type="text/javascript">
     $(document).ready(function () {
         var avatar = document.getElementById('avatar');
         var image = document.getElementById('image');
+        var newCropper = function (image) {
+            return new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 1,
+                preview: document.getElementById('preview')
+            });
+        }
         var cropper = newCropper(image);
 
         $("#input").on('change', function (e) {
             var files = e.target.files;
             var done = function (url) {
                 image.src = url;
-                cropper.replace(url);
+                if (cropper) {
+                    cropper.replace(url);
+                } else {
+                    cropper = newCropper(image);
+                }
             };
 
             if (files && files.length) {
@@ -62,7 +86,13 @@
             }
         });
 
-        $('#rotate').on('click', function () {
+        $('#rotateL').on('click', function () {
+            if (cropper) {
+                cropper.rotate(-90);
+            }
+        });
+
+        $('#rotateR').on('click', function () {
             if (cropper) {
                 cropper.rotate(90);
             }
@@ -79,12 +109,6 @@
             if (cropper) {
                 var scaleY = cropper.getImageData().scaleY
                 cropper.scaleY(-(scaleY ? scaleY : 1));
-            }
-        });
-
-        $('#cancel').on('click', function () {
-            if (cropper) {
-                cropper.destroy();
             }
         });
 
