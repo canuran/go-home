@@ -1,16 +1,16 @@
-package configdal
+package repo
 
 import (
 	"context"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/generate/gormgen/model"
-	"github.com/ewingtsai/go-web/generate/gormgen/query"
+	"github.com/ewingtsai/go-web/generate/model"
+	"github.com/ewingtsai/go-web/generate/query"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
 func GetConfig(ctx context.Context, configKey string) (*model.Config, error) {
-	db := config.GetDB(ctx)
+	db, ctx := config.ApplyDB(ctx)
 	c := query.Use(db).Config
 	do, err := c.Where(c.Config.Eq(configKey)).First()
 	if err == gorm.ErrRecordNotFound {
@@ -27,7 +27,7 @@ func SaveConfig(ctx context.Context, configDO *model.Config) error {
 	if configDO == nil || len(configDO.Config) < 1 {
 		return nil
 	}
-	db := config.GetDB(ctx)
+	db, ctx := config.ApplyDB(ctx)
 	c := query.Use(db).Config
 	err := c.Clauses(config.ConflictUpdateAll).Create(configDO)
 	if err != nil {
@@ -41,7 +41,7 @@ func UpdateConfigNotEmpty(ctx context.Context, configDO *model.Config) error {
 	if configDO == nil || len(configDO.Config) < 1 {
 		return nil
 	}
-	db := config.GetDB(ctx)
+	db, ctx := config.ApplyDB(ctx)
 	c := query.Use(db).Config
 	_, err := c.Where(c.Config.Eq(configDO.Config)).
 		Updates(configDO)

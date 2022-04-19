@@ -1,17 +1,17 @@
-package userdal
+package repo
 
 import (
 	"context"
 	"fmt"
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/generate/gormgen/model"
+	"github.com/ewingtsai/go-web/generate/model"
 	"github.com/ewingtsai/go-web/utils/errorer"
 	"github.com/ewingtsai/go-web/utils/jsoner"
 	"testing"
 )
 
-const ddl = `drop table if exists user;
+const userDDL = `drop table if exists user;
 create table if not exists user
 (
     id           integer primary key autoincrement,
@@ -30,8 +30,8 @@ create index if not exists idx_user_updated_at on user (updated_at);`
 
 func init() {
 	config.InitTest()
-	gormDB := config.GetDB(context.Background())
-	errorer.LogIfErr(gormDB.Exec(ddl).Error)
+	gormDB, _ := config.ApplyDB(context.Background())
+	errorer.LogIfErr(gormDB.Exec(userDDL).Error)
 }
 
 func TestSaveUser(t *testing.T) {
@@ -49,7 +49,7 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestQueryUser(t *testing.T) {
-	users, count, err := QueryUser(context.Background(), QueryOption{
+	users, count, err := QueryUserPage(context.Background(), QueryOption{
 		NameEq:        "元宝",
 		NameStartWith: "元宝",
 		OmitHeader:    false,

@@ -1,15 +1,15 @@
-package configdal
+package repo
 
 import (
 	"context"
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/generate/gormgen/model"
+	"github.com/ewingtsai/go-web/generate/model"
 	"github.com/ewingtsai/go-web/utils/errorer"
 	"github.com/ewingtsai/go-web/utils/jsoner"
 	"testing"
 )
 
-const ddl = `drop table if exists config;
+const configDDL = `drop table if exists config;
 create table if not exists config
 (
     id         integer primary key autoincrement,
@@ -24,8 +24,8 @@ create index if not exists idx_config_updated_at on config (updated_at);`
 
 func init() {
 	config.InitTest()
-	gormDB := config.GetDB(context.Background())
-	errorer.LogIfErr(gormDB.Exec(ddl).Error)
+	gormDB, _ := config.ApplyDB(context.Background())
+	errorer.LogIfErr(gormDB.Exec(configDDL).Error)
 }
 
 func TestSaveConfig(t *testing.T) {

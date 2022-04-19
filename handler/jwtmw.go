@@ -1,9 +1,8 @@
-package authmw
+package handler
 
 import (
-	"github.com/ewingtsai/go-web/authsrv/authjwt"
 	"github.com/ewingtsai/go-web/common/consts"
-	"github.com/ewingtsai/go-web/usersrv/userbiz"
+	"github.com/ewingtsai/go-web/service"
 	"github.com/ewingtsai/go-web/utils/errorer"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -41,7 +40,7 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 解析JWT
-	claims, err := authjwt.ParseToken(tokenStr)
+	claims, err := service.ParseToken(tokenStr)
 	if errorer.LogIfErr(err) {
 		unauthorized(c)
 		return
@@ -53,7 +52,7 @@ func JWTAuthMW(c *gin.Context) {
 	}
 
 	// 验证登陆版本是否失效
-	user, err := userbiz.GetUserById(c, claims.ID)
+	user, err := service.GetUserById(c, claims.ID)
 	if errorer.LogIfErr(err) {
 		unauthorized(c)
 		return

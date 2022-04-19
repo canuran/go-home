@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"github.com/ewingtsai/go-web/generate/query"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -10,9 +11,11 @@ import (
 var (
 	debug             bool
 	gormDB            *gorm.DB
-	txDbKey           = "txDbKey"
+	ctxDbKey          = dbKey(1)
 	ConflictUpdateAll = clause.OnConflict{UpdateAll: true}
 )
+
+type dbKey int // 专属Key
 
 func Init() {
 	initGorm(sqlite.Open("web.db"))
@@ -30,43 +33,29 @@ func initGorm(dail gorm.Dialector) {
 	if err != nil {
 		panic("connect database fail")
 	}
+	query.SetDefault(gormDB)
 }
 
-func GetDB(ctx context.Context) *gorm.DB {
-	txDB, ok := ctx.Value(txDbKey).(*gorm.DB)
-	if txDB != nil && !ok {
-		return txDB
+// ApplyDB 从Context中获取DB对象
+// 如果没有DB对象则添加DB并且返回新的Context
+func ApplyDB(ctx context.Context) (*gorm.DB, context.Context) {
+	db, ok := ctx.Value(ctxDbKey).(*gorm.DB)
+	if db != nil && ok {
+		return db, ctx
 	}
+	db = gormDB
 	if debug {
-		return gormDB.Debug()
+		db = db.Debug()
 	}
-	return gormDB
+	return db, context.WithValue(ctx, ctxDbKey, db)
 }
 
-func Transaction(ctx context.Context, exec func(ctx context.Context) error) error {
-	txDB, ok := ctx.Value(txDbKey).(*gorm.DB)
-	// 尚未开启过事务
-	if txDB == nil || !ok {
-		if debug {
-			txDB = gormDB.Debug().Begin()
-		} else {
-			txDB = gormDB.Begin()
-		}
-		paniced := true
-		var err error
-		defer func() {
-			if paniced || err != nil {
-				txDB.Rollback()
-			}
-		}()
-		ctx = context.WithValue(ctx, txDbKey, txDB)
-		err = exec(ctx)
-		if err == nil {
-			err = txDB.Commit().Error
-		}
-		paniced = false
-		return err
-	}
-	// 已经包含在事务中了
-	return exec(ctx)
+// Transaction 开启并使用Context传递事务
+// 注意在使用WithDB时必须使用run函数的Context参数
+func Transaction(ctx context.Context, run func(ctx context.Context) error) error {
+	txDB, ctx := ApplyDB(ctx)
+	return txDB.Transaction(func(tx *gorm.DB) error {
+		ctx = context.WithValue(ctx, ctxDbKey, tx)
+		return run(ctx)
+	})
 }

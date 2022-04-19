@@ -1,8 +1,8 @@
-package gormgen
+package generate
 
 import (
 	"fmt"
-	"github.com/ewingtsai/go-web/generate/gormgen/query"
+	"github.com/ewingtsai/go-web/generate/query"
 	"github.com/ewingtsai/go-web/utils/jsoner"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gen"
@@ -15,7 +15,7 @@ import (
 func TestGormGen(t *testing.T) {
 	g := gen.NewGenerator(gen.Config{
 		OutPath: "query",
-		Mode:    gen.WithoutContext,
+		Mode:    gen.WithoutContext | gen.WithDefaultQuery,
 	})
 
 	// Sqlite必须注册类型映射

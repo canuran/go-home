@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"
 
-	"github.com/ewingtsai/go-web/generate/gormgen/model"
+	"github.com/ewingtsai/go-web/generate/model"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 )

@@ -1,14 +1,12 @@
 package main
 
 import (
-	"github.com/ewingtsai/go-web/authsrv/authapi"
-	"github.com/ewingtsai/go-web/authsrv/authmw"
 	"github.com/ewingtsai/go-web/common/consts"
+	"github.com/ewingtsai/go-web/handler"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/usersrv/userapi"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,9 +23,9 @@ func main() {
 	// 注册路由
 	engine.NoRoute(home)
 	group := engine.Group(consts.SrvPath)
-	group.Use(authmw.JWTAuthMW)
-	authapi.Auth(group)
-	userapi.User(group)
+	group.Use(handler.JWTAuthMW)
+	handler.Auth(group)
+	handler.User(group)
 
 	err := engine.Run(":80")
 	if err != nil {

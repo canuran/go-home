@@ -1,9 +1,9 @@
-package userapi
+package handler
 
 import (
 	"bytes"
-	"github.com/ewingtsai/go-web/tools/giner"
-	"github.com/ewingtsai/go-web/usersrv/userbiz"
+	"github.com/ewingtsai/go-web/common/giner"
+	"github.com/ewingtsai/go-web/service"
 	"github.com/ewingtsai/go-web/utils/converter"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/imager"
@@ -24,11 +24,11 @@ type UserVO struct {
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
 
-func UserVO2BO(bo *UserVO) *userbiz.UserBO {
+func UserVO2BO(bo *UserVO) *service.UserBO {
 	if bo == nil {
 		return nil
 	}
-	return &userbiz.UserBO{
+	return &service.UserBO{
 		ID:        bo.ID,
 		Name:      bo.Name,
 		Password:  bo.Password,
@@ -41,7 +41,7 @@ func UserVO2BO(bo *UserVO) *userbiz.UserBO {
 	}
 }
 
-func UserBO2VO(po *userbiz.UserBO) *UserVO {
+func UserBO2VO(po *service.UserBO) *UserVO {
 	if po == nil {
 		return nil
 	}
@@ -91,7 +91,7 @@ func saveUser(c *gin.Context) {
 			NewHeight:     100,
 			Writer:        &buffer,
 			OutFormat:     "jpg",
-			MaxJpgOutByte: userbiz.MaxHeaderSize*0.75 - 20,
+			MaxJpgOutByte: service.MaxHeaderSize*0.75 - 20,
 		})
 		if giner.GinHandleErr(c, err) {
 			return
@@ -99,7 +99,7 @@ func saveUser(c *gin.Context) {
 		bts := buffer.Bytes()
 		user.Header = string(encoders.Base64Encode(bts))
 	}
-	err = userbiz.SaveUser(c, UserVO2BO(user))
+	err = service.SaveUser(c, UserVO2BO(user))
 	if giner.GinHandleErr(c, err) {
 		return
 	}
@@ -114,7 +114,7 @@ func queryUser(c *gin.Context) {
 	}
 
 	if c.PostForm("count") == "true" {
-		totals, err := userbiz.CountUser(c, UserVO2BO(user))
+		totals, err := service.CountUser(c, UserVO2BO(user))
 		if giner.GinHandleErr(c, err) {
 			return
 		}
@@ -126,7 +126,7 @@ func queryUser(c *gin.Context) {
 	pSize := c.DefaultPostForm("pSize", "10")
 	limit := int(converter.Int64ify(pSize))
 	offset := int(converter.Int64ify(cPage))*limit - limit
-	users, err := userbiz.QueryUser(c, UserVO2BO(user), offset, limit)
+	users, err := service.QueryUser(c, UserVO2BO(user), offset, limit)
 	if giner.GinHandleErr(c, err) {
 		return
 	}
@@ -139,7 +139,7 @@ func deleteUser(c *gin.Context) {
 	if giner.GinHandleErr(c, err) {
 		return
 	}
-	err = userbiz.DeleteUser(c, UserVO2BO(user))
+	err = service.DeleteUser(c, UserVO2BO(user))
 	if giner.GinHandleErr(c, err) {
 		return
 	}

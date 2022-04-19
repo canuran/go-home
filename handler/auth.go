@@ -1,12 +1,11 @@
-package authapi
+package handler
 
 import (
 	"bytes"
 	"encoding/base64"
-	"github.com/ewingtsai/go-web/authsrv/authjwt"
 	"github.com/ewingtsai/go-web/common/consts"
-	"github.com/ewingtsai/go-web/tools/giner"
-	"github.com/ewingtsai/go-web/usersrv/userapi"
+	"github.com/ewingtsai/go-web/common/giner"
+	"github.com/ewingtsai/go-web/service"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/encriptor"
 	"math/rand"
@@ -14,7 +13,6 @@ import (
 	"time"
 
 	"github.com/dchest/captcha"
-	"github.com/ewingtsai/go-web/usersrv/userbiz"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,7 +32,7 @@ func Auth(group *gin.RouterGroup) {
 
 func authHandler(c *gin.Context) {
 	// 用户发送用户名和密码过来
-	var userParam userapi.UserVO
+	var userParam UserVO
 	err := c.ShouldBind(&userParam)
 	if giner.GinHandleErr(c, err) {
 		return
@@ -42,7 +40,7 @@ func authHandler(c *gin.Context) {
 	// 获取并解析验证码
 	captchaEncode := c.PostForm("captcha_encode")
 	captchaCode := c.PostForm("captcha_code")
-	claims, err := authjwt.ParseToken(captchaEncode)
+	claims, err := service.ParseToken(captchaEncode)
 	if err != nil {
 		giner.GinFailureMessage(c, "验证码过期")
 		return
@@ -57,7 +55,7 @@ func authHandler(c *gin.Context) {
 		return
 	}
 	// 校验用户名和密码是否正确
-	user, err := userbiz.GetUserByName(c, userParam.Name)
+	user, err := service.GetUserByName(c, userParam.Name)
 	if giner.GinHandleErr(c, err) {
 		return
 	}
@@ -74,12 +72,12 @@ func authHandler(c *gin.Context) {
 	if userParam.Password == pwdMd5 {
 		// 登陆版本号增加
 		user.AuthVersion++
-		err = userbiz.UpdateLoginIndex(c, user)
+		err = service.UpdateLoginIndex(c, user)
 		if giner.GinHandleErr(c, err) {
 			return
 		}
 		// 生成Token
-		tokenStr, err := authjwt.GenToken(&authjwt.JwtData{
+		tokenStr, err := service.GenToken(&service.JwtData{
 			ID:      user.ID,
 			Name:    user.Name,
 			Version: user.AuthVersion,
@@ -98,9 +96,9 @@ func authLogout(c *gin.Context) {
 	loginUser, ok := c.Get(consts.LoginUserKey)
 	if ok && loginUser != nil {
 		// 登陆版本号增加
-		user := loginUser.(*userbiz.UserBO)
+		user := loginUser.(*service.UserBO)
 		user.AuthVersion++
-		err := userbiz.UpdateLoginIndex(c, user)
+		err := service.UpdateLoginIndex(c, user)
 		if giner.GinHandleErr(c, err) {
 			return
 		}
@@ -124,7 +122,7 @@ func authCaptcha(c *gin.Context) {
 	if giner.GinHandleErr(c, err) {
 		return
 	}
-	encodeJwt, err := authjwt.GenTokenExpire(&authjwt.JwtData{
+	encodeJwt, err := service.GenTokenExpire(&service.JwtData{
 		Name: encoders.Base64EncodeString(encodeAes),
 	}, time.Now().Add(time.Minute*10))
 	if giner.GinHandleErr(c, err) {

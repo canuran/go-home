@@ -1,11 +1,12 @@
-package userbiz
+package service
 
 import (
 	"context"
 	"github.com/ewingtsai/go-web/common"
 	"github.com/ewingtsai/go-web/common/consts"
 	"github.com/ewingtsai/go-web/common/showerr"
-	"github.com/ewingtsai/go-web/generate/gormgen/model"
+	"github.com/ewingtsai/go-web/generate/model"
+	"github.com/ewingtsai/go-web/repo"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/errorer"
 	"github.com/ewingtsai/go-web/utils/stringer"
@@ -14,7 +15,6 @@ import (
 	"time"
 
 	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/usersrv/userdal"
 )
 
 const (
@@ -93,7 +93,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	}
 
 	// 业务逻辑
-	option := userdal.SaveOption{}
+	option := repo.SaveOption{}
 	existsUser, err := GetUserByName(ctx, user.Name)
 	if errorer.LogIfErr(err) {
 		return err
@@ -133,7 +133,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	}
 
 	return config.Transaction(ctx, func(ctx context.Context) error {
-		return userdal.SaveUser(ctx, UserBO2DO(user), option)
+		return repo.SaveUser(ctx, UserBO2DO(user), option)
 	})
 }
 
@@ -141,7 +141,7 @@ func GetUserById(ctx context.Context, id int64) (*UserBO, error) {
 	if id < 1 {
 		return nil, nil
 	}
-	userPo, err := userdal.QueryFirstUser(ctx, userdal.QueryOption{IdEq: id})
+	userPo, err := repo.QueryFirstUser(ctx, repo.QueryOption{IdEq: id})
 	return UserDO2BO(userPo), err
 }
 
@@ -149,12 +149,12 @@ func GetUserByName(ctx context.Context, name string) (*UserBO, error) {
 	if len(name) < 1 {
 		return nil, nil
 	}
-	userPo, err := userdal.QueryFirstUser(ctx, userdal.QueryOption{NameEq: name})
+	userPo, err := repo.QueryFirstUser(ctx, repo.QueryOption{NameEq: name})
 	return UserDO2BO(userPo), err
 }
 
 func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO, error) {
-	userPos, _, err := userdal.QueryUser(ctx, userdal.QueryOption{
+	userPos, _, err := repo.QueryUserPage(ctx, repo.QueryOption{
 		IdEq:          user.ID,
 		NameStartWith: user.Name,
 		GenderEq:      user.Gender,
@@ -171,7 +171,7 @@ func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO,
 }
 
 func CountUser(ctx context.Context, user *UserBO) (int64, error) {
-	_, count, err := userdal.QueryUser(ctx, userdal.QueryOption{
+	_, count, err := repo.QueryUserPage(ctx, repo.QueryOption{
 		IdEq:          user.ID,
 		NameStartWith: user.Name,
 		GenderEq:      user.Gender,
@@ -181,12 +181,12 @@ func CountUser(ctx context.Context, user *UserBO) (int64, error) {
 }
 
 func DeleteUser(ctx context.Context, user *UserBO) error {
-	return userdal.DeleteUser(ctx, UserBO2DO(user))
+	return repo.DeleteUser(ctx, UserBO2DO(user))
 }
 
 func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 	if user == nil || user.ID < 0 {
 		return nil
 	}
-	return userdal.UpdateAuthVersion(ctx, UserBO2DO(user))
+	return repo.UpdateAuthVersion(ctx, UserBO2DO(user))
 }
