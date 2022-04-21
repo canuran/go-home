@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="cn">
 
 <head>
     <meta charset="UTF-8">
     <title>管理平台</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="image/favicon.ico">
-    <link rel="stylesheet" href="lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="module/layui/css/layui.css" media="all">
     <style>
         .main-body {
             top: 50%;
@@ -259,14 +258,14 @@
 <div class="footer">
 </div>
 
-<script src="lib/layui/layui.js" charset="utf-8"></script>
-<script src="lib/jquery/jquery.js" charset="utf-8"></script>
-<script src="lib/jquery/md5.js" charset="utf-8"></script>
+<script src="module/layui/layui.js" charset="utf-8"></script>
+<script src="module/jquery/jquery.js" charset="utf-8"></script>
+<script src="module/jquery/md5.js" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
     var webPath = "/web"
 
-    $(document).ready(function () {
+    $(function () {
         function refreshCaptcha() {
             $.get(srvPath + '/captcha', {}, function (data) {
                 $("input[name='captcha_code']").val("");

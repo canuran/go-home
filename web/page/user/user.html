@@ -140,7 +140,7 @@
 </template>
 
 <script type="application/javascript">
-    $(document).ready(function () {
+    $(function () {
         var statuses = {
             0: '<span style="color:gray">未知</span>',
             1: '<span style="color:green">有效</span>',
@@ -240,8 +240,8 @@
 
         var gmHeaderTemplate = function (cell, row, index, key) {
             var value = row[key] || "";
-            return value ? "<img style='width:80px;border-radius:40px' src='data:image;base64,"
-                + value + "' alt='无法显示'/>" : ""
+            return value ? "<img style='width:80px;border-radius:40px' " +
+                "src='data:image;base64," + value + "' alt=''/>" : ""
         }
 
         var rowOperates = function () {
@@ -317,11 +317,12 @@
         }
 
         var params = getUrlParams();
-        layui.form.val('query-form', getUrlParams(params))
+        var defaultParam = layui.form.val('query-form');
+        layui.form.val('query-form', getUrlParams(params));
 
         // 监听搜索按钮
         layui.form.on('submit(query-submit)', function (form) {
-            setUrlParams(form.field);
+            setUrlParams(form.field, defaultParam);
             GridManager.setQuery('main-table', form.field);
             return false;
         });

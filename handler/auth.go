@@ -8,7 +8,6 @@ import (
 	"github.com/ewingtsai/go-web/service"
 	"github.com/ewingtsai/go-web/utils/encoders"
 	"github.com/ewingtsai/go-web/utils/encriptor"
-	"math/rand"
 	"strconv"
 	"time"
 
@@ -109,7 +108,7 @@ func authLogout(c *gin.Context) {
 
 func authCaptcha(c *gin.Context) {
 	// 生成图片转Base64
-	code := strconv.Itoa(rand.Intn(9000) + 1000)
+	code := strconv.Itoa(encoders.Random().Intn(9000) + 1000)
 	codeBts := []byte(code)
 	img := captcha.NewImage(code, digitBytes(codeBts), 150, 50)
 	var buffer bytes.Buffer

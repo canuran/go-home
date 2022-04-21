@@ -8,19 +8,17 @@
     <meta name="description" content="管理平台">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="image/favicon.ico">
-    <link rel="stylesheet" href="lib/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" media="all">
-    <link rel="stylesheet" href="css/layuimini.css" media="all">
-    <link rel="stylesheet" href="css/themes/default.css" media="all">
-    <link rel="stylesheet" href="lib/GridManager/index.css" media="all">
-    <style id="layuimini-bg-color">
-    </style>
+    <link rel="stylesheet" href="module/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="module/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="module/layuimini/layuimini.css" media="all">
+    <link rel="stylesheet" href="module/layuimini/themes/default.css" media="all">
+    <link rel="stylesheet" href="module/GridManager/index.css" media="all">
+    <style id="layuimini-bg-color"></style>
 </head>
 
 <body class="layui-layout-body layuimini-all">
@@ -47,12 +45,11 @@
             </ul>
 
             <ul class="layui-nav layui-layout-right">
-                <li class="layui-nav-item layuimini-setting" style="margin-right:10px">
+                <li id="user-profile" class="layui-nav-item layuimini-setting" style="margin-right:10px">
                     <a href="javascript:">
-                        <img id='loginerHeader' style="width:32px;height:32px;border-radius:16px"/>
-                        <span id="loginerName">点击登录</span>
+                        <span id="login-info"></span>
                     </a>
-                    <dl class="layui-nav-child">
+                    <dl class="layui-nav-child" hidden>
                         <dd><a layuimini-content-href="page/user/user-profile.html" data-title="基本资料"
                                data-icon="fa fa-gears">用户设置</a></dd>
                         <dd>
@@ -60,6 +57,11 @@
                         </dd>
                         <dd><a id="login-out">退出登录</a></dd>
                     </dl>
+                </li>
+                <li id="user-login" class="layui-nav-item" lay-unselect>
+                    <a href="javascript:">
+                        <span><i class="fa fa-user-circle"></i> 登录</span>
+                    </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
@@ -88,30 +90,14 @@
         <div class="layuimini-content-page"></div>
     </div>
 </div>
-<script src="lib/jquery/jquery.js" charset="utf-8"></script>
-<script src="lib/layui/layui.js" charset="utf-8"></script>
-<script src="lib/xm-select/xm-select.js" charset="utf-8"></script>
-<script src="lib/GridManager/index.js" charset="utf-8"></script>
-<script src="lay/lay-config.js" charset="utf-8"></script>
+<script src="module/jquery/jquery.js" charset="utf-8"></script>
+<script src="module/layui/layui.js" charset="utf-8"></script>
+<script src="module/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="module/GridManager/index.js" charset="utf-8"></script>
+<script src="module/lay-config.js" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
     var webPath = "/web"
-    var defaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +
-        "BQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIAGQAZAMBIgAC" +
-        "EQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQy" +
-        "gZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeI" +
-        "iYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEB" +
-        "AQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEK" +
-        "FiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Sl" +
-        "pqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP0tooooAKKKKACi" +
-        "iigAooooAKKKKACiiigAooooAKKKKACiiigAopk0yW8LyyMFjQFmY9hXm2ueLrvVJmWGRre1BwqIcEj1JoA9NxSV49b6ld2kgkiu" +
-        "ZUcc5DmvQPCfif8AtuNoJwFu4xkkcBx60AdDRRRQAUUUUAFFFFABRRRQAUUUUAc947uGh0BlU48yRUP05P8ASvNq9U8U6c2p6JPF" +
-        "GN0q4dR6kf8A1s15X0oAK1PDE7W+v2TJ/FIEP0PFZdb3grTnvdbil2/urf52b37CgD0yiiigAooooAKKKKACiiigAoopGYIpZiFU" +
-        "ckk4AoAWvNvHGnw2GsBoQFEyeYyDsc4P510GteO7az3RWQF1KON/8A/xrhL29m1C5ee4cySt1J/lQBDXq3hrT4dP0e3WIDMiCR3/" +
-        "ALxIrymug0DxhcaOiwSr9otR0UnDL9D/AEoA9KoqjpetWesR7raUMw6xnhl+oq9QAUUUUAFFFFABRRRQAteW+IfEl1rFxIhcx2ysQ" +
-        "sSng47n1r1KuPn+HUMkzul7IisxIUxg4/HNAHCUV3H/AAreP/oIP/36H+NH/Ct4/wDoIP8A9+h/jQBw9Fdx/wAK3j/6CD/9+h/jR/" +
-        "wreP8A6CD/APfof40AcVDPJbSrJE7RyLyGU4Ir0jwfrs2tWUouADNCQpcfxZ7/AF4rM/4VvH/0EH/79D/Gt3w94ej8PwyokrTNKw" +
-        "LMwx06cUAatFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH//"
 
     layui.use(['miniAdmin'], function () {
         var options = {
@@ -123,22 +109,21 @@
         };
 
         layui.miniAdmin.render(options);
-        updateLoginInfo();
 
         $('#login-out').on("click", function () {
             $.get(srvPath + '/logout', {}, function () {
                 window.location.href = webPath + "/login.html";
             });
         });
+        $('#user-login a').on("click", openLoginLayer);
+        updateLoginInfo();
     });
 
     $.ajaxSetup({
         error: function (xhr) {
             if (xhr.status === 401) {
-                var loginerName = $('#loginerName');
-                loginerName.html('点击登录');
-                loginerName.click(openLoginLayer);
-                $('#loginerHeader').attr('src', 'data:image;base64,' + defaultHeader)
+                $('#user-profile').hide();
+                $('#user-login').show();
                 openLoginLayer()
             } else {
                 layui.layer.msg("请求失败", {icon: 2})
@@ -154,22 +139,26 @@
             resize: false,
             area: ['800px', '650px'],
             title: '<i class="fa fa-list"></i> 用户登录',
-            content: webPath + "/login.html"
+            content: webPath + "/login.html",
+            cancel: function () {
+                loginIndex = 0;
+            }
         });
         return false;
     }
 
     function closeLoginLayer() {
         layui.layer.close(loginIndex);
-        loginIndex = 0;
     }
 
     function updateLoginInfo() {
         $.get(srvPath + '/loginer', {}, function (data) {
-            var loginerName = $('#loginerName');
-            loginerName.html(data.data && data.data.name);
-            loginerName.unbind('click');
-            $('#loginerHeader').attr('src', 'data:image;base64,' + (data.data && data.data.header))
+            $('#user-login').hide();
+            var headImg = data.data && data.data.header ?
+                '<img style="width:30px;height:30px;border-radius:15px" src="data:image;base64,' +
+                data.data.header + '" alt=""/> ' : '<i class="fa fa-user-circle"></i>';
+            $('#login-info').html(headImg + (data.data && data.data.name || ''));
+            $('#user-profile').show();
         });
     }
 
@@ -189,11 +178,16 @@
         return params;
     }
 
-    function encodeUriParams(params) {
+    function encodeUriParams(params, defaults) {
         params = params || {};
         var paramStr = ""
         for (const key in params) {
-            var value = encodeURIComponent(params[key] || "");
+            var value = params[key];
+            // 如果是默认值则不添加
+            if (value === defaults[key]) {
+                continue
+            }
+            value = encodeURIComponent(value || "");
             if (value.length < 1024) {
                 paramStr += value ? ((paramStr ? "&" : "") + key + "=" + value) : "";
             } else {
@@ -204,8 +198,8 @@
     }
 
     // 设置当前浏览器url参数
-    function setUrlParams(params) {
-        var paramStr = encodeUriParams(params);
+    function setUrlParams(params, defaults) {
+        var paramStr = encodeUriParams(params, defaults);
         paramStr = paramStr ? "?" + paramStr : paramStr;
         var href = window.location.href;
         var uriEnd = href.indexOf("?");
