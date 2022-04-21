@@ -6,7 +6,7 @@
 window.rootPath = (function () {
     for (let script of document.scripts) {
         if (script.src && script.src.indexOf("lay-config.js") > -1) {
-            return script.src.substring(0, script.src.lastIndexOf("/") + 1)
+            return script.src.substring(0, script.src.lastIndexOf("/") + 1);
         }
     }
     return "";
