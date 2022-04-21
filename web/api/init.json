@@ -23,13 +23,19 @@
         },
         {
           "title": "字体图标",
-          "href": "page/font-icon.html",
+          "href": "page/demo/font-icon.html",
           "icon": "fa fa-chrome",
           "target": "_self"
         },
         {
           "title": "图片裁剪",
-          "href": "page/cropper.html",
+          "href": "page/demo/cropper.html",
+          "icon": "fa fa-image",
+          "target": "_self"
+        },
+        {
+          "title": "日期选择",
+          "href": "page/demo/laydate.html",
           "icon": "fa fa-image",
           "target": "_self"
         }
