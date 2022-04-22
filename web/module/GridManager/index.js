@@ -52,9 +52,7 @@
   return (()=>{
    "use strict";
    o.r(n), o.d(n,{default:()=>Cr,jTool:()=>Q});
-   const e="jTool-create-dom",t={
-    "[object String]":"string","[object Boolean]":"boolean","[object Undefined]":"undefined","[object Number]":"number","[object Object]":"object","[object Error]":"error","[object Function]":"function","[object Date]":"date","[object Array]":"array","[object RegExp]":"regexp","[object Null]":"null","[object NodeList]":"nodeList","[object Arguments]":"arguments","[object Window]":"window","[object HTMLDocument]":"document"
-   },s=window,r=s.document,a=e=>e&&e===e.window,i=e=>e instanceof Element?"element":t[Object.prototype.toString.call(e)],c=()=>{
+   const e="jTool-create-dom",t={"[object String]":"string","[object Boolean]":"boolean","[object Undefined]":"undefined","[object Number]":"number","[object Object]":"object","[object Error]":"error","[object Function]":"function","[object Date]":"date","[object Array]":"array","[object RegExp]":"regexp","[object Null]":"null","[object NodeList]":"nodeList","[object Arguments]":"arguments","[object Window]":"window","[object HTMLDocument]":"document"},s=window,r=s.document,a=e=>e&&e===e.window,i=e=>e instanceof Element?"element":t[Object.prototype.toString.call(e)],c=()=>{
    },l=e=>e.jTool,d=(e,t)=>{
     const o=e.DOMList;
     if(!g(o)) return b(t)?o[t]:o
@@ -116,11 +114,7 @@
     })), t
    }
    function _(e){
-    let {
-     url:t,type:o,data:n,headers:s,async:r,xhrFields:a,beforeSend:i,complete:l,success:d,error:u
-    }=S({
-     url:null,type:"GET",data:null,headers:{},async:!0,xhrFields:{},beforeSend:c,complete:c,success:c,error:c
-    },e);
+    let {url:t,type:o,data:n,headers:s,async:r,xhrFields:a,beforeSend:i,complete:l,success:d,error:u}=S({url:null,type:"GET",data:null,headers:{},async:!0,xhrFields:{},beforeSend:c,complete:c,success:c,error:c},e);
     o=o.toUpperCase();
     const h=new XMLHttpRequest;
     let p;
@@ -151,9 +145,7 @@
     }
     const r=t.split(" "),a=[];
     return u(r,(e=>{
-     e.trim()&&a.push({
-      eventName:e+o,type:e.split(".")[0],querySelector:o,callback:n||c,useCapture:s|| !1
-     })
+     e.trim()&&a.push({eventName:e+o,type:e.split(".")[0],querySelector:o,callback:n||c,useCapture:s|| !1})
     })), a
    },E={
     on:function(e,t,o,n){
@@ -304,9 +296,7 @@
      const t=d(this,0);
      return e?l(e)&&(e=d(e)):e=t.parentNode.children, e?[].indexOf.call(e,t):-1
     }
-   },G="inline-block",W="table-cell",J={
-    TABLE:"table",THEAD:"table-header-group",TBODY:"table-row-group",TR:"table-row",TH:W,TD:W,SPAN:G,A:G,FONT:G,BUTTON:G,I:G
-   },U={
+   },G="inline-block",W="table-cell",J={TABLE:"table",THEAD:"table-header-group",TBODY:"table-row-group",TR:"table-row",TH:W,TD:W,SPAN:G,A:G,FONT:G,BUTTON:G,I:G},U={
     animate:function(e,t=0,o=c){
      let n="",s="",a=d(this,0);
      u(e,((e,t)=>{
@@ -417,9 +407,7 @@
      }))
     },At=(e,t,o,n)=>{
      const s=(e,t,o)=>{
-      const n=Q(".th-wrap",t),s=Q(".th-text",t),r=Mt(e,s.html(),{
-       fontSize:s.css("font-size"),fontWeight:s.css("font-weight"),fontFamily:s.css("font-family")
-      }),a=n.css("padding-left"),i=n.css("padding-right");
+      const n=Q(".th-wrap",t),s=Q(".th-text",t),r=Mt(e,s.html(),{fontSize:s.css("font-size"),fontWeight:s.css("font-weight"),fontFamily:s.css("font-family")}),a=n.css("padding-left"),i=n.css("padding-right");
       let c=0;
       if(o){
        const e=Q(`.${ze}`,t);
@@ -475,47 +463,17 @@
     },qt=(e,t,o)=>{
      const n=Object.keys(e),s=Object.keys(t);
      return m(o)?e[o]===t[o]:n.length===s.length&&n.every((o=>JSON.stringify(e[o])===JSON.stringify(t[o])))
-    },Kt=e=>JSON.parse(JSON.stringify(e)),Bt={},Ft={supportDrag:!0,dragBefore:c,dragAfter:c},It={supportMoveRow:!1,moveRowConfig:{handler:c}},Gt={supportAdjust:!0,adjustBefore:c,adjustAfter:c},Wt={supportMenu:!0,menuHandler:e=>e},Jt={supportConfig:!0,configInfo:"配置列的显示状态"},Ut={
-     width:"100%",height:"300px",lineHeight:"41px",animateTime:300,disableLine:!1,disableBorder:!1,loadingTemplate:'<section class="gm-loading"><div class="loader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none"></circle></svg></div></section>',skinClassName:"",useWordBreak:!1,isIconFollowText:!1
-    },Vt={rowHover:null,rowClick:null,cellHover:null,cellClick:null},Yt={disableCache:!0},Xt={
-     isCombSorting:!1,mergeSort:!1,sortKey:"sort_",sortData:{},sortUpText:"ASC",sortDownText:"DESC",sortMode:"overall",sortingBefore:c,sortingAfter:c
-    },Qt={
-     supportAjaxPage:!1,useNoTotalsMode:!1,sizeData:[10,20,30,50,100],pageSize:20,pageData:{},totalsKey:"totals",currentPageKey:"cPage",pageSizeKey:"pSize",pagingBefore:c,pagingAfter:c
-    },Zt={supportAutoOrder:!0,autoOrderConfig:{width:50}},eo={
-     supportCheckbox:!0,checkboxConfig:{width:40},checkedBefore:c,checkedAfter:c,checkedAllBefore:c,checkedAllAfter:c
-    },to={i18n:"zh-cn"},oo={supportTreeData:!1,treeConfig:{treeKey:"children",openState:!1}},no={
-     firstLoading:!0,virtualScroll:{useVirtualScroll:!1,virtualNum:20},ajaxType:"GET",query:{},ajaxHeaders:{},ajaxXhrFields:{},ajaxBeforeSend:c,ajaxSuccess:c,ajaxComplete:c,ajaxError:c,requestHandler:e=>e,responseHandler:e=>e,rowRenderHandler:(e,t)=>e,dataKey:"data",emptyTemplate:()=>'<div class="gm-empty-template">暂无数据</div>'
-    },so={supportExport:!0,exportConfig:{mode:"static",suffix:"xls",handler:c}},ro={supportPrint:!0};
+    },Kt=e=>JSON.parse(JSON.stringify(e)),Bt={},Ft={supportDrag:!0,dragBefore:c,dragAfter:c},It={supportMoveRow:!1,moveRowConfig:{handler:c}},Gt={supportAdjust:!0,adjustBefore:c,adjustAfter:c},Wt={supportMenu:!0,menuHandler:e=>e},Jt={supportConfig:!0,configInfo:"配置列的显示状态"},Ut={width:"100%",height:"300px",lineHeight:"41px",animateTime:300,disableLine:!1,disableBorder:!1,loadingTemplate:'<section class="gm-loading"><div class="loader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none"></circle></svg></div></section>',skinClassName:"",useWordBreak:!1,isIconFollowText:!1},Vt={rowHover:null,rowClick:null,cellHover:null,cellClick:null},Yt={disableCache:!0},
+    Xt={isCombSorting:!1,mergeSort:!1,sortKey:"sort_",sortData:{},sortUpText:"ASC",sortDownText:"DESC",sortMode:"overall",sortingBefore:c,sortingAfter:c},Qt={supportAjaxPage:!1,useNoTotalsMode:!1,sizeData:[10,20,30,50,100],pageSize:20,pageData:{},totalsKey:"totals",currentPageKey:"cPage",pageSizeKey:"pSize",pagingBefore:c,pagingAfter:c},Zt={supportAutoOrder:!0,autoOrderConfig:{width:50}},eo={supportCheckbox:!0,checkboxConfig:{width:40},checkedBefore:c,checkedAfter:c,checkedAllBefore:c,checkedAllAfter:c},to={i18n:"zh-cn"},oo={supportTreeData:!1,treeConfig:{treeKey:"children",openState:!1}},
+    no={firstLoading:!0,virtualScroll:{useVirtualScroll:!1,virtualNum:20},ajaxType:"GET",query:{},ajaxHeaders:{},ajaxXhrFields:{},ajaxBeforeSend:c,ajaxSuccess:c,ajaxComplete:c,ajaxError:c,requestHandler:e=>e,responseHandler:e=>e,rowRenderHandler:(e,t)=>e,dataKey:"data",emptyTemplate:()=>'<div class="gm-empty-template">暂无数据</div>'},so={supportExport:!0,exportConfig:{mode:"static",suffix:"xls",handler:c}},ro={supportPrint:!0};
    function ao(){
     S(!0,this,Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({rendered:!1},Bt),Ft),It),Gt),Wt),Jt),Ut),Yt),Xt),Qt),Zt),eo),to),no),so),ro),oo),Vt))
    }
    function io(){
     const e=this;
-    e["order-text"]={"zh-cn":"序号","zh-tw":"序號","en-us":"order"}, e["first-page"]={
-     "zh-cn":"首页","zh-tw":"首頁","en-us":"first"
-    }, e["previous-page"]={
-     "zh-cn":"上一页","zh-tw":"上一頁","en-us":"previous"
-    }, e["next-page"]={"zh-cn":"下一页","zh-tw":"下一頁","en-us":"next"}, e["last-page"]={
-     "zh-cn":"尾页","zh-tw":"尾頁","en-us":"last"
-    }, e["page-info"]={
-     "zh-cn":'此页显示 {0}-{1}<span class="page-info-totals"> 共{2}条</span>',"zh-tw":'此頁顯示 {0}-{1}<span class="page-info-totals"> 共{2}條</span>',"en-us":'this page show {0}-{1}<span class="page-info-totals"> count {2}</span>'
-    }, e["checked-info"]={
-     "zh-cn":"已选 {0} 条","zh-tw":"已選 {0} 條","en-us":"selected {0}"
-    }, e["goto-first-text"]={
-     "zh-cn":"跳转至","zh-tw":"跳轉至","en-us":"goto"
-    }, e["goto-last-text"]={"zh-cn":"页","zh-tw":"頁","en-us":"page"}, e.refresh={
+    e["order-text"]={"zh-cn":"序号","zh-tw":"序號","en-us":"order"}, e["first-page"]={"zh-cn":"首页","zh-tw":"首頁","en-us":"first"}, e["previous-page"]={"zh-cn":"上一页","zh-tw":"上一頁","en-us":"previous"}, e["next-page"]={"zh-cn":"下一页","zh-tw":"下一頁","en-us":"next"}, e["last-page"]={"zh-cn":"尾页","zh-tw":"尾頁","en-us":"last"}, e["page-info"]={"zh-cn":'此页显示 {0}-{1}<span class="page-info-totals"> 共{2}条</span>',"zh-tw":'此頁顯示 {0}-{1}<span class="page-info-totals"> 共{2}條</span>',"en-us":'this page show {0}-{1}<span class="page-info-totals"> count {2}</span>'}, e["checked-info"]={"zh-cn":"已选 {0} 条","zh-tw":"已選 {0} 條","en-us":"selected {0}"}, e["goto-first-text"]={"zh-cn":"跳转至","zh-tw":"跳轉至","en-us":"goto"}, e["goto-last-text"]={"zh-cn":"页","zh-tw":"頁","en-us":"page"}, e.refresh={
      "zh-cn":"重新加载","zh-tw":"重新加載","en-us":"Refresh"
-    }, e.export={
-     "zh-cn":"导出","zh-tw":"導出","en-us":"Export"
-    }, e["export-checked"]={
-     "zh-cn":"导出选中项","zh-tw":"導出選中項","en-us":"Export selected"
-    }, e.config={"zh-cn":"配置表","zh-tw":"配置表","en-us":"Setting Grid"}, e.print={
-     "zh-cn":"打印","zh-tw":"打印","en-us":"Print"
-    }, e.copy={"zh-cn":"复制","zh-tw":"復制","en-us":"Copy"}, e["hide-row"]={
-     "zh-cn":"隐藏行","zh-tw":"隱藏行","en-us":"Hidden Row"
-    }, e.ok={"zh-cn":"确定","zh-tw":"確定","en-us":"OK"}, e.reset={
-     "zh-cn":"重置","zh-tw":"重置","en-us":"Reset"
-    }
+    }, e.export={"zh-cn":"导出","zh-tw":"導出","en-us":"Export"}, e["export-checked"]={"zh-cn":"导出选中项","zh-tw":"導出選中項","en-us":"Export selected"}, e.config={"zh-cn":"配置表","zh-tw":"配置表","en-us":"Setting Grid"}, e.print={"zh-cn":"打印","zh-tw":"打印","en-us":"Print"}, e.copy={"zh-cn":"复制","zh-tw":"復制","en-us":"Copy"}, e["hide-row"]={"zh-cn":"隐藏行","zh-tw":"隱藏行","en-us":"Hidden Row"}, e.ok={"zh-cn":"确定","zh-tw":"確定","en-us":"OK"}, e.reset={"zh-cn":"重置","zh-tw":"重置","en-us":"Reset"}
    }
    const co={version:"3.0.1",responseData:{},checkedData:{},settings:{}},lo=["width","__width","isShow","__isShow","index","__index"],uo=["__width","__isShow","__index"],ho=e=>localStorage.getItem(e),po=(e,t)=>{
     localStorage.setItem(e,t)
@@ -585,9 +543,7 @@
     };
     return n(t), e
    },So=e=>m(e[0])?e.map((e=>({key:e,text:e}))):e,Do=(e,t,o,n,s)=>{
-    const {
-     __isNested:r,columnData:a,supportMoveRow:i,moveRowConfig:c,supportAutoOrder:l,__isFullColumn:d,fullColumn:u,supportCheckbox:h,checkboxConfig:p
-    }=e,f={};
+    const {__isNested:r,columnData:a,supportMoveRow:i,moveRowConfig:c,supportAutoOrder:l,__isFullColumn:d,fullColumn:u,supportCheckbox:h,checkboxConfig:p}=e,f={};
     let v=[];
     i&&c.useSingleMode&&v.push(t(c)), h&&v.push(o(p)), l&&v.push(n(e)), d&&u.useFold&&v.push(s(e)), v=v.concat(a);
     const y=(t,o,n)=>{
@@ -641,11 +597,7 @@
    },zo=(e,t,o,n,s)=>{
     const {_:r,compileAngularjs:a,compileVue:i,compileReact:c}=e,l=Eo(r);
     let d="",u="";
-    return t?(c&&(u=Po, l.push({
-     template:t,row:o,index:n,key:s,type:g(n)?void 0:"template",fnArg:[o[s],o,n,s]
-    })), (i||a)&&(u=Po, l.push({
-     row:o,index:n,key:s
-    })), c||(d=t(o[s],o,n,s))):(d=o[s], (f(d)||g(d))&&(d="")), {text:d,compileAttr:u}
+    return t?(c&&(u=Po, l.push({template:t,row:o,index:n,key:s,type:g(n)?void 0:"template",fnArg:[o[s],o,n,s]})), (i||a)&&(u=Po, l.push({row:o,index:n,key:s})), c||(d=t(o[s],o,n,s))):(d=o[s], (f(d)||g(d))&&(d="")), {text:d,compileAttr:u}
    };
    async function Lo(e){
     const {_:t,compileAngularjs:o,compileVue:n,compileReact:s}=e,a=Eo(t);
@@ -682,9 +634,7 @@
    };
    const Fo=new class{
     async exportGrid(e,t,o){
-     const n=Ao(e),{
-      query:s,disableAutoLoading:r,loadingTemplate:a,exportConfig:i,pageData:c,sortData:l
-     }=n;
+     const n=Ao(e),{query:s,disableAutoLoading:r,loadingTemplate:a,exportConfig:i,pageData:c,sortData:l}=n;
      t=((e,t,o,n)=>{
       if(!t){
        const e=n.fileName;
@@ -726,9 +676,7 @@
      u(p,((e,t)=>{
       0!==t&&(g+="\r\n"), g+=e.join(",")
      }));
-     Bo(n,`data:${{
-      csv:"text/csv",xls:"application/vnd.ms-excel"
-     }[r]};charset=utf-8,\ufeff${encodeURIComponent(g)}`), !t&&dt(e,300)
+     Bo(n,`data:${{csv:"text/csv",xls:"application/vnd.ms-excel"}[r]};charset=utf-8,\ufeff${encodeURIComponent(g)}`), !t&&dt(e,300)
     }
     async downFilePath(e,t,o,n,s,r,a,i){
      try{
@@ -784,9 +732,7 @@
     const {closeMenu:t}=No[e];
     Q(t.target).off(t.events), Q(Xo(e)).remove()
    },Zo=(e,t)=>{
-    const o=Ao(e),{
-     supportAjaxPage:n,supportExport:s,supportConfig:a,supportPrint:i,menuHandler:c,useCellFocus:l,useHideRow:d
-    }=o;
+    const o=Ao(e),{supportAjaxPage:n,supportExport:s,supportConfig:a,supportPrint:i,menuHandler:c,useCellFocus:l,useHideRow:d}=o;
     let u=[];
     n&&u.push((e=>({
      content:`${Ko(e,"previous-page")}<i class="gm-icon gm-icon-up"></i>`,onClick:e=>{
@@ -878,9 +824,7 @@
    };
    class an{
     init(e){
-     on[e]=((e,t)=>({
-      start:it("mouseover",t,`[grid-manager-mock-thead="${e}"] .${ze}`),tooltipLeave:it(ot,t,`[grid-manager-mock-thead="${e}"] .${ze}`)
-     }))(e,`${ht(e)} [grid-manager-mock-thead]`);
+     on[e]=((e,t)=>({start:it("mouseover",t,`[grid-manager-mock-thead="${e}"] .${ze}`),tooltipLeave:it(ot,t,`[grid-manager-mock-thead="${e}"] .${ze}`)}))(e,`${ht(e)} [grid-manager-mock-thead]`);
      const {start:t}=on[e],o=gt(e);
      Q(t.target).on(t.events,t.selector,(function(){
       const e=Q(this),t=e.find(".ra-area");
@@ -932,9 +876,7 @@
      mn[e]=((e,t)=>({start:it(Qe,t,`[grid-manager-mock-thead="${e}"] .${Le}`)}))(e,ht(e));
      const {start:t}=mn[e];
      Q(t.target).on(t.events,t.selector,(function(t){
-      const o=Ct(Q(this).closest("th")),{
-       sortData:n,sortMode:s,sortUpText:r,sortDownText:a
-      }=Ao(e),i=n[o];
+      const o=Ct(Q(this).closest("th")),{sortData:n,sortMode:s,sortUpText:r,sortDownText:a}=Ao(e),i=n[o];
       let c="";
       if("single"===s){
        const e=Q(t.target);
@@ -974,9 +916,7 @@
      const t=this,o=Q("body"),n=ht(e);
      Cn[e]=((e,t)=>{
       const o=`[grid-manager-mock-thead="${e}"] .gm-filter-area`;
-      return {
-       toggle:it(Ze,t,`${o} .fa-icon`),close:it("mousedown.closeFitler","body"),submit:it(tt,t,`${o} .filter-submit`),reset:it(tt,t,`${o} .filter-reset`),checkboxAction:it(Qe,t,`${o} .gm-checkbox-input`),radioAction:it(Qe,t,`${o} .gm-radio-input`)
-      }
+      return {toggle:it(Ze,t,`${o} .fa-icon`),close:it("mousedown.closeFitler","body"),submit:it(tt,t,`${o} .filter-submit`),reset:it(tt,t,`${o} .filter-reset`),checkboxAction:it(Qe,t,`${o} .gm-checkbox-input`),radioAction:it(Qe,t,`${o} .gm-radio-input`)}
      })(e,n);
      const {toggle:s,close:r,submit:a,reset:i,checkboxAction:c,radioAction:l}=Cn[e];
      Q(s.target).on(s.events,s.selector,(function(s){
@@ -1044,27 +984,17 @@
    };
    class jn{
     getWrapTpl(e){
-     const t=e.settings,{
-      _:o,skinClassName:n,isIconFollowText:s,disableBorder:r,disableLine:a,supportConfig:i,supportAjaxPage:c,configInfo:l,ajaxPageTemplate:d
-     }=t,u=["table-wrap"];
-     return n&&m(n)&&n.trim()&&u.push(n), s&&u.push("gm-icon-follow-text"), r&&u.push("disable-border"), a&&u.push("disable-line"), {
-      wrapKey:`${ee}="${o}"`,divKey:`${te}="${o}"`,classNames:u.join(" "),configTpl:i?Ys.createHtml({_:o,configInfo:l}):"",ajaxPageTpl:c?$s.createHtml({settings:t,tpl:d}):""
-     }
+     const t=e.settings,{_:o,skinClassName:n,isIconFollowText:s,disableBorder:r,disableLine:a,supportConfig:i,supportAjaxPage:c,configInfo:l,ajaxPageTemplate:d}=t,u=["table-wrap"];
+     return n&&m(n)&&n.trim()&&u.push(n), s&&u.push("gm-icon-follow-text"), r&&u.push("disable-border"), a&&u.push("disable-line"), {wrapKey:`${ee}="${o}"`,divKey:`${te}="${o}"`,classNames:u.join(" "),configTpl:i?Ys.createHtml({_:o,configInfo:l}):"",ajaxPageTpl:c?$s.createHtml({settings:t,tpl:d}):""}
     }
     getThTpl(e){
-     const {settings:t,col:o}=e,{
-      query:n,supportDrag:s,sortData:r,sortUpText:a,sortDownText:i,supportAdjust:c
-     }=t;
+     const {settings:t,col:o}=e,{query:n,supportDrag:s,sortData:r,sortUpText:a,sortDownText:i,supportAdjust:c}=t;
      let l="",d="";
      o.remind&&(l="remind", d=cn.createHtml({remind:o.remind}));
      let u="",h="";
-     m(o.sorting)&&(o.sorting===i?(u=`sorting="${i}"`, r[o.key]=i):o.sorting===a?(u=`sorting="${a}"`, r[o.key]=a):u="sorting", h=xn.createHtml({
-      type:o.sorting,sortUpText:a,sortDownText:i
-     }));
+     m(o.sorting)&&(o.sorting===i?(u=`sorting="${i}"`, r[o.key]=i):o.sorting===a?(u=`sorting="${a}"`, r[o.key]=a):u="sorting", h=xn.createHtml({type:o.sorting,sortUpText:a,sortDownText:i}));
      let p="",f="";
-     x(o.filter)&&(p="filter", g(o.filter.selected)?o.filter.selected=n[o.key]:n[o.key]=o.filter.selected, f=Sn.createHtml({
-      settings:t,columnFilter:o.filter
-     }));
+     x(o.filter)&&(p="filter", g(o.filter.selected)?o.filter.selected=n[o.key]:n[o.key]=o.filter.selected, f=Sn.createHtml({settings:t,columnFilter:o.filter}));
      let v="";
      c&& !o.disableCustomize&&(v=dr.html);
      let b="";
@@ -1086,9 +1016,7 @@
        const e=((e,t,o)=>{
         const {_:n,compileAngularjs:s,compileVue:r,compileReact:a}=e,i=Eo(n);
         let c="",l="";
-        return o&&((s||r||a)&&(l=Po, i.push({
-         key:t,template:o,type:"text"
-        })), a||(c=o())), {text:c,compileAttr:l}
+        return o&&((s||r||a)&&(l=Po, i.push({key:t,template:o,type:"text"})), a||(c=o())), {text:c,compileAttr:l}
        })(t,C,o.text);
        $=e.text, T=e.compileAttr
      }
@@ -1096,9 +1024,7 @@
      !s||o.isAutoCreate||o.disableCustomize||(S=`${S} gm-drag-action`);
      const D=g(o.colspan)?"":`colspan="${o.colspan}"`,j=g(o.rowspan)?"":`rowspan="${o.rowspan}"`;
      let A="auto";
-     return o.width&&(A=o.width+Ke), {
-      thAttr:`th-name="${C}" ${D} ${j} style="width:${A}" ${w} ${y} ${u} ${p} ${b} ${l} ${k}`,thTextClassName:S,thText:$,compileAttr:T,remindHtml:d,sortHtml:h,filterHtml:f,adjustHtml:v
-     }
+     return o.width&&(A=o.width+Ke), {thAttr:`th-name="${C}" ${D} ${j} style="width:${A}" ${w} ${y} ${u} ${p} ${b} ${l} ${k}`,thTextClassName:S,thText:$,compileAttr:T,remindHtml:d,sortHtml:h,filterHtml:f,adjustHtml:v}
     }
    }
    Dn([_o(un())],jn.prototype,"getWrapTpl",null), Dn([_o(pn())],jn.prototype,"getThTpl",null);
@@ -1112,14 +1038,10 @@
    };
    class Rn{
     init(e){
-     const t=this,{
-      supportCheckbox:o,checkboxConfig:n,moveRowConfig:s,animateTime:r,columnMap:a
-     }=Ao(e),{key:i,useSingleMode:c,handler:l}=s,d=Q("body"),u=pt(e).get(0);
+     const t=this,{supportCheckbox:o,checkboxConfig:n,moveRowConfig:s,animateTime:r,columnMap:a}=Ao(e),{key:i,useSingleMode:c,handler:l}=s,d=Q("body"),u=pt(e).get(0);
      _n[e]=(e=>{
       const t="gmLineDrag";
-      return {
-       start:it(`mousedown.${t}`,e,"tr:not([empty-template])"),doing:it(`mousemove.${t}`,"body"),abort:it(`mouseup.${t}`,"body")
-      }
+      return {start:it(`mousedown.${t}`,e,"tr:not([empty-template])"),doing:it(`mousemove.${t}`,"body"),abort:it(`mouseup.${t}`,"body")}
      })(`${ht(e)} tbody`);
      const {start:h,doing:p,abort:g}=_n[e],f=bt(e),b=gt(e),y=b.get(0);
      let x;
@@ -1141,16 +1063,12 @@
        Q("[rowspan]",t).removeAttr(Io), Q("[merge-td]",t).removeAttr(Go)
       })(e);
       const S="true"===gt(e).attr("gm-overflow-x");
-      T.get(0).innerHTML=t.createHtml({
-       table:u,tr:w,$thList:kt(e),overFlow:S
-      }), k.addClass(Pn);
+      T.get(0).innerHTML=t.createHtml({table:u,tr:w,$thList:kt(e),overFlow:S}), k.addClass(Pn);
       let D=0;
       const j=Q(p.target),A=p.events;
       j.off(A), j.on(A,(function(e){
        let t,o;
-       D=k.index(), D>0&&(t=C.eq(D-1)), D<C.length-1&&(o=C.eq(D+1)), T.show().css({
-        width:w.offsetWidth,top:e.clientY-b.offset().top+pageYOffset,left:0-y.scrollLeft
-       }), C=((e,t,o,n,s,r,a,i)=>{
+       D=k.index(), D>0&&(t=C.eq(D-1)), D<C.length-1&&(o=C.eq(D+1)), T.show().css({width:w.offsetWidth,top:e.clientY-b.offset().top+pageYOffset,left:0-y.scrollLeft}), C=((e,t,o,n,s,r,a,i)=>{
         const c=a.attr(ue);
         let l;
         if(s&&n.offset().top<s.offset().top&&(s.before(a), l=s), r&&n.offset().top+n.height()/2>r.offset().top&&(r.after(a), l=r), l){
@@ -1199,9 +1117,7 @@
     }
     getColumn(e){
      const {fixed:t}=e;
-     return {
-      key:ke,text:"",isAutoCreate:!0,isShow:!0,[Ne]:!0,width:30,fixed:t,template:()=>'<td gm-create gm-moverow><i class="gm-icon gm-icon-move"></i></td>'
-     }
+     return {key:ke,text:"",isAutoCreate:!0,isShow:!0,[Ne]:!0,width:30,fixed:t,template:()=>'<td gm-create gm-moverow><i class="gm-icon gm-icon-move"></i></td>'}
     }
     destroy(e){
      Ht(_n[e])
@@ -1212,21 +1128,13 @@
     let {text:c,compileAttr:l}=((e,t,o,n,s)=>{
      const {_:r,compileAngularjs:a,compileVue:i,compileReact:c}=e,l=Eo(r);
      let d="",u="";
-     return c&&(u=Po, l.push({
-      template:n,row:t,index:o,type:"full-"+s,fnArg:[t,o]
-     })), (i||a)&&(u=Po, l.push({row:t,index:o})), c||(d=n(t,o)), {
-      text:d,compileAttr:u
-     }
+     return c&&(u=Po, l.push({template:n,row:t,index:o,type:"full-"+s,fnArg:[t,o]})), (i||a)&&(u=Po, l.push({row:t,index:o})), c||(d=n(t,o)), {text:d,compileAttr:u}
     })(e,r,a,o,i);
     c=$(c)?c.outerHTML:c;
     let d=[];
-    return n&&(d=[[qn,s+""]]), {
-     className:[],attribute:[["full-column",i],[pe,a+""]].concat(d),querySelector:`[full-column][${pe}="${a}"]`,tdList:[`<td colspan="${t}"><div class="full-column-div" ${l}>${c}</div></td>`]
-    }
+    return n&&(d=[[qn,s+""]]), {className:[],attribute:[["full-column",i],[pe,a+""]].concat(d),querySelector:`[full-column][${pe}="${a}"]`,tdList:[`<td colspan="${t}"><div class="full-column-div" ${l}>${c}</div></td>`]}
    },Bn=(e,t,o,n,s)=>{
-    const {columnMap:r,fullColumn:a}=e,{
-     topTemplate:i,bottomTemplate:c,useFold:l,interval:d,openState:u=!1
-    }=a,h=Object.keys(r).length;
+    const {columnMap:r,fullColumn:a}=e,{topTemplate:i,bottomTemplate:c,useFold:l,interval:d,openState:u=!1}=a,h=Object.keys(r).length;
     if("top"===s&&v(i)){
      const r=Kn(e,h,i,l,u,t,o,s);
      r&&n.push(r)
@@ -1235,9 +1143,7 @@
      const r=Kn(e,h,c,l,u,t,o,s);
      r&&n.push(r)
     }
-    "bottom"===s&&(v(i)||v(c))&&n.push(((e,t,o=0)=>(b(o)&&(o+=Ke), {
-     className:[],attribute:[["full-column-interval",o+""],[pe,t+""]],querySelector:`[full-column-interval][${pe}="${t}"]`,tdList:[`<td colspan="${e}"><div style="height: ${o}"></div></td>`]
-    }))(h,o,d))
+    "bottom"===s&&(v(i)||v(c))&&n.push(((e,t,o=0)=>(b(o)&&(o+=Ke), {className:[],attribute:[["full-column-interval",o+""],[pe,t+""]],querySelector:`[full-column-interval][${pe}="${t}"]`,tdList:[`<td colspan="${e}"><div style="height: ${o}"></div></td>`]}))(h,o,d))
    },Fn=e=>e?"gm-icon-sub":"gm-icon-add";
    const In=new class{
     init(e){
@@ -1260,9 +1166,7 @@
     }
     getColumn(e){
      const {openState:t=!1,fixed:o}=e.fullColumn;
-     return {
-      key:xe,text:"",isAutoCreate:!0,isShow:!0,disableCustomize:!0,width:"40px",fixed:o,template:()=>`<td gm-create gm-fold><i class="gm-icon ${Fn(t)}" ${Nn}="${t}"></i></td>`
-     }
+     return {key:xe,text:"",isAutoCreate:!0,isShow:!0,disableCustomize:!0,width:"40px",fixed:o,template:()=>`<td gm-create gm-fold><i class="gm-icon ${Fn(t)}" ${Nn}="${t}"></i></td>`}
     }
     destroy(e){
      Ht(Ln[e])
@@ -1374,14 +1278,10 @@
     const r=$t(o).get(0).querySelector("td");
     r.innerHTML=((e,t,o)=>{
      const {_:n,compileAngularjs:s,compileVue:r,compileReact:a}=e,i=Eo(n);
-     return a?(i.push({
-      el:t,template:o,type:"empty",fnArg:[e]
-     }), ""):(r&&i.push({el:t}), s&&i.push({el:t}), o(e))
+     return a?(i.push({el:t,template:o,type:"empty",fnArg:[e]}), ""):(r&&i.push({el:t}), s&&i.push({el:t}), o(e))
     })(e,r,n), Lo(e)
    },ss=async(e,t,o,n,s)=>{
-    const {
-     _:r,columnMap:a,supportTreeData:i,supportCheckbox:c,supportMoveRow:l,treeConfig:d,__isNested:h,__isFullColumn:p
-    }=e,{treeKey:m,openState:y}=d,x=bt(r),k=x.get(0),T=x.find(`[empty-template="${r}"]`);
+    const {_:r,columnMap:a,supportTreeData:i,supportCheckbox:c,supportMoveRow:l,treeConfig:d,__isNested:h,__isFullColumn:p}=e,{treeKey:m,openState:y}=d,x=bt(r),k=x.get(0),T=x.find(`[empty-template="${r}"]`);
     T.length&&T.remove();
     let S=[];
     const D=[],j=[];
@@ -1400,9 +1300,7 @@
       u(t,((t,d)=>{
        const h=[],g=[],f=t[ue];
        t[me]&&h.push(t[me]), a||(g.push([pe,s]), g.push([ge,y])), a&&i&&d%2==0&&g.push(["odd",""]), g.push([ue,f]);
-       const v={
-        className:h,attribute:g,row:t,querySelector:`[gm-cache-key="${f}"]`,tdList:[]
-       };
+       const v={className:h,attribute:g,row:t,querySelector:`[gm-cache-key="${f}"]`,tdList:[]};
        if(a&&p&&In.addTop(e,t,d,S), ((t,o,n,s)=>{
         const r=t.tdList;
         u(j,(t=>{
@@ -1473,9 +1371,7 @@
      St(r,e,t.isShow)
     })), await Lo(e), i&&Yn.insertDOM(r,d), Jo(r,a), o||(ir.update(r), x.height()>=gt(r).height()?x.attr("filled",""):x.removeAttr("filled"), e.__isNested||Dt(r))
    },rs=e=>{
-    const {
-     query:t,supportAjaxPage:o,pageData:n,sortData:s,mergeSort:r,sortKey:a,currentPageKey:i,pageSizeKey:c,requestHandler:l
-    }=e,d=S(!0,{},t);
+    const {query:t,supportAjaxPage:o,pageData:n,sortData:s,mergeSort:r,sortKey:a,currentPageKey:i,pageSizeKey:c,requestHandler:l}=e,d=S(!0,{},t);
     return o&&(d[i]=n[i], d[c]=n[c]), w(s)||(r?(d[a]="", u(s,((e,t)=>{
      d[a]=`${d[a]}${d[a]?",":""}${e}:${t}`
     }))):u(s,((e,t)=>{
@@ -1498,9 +1394,7 @@
     const {rowHover:t,rowClick:o,cellHover:n,cellClick:s,useCellFocus:r}=Ao(e);
     is[e]=(e=>{
      const t="tr[gm-cache-key]",o="tr[gm-cache-key] td";
-     return {
-      rowHover:it(et,e,t),rowClick:it(Qe,e,t),cellHover:it(et,e,o),cellClick:it(Qe,e,o),cellFocus:it(Ze,e,"td")
-     }
+     return {rowHover:it(et,e,t),rowClick:it(Qe,e,t),cellHover:it(et,e,o),cellClick:it(Qe,e,o),cellFocus:it(Ze,e,"td")}
     })(ht(e));
     const a=is[e],i=t=>[mo(e,t),parseInt(t.getAttribute(ue),10)];
     t&&(()=>{
@@ -1543,14 +1437,10 @@
    };
    const ls=new class{
     refresh(e,t){
-     const o=Ao(e),{
-      disableAutoLoading:n,loadingTemplate:s,ajaxBeforeSend:r,ajaxSuccess:a,ajaxError:i,ajaxComplete:c,checkboxConfig:l
-     }=o;
+     const o=Ao(e),{disableAutoLoading:n,loadingTemplate:s,ajaxBeforeSend:r,ajaxSuccess:a,ajaxError:i,ajaxComplete:c,checkboxConfig:l}=o;
      l.disableStateKeep&&xo(e,[],!0), $s.updateRefreshIconState(e,!0), !n&&lt(e,s);
      let d=(e=>{
-      const t=rs(e),{
-       supportAjaxPage:o,pageData:n,sortData:s,sortKey:r,ajaxType:a,ajaxHeaders:i,ajaxXhrFields:c,ajaxData:l
-      }=e;
+      const t=rs(e),{supportAjaxPage:o,pageData:n,sortData:s,sortKey:r,ajaxType:a,ajaxHeaders:i,ajaxXhrFields:c,ajaxData:l}=e;
       o&&u(n,((e,o)=>{
        n[e]=t[e]||o
       })), u(s,((e,o)=>{
@@ -1581,9 +1471,7 @@
      if(0===t.length) return ns(n), void bo(e,[]);
      let s=vo(e,!0);
      const r=o?((e,t)=>{
-      const {
-       columnMap:o,rowRenderHandler:n,pageData:s,supportAutoOrder:r,supportCheckbox:a,checkboxConfig:i,pageSizeKey:c,currentPageKey:l,supportTreeData:d,treeConfig:u,fullColumn:h
-      }=Ao(e),p=i.key;
+      const {columnMap:o,rowRenderHandler:n,pageData:s,supportAutoOrder:r,supportCheckbox:a,checkboxConfig:i,pageSizeKey:c,currentPageKey:l,supportTreeData:d,treeConfig:u,fullColumn:h}=Ao(e),p=i.key;
       let f=0;
       const m=(e,t,o,n)=>{
        let s=o.toString();
@@ -1606,15 +1494,11 @@
       }))
      })(e,t):t;
      xo(e,r), bo(e,r);
-     const {virtualScroll:a,supportCheckbox:i,checkboxConfig:c}=n,{
-      useVirtualScroll:l,virtualNum:d
-     }=a,u=pt(e),h=mt(e).height();
+     const {virtualScroll:a,supportCheckbox:i,checkboxConfig:c}=n,{useVirtualScroll:l,virtualNum:d}=a,u=pt(e),h=mt(e).height();
      if(!l||d>=r.length){
       Zs.virtualScrollMap[e]&&(s=[]);
       const {diffList:t,diffFirst:o,diffLast:a}=as(n,s,r);
-      return await ss(n,t,!1,o[ue],a[ue]), i&&zs(e,r,c.useRadio,c.max), delete Zs.virtualScrollMap[e], void u.css({
-       marginTop:-h,marginBottom:0
-      })
+      return await ss(n,t,!1,o[ue],a[ue]), i&&zs(e,r,c.useRadio,c.max), delete Zs.virtualScrollMap[e], void u.css({marginTop:-h,marginBottom:0})
      }
      const p=gt(e),f=bt(e);
      let m=vo(e,!0),b=parseInt(n.lineHeight,10);
@@ -1642,9 +1526,7 @@
      }, Zs.virtualScrollMap[e](!1)
     }
     async driveDomForSuccessAfter(e,t,o){
-     const {
-      _:n,rendered:s,responseHandler:r,supportAjaxPage:a,supportMenu:i,dataKey:c,totalsKey:l,useNoTotalsMode:d,asyncTotals:u
-     }=e;
+     const {_:n,rendered:s,responseHandler:r,supportAjaxPage:a,supportMenu:i,dataKey:c,totalsKey:l,useNoTotalsMode:d,asyncTotals:u}=e;
      if(!s) return;
      if(!t) return void Nt("response undefined！please check ajaxData");
      let h=m(t)?JSON.parse(t):t;
@@ -1703,9 +1585,7 @@
    class gs{
     init({_:e,defaultValue:t="",onChange:o}){
      var n;
-     hs[e]={
-      open:it(Qe,n=`[${ne}="${e}"]`,".gm-dropdown .gm-dropdown-text"),close:it(Qe,"body"),selected:it(Qe,n,".gm-dropdown .gm-dropdown-list >li")
-     };
+     hs[e]={open:it(Qe,n=`[${ne}="${e}"]`,".gm-dropdown .gm-dropdown-text"),close:it(Qe,"body"),selected:it(Qe,n,".gm-dropdown .gm-dropdown-list >li")};
      const {open:s,close:r,selected:a}=hs[e],i=ft(e).find(".gm-dropdown"),c=i.find(".gm-dropdown-text"),l=i.find(".gm-dropdown-list");
      c.text(t), Q(s.target).on(s.events,s.selector,(function(e){
       e.stopPropagation();
@@ -1753,9 +1633,7 @@
     1===r?(d&&a.addClass(Re), u&&i.addClass(Re)):(d&&a.removeClass(Re), u&&i.removeClass(Re)), r>=o.tPage?(h&&c.addClass(Re), p&&l.addClass(Re)):(h&&c.removeClass(Re), p&&l.removeClass(Re))
    },ks=(e,t)=>{
     (!t||t<1)&&(t=1);
-    const {
-     _:o,useNoTotalsMode:n,currentPageKey:s,pageData:r,pageSize:a,pageSizeKey:i,sortData:c,query:l,pagingBefore:d,pagingAfter:u
-    }=e,{tPage:h}=r;
+    const {_:o,useNoTotalsMode:n,currentPageKey:s,pageData:r,pageSize:a,pageSizeKey:i,sortData:c,query:l,pagingBefore:d,pagingAfter:u}=e,{tPage:h}=r;
     !n&&t>h&&(t=h), r[s]=t, r[i]=r[i]||a, Mo(e);
     const p=S({},l,c,r);
     d(p), ls.refresh(o,(()=>{
@@ -1764,14 +1642,10 @@
    };
    class Cs{
     init(e){
-     const {
-      _:t,disableCache:o,pageSizeKey:n,pageSize:s,currentPageKey:r,useNoTotalsMode:a
-     }=e;
+     const {_:t,disableCache:o,pageSizeKey:n,pageSize:s,currentPageKey:r,useNoTotalsMode:a}=e;
      ys[t]=(e=>{
       const t=`[${ne}="${e}"]`;
-      return {
-       input:it("keyup",t,".gp-input"),first:it(Qe,t,"[pagination-before] .first-page"),previous:it(Qe,t,"[pagination-before] .previous-page"),next:it(Qe,t,"[pagination-after] .next-page"),last:it(Qe,t,"[pagination-after] .last-page"),num:it(Qe,t,"[pagination-number] li"),refresh:it(Qe,t,".refresh-action")
-      }
+      return {input:it("keyup",t,".gp-input"),first:it(Qe,t,"[pagination-before] .first-page"),previous:it(Qe,t,"[pagination-before] .previous-page"),next:it(Qe,t,"[pagination-after] .next-page"),last:it(Qe,t,"[pagination-after] .last-page"),num:it(Qe,t,"[pagination-number] li"),refresh:it(Qe,t,".refresh-action")}
      })(t);
      let i=s||10;
      if(!o){
@@ -1817,20 +1691,14 @@
     }
     createHtml(e){
      const {settings:t}=e;
-     return {
-      gridManagerName:t._,keyName:ne,gotoFirstText:Ko(t,"goto-first-text"),gotoLastText:Ko(t,"goto-last-text"),firstPageText:Ko(t,"first-page"),previousPageText:Ko(t,"previous-page"),nextPageText:Ko(t,"next-page"),lastPageText:Ko(t,"last-page"),pageSizeOptionTpl:fs.createHtml(t)
-     }
+     return {gridManagerName:t._,keyName:ne,gotoFirstText:Ko(t,"goto-first-text"),gotoLastText:Ko(t,"goto-last-text"),firstPageText:Ko(t,"first-page"),previousPageText:Ko(t,"previous-page"),nextPageText:Ko(t,"next-page"),lastPageText:Ko(t,"last-page"),pageSizeOptionTpl:fs.createHtml(t)}
     }
     resetPageData(e,t,o){
-     const {
-      _:n,useNoTotalsMode:s,currentPageKey:r,pageData:a,asyncTotals:i,pageSizeKey:c,pageSize:l
-     }=e,d=Q(bs(n)),u=a[r]||1,h=a[c]||l,p=(t,n)=>{
+     const {_:n,useNoTotalsMode:s,currentPageKey:r,pageData:a,asyncTotals:i,pageSizeKey:c,pageSize:l}=e,d=Q(bs(n)),u=a[r]||1,h=a[c]||l,p=(t,n)=>{
       const s=((e,t,o)=>{
        const {pageData:n,pageSizeKey:s,pageSize:r,currentPageKey:a}=e,i=n[s]||r,c=n[a]||1;
        let l=1;
-       return l=t?Math.ceil(t/i):o<i?c:c+1, {
-        tPage:l,[a]:c>l?1:c,[s]:i,tSize:t
-       }
+       return l=t?Math.ceil(t/i):o<i?c:c+1, {tPage:l,[a]:c>l?1:c,[s]:i,tSize:t}
       })(e,t,o);
       ws(d,e,s), ((e,t,o,n)=>{
        const {currentPageKey:s,pageSizeKey:r}=t,a=1===o[s]?1:(o[s]-1)*o[r]+1,i=o[s]*o[r];
@@ -1926,12 +1794,8 @@
    class Ls{
     init(e){
      var t;
-     Os[e]=(t=ht(e), {
-      allChange:it(Qe,t,"th[gm-checkbox] .gm-checkbox-wrapper"),checkboxChange:it(Qe,t,"td[gm-checkbox] .gm-checkbox-wrapper"),radioChange:it(Qe,t,"td[gm-checkbox] .gm-radio-wrapper"),trChange:it(Qe,t,"tbody > tr[gm-cache-key]")
-     });
-     const {allChange:o,checkboxChange:n,radioChange:s,trChange:r}=Os[e],{
-      checkboxConfig:a,checkedBefore:i,checkedAllBefore:c,checkedAfter:l,checkedAllAfter:d
-     }=Ao(e),{max:u,useRowCheck:h}=a;
+     Os[e]=(t=ht(e), {allChange:it(Qe,t,"th[gm-checkbox] .gm-checkbox-wrapper"),checkboxChange:it(Qe,t,"td[gm-checkbox] .gm-checkbox-wrapper"),radioChange:it(Qe,t,"td[gm-checkbox] .gm-radio-wrapper"),trChange:it(Qe,t,"tbody > tr[gm-cache-key]")});
+     const {allChange:o,checkboxChange:n,radioChange:s,trChange:r}=Os[e],{checkboxConfig:a,checkedBefore:i,checkedAllBefore:c,checkedAfter:l,checkedAllAfter:d}=Ao(e),{max:u,useRowCheck:h}=a;
      Q(o.target).on(o.events,o.selector,(function(){
       let t=yo(e);
       const o=this.querySelector(".gm-checkbox-input"),n=o.checked;
@@ -1962,19 +1826,11 @@
      return r.querySelectorAll(`${ht(e)} tbody tr[checked="true"]`)
     }
     getColumn(e){
-     return {
-      key:Ce,text:e.useRadio?"":this.getCheckboxTpl({}),isAutoCreate:!0,isShow:!0,[Ne]:!0,width:e.width,fixed:e.fixed,template:(t,o,n,s)=>this.getColumnTemplate({
-       checked:t,disabled:o.gm_checkbox_disabled,useRadio:e.useRadio,isTop:s
-      })
-     }
+     return {key:Ce,text:e.useRadio?"":this.getCheckboxTpl({}),isAutoCreate:!0,isShow:!0,[Ne]:!0,width:e.width,fixed:e.fixed,template:(t,o,n,s)=>this.getColumnTemplate({checked:t,disabled:o.gm_checkbox_disabled,useRadio:e.useRadio,isTop:s})}
     }
     getColumnTemplate(e){
      const {checked:t,disabled:o,useRadio:n,isTop:s}=e;
-     return {
-      template:s?n?this.getRadioTpl({
-       checked:t,disabled:o
-      }):this.getCheckboxTpl({checked:t,disabled:o}):""
-     }
+     return {template:s?n?this.getRadioTpl({checked:t,disabled:o}):this.getCheckboxTpl({checked:t,disabled:o}):""}
     }
     getCheckboxTpl(e){
      const {checked:t,disabled:o,label:n,value:s}=e;
@@ -2000,7 +1856,7 @@
    const Js=e=>Q(`[${oe}="${e}"]`),Us=e=>{
     const t=ft(e),o=Js(e),n=o.find(".config-list").get(0),s=o.find(".config-info");
     o.css("visibility","hidden"), setTimeout((()=>{
-     n.style.maxHeight=(t.height()-90-20-s.height()||0)+Ke, o.css("visibility","inherit")
+     n&&(n.style.maxHeight=(t.height()-90-20-s.height()||0)+Ke), o.css("visibility","inherit")
     }))
    };
    class Vs{
@@ -2008,9 +1864,7 @@
      const t=this;
      Bs[e]=(e=>{
       const t=`[${oe}="${e}"]`;
-      return {
-       closeConfig:it(Qe,t,".config-action"),liChange:it(Qe,t,".config-list li"),closeConfigByBody:it("mousedown.closeConfig","body")
-      }
+      return {closeConfig:it(Qe,t,".config-action"),liChange:it(Qe,t,".config-list li"),closeConfigByBody:it("mousedown.closeConfig","body")}
      })(e);
      const {closeConfig:o,liChange:n}=Bs[e];
      Q(o.target).on(o.events,o.selector,(function(){
@@ -2051,9 +1905,7 @@
     }
     createColumn(e){
      const {key:t,isShow:o,label:n}=e;
-     return `<li th-name="${t}"${o?' class="checked-li"':""}>${Ns.getCheckboxTpl({
-      checked:o,label:n
-     })}</li>`
+     return `<li th-name="${t}"${o?' class="checked-li"':""}>${Ns.getCheckboxTpl({checked:o,label:n})}</li>`
     }
     toggle(e){
      "block"===Js(e).css("display")?this.hide(e):this.show(e)
@@ -2151,16 +2003,12 @@
      let m="none";
      nr[t]=p.sort(((e,t)=>e.index-t.index)), u(nr[t],((e,o)=>{
       const n=xt(t,e.key);
-      o===f-1&&(m="2px 0 4px #e8e8e8"), l+=or(t,e.index,"left",m), e.pl=d, d+=e.width, n.css({
-       height:c,lineHeight:c,boxShadow:m
-      })
+      o===f-1&&(m="2px 0 4px #e8e8e8"), l+=or(t,e.index,"left",m), e.pl=d, d+=e.width, n.css({height:c,lineHeight:c,boxShadow:m})
      })), "safari"===o&&d--, i.css("padding-left",d), m="none";
      const v=g.length;
      sr[t]=g.sort(((e,t)=>t.index-e.index)), sr[t].forEach(((e,o)=>{
       const n=xt(t,e.key);
-      o===v-1&&(m="-2px 0 4px #e8e8e8"), n.css({
-       height:c,lineHeight:c,boxShadow:m
-      }), l+=or(t,e.index,"right",m), e.pr=h, h+=e.width
+      o===v-1&&(m="-2px 0 4px #e8e8e8"), n.css({height:c,lineHeight:c,boxShadow:m}), l+=or(t,e.index,"right",m), e.pr=h, h+=e.width
      })), i.css("padding-right",h);
      const b=gt(t),y=`fixed-style-${t}`;
      let x=r.getElementById(y);
@@ -2202,9 +2050,7 @@
     }
     init(e){
      lr[e]=function(e,t){
-      return {
-       start:it(Ze,t,`[grid-manager-mock-thead="${e}"] .gm-adjust-action`),doing:it(et,`[${te}="${e}"]`,t),abort:it("mouseup mouseleave",t)
-      }
+      return {start:it(Ze,t,`[grid-manager-mock-thead="${e}"] .gm-adjust-action`),doing:it(et,`[${te}="${e}"]`,t),abort:it("mouseup mouseleave",t)}
      }(e,ht(e));
      const {start:t}=lr[e];
      Q(t.target).on(t.events,t.selector,(function(t){
@@ -2215,9 +2061,7 @@
        e.className=cr, n.append(e), s=o.find(".gm-adjust-ing")
       }
       const a=o.height();
-      s.css({
-       top:-(a-n.height())/2,right:-(o.width()-n.width()+1)/2,height:gt(e).height()+a
-      });
+      s.css({top:-(a-n.height())/2,right:-(o.width()-n.width()+1)/2,height:gt(e).height()+a});
       const i=pt(e),{adjustBefore:c,adjustAfter:l,isIconFollowText:d,columnMap:u}=Ao(e),h=kt(e),p=h.eq(o.index(h)+1);
       c(t), i.addClass($e), ((e,t,o,n,s)=>{
        let r,a=o.width();
@@ -2231,9 +2075,7 @@
           const e=u+r+a;
           e<i&&(a=a+i-e)
          }
-         s<r&&(a=o.width()), l.width(u+r+a), t.css({
-          width:r,"max-width":r
-         }), o.css({width:a,"max-width":a}), ir.update(e)
+         s<r&&(a=o.width()), l.width(u+r+a), t.css({width:r,"max-width":r}), o.css({width:a,"max-width":a}), ir.update(e)
         }
        }))
       })(e,o,p,At(e,u[Ct(o)],d),Math.ceil(t.clientX-o.offset().left)), ((e,t,o,n)=>{
@@ -2254,9 +2096,7 @@
    const ur=new class{
     getColumn(e){
      const {autoOrderConfig:t}=e;
-     return {
-      key:we,text:Ko(e,"order-text"),isAutoCreate:!0,isShow:!0,[Ne]:!0,width:t.width,fixed:t.fixed,template:(e,t,o,n)=>`<td gm-create gm-order>${n?e:""}</td>`
-     }
+     return {key:we,text:Ko(e,"order-text"),isAutoCreate:!0,isShow:!0,[Ne]:!0,width:t.width,fixed:t.fixed,template:(e,t,o,n)=>`<td gm-create gm-order>${n?e:""}</td>`}
     }
    };
    var hr=o(909),pr=o.n(hr);
@@ -2269,9 +2109,7 @@
    class mr{
     init(e){
      const t=this,o=pt(e),n=Q("body");
-     gr[e]=((e,t)=>({
-      start:it(Ze,t,`[grid-manager-mock-thead="${e}"] .gm-drag-action`),doing:it("mousemove.gmDrag","body"),abort:it("mouseup.gmDrag","body")
-     }))(e,`${ht(e)} [grid-manager-mock-thead]`);
+     gr[e]=((e,t)=>({start:it(Ze,t,`[grid-manager-mock-thead="${e}"] .gm-drag-action`),doing:it("mousemove.gmDrag","body"),abort:it("mouseup.gmDrag","body")}))(e,`${ht(e)} [grid-manager-mock-thead]`);
      const {start:s,doing:r,abort:a}=gr[e];
      Q(s.target).on(s.events,s.selector,(function(s){
       let i=Ao(e);
@@ -2281,24 +2119,18 @@
       l(s), n.addClass($e), p.addClass(ln), v.addClass(ln);
       let b=Q(".gm-dreamland-div",m);
       if(b.length) return;
-      m.append('<div class="gm-dreamland-div"></div>'), b=Q(".gm-dreamland-div",m), b.get(0).innerHTML=t.createHtml({
-       $table:o,$th:p
-      });
+      m.append('<div class="gm-dreamland-div"></div>'), b=Q(".gm-dreamland-div",m), b.get(0).innerHTML=t.createHtml({$table:o,$th:p});
       let y=0;
       const x=p.width(),w=p.height(),k=o.height(),C=m.offset(),$=pageXOffset-C.left-x/2,T=pageYOffset-C.top-w/2;
       b.css({width:x+2,height:k+2});
       const S=Q(r.target);
       S.off(r.events), S.on(r.events,(function(o){
        let n,s,r,a;
-       b.show(), y=p.index(f), y>0&&(n=f.eq(y-1), s=Ct(n)), y<f.length-1&&(r=f.eq(y+1), a=Ct(r)), n&&n.length&&c[s].disableCustomize?n= void 0:r&&r.length&&c[a].disableCustomize&&(r= void 0), b.css({
-        left:o.clientX+$,top:o.clientY+T
-       }), f=t.updateDrag(e,n,r,p,v,b,f)
+       b.show(), y=p.index(f), y>0&&(n=f.eq(y-1), s=Ct(n)), y<f.length-1&&(r=f.eq(y+1), a=Ct(r)), n&&n.length&&c[s].disableCustomize?n= void 0:r&&r.length&&c[a].disableCustomize&&(r= void 0), b.css({left:o.clientX+$,top:o.clientY+T}), f=t.updateDrag(e,n,r,p,v,b,f)
       }));
       const D=a.events,j=Q(a.target);
       j.off(D), j.on(D,(function(t){
-       Q(r.target).off(r.events), j.off(D), b.animate({
-        top:o.get(0).offsetTop+Ke,left:`${g.offsetLeft-gt(e).get(0).scrollLeft+Ke}`
-       },d,(()=>{
+       Q(r.target).off(r.events), j.off(D), b.animate({top:o.get(0).offsetTop+Ke,left:`${g.offsetLeft-gt(e).get(0).scrollLeft+Ke}`},d,(()=>{
         p.removeClass(ln), v.removeClass(ln), b.remove(), u(t)
        })), Oo(e), h&&Ys.updateConfigList(e), _t(e), ir.resetFlag(e), n.removeClass($e)
       }))
@@ -2334,9 +2166,7 @@
    const vr=new mr;
    const br=new class{
     init(e){
-     No[e]=(e=>({
-      openMenu:it("contextmenu",`[${ee}="${e}"]`),closeMenu:it("mousedown.closeMenu","body")
-     }))(e);
+     No[e]=(e=>({openMenu:it("contextmenu",`[${ee}="${e}"]`),closeMenu:it("mousedown.closeMenu","body")}))(e);
      const {openMenu:t,closeMenu:o}=No[e];
      Q(t.target).on(t.events,(function(n){
       n.preventDefault(), n.stopPropagation();
@@ -2521,9 +2351,7 @@
     static updateRowData(e,t,o){
      const n=ut(e),s=Ao(n);
      if(yr(n,s)){
-      const {
-       columnMap:e,supportCheckbox:r,supportTreeData:a,treeConfig:i,rowRenderHandler:c
-      }=s,l=k(o)?o:[o],d=vo(n),u=i.treeKey,h=(e,o)=>{
+      const {columnMap:e,supportCheckbox:r,supportTreeData:a,treeConfig:i,rowRenderHandler:c}=s,l=k(o)?o:[o],d=vo(n),u=i.treeKey,h=(e,o)=>{
        e.some(((e,n)=>{
         if(e[t]===o[t]) return S(e,c(S(e,o),n)), !0;
         if(a){
