@@ -2,7 +2,7 @@ package consts
 
 const (
 	CodeOk      = 0
-	CodeFailure = 1
+	CodeFailure = -1
 
 	SrvPath = "/srv"
 	WebPath = "/web"

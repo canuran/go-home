@@ -22,10 +22,11 @@ const (
 )
 
 type UserBO struct {
-	ID          int64     `json:"id,omitempty"`
-	Name        string    `json:"name,omitempty"`
-	Password    string    `json:"password,omitempty"`
-	Header      string    `json:"header,omitempty"` // 存储很小的头像
+	ID       int64  `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+	Password string `json:"password,omitempty"`
+	// Header 很小的头像先放库里存着，有条件再升级
+	Header      string    `json:"header,omitempty"`
 	Gender      string    `json:"gender,omitempty"`
 	Role        string    `json:"role,omitempty"`
 	Status      int64     `json:"status,omitempty"`
@@ -88,6 +89,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	if user.Password != stringer.StandardizeString(user.Password) {
 		return showerr.Format("密码格式不正确")
 	}
+	// 很小的头像先放库里存着，有条件再升级
 	if len(user.Header) > 5120 {
 		return showerr.Format("头像图片太大")
 	}

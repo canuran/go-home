@@ -1,4 +1,4 @@
-package giner
+package ginutil
 
 import (
 	"github.com/ewingtsai/go-web/common"
@@ -10,23 +10,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GinSuccess(c *gin.Context) {
+func Success(c *gin.Context) {
 	c.JSON(http.StatusOK, &common.Response{})
 }
 
-func GinSuccessData(c *gin.Context, data interface{}) {
+func SuccessData(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, &common.Response{Data: data})
 }
 
-func GinSuccessTotals(c *gin.Context, totals int64) {
+func SuccessTotals(c *gin.Context, totals int64) {
 	c.JSON(http.StatusOK, &common.Response{Totals: totals})
 }
 
-func GinSuccessAll(c *gin.Context, totals int64, data interface{}) {
+func SuccessResponse(c *gin.Context, totals int64, data interface{}) {
 	c.JSON(http.StatusOK, &common.Response{Totals: totals, Data: data})
 }
 
-func GinFailureMessage(c *gin.Context, message string) {
+func FailMessage(c *gin.Context, message string) {
 	c.JSON(http.StatusOK, &common.Response{Code: consts.CodeFailure, Message: message})
 }
 
@@ -42,7 +42,7 @@ func GinHandleErr(c *gin.Context, err error) bool {
 		} else {
 			c.JSON(http.StatusOK, &common.Response{
 				Code:    consts.CodeFailure,
-				Message: "处理失败了",
+				Message: "操作失败",
 			})
 		}
 		return true
