@@ -80,8 +80,8 @@ layui.define(function (exports) {
                     $(container).html(data);
                     element.render();
                     form.render();
-                }, error: function (xhr, textStatus, thrown) {
-                    return layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
+                }, error: function (xhr, textStatus) {
+                    return layer.msg('加载页面失败，请稍后再试！');
                 }
             });
         }, /**
