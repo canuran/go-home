@@ -1,12 +1,12 @@
 {
   "homeInfo": {
     "title": "首页",
-    "baseTitle": "管理平台",
+    "baseTitle": "后端之家",
     "href": "page/welcome.html"
   },
   "menuInfo": [
     {
-      "title": "管理平台",
+      "title": "后端之家",
       "icon": "fa fa-user",
       "child": [
         {
@@ -24,19 +24,19 @@
         {
           "title": "字体图标",
           "href": "page/demo/font-icon.html",
-          "icon": "fa fa-chrome",
+          "icon": "fa fa-cubes",
           "target": "_self"
         },
         {
           "title": "图片裁剪",
           "href": "page/demo/cropper.html",
-          "icon": "fa fa-image",
+          "icon": "fa fa-crop",
           "target": "_self"
         },
         {
           "title": "日期选择",
           "href": "page/demo/laydate.html",
-          "icon": "fa fa-image",
+          "icon": "fa fa-calendar",
           "target": "_self"
         }
       ]
