@@ -13,15 +13,17 @@ import (
 func main() {
 	// 按需初始化
 	config.Init()
-
 	engine := gin.Default()
-	// 静态目录
+
+	// 静态文件
 	engine.Static(consts.WebPath, "web")
-	// 指定文件
 	engine.StaticFile("/favicon.ico", consts.WebPath+"/image/favicon.ico")
 
+	// 缺省路由
+	engine.NoRoute(none)
+	engine.GET("/", index)
+
 	// 注册路由
-	engine.NoRoute(home)
 	group := engine.Group(consts.SrvPath)
 	group.Use(handler.JWTAuthMW)
 	handler.Auth(group)
@@ -33,7 +35,10 @@ func main() {
 	}
 }
 
-func home(c *gin.Context) {
-	// Web应用跳转主页，纯后端应用改为JSON
+func index(c *gin.Context) {
 	c.Redirect(http.StatusPermanentRedirect, consts.WebPath+"/index.html")
+}
+
+func none(c *gin.Context) {
+	c.Redirect(http.StatusPermanentRedirect, consts.WebPath+"/none.html")
 }
