@@ -75,13 +75,13 @@ func filterName(c *gin.Context) {
 func saveUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	headerImg, err := c.FormFile("header_file")
 	if err == nil {
 		headerFile, err := headerImg.Open()
-		if ginutil.GinHandleErr(c, err) {
+		if ginutil.FailIfError(c, err) {
 			return
 		}
 		var buffer bytes.Buffer
@@ -93,14 +93,14 @@ func saveUser(c *gin.Context) {
 			OutFormat:     "jpg",
 			MaxJpgOutByte: service.MaxHeaderSize*0.75 - 20,
 		})
-		if ginutil.GinHandleErr(c, err) {
+		if ginutil.FailIfError(c, err) {
 			return
 		}
 		bts := buffer.Bytes()
 		user.Header = string(encoders.Base64Encode(bts))
 	}
 	err = service.SaveUser(c, UserVO2BO(user))
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	ginutil.Success(c)
@@ -109,13 +109,13 @@ func saveUser(c *gin.Context) {
 func queryUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 
 	if c.PostForm("count") == "true" {
 		totals, err := service.CountUser(c, UserVO2BO(user))
-		if ginutil.GinHandleErr(c, err) {
+		if ginutil.FailIfError(c, err) {
 			return
 		}
 		ginutil.SuccessTotals(c, totals)
@@ -127,7 +127,7 @@ func queryUser(c *gin.Context) {
 	limit := int(converter.Int64ify(pSize))
 	offset := int(converter.Int64ify(cPage))*limit - limit
 	users, err := service.QueryUser(c, UserVO2BO(user), offset, limit)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	ginutil.SuccessData(c, users)
@@ -136,11 +136,11 @@ func queryUser(c *gin.Context) {
 func deleteUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	err = service.DeleteUser(c, UserVO2BO(user))
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	ginutil.Success(c)

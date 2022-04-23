@@ -33,7 +33,7 @@ func authHandler(c *gin.Context) {
 	// 用户发送用户名和密码过来
 	var userParam UserVO
 	err := c.ShouldBind(&userParam)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	// 获取并解析验证码
@@ -46,7 +46,7 @@ func authHandler(c *gin.Context) {
 	}
 	decode64 := encoders.Base64DecodeString(claims.Name)
 	decodeAes, err := encriptor.AesDecrypt(decode64, captchaAesKey)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	if captchaCode != string(decodeAes) {
@@ -55,7 +55,7 @@ func authHandler(c *gin.Context) {
 	}
 	// 校验用户名和密码是否正确
 	user, err := service.GetUserByName(c, userParam.Name)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	if user == nil {
@@ -72,7 +72,7 @@ func authHandler(c *gin.Context) {
 		// 登陆版本号增加
 		user.AuthVersion++
 		err = service.UpdateLoginIndex(c, user)
-		if ginutil.GinHandleErr(c, err) {
+		if ginutil.FailIfError(c, err) {
 			return
 		}
 		// 生成Token
@@ -81,7 +81,7 @@ func authHandler(c *gin.Context) {
 			Name:    user.Name,
 			Version: user.AuthVersion,
 		})
-		if ginutil.GinHandleErr(c, err) {
+		if ginutil.FailIfError(c, err) {
 			return
 		}
 		c.Header("Set-Cookie", "Authorization="+tokenStr)
@@ -98,7 +98,7 @@ func authLogout(c *gin.Context) {
 		user := loginUser.(*service.UserBO)
 		user.AuthVersion++
 		err := service.UpdateLoginIndex(c, user)
-		if ginutil.GinHandleErr(c, err) {
+		if ginutil.FailIfError(c, err) {
 			return
 		}
 	}
@@ -118,13 +118,13 @@ func authCaptcha(c *gin.Context) {
 
 	// 验证码加密后存储到JWT
 	encodeAes, err := encriptor.AesEncrypt(codeBts, captchaAesKey)
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	encodeJwt, err := service.GenTokenExpire(&service.JwtData{
 		Name: encoders.Base64EncodeString(encodeAes),
 	}, time.Now().Add(time.Minute*10))
-	if ginutil.GinHandleErr(c, err) {
+	if ginutil.FailIfError(c, err) {
 		return
 	}
 	ginutil.SuccessData(c, &CaptchaInfo{

@@ -30,7 +30,7 @@ func FailMessage(c *gin.Context, message string) {
 	c.JSON(http.StatusOK, &common.Response{Code: consts.CodeFailure, Message: message})
 }
 
-func GinHandleErr(c *gin.Context, err error) bool {
+func FailIfError(c *gin.Context, err error) bool {
 	if err != nil {
 		log.Println(err)
 		// 只有 ShowErr 可以直接展示给用户
