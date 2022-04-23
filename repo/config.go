@@ -2,9 +2,9 @@ package repo
 
 import (
 	"context"
-	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/generate/model"
-	"github.com/ewingtsai/go-web/generate/query"
+	"github.com/ewingtsai/go-home/config"
+	"github.com/ewingtsai/go-home/generate/model"
+	"github.com/ewingtsai/go-home/generate/query"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )

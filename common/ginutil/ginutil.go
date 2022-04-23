@@ -1,9 +1,9 @@
 package ginutil
 
 import (
-	"github.com/ewingtsai/go-web/common"
-	"github.com/ewingtsai/go-web/common/consts"
-	"github.com/ewingtsai/go-web/common/showerr"
+	"github.com/ewingtsai/go-home/common"
+	"github.com/ewingtsai/go-home/common/consts"
+	"github.com/ewingtsai/go-home/common/showerr"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 

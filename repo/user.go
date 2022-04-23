@@ -2,11 +2,11 @@ package repo
 
 import (
 	"context"
-	"github.com/ewingtsai/go-web/common"
-	"github.com/ewingtsai/go-web/config"
-	"github.com/ewingtsai/go-web/generate/model"
-	"github.com/ewingtsai/go-web/generate/query"
-	"github.com/ewingtsai/go-web/utils/converter"
+	"github.com/ewingtsai/go-home/common"
+	"github.com/ewingtsai/go-home/config"
+	"github.com/ewingtsai/go-home/generate/model"
+	"github.com/ewingtsai/go-home/generate/query"
+	"github.com/ewingtsai/go-home/utils/converter"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 )
