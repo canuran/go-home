@@ -102,7 +102,7 @@
 
     layui.use(['miniAdmin'], function () {
         if (window.miniAdminDone) {
-            layer.msg("主页已经加载过了", {icon: 2});
+            window.location.href = webPath;
             return
         }
         window.miniAdminDone = true;
