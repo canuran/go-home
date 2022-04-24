@@ -1,4 +1,4 @@
-package scroller
+package service
 
 import (
 	"context"
@@ -213,7 +213,7 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		saveId, jsoner.JsonMarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {
-		_ = repo.UpdateConfigNotEmpty(context.Background(), &model.Config{
+		_ = repo.UpdateConfig(context.Background(), &model.Config{
 			Config: params.ConfigKey,
 			Num:    saveId,
 			Value:  jsoner.JsonMarshalString(worker),

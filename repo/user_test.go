@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/ewingtsai/go-home/common"
+	"github.com/ewingtsai/go-home/common/errutil"
 	"github.com/ewingtsai/go-home/config"
 	"github.com/ewingtsai/go-home/generate/model"
-	"github.com/ewingtsai/go-home/utils/errorer"
 	"github.com/ewingtsai/go-home/utils/jsoner"
 	"testing"
 )
@@ -31,7 +31,7 @@ create index if not exists idx_user_updated_at on user (updated_at);`
 func init() {
 	config.InitTest()
 	gormDB, _ := config.ApplyDB(context.Background())
-	errorer.LogIfErr(gormDB.Exec(userDDL).Error)
+	errutil.LogIfErr(gormDB.Exec(userDDL).Error)
 }
 
 func TestSaveUser(t *testing.T) {
@@ -43,7 +43,7 @@ func TestSaveUser(t *testing.T) {
 		OmitPassword:    true,
 		OmitAuthVersion: true,
 	})
-	if errorer.TestingErr(t, err) {
+	if errutil.TestingErr(t, err) {
 		return
 	}
 }
@@ -60,7 +60,7 @@ func TestQueryUser(t *testing.T) {
 		GetRows:  true,
 		GetCount: true,
 	})
-	if errorer.TestingErr(t, err) {
+	if errutil.TestingErr(t, err) {
 		return
 	}
 	fmt.Println(count)

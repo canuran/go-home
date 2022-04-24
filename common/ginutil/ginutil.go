@@ -3,7 +3,7 @@ package ginutil
 import (
 	"github.com/ewingtsai/go-home/common"
 	"github.com/ewingtsai/go-home/common/consts"
-	"github.com/ewingtsai/go-home/common/showerr"
+	"github.com/ewingtsai/go-home/common/errutil"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 
@@ -34,7 +34,7 @@ func FailIfError(c *gin.Context, err error) bool {
 	if err != nil {
 		log.Println(err)
 		// 只有 ShowErr 可以直接展示给用户
-		if he, ok := err.(showerr.ShowErr); ok {
+		if he, ok := err.(errutil.ShowErr); ok {
 			c.JSON(http.StatusOK, &common.Response{
 				Code:    he.Code,
 				Message: he.Error(),

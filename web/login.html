@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="image/favicon.ico">
-    <link rel="stylesheet" href="module/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="library/layui/css/layui.css" media="all">
     <style>
         .login-body {
             top: 50%;
@@ -249,9 +249,10 @@
 
 <div class="login-footer"></div>
 
-<script src="module/layui/layui.js" charset="utf-8"></script>
-<script src="module/jquery/jquery.js" charset="utf-8"></script>
-<script src="module/jquery/md5.js" charset="utf-8"></script>
+<script src="library/layui/layui.js" charset="utf-8"></script>
+<script src="library/jquery/jquery.js" charset="utf-8"></script>
+<script src="library/jquery/md5.js" charset="utf-8"></script>
+<script src="common/common.js" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
     var webPath = "/web"
@@ -286,12 +287,12 @@
                 dataType: "json",
                 success: function (result) {
                     if (result && result.code === 0) {
-                        // 登陆完成清除控件密码
+                        // 登录完成清除控件密码
                         $("input[name='login_password']").val("");
                         if (location.pathname.startsWith(webPath + "/login.html")) {
                             window.location.href = webPath + "/index.html"
                         } else {
-                            closeLoginLayer && closeLoginLayer();
+                            window.loginIndex && layui.layer.close(window.loginIndex);
                             updateLoginInfo && updateLoginInfo();
                         }
                     } else {

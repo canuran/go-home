@@ -4,11 +4,11 @@ import (
 	"context"
 	"github.com/ewingtsai/go-home/common"
 	"github.com/ewingtsai/go-home/common/consts"
-	"github.com/ewingtsai/go-home/common/showerr"
+	"github.com/ewingtsai/go-home/common/errutil"
 	"github.com/ewingtsai/go-home/generate/model"
 	"github.com/ewingtsai/go-home/repo"
 	"github.com/ewingtsai/go-home/utils/encoders"
-	"github.com/ewingtsai/go-home/utils/errorer"
+	"github.com/ewingtsai/go-home/utils/encriptor"
 	"github.com/ewingtsai/go-home/utils/stringer"
 	log "github.com/sirupsen/logrus"
 	"strings"
@@ -78,40 +78,40 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	user.Name = stringer.StandardizeString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
-		return showerr.Format("用户名不能为空")
+		return errutil.Format("用户名不能为空")
 	}
 	if len(user.Name) > 32 {
-		return showerr.Format("用户名太长")
+		return errutil.Format("用户名太长")
 	}
 	if len(user.Password) > 32 {
-		return showerr.Format("用户密码太长")
+		return errutil.Format("用户密码太长")
 	}
 	if user.Password != stringer.StandardizeString(user.Password) {
-		return showerr.Format("密码格式不正确")
+		return errutil.Format("密码格式不正确")
 	}
 	// 很小的头像先放库里存着，有条件再升级
 	if len(user.Header) > 5120 {
-		return showerr.Format("头像图片太大")
+		return errutil.Format("头像图片太大")
 	}
 
 	// 业务逻辑
 	option := repo.SaveOption{}
 	existsUser, err := GetUserByName(ctx, user.Name)
-	if errorer.LogIfErr(err) {
+	if errutil.LogIfErr(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
 		oldUser, err := GetUserById(ctx, user.ID)
-		if errorer.LogIfErr(err) {
+		if errutil.LogIfErr(err) {
 			return err
 		}
 		if oldUser == nil {
-			return showerr.Format("用户%d不存在", user.ID)
+			return errutil.Format("用户%d不存在", user.ID)
 		}
 		if existsUser != nil && existsUser.ID != user.ID {
-			return showerr.Format("用户名%s已存在", user.Name)
+			return errutil.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Password) > 0 {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
@@ -122,13 +122,13 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	} else {
 		// 新增用户
 		if existsUser != nil {
-			return showerr.Format("用户名%s已存在", user.Name)
+			return errutil.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
 			user.Header = consts.DefaultHeader
 		}
 		if len(user.Password) < 1 {
-			return showerr.Format("用户密码不能为空")
+			return errutil.Format("用户密码不能为空")
 		} else {
 			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
@@ -191,4 +191,30 @@ func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 		return nil
 	}
 	return repo.UpdateAuthVersion(ctx, UserBO2DO(user))
+}
+
+func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
+	if len(tokenStr) < 1 {
+		return nil
+	}
+
+	// 解析JWT
+	claims, err := encriptor.ParseToken(tokenStr, config.JwtSecret)
+	if errutil.LogIfErr(err) {
+		return nil
+	}
+	// 空名称的是盐
+	if len(claims.Name) < 1 {
+		return nil
+	}
+
+	// 验证登录版本是否失效
+	user, err := GetUserById(ctx, claims.ID)
+	if errutil.LogIfErr(err) {
+		return nil
+	}
+	if user == nil || claims.Version < user.AuthVersion {
+		return nil
+	}
+	return user
 }

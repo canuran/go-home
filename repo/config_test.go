@@ -2,9 +2,9 @@ package repo
 
 import (
 	"context"
+	"github.com/ewingtsai/go-home/common/errutil"
 	"github.com/ewingtsai/go-home/config"
 	"github.com/ewingtsai/go-home/generate/model"
-	"github.com/ewingtsai/go-home/utils/errorer"
 	"github.com/ewingtsai/go-home/utils/jsoner"
 	"testing"
 )
@@ -25,7 +25,7 @@ create index if not exists idx_config_updated_at on config (updated_at);`
 func init() {
 	config.InitTest()
 	gormDB, _ := config.ApplyDB(context.Background())
-	errorer.LogIfErr(gormDB.Exec(configDDL).Error)
+	errutil.LogIfErr(gormDB.Exec(configDDL).Error)
 }
 
 func TestSaveConfig(t *testing.T) {
@@ -49,7 +49,7 @@ func TestGetConfig(t *testing.T) {
 }
 
 func TestUpdateConfigNotEmpty(t *testing.T) {
-	err := UpdateConfigNotEmpty(context.Background(), &model.Config{
+	err := UpdateConfig(context.Background(), &model.Config{
 		Config: "worker",
 		Num:    125,
 		Value:  "你好",

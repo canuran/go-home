@@ -1,19 +1,24 @@
 package jsoner
 
 import (
-	"github.com/ewingtsai/go-home/utils/errorer"
 	jsoniter "github.com/json-iterator/go"
+	"log"
 )
 
 func JsonMarshal(val interface{}) []byte {
 	bts, err := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(val)
-	errorer.LogIfErr(err)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
 	return bts
 }
 
 func JsonUnmarshal(bts []byte, val interface{}) {
 	err := jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(bts, val)
-	errorer.LogIfErr(err)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func JsonMarshalString(val interface{}) string {

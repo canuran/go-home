@@ -13,11 +13,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="image/favicon.ico">
-    <link rel="stylesheet" href="module/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="module/font-awesome/css/font-awesome.css" media="all">
-    <link rel="stylesheet" href="module/layuimini/layuimini.css" media="all">
-    <link rel="stylesheet" href="module/layuimini/themes/default.css" media="all">
-    <link rel="stylesheet" href="module/GridManager/index.css" media="all">
+    <link rel="stylesheet" href="library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="library/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="module/layuimini.css" media="all">
+    <link rel="stylesheet" href="module/themes/default.css" media="all">
+    <link rel="stylesheet" href="library/GridManager/index.css" media="all">
     <style id="layuimini-bg-color"></style>
 </head>
 
@@ -90,25 +90,30 @@
         <div class="layuimini-content-page"></div>
     </div>
 </div>
-<script src="module/jquery/jquery.js" charset="utf-8"></script>
-<script src="module/layui/layui.js" charset="utf-8"></script>
-<script src="module/xm-select/xm-select.js" charset="utf-8"></script>
-<script src="module/GridManager/index.js" charset="utf-8"></script>
+<script src="library/jquery/jquery.js" charset="utf-8"></script>
+<script src="library/layui/layui.js" charset="utf-8"></script>
+<script src="library/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="library/GridManager/index.js" charset="utf-8"></script>
+<script src="common/common.js" charset="utf-8"></script>
 <script src="module/lay-config.js" charset="utf-8"></script>
 <script>
     var srvPath = "/srv"
     var webPath = "/web"
 
     layui.use(['miniAdmin'], function () {
-        var options = {
-            iniUrl: "api/init.json",    // 初始化接口
+        if (window.miniAdminDone) {
+            layer.msg("主页已经加载过了", {icon: 2});
+            return
+        }
+        window.miniAdminDone = true;
+
+        layui.miniAdmin.render({
+            iniUrl: "module/init.json",    // 初始化接口
             bgColorDefault: false,      // 主题默认配置
             multiModule: true,          // 是否开启多模块
             menuChildOpen: false,       // 是否默认展开菜单
             pageAnim: true,             // 切换菜单动画
-        };
-
-        layui.miniAdmin.render(options);
+        });
 
         $('#login-out').on("click", function () {
             $.get(srvPath + '/logout', {}, function () {
@@ -121,27 +126,16 @@
         updateLoginInfo();
     });
 
-    $.ajaxSetup({
-        error: function (xhr) {
-            if (xhr.status === 401) {
-                $('#user-profile').hide();
-                $('#user-login').show();
-                openLoginLayer()
-            } else {
-                layui.layer.msg("请求失败", {icon: 2})
-            }
-        }
-    });
-
-    var loginIndex = 0;
     function openLoginLayer() {
-        if (loginIndex !== 0) {
+        if (window.loginIndex) {
             return false
         }
         $.ajax({
-            url: webPath + "/login.html", type: 'get', dataType: 'html',
+            url: webPath + "/login.html",
+            type: 'get',
+            dataType: 'html',
             success: function (data) {
-                loginIndex = layui.layer.open({
+                window.loginIndex = layui.layer.open({
                     type: 1,
                     resize: false,
                     area: ['60%', '80%'],
@@ -150,7 +144,7 @@
                     content: data,
                     skin: 'login-layer',
                     cancel: function () {
-                        loginIndex = 0;
+                        window.loginIndex = 0;
                     }
                 });
             }
@@ -158,106 +152,26 @@
         return false;
     }
 
-    function closeLoginLayer() {
-        layui.layer.close(loginIndex);
-    }
-
     function updateLoginInfo() {
-        $.get(srvPath + '/loginer', {}, function (data) {
-            $('#user-login').hide();
-            var headImg = data.data && data.data.header ?
-                '<img style="width:30px;height:30px;border-radius:15px" src="data:image;base64,' +
-                data.data.header + '" alt=""/> ' : '<i class="fa fa-user-circle"></i>';
-            $('#login-info').html(headImg + (data.data && data.data.name || ''));
-            $('#user-profile').show();
-        });
-    }
-
-    /*获取当前Url里面的参数*/
-    function getUrlParams() {
-        return getParamsByUrl(window.location.href);
-    }
-
-    /*获取指定Url里面的参数*/
-    function getParamsByUrl(url) {
-        var params = {}
-        var reg = /[?&](\w+)=([^&]*)/g;
-        var matches = (url || "").matchAll(reg);
-        for (var match of matches) {
-            params[match[1]] = decodeURIComponent(match[2]);
-        }
-        return params;
-    }
-
-    function encodeUriParams(params, defaults) {
-        params = params || {};
-        defaults = defaults || {};
-        var paramStr = ""
-        for (const key in params) {
-            var value = params[key];
-            // 如果是默认值则不添加
-            if (value === defaults[key]) {
-                continue
+        $.ajax({
+            url: srvPath + '/loginer',
+            success: function (data) {
+                $('#user-login').hide();
+                var headImg = data.data && data.data.header ?
+                    '<img style="width:30px;height:30px;border-radius:15px" src="data:image;base64,' +
+                    data.data.header + '" alt=""/> ' : '<i class="fa fa-user-circle"></i>';
+                $('#login-info').html(headImg + (data.data && data.data.name || ''));
+                $('#user-profile').show();
+            },
+            error: function (xhr) {
+                if (xhr.status === 401) {
+                    $('#user-profile').hide();
+                    $('#user-login').show();
+                    openLoginLayer();
+                } else {
+                    layui.layer.msg("获取登录信息失败", {icon: 2});
+                }
             }
-            value = encodeURIComponent(value || "");
-            if (value.length < 1024) {
-                paramStr += value ? ((paramStr ? "&" : "") + key + "=" + value) : "";
-            } else {
-                console.log(paramStr + " too long");
-            }
-        }
-        return paramStr;
-    }
-
-    // 设置当前浏览器url参数
-    function setUrlParams(params, defaults) {
-        var paramStr = encodeUriParams(params, defaults);
-        paramStr = paramStr ? "?" + paramStr : paramStr;
-        var href = window.location.href;
-        var uriEnd = href.indexOf("?");
-        if (uriEnd > 0) {
-            href = window.location.href.substring(0, uriEnd);
-        }
-        window.history.replaceState({}, "", href + paramStr);
-    }
-
-    function formatDateTime(value) {
-        if (value && value.length > 19) {
-            value = value.substring(0, 19)
-        }
-        return value && value.replace("T", " ")
-    }
-
-    function gmTimeTemplate(cell, row, index, key) {
-        return formatDateTime(row[key]);
-    }
-
-    function gmStrongTemplate(cell, row, index, key) {
-        return '<strong>' + (row[key] || '') + '</strong>'
-    }
-
-    function gmPreTemplate(cell, row, index, key) {
-        return '<pre>' + replaceHtmlTag(row[key]) + '</pre>'
-    }
-
-    function replaceHtmlTag(input) {
-        return (input || "").replace(/</g, "&lt;").replace(/</g, "&gt;")
-    }
-
-    function gmAjaxTotals(settings, params) {
-        return new Promise(resolve => {
-            params.count = true
-            $.post(settings.ajaxUrl || "", params, function (data) {
-                resolve(data && data.totals || 0);
-            }, 'json')
-        });
-    }
-
-    function gmAjaxData(settings, params) {
-        return new Promise(resolve => {
-            $.post(settings.ajaxUrl || "", params, function (data) {
-                resolve(data || {});
-            }, 'json');
         });
     }
 </script>

@@ -13,6 +13,7 @@ var (
 	gormDB            *gorm.DB
 	ctxDbKey          = dbKey(1)
 	ConflictUpdateAll = clause.OnConflict{UpdateAll: true}
+	JwtSecret         = []byte("MAQoSrhbNoK312x2")
 )
 
 type dbKey int // 专属Key

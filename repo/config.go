@@ -37,7 +37,7 @@ func SaveConfig(ctx context.Context, configDO *model.Config) error {
 	return nil
 }
 
-func UpdateConfigNotEmpty(ctx context.Context, configDO *model.Config) error {
+func UpdateConfig(ctx context.Context, configDO *model.Config) error {
 	if configDO == nil || len(configDO.Config) < 1 {
 		return nil
 	}
@@ -46,7 +46,7 @@ func UpdateConfigNotEmpty(ctx context.Context, configDO *model.Config) error {
 	_, err := c.Where(c.Config.Eq(configDO.Config)).
 		Updates(configDO)
 	if err != nil {
-		log.Errorf("UpdateConfigNotEmpty err:%s", err.Error())
+		log.Errorf("UpdateConfig err:%s", err.Error())
 		return err
 	}
 	return nil

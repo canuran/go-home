@@ -1,16 +1,14 @@
-package service
+package encriptor
 
 import (
+	"errors"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ewingtsai/go-home/common/showerr"
 	"time"
 )
 
 const (
 	DefaultJwtExpire = time.Hour * 720
 )
-
-var JwtSecret = []byte("MAQoSrhbNoK312x2")
 
 type JwtData struct {
 	ID      int64  `json:"id,omitempty"`
@@ -28,11 +26,11 @@ func GetExpireDate() time.Time {
 }
 
 // GenToken 生成JWT
-func GenToken(data *JwtData) (string, error) {
-	return GenTokenExpire(data, GetExpireDate())
+func GenToken(data *JwtData, secret []byte) (string, error) {
+	return GenTokenExpire(data, secret, GetExpireDate())
 }
 
-func GenTokenExpire(data *JwtData, expire time.Time) (string, error) {
+func GenTokenExpire(data *JwtData, secret []byte, expire time.Time) (string, error) {
 	// 创建一个我们自己的声明
 	c := JwtClaims{
 		StandardClaims: jwt.StandardClaims{
@@ -43,15 +41,15 @@ func GenTokenExpire(data *JwtData, expire time.Time) (string, error) {
 	// 使用指定的签名方法创建签名对象
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 	// 使用指定的secret签名并获得完整的编码后的字符串token
-	return token.SignedString(JwtSecret)
+	return token.SignedString(secret)
 }
 
 // ParseToken 解析JWT
-func ParseToken(tokenStr string) (*JwtClaims, error) {
+func ParseToken(tokenStr string, secret []byte) (*JwtClaims, error) {
 	// 解析token
 	token, err := jwt.ParseWithClaims(tokenStr, &JwtClaims{},
 		func(token *jwt.Token) (i interface{}, err error) {
-			return JwtSecret, nil
+			return secret, nil
 		})
 	if err != nil {
 		return nil, err
@@ -60,5 +58,5 @@ func ParseToken(tokenStr string) (*JwtClaims, error) {
 	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
 		return claims, nil
 	}
-	return nil, showerr.New("身份验证信息已失效")
+	return nil, errors.New("invalid jwt token")
 }

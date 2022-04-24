@@ -3,14 +3,14 @@ package imager
 import (
 	"bytes"
 	"fmt"
-	"github.com/ewingtsai/go-home/utils/errorer"
+	"github.com/ewingtsai/go-home/common/errutil"
 	"io/ioutil"
 	"testing"
 )
 
 func TestImageResize(t *testing.T) {
 	fileBts, err := ioutil.ReadFile("test.jpg")
-	if errorer.LogIfErr(err) {
+	if errutil.LogIfErr(err) {
 		return
 	}
 	for i := 80; i < 120; i++ {

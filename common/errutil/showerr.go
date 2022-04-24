@@ -1,4 +1,4 @@
-package showerr
+package errutil
 
 import (
 	"errors"
