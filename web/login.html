@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="cn">
-
+<!-- 元素命名均以login开头以便于嵌入其他页面 -->
+<html lang="cn" style="width:100%;height:100%">
 <head>
     <meta charset="UTF-8">
     <title>后端之家</title>
@@ -12,7 +12,7 @@
     <link rel="icon" href="image/favicon.ico">
     <link rel="stylesheet" href="module/layui/css/layui.css" media="all">
     <style>
-        .main-body {
+        .login-body {
             top: 50%;
             left: 50%;
             position: absolute;
@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        .login-main .login-bottom .center .item input {
+        .login-main .login-bottom .login-center .login-item input {
             display: inline-block;
             width: 135px;
             height: 22px;
@@ -36,44 +36,36 @@
             letter-spacing: 0;
         }
 
-        .login-main .login-bottom .center .item .icon-1 {
+        .login-main .login-bottom .login-center .login-item .login-icon1 {
             background: url(image/loginicon.png) no-repeat 0 0;
         }
 
-        .login-main .login-bottom .center .item .icon-2 {
+        .login-main .login-bottom .login-center .login-item .login-icon2 {
             background: url(image/loginicon.png) no-repeat -54px 0;
         }
 
-        .login-main .login-bottom .center .item .icon-3 {
+        .login-main .login-bottom .login-center .login-item .login-icon3 {
             background: url(image/loginicon.png) no-repeat -106px 0;
         }
 
-        .login-main .login-bottom .center .item .icon-4 {
+        .login-main .login-bottom .login-center .login-item .login-icon4 {
             background: url(image/loginicon.png) no-repeat 0 -43px;
             position: absolute;
             right: -10px;
             cursor: pointer;
         }
 
-        .login-main .login-bottom .center .item .icon-5 {
+        .login-main .login-bottom .login-center .login-item .login-icon5 {
             background: url(image/loginicon.png) no-repeat -55px -43px;
         }
 
-        .login-main .login-bottom .tip .icon-check {
-            margin: 0 7px 0 0;
-            width: 14px;
-            height: 14px;
-            border: none;
-            background: url(image/loginicon.png) no-repeat -111px -48px;
-        }
-
-        .login-main .login-bottom .center .item .icon {
+        .login-main .login-bottom .login-center .login-item .login-icon {
             display: inline-block;
             width: 33px;
             height: 22px;
         }
 
-        .login-main .login-bottom .center .item {
+        .login-main .login-bottom .login-center .login-item {
             width: 288px;
             height: 35px;
             border-bottom: 1px solid #dae1e6;
@@ -105,7 +97,7 @@
             transform: rotate(0);
         }
 
-        .login-main .login-top .bg1 {
+        .login-main .login-top .login-bg1 {
             display: inline-block;
             width: 74px;
             height: 74px;
@@ -117,7 +109,7 @@
             top: 43px;
         }
 
-        .login-main .login-top .bg2 {
+        .login-main .login-top .login-bg2 {
             display: inline-block;
             width: 94px;
             height: 94px;
@@ -136,7 +128,7 @@
             padding-bottom: 53px;
         }
 
-        .login-main .login-bottom .center {
+        .login-main .login-bottom .login-center {
             width: 288px;
             margin: 0 auto;
             padding-top: 40px;
@@ -144,23 +136,21 @@
             position: relative;
         }
 
-        body {
-         background-image:url(image/back.png);
-         background-position:center center;
-         background-size:cover;
-         background-repeat:no-repeat;
-         background-attachment:fixed;
-         position:static;
-         font-size:12px;
+        .login-container {
+            background-image: url(image/back.png);
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: static;
+            font-size: 12px;
+            height: 100%;
+            width: 100%;
         }
 
-        input:-webkit-autofill {
+        .login-center div input:-webkit-autofill {
             /* 取消Chrome记住密码的背景颜色 */
             -webkit-box-shadow: 0 0 0 1000px white inset !important;
-        }
-
-        html {
-            height: 100%;
         }
 
         .login-main .login-bottom .login-btn {
@@ -178,7 +168,7 @@
             border: none;
         }
 
-        .login-main .login-bottom .center .item .validateImg {
+        #login-captcha-img {
             position: absolute;
             right: 1px;
             cursor: pointer;
@@ -186,7 +176,7 @@
             border: 1px solid #e6e6e6;
         }
 
-        .footer {
+        .login-footer {
             left: 0;
             bottom: 0;
             color: #fff;
@@ -199,8 +189,8 @@
             font-size: 14px;
         }
 
-        .footer a,
-        .footer span {
+        .login-footer a,
+        .login-footer span {
             color: #fff;
         }
 
@@ -219,44 +209,45 @@
         }
     </style>
 </head>
+<body style="width:100%;height:100%">
+<div class="login-container">
+    <div class="login-body">
+        <div class="login-main">
+            <div class="login-top">
+                <span>用户登录</span>
+                <span class="login-bg1"></span>
+                <span class="login-bg2"></span>
+            </div>
+            <form class="layui-form login-bottom">
+                <div class="login-center">
+                    <div class="login-item">
+                        <span class="login-icon login-icon2"></span>
+                        <input type="text" value="元宝" name="login_name" lay-verify="required" placeholder="请输入登录账号"/>
+                    </div>
 
-<body>
-<div class="main-body">
-    <div class="login-main">
-        <div class="login-top">
-            <span>用户登录</span>
-            <span class="bg1"></span>
-            <span class="bg2"></span>
+                    <div class="login-item">
+                        <span class="login-icon login-icon3"></span>
+                        <input type="password" value="yb" name="login_password" lay-verify="required"
+                               placeholder="请输入密码"/>
+                        <span class="bind-password login-icon login-icon4"></span>
+                    </div>
+
+                    <input type="text" name="login_captcha_encode" hidden/>
+                    <div class="login-item" style="width:160px">
+                        <span class="login-icon login-icon1"></span>
+                        <input type="number" name="login_captcha_code" lay-verify="required" placeholder="请输入验证码"/>
+                        <img id="login-captcha-img" src="image/captcha.png" alt=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="text-align:center;margin:0">
+                    <button class="login-btn" lay-submit lay-filter="login">立即登录</button>
+                </div>
+            </form>
         </div>
-        <form class="layui-form login-bottom">
-            <div class="center">
-                <div class="item">
-                    <span class="icon icon-2"></span>
-                    <input type="text" value="元宝" name="name" lay-verify="required" placeholder="请输入登录账号"/>
-                </div>
-
-                <div class="item">
-                    <span class="icon icon-3"></span>
-                    <input type="password" value="yb" name="password" lay-verify="required" placeholder="请输入密码"/>
-                    <span class="bind-password icon icon-4"></span>
-                </div>
-
-                <input id="captchaEncodeInput" type="text" name="captcha_encode" hidden/>
-                <div id="validatePanel" class="item" style="width:160px">
-                    <span class="icon icon-1"></span>
-                    <input type="number" name="captcha_code" lay-verify="required" placeholder="请输入验证码"/>
-                    <img id="captchaImg" class="validateImg" src="image/captcha.png"/>
-                </div>
-            </div>
-            <div class="layui-form-item" style="text-align:center;margin:0">
-                <button class="login-btn" lay-submit lay-filter="login">立即登录</button>
-            </div>
-        </form>
     </div>
 </div>
 
-<div class="footer">
-</div>
+<div class="login-footer"></div>
 
 <script src="module/layui/layui.js" charset="utf-8"></script>
 <script src="module/jquery/jquery.js" charset="utf-8"></script>
@@ -268,26 +259,26 @@
     $(function () {
         function refreshCaptcha() {
             $.get(srvPath + '/captcha', {}, function (data) {
-                $("input[name='captcha_code']").val("");
-                $("input[name='captcha_encode']").val(data.data && data.data.encode);
-                $('#captchaImg').attr('src', 'data:image;base64,' + (data.data && data.data.image));
+                $("input[name='login_captcha_code']").val("");
+                $("input[name='login_captcha_encode']").val(data.data && data.data.encode);
+                $('#login-captcha-img').attr('src', 'data:image;base64,' + (data.data && data.data.image));
             });
         }
 
         function bindPassword() {
-            if ($(this).hasClass('icon-5')) {
-                $(this).removeClass('icon-5');
-                $("input[name='password']").attr('type', 'password');
+            if ($(this).hasClass('login-icon5')) {
+                $(this).removeClass('login-icon5');
+                $("input[name='login_password']").attr('type', 'password');
             } else {
-                $(this).addClass('icon-5');
-                $("input[name='password']").attr('type', 'text');
+                $(this).addClass('login-icon5');
+                $("input[name='login_password']").attr('type', 'text');
             }
         }
 
-        function submit(data) {
-            data = data.field;
+        function submitLogin(data) {
+            data = data && data.field || {};
             // 密码混淆加强
-            data.password = md5(md5(data.password.repeat(8)) + data.captcha_code);
+            data.login_password = md5(md5((data.login_password || "").repeat(8)) + data.login_captcha_code);
             $.ajax({
                 url: srvPath + "/auth",
                 method: "post",
@@ -296,16 +287,12 @@
                 success: function (result) {
                     if (result && result.code === 0) {
                         // 登陆完成清除控件密码
-                        $("input[name='password']").val("");
-                        if (top !== self && window.parent) {
-                            if (window.parent.closeLoginLayer) {
-                                window.parent.closeLoginLayer()
-                            }
-                            if (window.parent.updateLoginInfo) {
-                                window.parent.updateLoginInfo()
-                            }
-                        } else {
+                        $("input[name='login_password']").val("");
+                        if (location.pathname.startsWith(webPath + "/login.html")) {
                             window.location.href = webPath + "/index.html"
+                        } else {
+                            closeLoginLayer && closeLoginLayer();
+                            updateLoginInfo && updateLoginInfo();
                         }
                     } else {
                         layui.layer.msg(result.message, {icon: 2});
@@ -316,22 +303,13 @@
             return false;
         }
 
-        $('.icon-nocheck').on('click', function () {
-            if ($(this).hasClass('icon-check')) {
-                $(this).removeClass('icon-check');
-            } else {
-                $(this).addClass('icon-check');
-            }
-        });
-
         $('.bind-password').on('click', bindPassword);
-        $('#captchaImg').on('click', refreshCaptcha);
+        $('#login-captcha-img').on('click', refreshCaptcha);
 
         // 进行登录操作
-        layui.form.on('submit(login)', submit);
+        layui.form.on('submit(login)', submitLogin);
         refreshCaptcha();
     });
 </script>
 </body>
-
 </html>

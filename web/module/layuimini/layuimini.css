@@ -685,3 +685,7 @@
 .form-labeled-width{
  width:calc(100% - 120px) !important;
 }
+.login-layer {
+ overflow: hidden;
+ border-radius: 12px !important;
+}

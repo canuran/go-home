@@ -115,7 +115,9 @@
                 window.location.href = webPath + "/login.html";
             });
         });
+
         $('#user-login a').on("click", openLoginLayer);
+        setInterval(updateLoginInfo, 60000, true);
         updateLoginInfo();
     });
 
@@ -132,16 +134,25 @@
     });
 
     var loginIndex = 0;
-
     function openLoginLayer() {
-        loginIndex = loginIndex ? loginIndex : layui.layer.open({
-            type: 2,
-            resize: false,
-            area: ['800px', '650px'],
-            title: '<i class="fa fa-list"></i> 用户登录',
-            content: webPath + "/login.html",
-            cancel: function () {
-                loginIndex = 0;
+        if (loginIndex !== 0) {
+            return false
+        }
+        $.ajax({
+            url: webPath + "/login.html", type: 'get', dataType: 'html',
+            success: function (data) {
+                loginIndex = layui.layer.open({
+                    type: 1,
+                    resize: false,
+                    area: ['60%', '80%'],
+                    title: false,
+                    closeBtn: 0,
+                    content: data,
+                    skin: 'login-layer',
+                    cancel: function () {
+                        loginIndex = 0;
+                    }
+                });
             }
         });
         return false;
@@ -180,6 +191,7 @@
 
     function encodeUriParams(params, defaults) {
         params = params || {};
+        defaults = defaults || {};
         var paramStr = ""
         for (const key in params) {
             var value = params[key];

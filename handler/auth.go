@@ -32,13 +32,11 @@ func Auth(group *gin.RouterGroup) {
 func authHandler(c *gin.Context) {
 	// 用户发送用户名和密码过来
 	var userParam UserVO
-	err := c.ShouldBind(&userParam)
-	if ginutil.FailIfError(c, err) {
-		return
-	}
+	userParam.Name = c.PostForm("login_name")
+	userParam.Password = c.PostForm("login_password")
 	// 获取并解析验证码
-	captchaEncode := c.PostForm("captcha_encode")
-	captchaCode := c.PostForm("captcha_code")
+	captchaEncode := c.PostForm("login_captcha_encode")
+	captchaCode := c.PostForm("login_captcha_code")
 	claims, err := service.ParseToken(captchaEncode)
 	if err != nil {
 		ginutil.FailMessage(c, "验证码过期")
