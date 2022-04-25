@@ -9,8 +9,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="/web/image/favicon.ico">
-    <link rel="stylesheet" href="/web/library/layui/css/layui.css" media="all">
+    <link rel="icon" href="image/favicon.ico">
+    <link rel="stylesheet" href="library/layui/css/layui.css" media="all">
     <style>
         .login-body {
             top: 50%;
@@ -236,7 +236,7 @@
                     <div class="login-item" style="width:160px">
                         <span class="login-icon login-icon1"></span>
                         <input type="number" name="login_captcha_code" lay-verify="required" placeholder="请输入验证码"/>
-                        <img id="login-captcha-img" src="/web/image/captcha.png" alt=""/>
+                        <img id="login-captcha-img" src="image/captcha.png" alt=""/>
                     </div>
                 </div>
                 <div class="layui-form-item" style="text-align:center;margin:0">
@@ -249,14 +249,14 @@
 
 <div class="login-footer"></div>
 
-<script src="/web/library/layui/layui.js" charset="utf-8"></script>
-<script src="/web/library/jquery/jquery.js" charset="utf-8"></script>
-<script src="/web/library/jquery/md5.js" charset="utf-8"></script>
-<script src="/web/common/common.js" charset="utf-8"></script>
+<script src="library/layui/layui.js" charset="utf-8"></script>
+<script src="library/jquery/jquery.js" charset="utf-8"></script>
+<script src="library/jquery/md5.js" charset="utf-8"></script>
+<script src="common/common.js" charset="utf-8"></script>
 <script>
     $(function () {
         function refreshCaptcha() {
-            $.get('/api/captcha', {}, function (data) {
+            $.get('../api/captcha', {}, function (data) {
                 $("input[name='login_captcha_code']").val("");
                 $("input[name='login_captcha_encode']").val(data.data && data.data.encode);
                 $('#login-captcha-img').attr('src', 'data:image;base64,' + (data.data && data.data.image));
@@ -278,7 +278,7 @@
             // 密码混淆加强
             data.login_password = md5(md5((data.login_password || "").repeat(8)) + data.login_captcha_code);
             $.ajax({
-                url: "/api/auth",
+                url: "../api/auth",
                 method: "post",
                 data: data,
                 dataType: "json",
@@ -286,11 +286,11 @@
                     if (result && result.code === 0) {
                         // 登录完成清除控件密码
                         $("input[name='login_password']").val("");
-                        if (location.pathname.startsWith("/web/login.html")) {
-                            window.location.href = "/web/index.html"
+                        if (location.pathname.endsWith("login.html")) {
+                            window.location.href = "index.html"
                         } else {
-                            window.loginIndex && layui.layer.close(window.loginIndex);
-                            updateLoginInfo && updateLoginInfo();
+                            if (window.loginIndex) layui.layer.close(window.loginIndex);
+                            if (updateLoginInfo) updateLoginInfo();
                         }
                     } else {
                         layui.layer.msg(result.message, {icon: 2});

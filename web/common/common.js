@@ -1,6 +1,6 @@
 $.ajaxSetup({
     error: function () {
-        layui.layer.msg("请求服务失败");
+        layui.layer.msg("请求服务失败", {tipsMore:true});
     }
 });
 

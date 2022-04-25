@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>用户管理</title>
-    <link rel="icon" href="/web/image/favicon.ico">
-    <link rel="stylesheet" href="/web/library/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/web/library/font-awesome/css/font-awesome.css" media="all">
-    <link rel="stylesheet" href="/web/library/GridManager/index.css" media="all">
+    <link rel="icon" href="../../image/favicon.ico">
+    <link rel="stylesheet" href="../../library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../library/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="../../library/GridManager/index.css" media="all">
 </head>
 <body style="padding:10px">
 <form class="layui-form layui-form-pane" lay-filter="query-form">
@@ -151,11 +151,11 @@
     </div>
 </template>
 
-<script src="/web/library/jquery/jquery.js" charset="utf-8"></script>
-<script src="/web/library/layui/layui.js" charset="utf-8"></script>
-<script src="/web/library/xm-select/xm-select.js" charset="utf-8"></script>
-<script src="/web/library/GridManager/index.js" charset="utf-8"></script>
-<script src="/web/common/common.js" charset="utf-8"></script>
+<script src="../../library/jquery/jquery.js" charset="utf-8"></script>
+<script src="../../library/layui/layui.js" charset="utf-8"></script>
+<script src="../../library/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="../../library/GridManager/index.js" charset="utf-8"></script>
+<script src="../../common/common.js" charset="utf-8"></script>
 <script type="application/javascript">
     $(function () {
         var statuses = {
@@ -188,7 +188,7 @@
             data.id = parseInt(data.id) || 0;
             data.valid_status = parseInt(data.valid_status) || 0;
             $.ajax({
-                url: "/api/user/save",
+                url: "../../../api/user/save",
                 method: "post",
                 processData: false,
                 contentType: false,
@@ -239,7 +239,7 @@
                 title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
             }, function () {
                 $.ajax({
-                    url: "/api/user/delete",
+                    url: "../../../api/user/delete",
                     method: "post",
                     data: {id: row.id},
                     dataType: "json",
@@ -274,7 +274,7 @@
             GridManager.destroy('main-table');
             document.querySelector('#main-table').GM({
                 gridManagerName: 'main-table',
-                ajaxUrl: "/api/user/query",
+                ajaxUrl: "../../../api/user/query",
                 query: params,
                 ajaxData: gmAjaxData,
                 ajaxType: 'POST',

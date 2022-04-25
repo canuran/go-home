@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>图片裁剪</title>
-    <link rel="icon" href="/web/image/favicon.ico">
-    <link rel="stylesheet" href="/web/library/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/web/library/cropper/cropper.css">
+    <link rel="icon" href="../../image/favicon.ico">
+    <link rel="stylesheet" href="../../library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../library/cropper/cropper.css">
     <style>
         #avatar {
             width: 200px;
@@ -33,7 +33,7 @@
     <div class="layui-row">
         <div class="layui-col-sm4">
             <label style="cursor:pointer;margin:10px">
-                <img id="avatar" src="/web/image/back.png" alt="avatar"/>
+                <img id="avatar" src="../../image/back.png" alt="avatar"/>
                 <input type="file" id="input" name="image" accept="image/*" hidden/>
             </label>
         </div>
@@ -50,12 +50,12 @@
             <button class="layui-btn layui-btn-normal" id="scaleX">左右翻转</button>
             <button class="layui-btn layui-btn-warm" id="scaleY">上下翻转</button>
         </div>
-        <img id="image" src="/web/image/back.png" width="800px" alt="avatar"/>
+        <img id="image" src="../../image/back.png" width="800px" alt="avatar"/>
     </div>
 </div>
-<script src="/web/library/jquery/jquery.js" charset="utf-8"></script>
-<script src="/web/library/layui/layui.js" charset="utf-8"></script>
-<script src="/web/library/cropper/cropper.js"></script>
+<script src="../../library/jquery/jquery.js" charset="utf-8"></script>
+<script src="../../library/layui/layui.js" charset="utf-8"></script>
+<script src="../../library/cropper/cropper.js"></script>
 <script type="text/javascript">
     $(function () {
         var avatar = document.getElementById('avatar');
