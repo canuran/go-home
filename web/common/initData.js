@@ -42,7 +42,7 @@ var initData = {
                 {
                     "title": "下拉菜单",
                     "href": "page/demo/dropdown.html",
-                    "icon": "fa fa-image",
+                    "icon": "fa fa-list-alt",
                     "target": "_self"
                 },
                 {
