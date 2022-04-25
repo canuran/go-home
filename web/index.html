@@ -93,12 +93,6 @@
 <script src="/web/common/common.js" charset="utf-8"></script>
 <script>
     layui.use(['miniAdmin'], function () {
-        if (window.miniAdminDone) {
-            window.location.href = "/web/index.html";
-            return
-        }
-        window.miniAdminDone = true;
-
         layui.miniAdmin.render({
             iniUrl: "module/init.json",    // 初始化接口
             bgColorDefault: false,      // 主题默认配置
