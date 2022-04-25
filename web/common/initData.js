@@ -81,7 +81,7 @@ var initData = {
                                         },
                                         {
                                             "title": "四级菜单",
-                                            "icon": "fa fa-file-list",
+                                            "icon": "fa fa-th-list",
                                             "target": "_self",
                                             "child": [
                                                 {
