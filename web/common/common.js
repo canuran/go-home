@@ -1,6 +1,3 @@
-/*layui模块路径*/
-layui && layui.config({base: "/web/module/", version: false});
-
 $.ajaxSetup({
     error: function () {
         layui.layer.msg("请求服务失败");

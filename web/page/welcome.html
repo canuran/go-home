@@ -178,8 +178,9 @@
 </div>
 <script src="/web/library/jquery/jquery.js" charset="utf-8"></script>
 <script src="/web/library/layui/layui.js" charset="utf-8"></script>
-<script src="/web/common/common.js" charset="utf-8"></script>
 <script>
+    layui.extend({echarts: '/web/module/echarts'});
+
     layui.use(['echarts'], function () {
         var echarts = layui.echarts;
 
