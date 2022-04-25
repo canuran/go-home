@@ -4,9 +4,6 @@ const (
 	CodeOk      = 0
 	CodeFailure = -1
 
-	SrvPath = "/srv"
-	WebPath = "/web"
-
 	LoginUserKey = "LoginUser"
 
 	DefaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +

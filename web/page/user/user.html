@@ -1,4 +1,16 @@
-<div class="layuimini-main">
+<!DOCTYPE html>
+<!-- 链接请使用绝对路径 -->
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+    <link rel="icon" href="/web/image/favicon.ico">
+    <link rel="stylesheet" href="/web/library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/web/library/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="/web/library/GridManager/index.css" media="all">
+</head>
+<body>
+<div style="margin:10px">
     <form class="layui-form layui-form-pane" lay-filter="query-form">
         <div class="layui-form-item" style="margin-bottom:10px">
             <div class="layui-col-sm3">
@@ -141,6 +153,11 @@
     </div>
 </template>
 
+<script src="/web/library/jquery/jquery.js" charset="utf-8"></script>
+<script src="/web/library/layui/layui.js" charset="utf-8"></script>
+<script src="/web/library/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="/web/library/GridManager/index.js" charset="utf-8"></script>
+<script src="/web/common/common.js" charset="utf-8"></script>
 <script type="application/javascript">
     $(function () {
         var statuses = {
@@ -170,7 +187,7 @@
             data.id = parseInt(data.id) || 0;
             data.valid_status = parseInt(data.valid_status) || 0;
             $.ajax({
-                url: srvPath + "/user/save",
+                url: "/api/user/save",
                 method: "post",
                 processData: false,
                 contentType: false,
@@ -219,7 +236,7 @@
                 title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
             }, function () {
                 $.ajax({
-                    url: srvPath + "/user/delete",
+                    url: "/api/user/delete",
                     method: "post",
                     data: {id: row.id},
                     dataType: "json",
@@ -248,7 +265,7 @@
             GridManager.destroy('main-table');
             document.querySelector('#main-table').GM({
                 gridManagerName: 'main-table',
-                ajaxUrl: srvPath + "/user/query",
+                ajaxUrl: "/api/user/query",
                 query: params,
                 ajaxData: gmAjaxData,
                 ajaxType: 'POST',
@@ -311,3 +328,5 @@
         createTable(params);
     });
 </script>
+</body>
+</html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="cn">
-
 <head>
     <meta charset="utf-8">
     <title>后端之家</title>
@@ -12,15 +11,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="image/favicon.ico">
-    <link rel="stylesheet" href="library/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="library/font-awesome/css/font-awesome.css" media="all">
-    <link rel="stylesheet" href="module/layuimini.css" media="all">
-    <link rel="stylesheet" href="module/themes/default.css" media="all">
-    <link rel="stylesheet" href="library/GridManager/index.css" media="all">
+    <link rel="icon" href="/web/image/favicon.ico">
+    <link rel="stylesheet" href="/web/library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/web/library/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="/web/module/layuimini.css" media="all">
+    <link rel="stylesheet" href="/web/module/themes/default.css" media="all">
     <style id="layuimini-bg-color"></style>
 </head>
-
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
 
@@ -85,24 +82,21 @@
     <!-- 移动导航 -->
     <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
 
-    <div class="layui-body" style="padding-bottom: 0">
+    <div class="layui-body">
         <!-- 主体区域 -->
         <div class="layuimini-content-page"></div>
+        <!--<iframe class="layuimini-content-page" width="100%" height="100%" src="page/welcome.html"></iframe>-->
     </div>
 </div>
-<script src="library/jquery/jquery.js" charset="utf-8"></script>
-<script src="library/layui/layui.js" charset="utf-8"></script>
-<script src="library/xm-select/xm-select.js" charset="utf-8"></script>
-<script src="library/GridManager/index.js" charset="utf-8"></script>
-<script src="common/common.js" charset="utf-8"></script>
-<script src="module/lay-config.js" charset="utf-8"></script>
+<script src="/web/library/jquery/jquery.js" charset="utf-8"></script>
+<script src="/web/library/layui/layui.js" charset="utf-8"></script>
+<script src="/web/library/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="/web/common/common.js" charset="utf-8"></script>
+<script src="/web/module/lay-config.js" charset="utf-8"></script>
 <script>
-    var srvPath = "/srv"
-    var webPath = "/web"
-
     layui.use(['miniAdmin'], function () {
         if (window.miniAdminDone) {
-            window.location.href = webPath;
+            window.location.href = "/web/index.html";
             return
         }
         window.miniAdminDone = true;
@@ -116,8 +110,8 @@
         });
 
         $('#login-out').on("click", function () {
-            $.get(srvPath + '/logout', {}, function () {
-                window.location.href = webPath + "/login.html";
+            $.get('/api/logout', {}, function () {
+                window.location.href =  "/web/login.html";
             });
         });
 
@@ -131,7 +125,7 @@
             return false
         }
         $.ajax({
-            url: webPath + "/login.html",
+            url:  "/web/login.html",
             type: 'get',
             dataType: 'html',
             success: function (data) {
@@ -154,7 +148,7 @@
 
     function updateLoginInfo() {
         $.ajax({
-            url: srvPath + '/loginer',
+            url: '/api/loginer',
             success: function (data) {
                 $('#user-login').hide();
                 var headImg = data.data && data.data.header ?
@@ -176,5 +170,4 @@
     }
 </script>
 </body>
-
 </html>

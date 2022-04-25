@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/ewingtsai/go-home/common/consts"
 	"github.com/ewingtsai/go-home/handler"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -16,15 +15,15 @@ func main() {
 	engine := gin.Default()
 
 	// 静态文件
-	engine.Static(consts.WebPath, "web")
-	engine.StaticFile("/favicon.ico", consts.WebPath+"/image/favicon.ico")
+	engine.Static("/web", "web")
+	engine.StaticFile("/favicon.ico", "/web/image/favicon.ico")
 
 	// 缺省路由
 	engine.NoRoute(none)
 	engine.GET("/", index)
 
 	// 注册路由
-	group := engine.Group(consts.SrvPath)
+	group := engine.Group("/api")
 	group.Use(handler.JWTAuthMW)
 	handler.Auth(group)
 	handler.User(group)
@@ -36,9 +35,9 @@ func main() {
 }
 
 func index(c *gin.Context) {
-	c.Redirect(http.StatusPermanentRedirect, consts.WebPath+"/index.html")
+	c.Redirect(http.StatusPermanentRedirect, "/web/index.html")
 }
 
 func none(c *gin.Context) {
-	c.Redirect(http.StatusPermanentRedirect, consts.WebPath+"/none.html")
+	c.Redirect(http.StatusPermanentRedirect, "/web/none.html")
 }

@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    error: function () {
-        layui.layer.msg("请求失败", {icon: 2});
-    }
-});
-
 /*获取当前Url里面的参数*/
 function getUrlParams() {
     return getParamsByUrl(window.location.href);
