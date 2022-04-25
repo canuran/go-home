@@ -14,7 +14,7 @@ layui.define(function (exports) {
          */
         config: function (bgcolorId) {
             var bgColorConfig = [{
-                headerRightBg: '#ffffff', //头部右侧背景色
+                headerRightBg: '#f9f9f9', //头部右侧背景色
                 headerRightBgThis: '#e4e4e4', //头部右侧选中背景色,
                 headerRightColor: 'rgba(107, 107, 107, 0.7)', //头部右侧字体颜色,
                 headerRightChildColor: 'rgba(107, 107, 107, 0.7)', //头部右侧下拉字体颜色,
@@ -198,7 +198,7 @@ layui.define(function (exports) {
                 headerLogoColor: '#ffffff', //logo字体颜色,
                 leftMenuNavMore: 'rgb(191, 187, 187)', //左侧菜单更多下拉样式,
                 leftMenuBg: '#2f4056', //左侧菜单背景,
-                leftMenuBgThis: '#3b3f4b', //左侧菜单选中背景,
+                leftMenuBgThis: '#4c4f5b', //左侧菜单选中背景,
                 leftMenuChildBg: 'rgba(0,0,0,.3)', //左侧菜单子菜单背景,
                 leftMenuColor: 'rgb(191, 187, 187)', //左侧菜单字体颜色,
                 leftMenuColorThis: '#ffffff', //左侧菜单选中字体颜色,
