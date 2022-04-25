@@ -42,13 +42,24 @@ layui.define(function (exports) {
         compileMenu: function (menu, isSub) {
             menu.className = menu.className || '';
             menu.childOpenClass = menu.childOpenClass || '';
-            var menuHtml = '<li {{#if( d.menu){ }}  data-menu="{{d.menu}}" {{#}}} ' + 'class="layui-nav-item menu-li {{d.childOpenClass}} {{d.className}}" ' + '{{#if( d.id){ }}  id="{{d.id}}" {{#}}}> <a {{#if( d.href){ }} layuimini-href="{{d.href}}" ' + 'href="#/{{d.href}}" {{#}}} {{#if( d.target){ }}  target="{{d.target}}" {{#}}}>' + '{{#if( d.icon){ }} <i class="{{d.icon}}"></i> {{#}}} <span class="layui-left-nav">' + '{{d.title}}</span></a>  {{# if(d.children){}} {{d.children}} {{#}}} </li>';
+            var menuHtml = '<li {{#if( d.menu){ }}  data-menu="{{d.menu}}" {{#}}} ' +
+                'class="layui-nav-item menu-li {{d.childOpenClass}} {{d.className}}" ' +
+                '{{#if( d.id){ }}  id="{{d.id}}" {{#}}}> <a {{#if( d.href){ }} layuimini-href="{{d.href}}" ' +
+                'href="#/{{d.href}}" {{#}}} {{#if( d.target){ }}  target="{{d.target}}" {{#}}}>' +
+                '{{#if( d.icon){ }} <i class="{{d.icon}}"></i> {{#}}} <span class="layui-left-nav">' +
+                '{{d.title}}</span></a>  {{# if(d.children){}} {{d.children}} {{#}}} </li>';
             if (isSub) {
-                menuHtml = '<dd class="menu-dd {{d.childOpenClass}} {{ d.className }}"> ' + '<a {{#if( d.menu){ }}  data-menu="{{d.menu}}" {{#}}} {{#if( d.id){ }} ' + 'id="{{d.id}}" {{#}}} {{#if(( !d.child || !d.child.length ) && d.href){ }} ' + 'layuimini-href="{{d.href}}" href="#/{{d.href}}" {{#}}} {{#if( d.target){ }} ' + 'target="{{d.target}}" {{#}}}> {{#if( d.icon){ }} <i class="{{d.icon}}">' + '</i> {{#}}} <span class="layui-left-nav"> {{d.title}}</span></a> ' + '{{# if(d.children){}} {{d.children}} {{#}}}</dd>'
+                menuHtml = '<dd class="menu-dd {{d.childOpenClass}} {{ d.className }}"> ' +
+                    '<a {{#if( d.menu){ }}  data-menu="{{d.menu}}" {{#}}} {{#if( d.id){ }} ' +
+                    'id="{{d.id}}" {{#}}} {{#if(( !d.child || !d.child.length ) && d.href){ }} ' +
+                    'layuimini-href="{{d.href}}" href="#/{{d.href}}" {{#}}} {{#if( d.target){ }} ' +
+                    'target="{{d.target}}" {{#}}}> {{#if( d.icon){ }} <i class="{{d.icon}}">' +
+                    '</i> {{#}}} <span class="layui-left-nav"> {{d.title}}</span></a> ' +
+                    '{{# if(d.children){}} {{d.children}} {{#}}}</dd>'
             }
             return laytpl(menuHtml).render(menu);
         }, compileMenuContainer: function (menu, isSub) {
-            var wrapperHtml = '<ul class="layui-nav layui-nav-tree layui-left-nav-tree {{d.className}}"' + ' id="{{d.id}}">{{d.children}}</ul>';
+            var wrapperHtml = '<ul class="layui-nav layui-nav-tree layui-left-nav-tree {{d.className}}" id="{{d.id}}">{{d.children}}</ul>';
             if (isSub) {
                 wrapperHtml = '<dl class="layui-nav-child ">{{d.children}}</dl>';
             }
@@ -146,8 +157,7 @@ layui.define(function (exports) {
                 // left
                 $(".layuimini-menu-left .layui-nav.layui-nav-tree.layui-this").addClass('layui-hide');
                 $(".layuimini-menu-left .layui-nav.layui-nav-tree.layui-this.layui-hide").removeClass('layui-this');
-                $("#" + menuId).removeClass('layui-hide');
-                $("#" + menuId).addClass('layui-this');
+                $("#" + menuId).removeClass('layui-hide').addClass('layui-this');
                 layer.close(loading);
             });
             /**
@@ -157,15 +167,15 @@ layui.define(function (exports) {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 var isShow = $('.layuimini-tool [data-side-fold]').attr('data-side-fold');
                 if (isShow == 1) { // 缩放
-                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 0);
-                    $('.layuimini-tool [data-side-fold]').attr('class', 'fa fa-indent');
-                    $('.layui-layout-body').removeClass('layuimini-all');
-                    $('.layui-layout-body').addClass('layuimini-mini');
+                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 0).
+                    attr('class', 'fa fa-indent');
+                    $('.layui-layout-body').removeClass('layuimini-all').
+                    addClass('layuimini-mini');
                 } else { // 正常
-                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 1);
-                    $('.layuimini-tool [data-side-fold]').attr('class', 'fa fa-outdent');
-                    $('.layui-layout-body').removeClass('layuimini-mini');
-                    $('.layui-layout-body').addClass('layuimini-all');
+                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 1)
+                        .attr('class', 'fa fa-outdent');
+                    $('.layui-layout-body').removeClass('layuimini-mini')
+                        .addClass('layuimini-all');
                     layer.close(window.openTips);
                 }
                 element.init();
@@ -178,15 +188,15 @@ layui.define(function (exports) {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 var isShow = $('.layuimini-tool [data-side-fold]').attr('data-side-fold');
                 if (isShow == 1) { // 缩放
-                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 0);
-                    $('.layuimini-tool [data-side-fold]').attr('class', 'fa fa-indent');
-                    $('.layui-layout-body').removeClass('layuimini-all');
-                    $('.layui-layout-body').addClass('layuimini-mini');
+                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 0)
+                        .attr('class', 'fa fa-indent');
+                    $('.layui-layout-body').removeClass('layuimini-all')
+                        .addClass('layuimini-mini');
                 } else { // 正常
-                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 1);
-                    $('.layuimini-tool [data-side-fold]').attr('class', 'fa fa-outdent');
-                    $('.layui-layout-body').removeClass('layuimini-mini');
-                    $('.layui-layout-body').addClass('layuimini-all');
+                    $('.layuimini-tool [data-side-fold]').attr('data-side-fold', 1)
+                        .attr('class', 'fa fa-outdent');
+                    $('.layui-layout-body').removeClass('layuimini-mini')
+                        .addClass('layuimini-all');
                     layer.close(window.openTips);
                 }
                 element.init();

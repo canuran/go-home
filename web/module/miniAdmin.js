@@ -5,8 +5,8 @@
  * description:layuimini 主体框架扩展
  */
 layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
-    var element = layui.element, layer = layui.layer, miniMenu = layui.miniMenu, miniTheme = layui.miniTheme,
-        miniPage = layui.miniPage;
+    var element = layui.element, layer = layui.layer, miniMenu = layui.miniMenu,
+        miniTheme = layui.miniTheme, miniPage = layui.miniPage;
     if (!/http(s*):\/\//.test(location.href)) {
         var tips = "请先将项目部署至web容器（Apache/Tomcat/Nginx/IIS/等），否则部分数据将无法显示";
         return layer.alert(tips);
@@ -27,18 +27,17 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             options.bgColorDefault = options.bgColorDefault || 0;
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
-            options.pageAnim = options.pageAnim || false;
             miniAdmin.renderLogo();
             $.getJSON(options.iniUrl, function (data) {
                 if (data == null) {
                     miniAdmin.error('暂无菜单信息')
                 } else {
-                    miniAdmin.renderAnim(options.pageAnim);
                     miniAdmin.listen({
                         homeInfo: data.homeInfo, multiModule: options.multiModule,
                     });
                     miniMenu.render({
-                        menuList: data.menuInfo, multiModule: options.multiModule, menuChildOpen: options.menuChildOpen
+                        menuList: data.menuInfo, multiModule: options.multiModule,
+                        menuChildOpen: options.menuChildOpen
                     });
                     miniPage.render({
                         homeInfo: data.homeInfo,
@@ -63,14 +62,6 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
         renderLogo: function () {
             var html='<a><img src="image/logo.png" alt="logo"><h1>后端之家</h1></a>';
             $('.layuimini-logo').html(html);
-        }, /**
-         * 切换菜单动画
-         * @param anim
-         */
-        renderAnim: function (anim) {
-            if (anim) {
-                $('#layuimini-bg-color').after('<style id="layuimini-page-anim">' + '.layuimini-page-anim {-webkit-animation-name:layuimini-upbit;-webkit-animation-duration:.3s;-webkit-animation-fill-mode:both;}\n' + '@keyframes layuimini-upbit {0% {transform:translate3d(0,30px,0);opacity:.3;}\n' + '100% {transform:translate3d(0,0,0);opacity:1;}\n' + '}\n' + '</style>');
-            }
         }, /**
          * 进入全屏
          */
@@ -124,10 +115,10 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
          */
         renderDevice: function () {
             if (miniAdmin.checkMobile()) {
-                $('.layuimini-tool i').attr('data-side-fold', 1);
-                $('.layuimini-tool i').attr('class', 'fa fa-outdent');
-                $('.layui-layout-body').removeClass('layuimini-mini');
-                $('.layui-layout-body').addClass('layuimini-all');
+                $('.layuimini-tool i').attr('data-side-fold', 1)
+                    .attr('class', 'fa fa-outdent');
+                $('.layui-layout-body').removeClass('layuimini-mini')
+                    .addClass('layuimini-all');
             }
         }, /**
          * 成功
@@ -150,7 +141,8 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
         checkMobile: function () {
             var ua = navigator.userAgent.toLocaleLowerCase();
             var pf = navigator.platform.toLocaleLowerCase();
-            var isAndroid = (/android/i).test(ua) || ((/iPhone|iPod|iPad/i).test(ua) && (/linux/i).test(pf)) || (/ucweb.*linux/i.test(ua));
+            var isAndroid = (/android/i).test(ua) || ((/iPhone|iPod|iPad/i).test(ua) &&
+                (/linux/i).test(pf)) || (/ucweb.*linux/i.test(ua));
             var isIOS = (/iPhone|iPod|iPad/i).test(ua) && !isAndroid;
             var isWinPhone = (/Windows Phone|ZuneWP7/i).test(ua);
             var clientWidth = document.documentElement.clientWidth;
@@ -181,7 +173,8 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
                 }
                 var tips = $(this).prop("innerHTML"), isShow = $('.layuimini-tool i').attr('data-side-fold');
                 if (isShow == 0 && tips) {
-                    tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'><li class='layui-nav-item layui-nav-itemed'>" + tips + "</li></ul>";
+                    tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'>" +
+                        "<li class='layui-nav-item layui-nav-itemed'>" + tips + "</li></ul>";
                     window.openTips = layer.tips(tips, $(this), {
                         tips: [2, '#2f4056'], time: 300000, skin: "popup-tips", success: function (el) {
                             var left = $(el).position().left - 10;

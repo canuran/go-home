@@ -9,55 +9,53 @@
     <link rel="stylesheet" href="/web/library/font-awesome/css/font-awesome.css" media="all">
     <link rel="stylesheet" href="/web/library/GridManager/index.css" media="all">
 </head>
-<body>
-<div style="margin:10px">
-    <form class="layui-form layui-form-pane" lay-filter="query-form">
-        <div class="layui-form-item" style="margin-bottom:10px">
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">用户ID</label>
-                <div class="layui-input-inline form-labeled-width">
-                    <input type="number" name="id" class="layui-input"/>
-                </div>
-            </div>
-
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline form-labeled-width">
-                    <input type="text" name="name" class="layui-input"/>
-                </div>
-            </div>
-
-            <div class="layui-col-sm3">
-                <label class="layui-form-label">性别</label>
-                <div class="layui-input-inline form-labeled-width">
-                    <select name="gender" class="layui-select">
-                        <option value="" selected>　</option>
-                        <option value="保密">保密</option>
-                        <option value="男">男</option>
-                        <option value="女">女</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-btn-group layui-col-sm3">
-                <button type="submit" class="layui-btn" lay-submit lay-filter="query-submit">
-                    <i class="fa fa-search"></i> 搜索
-                </button>
-                <button type="button" class="layui-btn layui-btn-normal">
-                    <i class="fa fa-plus"></i> 添加
-                </button>
+<body style="padding:10px">
+<form class="layui-form layui-form-pane" lay-filter="query-form">
+    <div class="layui-form-item" style="margin-bottom:10px">
+        <div class="layui-col-sm3">
+            <label class="layui-form-label">用户ID</label>
+            <div class="layui-input-inline form-labeled-width">
+                <input type="number" name="id" class="layui-input"/>
             </div>
         </div>
-    </form>
 
-    <div style="height:calc(100vh - 130px)">
-        <table id='main-table'></table>
+        <div class="layui-col-sm3">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline form-labeled-width">
+                <input type="text" name="name" class="layui-input"/>
+            </div>
+        </div>
+
+        <div class="layui-col-sm3">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline form-labeled-width">
+                <select name="gender" class="layui-select">
+                    <option value="" selected>　</option>
+                    <option value="保密">保密</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-btn-group layui-col-sm3">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="query-submit">
+                <i class="fa fa-search"></i> 搜索
+            </button>
+            <button type="button" class="layui-btn layui-btn-normal">
+                <i class="fa fa-plus"></i> 添加
+            </button>
+        </div>
     </div>
+</form>
+
+<div style="height:calc(100vh - 70px)">
+    <table id='main-table'></table>
 </div>
 
 <!--表单窗口-->
 <template id="main-edit-win">
-    <div class="layuimini-main">
+    <div style="padding:10px">
         <form id="main-edit-form" class="layui-form layui-form-pane" lay-filter="main-edit-form">
             <input type="hidden" name="id" value="0"/>
             <div class="layui-form-item">
@@ -165,9 +163,11 @@
             1: '<span style="color:green">有效</span>',
             2: '<span style="color:red">无效</span>'
         }
+
         var statusTemplate = function (cell, row) {
             return statuses[row.status || 0] || row.status;
         }
+
         var initSelect = function () {
             xmSelect.render({
                 el: '#select-role',
@@ -181,6 +181,7 @@
                 }]
             });
         }
+
         // 编辑提交按钮
         var editFormSubmit = function (form) {
             var data = form.field;
@@ -205,6 +206,7 @@
             });
             return false;
         }
+
         // 打开编辑窗口
         var openEditWin = function (e) {
             var button = e.target;
@@ -228,6 +230,7 @@
             layui.form.on('submit(main-edit-ok)', editFormSubmit);
             layui.form.render();
         }
+
         // 删除操作
         var deleteAction = function (e) {
             var button = e.target;
@@ -252,12 +255,18 @@
                 });
             });
         }
+
         var gmHeaderTemplate = function (cell, row, index, key) {
             var value = row[key] || "";
-            return value ? "<img style='width:80px;border-radius:40px' " + "src='data:image;base64," + value + "' alt=''/>" : ""
+            return value ? "<img style='width:80px;border-radius:40px' " +
+                "src='data:image;base64," + value + "' alt=''/>" : ""
         }
+
         var rowOperates = function () {
-            return '<button class="row-edit-btn layui-btn layui-btn-normal layui-btn-sm">' + '<span class="fa fa-pencil"/> 修改</button>' + '<button class="row-delete-btn layui-btn layui-btn-danger layui-btn-sm" ' + '<span class="fa fa-remove"/> 删除</button>';
+            return '<button class="row-edit-btn layui-btn layui-btn-normal layui-btn-sm">' +
+                '<span class="fa fa-pencil"/> 修改</button>' +
+                '<button class="row-delete-btn layui-btn layui-btn-danger layui-btn-sm" ' +
+                '<span class="fa fa-remove"/> 删除</button>';
         }
         // 加载表格
         var createTable = function (params) {
@@ -303,12 +312,12 @@
                     key: '_operate_', text: '<strong>操作</strong>', width: '160px', fixed: 'right', template: rowOperates
                 }],
                 fullColumn: {
-                    useFold: true, fixed: 'left', bottomTemplate: function (row, index){
-                  var html=$('#detail-template').html().replace("{{header}}",row.header);
-                  html=html.replace("{{name}}",row.name).replace("{{gender}}",row.gender);
-                  html=html.replace("{{role}}",row.role).replace("{{sign}}",row.sign);
-                  return html.replace("{{updated_at}}",formatDateTime(row.updated_at));
-                 }
+                    useFold: true, fixed: 'left', bottomTemplate: function (row, index) {
+                        var html = $('#detail-template').html().replace("{{header}}", row.header);
+                        html = html.replace("{{name}}", row.name).replace("{{gender}}", row.gender);
+                        html = html.replace("{{role}}", row.role).replace("{{sign}}", row.sign);
+                        return html.replace("{{updated_at}}", formatDateTime(row.updated_at));
+                    }
                 },
                 ajaxSuccess: function (response) {
                     $(".row-edit-btn").on('click', openEditWin);
@@ -316,15 +325,18 @@
                 }
             });
         }
+
         var params = getUrlParams();
         var defaultParam = layui.form.val('query-form');
         layui.form.val('query-form', getUrlParams(params));
+
         // 监听搜索按钮
         layui.form.on('submit(query-submit)', function (form) {
             setUrlParams(form.field, defaultParam);
             GridManager.setQuery('main-table', form.field);
             return false;
         });
+
         createTable(params);
     });
 </script>

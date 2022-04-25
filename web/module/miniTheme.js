@@ -270,7 +270,68 @@ layui.define(function (exports) {
                 return false;
             }
             var bgcolorData = miniTheme.config(bgcolorId);
-            var styleHtml = '/*头部右侧背景色 headerRightBg */\n' + '.layui-layout-admin .layui-header {\n' + '    background-color: ' + bgcolorData.headerRightBg + ' !important;\n' + '}\n' + '\n' + '/*头部右侧选中背景色 headerRightBgThis */\n' + '.layui-layout-admin .layui-header .layuimini-header-content > ul > .layui-nav-item.layui-this, .layuimini-tool i:hover {\n' + '    background-color: ' + bgcolorData.headerRightBgThis + ' !important;\n' + '}\n' + '\n' + '/*头部右侧字体颜色 headerRightColor */\n' + '.layui-layout-admin .layui-header .layui-nav .layui-nav-item a {\n' + '    color:  ' + bgcolorData.headerRightColor + ';\n' + '}\n' + '/**头部右侧下拉字体颜色 headerRightChildColor */\n' + '.layui-layout-admin .layui-header .layui-nav .layui-nav-item .layui-nav-child a {\n' + '    color:  ' + bgcolorData.headerRightChildColor + '!important;\n' + '}\n' + '\n' + '/*头部右侧鼠标选中 headerRightColorThis */\n' + '.layui-header .layuimini-menu-header-pc.layui-nav .layui-nav-item a:hover, .layui-header .layuimini-header-menu.layuimini-pc-show.layui-nav .layui-this a {\n' + '    color: ' + bgcolorData.headerRightColorThis + ' !important;\n' + '}\n' + '\n' + '/*头部右侧更多下拉颜色 headerRightNavMore */\n' + '.layui-header .layui-nav .layui-nav-more {\n' + '    border-top-color: ' + bgcolorData.headerRightNavMore + ' !important;\n' + '}\n' + '\n' + '/*头部右侧更多下拉颜色 headerRightNavMore */\n' + '.layui-header .layui-nav .layui-nav-mored, .layui-header .layui-nav-itemed > a .layui-nav-more {\n' + '    border-color: transparent transparent ' + bgcolorData.headerRightNavMore + ' !important;\n' + '}\n' + '\n' + '/**头部右侧更多下拉配置色 headerRightNavMoreBg headerRightNavMoreColor */\n' + '.layui-header .layui-nav .layui-nav-child dd.layui-this a, .layui-header .layui-nav-child dd.layui-this, .layui-layout-admin .layui-header .layui-nav .layui-nav-item .layui-nav-child .layui-this a {\n' + '    background-color: ' + bgcolorData.headerRightNavMoreBg + ' !important;\n' + '    color:' + bgcolorData.headerRightNavMoreColor + ' !important;\n' + '}\n' + '\n' + '/*头部缩放按钮样式 headerRightToolColor */\n' + '.layui-layout-admin .layui-header .layuimini-tool i {\n' + '    color: ' + bgcolorData.headerRightToolColor + ';\n' + '}\n' + '\n' + '/*logo背景颜色 headerLogoBg */\n' + '.layui-layout-admin .layuimini-logo {\n' + '    background-color: ' + bgcolorData.headerLogoBg + ' !important;\n' + '}\n' + '\n' + '/*logo字体颜色 headerLogoColor */\n' + '.layui-layout-admin .layuimini-logo h1 {\n' + '    color: ' + bgcolorData.headerLogoColor + ';\n' + '}\n' + '\n' + '/*左侧菜单更多下拉样式 leftMenuNavMore */\n' + '.layuimini-menu-left .layui-nav .layui-nav-more,.layuimini-menu-left-zoom.layui-nav .layui-nav-more {\n' + '    border-top-color: ' + bgcolorData.leftMenuNavMore + ';\n' + '}\n' + '\n' + '/*左侧菜单更多下拉样式 leftMenuNavMore */\n' + '.layuimini-menu-left .layui-nav .layui-nav-mored, .layuimini-menu-left .layui-nav-itemed > a .layui-nav-more,   .layuimini-menu-left-zoom.layui-nav .layui-nav-mored, .layuimini-menu-left-zoom.layui-nav-itemed > a .layui-nav-more {\n' + '    border-color: transparent transparent  ' + bgcolorData.leftMenuNavMore + ' !important;\n' + '}\n' + '\n' + '/*左侧菜单背景 leftMenuBg */\n' + '.layui-side.layui-bg-black, .layui-side.layui-bg-black > .layuimini-menu-left > ul, .layuimini-menu-left-zoom > ul {\n' + '    background-color:  ' + bgcolorData.leftMenuBg + ' !important;\n' + '}\n' + '\n' + '/*左侧菜单选中背景 leftMenuBgThis */\n' + '.layuimini-menu-left .layui-nav-tree .layui-this, .layuimini-menu-left .layui-nav-tree .layui-this > a, .layuimini-menu-left .layui-nav-tree .layui-nav-child dd.layui-this, .layuimini-menu-left .layui-nav-tree .layui-nav-child dd.layui-this a, .layuimini-menu-left-zoom.layui-nav-tree .layui-this, .layuimini-menu-left-zoom.layui-nav-tree .layui-this > a, .layuimini-menu-left-zoom.layui-nav-tree .layui-nav-child dd.layui-this, .layuimini-menu-left-zoom.layui-nav-tree .layui-nav-child dd.layui-this a {\n' + '    background-color: ' + bgcolorData.leftMenuBgThis + ' !important\n' + '}\n' + '\n' + '/*左侧菜单子菜单背景 leftMenuChildBg */\n' + '.layuimini-menu-left .layui-nav-itemed > .layui-nav-child{\n' + '    background-color: ' + bgcolorData.leftMenuChildBg + ' !important;\n' + '}\n' + '\n' + '/*左侧菜单字体颜色 leftMenuColor */\n' + '.layuimini-menu-left .layui-nav .layui-nav-item a, .layuimini-menu-left-zoom.layui-nav .layui-nav-item a {\n' + '    color:  ' + bgcolorData.leftMenuColor + ' !important;\n' + '}\n' + '\n' + '/*左侧菜单选中字体颜色 leftMenuColorThis */\n' + '.layuimini-menu-left .layui-nav .layui-nav-item a:hover, .layuimini-menu-left .layui-nav .layui-this a, .layuimini-menu-left-zoom.layui-nav .layui-nav-item a:hover, .layuimini-menu-left-zoom.layui-nav .layui-this a {\n' + '    color:' + bgcolorData.leftMenuColorThis + ' !important;\n' + '}\n' + '\n' + '/**tab选项卡选中颜色 tabActiveColor */\n' + '.layuimini-tab .layui-tab-title .layui-this .layuimini-tab-active {\n' + '    background-color: ' + bgcolorData.tabActiveColor + ';\n' + '}\n';
+            var styleHtml = '/*头部右侧背景色 headerRightBg */\n' + '.layui-layout-admin .layui-header {\n' +
+                '    background-color: ' + bgcolorData.headerRightBg + ' !important;\n' + '}\n' +
+                '/*头部右侧选中背景色 headerRightBgThis */\n' +
+                '.layui-layout-admin .layui-header .layuimini-header-content > ul > .layui-nav-item.layui-this,' +
+                ' .layuimini-tool i:hover {\n' + '    background-color: ' + bgcolorData.headerRightBgThis +
+                ' !important;\n' + '}\n' + '/*头部右侧字体颜色 headerRightColor */\n' +
+                '.layui-layout-admin .layui-header .layui-nav .layui-nav-item a {\n' +
+                '    color:  ' + bgcolorData.headerRightColor + ';\n' + '}\n' +
+                '/**头部右侧下拉字体颜色 headerRightChildColor */\n' +
+                '.layui-layout-admin .layui-header .layui-nav .layui-nav-item .layui-nav-child a {\n' +
+                '    color:  ' + bgcolorData.headerRightChildColor + '!important;\n' + '}\n' +
+                '/*头部右侧鼠标选中 headerRightColorThis */\n' +
+                '.layui-header .layuimini-menu-header-pc.layui-nav .layui-nav-item a:hover, ' +
+                '.layui-header .layuimini-header-menu.layuimini-pc-show.layui-nav .layui-this a {\n' +
+                '    color: ' + bgcolorData.headerRightColorThis + ' !important;\n' + '}\n' +
+                '/*头部右侧更多下拉颜色 headerRightNavMore */\n' + '.layui-header .layui-nav .layui-nav-more {\n' +
+                '    border-top-color: ' + bgcolorData.headerRightNavMore + ' !important;\n' + '}\n' +
+                '/*头部右侧更多下拉颜色 headerRightNavMore */\n' + '.layui-header .layui-nav .layui-nav-mored, ' +
+                '.layui-header .layui-nav-itemed > a .layui-nav-more {\n' +
+                '    border-color: transparent transparent ' + bgcolorData.headerRightNavMore +
+                ' !important;\n' + '}\n' +
+                '/**头部右侧更多下拉配置色 headerRightNavMoreBg headerRightNavMoreColor */\n' +
+                '.layui-header .layui-nav .layui-nav-child dd.layui-this a, ' +
+                '.layui-header .layui-nav-child dd.layui-this, ' +
+                '.layui-layout-admin .layui-header .layui-nav .layui-nav-item .layui-nav-child .layui-this a {\n' +
+                '    background-color: ' + bgcolorData.headerRightNavMoreBg + ' !important;\n' +
+                '    color:' + bgcolorData.headerRightNavMoreColor + ' !important;\n' + '}\n' +
+                '/*头部缩放按钮样式 headerRightToolColor */\n' +
+                '.layui-layout-admin .layui-header .layuimini-tool i {\n' +
+                '    color: ' + bgcolorData.headerRightToolColor + ';\n' + '}\n' +
+                '/*logo背景颜色 headerLogoBg */\n' + '.layui-layout-admin .layuimini-logo {\n' +
+                '    background-color: ' + bgcolorData.headerLogoBg + ' !important;\n' + '}\n' +
+                '/*logo字体颜色 headerLogoColor */\n' + '.layui-layout-admin .layuimini-logo h1 {\n' +
+                '    color: ' + bgcolorData.headerLogoColor + ';\n' + '}\n' +
+                '/*左侧菜单更多下拉样式 leftMenuNavMore */\n' +
+                '.layuimini-menu-left .layui-nav .layui-nav-more,.layuimini-menu-left-zoom.layui-nav .layui-nav-more {\n' +
+                '    border-top-color: ' + bgcolorData.leftMenuNavMore + ';\n' + '}\n' +
+                '/*左侧菜单更多下拉样式 leftMenuNavMore */\n' +
+                '.layuimini-menu-left .layui-nav .layui-nav-mored, .layuimini-menu-left .layui-nav-itemed > a .layui-nav-more, ' +
+                '.layuimini-menu-left-zoom.layui-nav .layui-nav-mored, .layuimini-menu-left-zoom.layui-nav-itemed > a .layui-nav-more {\n' +
+                '    border-color: transparent transparent  ' + bgcolorData.leftMenuNavMore + ' !important;\n' + '}\n' +
+                '/*左侧菜单背景 leftMenuBg */\n' +
+                '.layui-side.layui-bg-black, .layui-side.layui-bg-black > .layuimini-menu-left > ul, .layuimini-menu-left-zoom > ul {\n' +
+                '    background-color:  ' + bgcolorData.leftMenuBg + ' !important;\n' + '}\n' +
+                '/*左侧菜单选中背景 leftMenuBgThis */\n' + '.layuimini-menu-left .layui-nav-tree .layui-this, ' +
+                '.layuimini-menu-left .layui-nav-tree .layui-this > a, .layuimini-menu-left .layui-nav-tree .layui-nav-child dd.layui-this, ' +
+                '.layuimini-menu-left .layui-nav-tree .layui-nav-child dd.layui-this a, .layuimini-menu-left-zoom.layui-nav-tree .layui-this, ' +
+                '.layuimini-menu-left-zoom.layui-nav-tree .layui-this > a, .layuimini-menu-left-zoom.layui-nav-tree .layui-nav-child dd.layui-this, ' +
+                '.layuimini-menu-left-zoom.layui-nav-tree .layui-nav-child dd.layui-this a {\n' +
+                '    background-color: ' + bgcolorData.leftMenuBgThis + ' !important\n' + '}\n' +
+                '/*左侧菜单子菜单背景 leftMenuChildBg */\n' + '.layuimini-menu-left .layui-nav-itemed > .layui-nav-child{\n' +
+                '    background-color: ' + bgcolorData.leftMenuChildBg + ' !important;\n' + '}\n' +
+                '/*左侧菜单字体颜色 leftMenuColor */\n' +
+                '.layuimini-menu-left .layui-nav .layui-nav-item a, .layuimini-menu-left-zoom.layui-nav .layui-nav-item a {\n' +
+                '    color:  ' + bgcolorData.leftMenuColor + ' !important;\n' + '}\n' +
+                '/*左侧菜单选中字体颜色 leftMenuColorThis */\n' + '.layuimini-menu-left .layui-nav .layui-nav-item a:hover, ' +
+                '.layuimini-menu-left .layui-nav .layui-this a, .layuimini-menu-left-zoom.layui-nav .layui-nav-item a:hover, ' +
+                '.layuimini-menu-left-zoom.layui-nav .layui-this a {\n' + '    color:' + bgcolorData.leftMenuColorThis +
+                ' !important;\n' + '}\n' +
+                '/**tab选项卡选中颜色 tabActiveColor */\n' +
+                '.layuimini-tab .layui-tab-title .layui-this .layuimini-tab-active {\n' +
+                '    background-color: ' + bgcolorData.tabActiveColor + ';\n' + '}\n';
             $('#layuimini-bg-color').html(styleHtml);
         }, /**
          * 构建主题选择html
@@ -289,7 +350,12 @@ layui.define(function (exports) {
                 } else {
                     html += '<li  data-select-bgcolor="' + key + '">\n';
                 }
-                html += '<a href="javascript:;" data-skin="skin-blue" style="" class="clearfix full-opacity-hover">\n' + '<div><span style="display:block; width: 20%; float: left; height: 12px; background: ' + val.headerLogoBg + ';"></span><span style="display:block; width: 80%; float: left; height: 12px; background: ' + val.headerRightBg + ';"></span></div>\n' + '<div><span style="display:block; width: 20%; float: left; height: 40px; background: ' + val.leftMenuBg + ';"></span><span style="display:block; width: 80%; float: left; height: 40px; background: #ffffff;"></span></div>\n' + '</a>\n' + '</li>';
+                html += '<a href="javascript:;" data-skin="skin-blue" style="" class="clearfix full-opacity-hover">\n' +
+                    '<div><span style="display:block; width: 20%; float: left; height: 12px; background: ' + val.headerLogoBg +
+                    ';"></span><span style="display:block; width: 80%; float: left; height: 12px; background: ' + val.headerRightBg +
+                    ';"></span></div>\n' + '<div><span style="display:block; width: 20%; float: left; height: 40px; background: ' + val.leftMenuBg +
+                    ';"></span><span style="display:block; width: 80%; float: left; height: 40px; background: #ffffff;">' +
+                    '</span></div>\n' + '</a>\n' + '</li>';
             });
             return html;
         }, /**
@@ -301,7 +367,11 @@ layui.define(function (exports) {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 var clientHeight = (document.documentElement.clientHeight) - 60;
                 var bgColorHtml = miniTheme.buildBgColorHtml(options);
-                var html = '<div class="layuimini-color">\n' + '<div class="color-title">\n' + '<span class="fa fa-picture-o"/> 配色方案</span>\n' + '</div>\n' + '<div class="color-content">\n' + '<ul>\n' + bgColorHtml + '</ul>\n' + '</div>\n' + '<div class="more-menu-list">\n' + '<a class="more-menu-item" href="index.html" target="_self">' + '<span class="fa fa-home"/> 主页设置</a>\n' + '</div>' + '</div>';
+                var html = '<div class="layuimini-color">\n' + '<div class="color-title">\n' +
+                    '<span class="fa fa-picture-o"/> 配色方案</span>\n' + '</div>\n' +
+                    '<div class="color-content">\n' + '<ul>\n' + bgColorHtml + '</ul>\n' + '</div>\n' +
+                    '<div class="more-menu-list">\n' + '<a class="more-menu-item" href="index.html" target="_self">' +
+                    '<span class="fa fa-home"/> 主页设置</a>\n' + '</div>' + '</div>';
                 layer.open({
                     type: 1,
                     title: false,

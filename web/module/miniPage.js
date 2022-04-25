@@ -5,7 +5,7 @@
  * description:layuimini 单页框架扩展
  */
 layui.define(function (exports) {
-    var element = layui.element, form = layui.form, layer = layui.layer;
+    var layer = layui.layer;
 
     function findMenuByHref(href, menuList) {
         if (!(menuList instanceof Array)) {
@@ -69,22 +69,11 @@ layui.define(function (exports) {
          * @param href
          */
         renderPageContent: function (href, options) {
-            var container = '.layuimini-content-page';
-            $(container).empty();
-            $.ajax({
-                url: href, type: 'get', dataType: 'html', success: function (data) {
-                    var menu = findMenuByHref(href, options.menuList);
-                    if (menu && menu.title) {
-                        document.title = menu.title + " - " + options.homeInfo.baseTitle;
-                    }
-                    $(container).html(data);
-                    element.render();
-                    form.render();
-                },
-                error: function (xhr, textStatus) {
-                    return layer.msg('加载页面失败，请稍后再试！', {icon: 2});
-                }
-            });
+            var menu = findMenuByHref(href, options.menuList);
+            if (menu && menu.title) {
+                document.title = menu.title + " - " + options.homeInfo.baseTitle;
+            }
+            $('.layuimini-content-page').attr('src', href);
         }, /**
          * 刷新页面内容
          * @param options

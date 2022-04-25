@@ -1,6 +1,19 @@
+/*layui模块路径*/
+layui && layui.config({base: "/web/module/", version: false});
+
+$.ajaxSetup({
+    error: function () {
+        layui.layer.msg("请求服务失败");
+    }
+});
+
 /*获取当前Url里面的参数*/
 function getUrlParams() {
-    return getParamsByUrl(window.location.href);
+    for (var win = window; ; win = win.parent) {
+        if (window.parent === win) {
+            return getParamsByUrl(win.location.href);
+        }
+    }
 }
 
 /*获取指定Url里面的参数*/
@@ -38,12 +51,17 @@ function encodeUriParams(params, defaults) {
 function setUrlParams(params, defaults) {
     var paramStr = encodeUriParams(params, defaults);
     paramStr = paramStr ? "?" + paramStr : paramStr;
-    var href = window.location.href;
-    var uriEnd = href.indexOf("?");
-    if (uriEnd > 0) {
-        href = window.location.href.substring(0, uriEnd);
+    for (var win = window; ; win = win.parent) {
+        if (window.parent === win) {
+            var href = win.location.href;
+            var uriEnd = href.indexOf("?");
+            if (uriEnd > 0) {
+                href = win.location.href.substring(0, uriEnd);
+            }
+            win.history.replaceState({}, "", href + paramStr);
+            return;
+        }
     }
-    window.history.replaceState({}, "", href + paramStr);
 }
 
 function formatDateTime(value) {
