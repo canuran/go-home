@@ -38,6 +38,18 @@ var initData = {
                     "href": "page/demo/laydate.html",
                     "icon": "fa fa-calendar",
                     "target": "_self"
+                },
+                {
+                    "title": "下拉菜单",
+                    "href": "page/demo/dropdown.html",
+                    "icon": "fa fa-image",
+                    "target": "_self"
+                },
+                {
+                    "title": "流式加载",
+                    "href": "page/demo/flow.html",
+                    "icon": "fa fa-image",
+                    "target": "_self"
                 }
             ]
         },
