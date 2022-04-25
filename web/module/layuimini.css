@@ -328,10 +328,7 @@
  overflow:auto;
  width:100%;
  height:100%;
- border-top: #eee solid 1px;
- border-left: #ffff solid 0;
- border-right: #ffff solid 0;
- border-bottom: #ffff solid 0;
+ border-width:0;
 }
 /*移动端遮罩层*/
 .layuimini-make{
