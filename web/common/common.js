@@ -1,6 +1,10 @@
+function isHttpSchema() {
+    return location.href.startsWith('http');
+}
+
 $.ajaxSetup({
     beforeSend: function () {
-        if (!location.href.startsWith('http')) {
+        if (!isHttpSchema()) {
             layui.layer.msg("请启动服务体验完整功能");
             return false;
         }
@@ -12,6 +16,9 @@ $.ajaxSetup({
 
 /*获取当前Url里面的参数*/
 function getUrlParams() {
+    if (!isHttpSchema()) {
+        return {};
+    }
     for (var win = window; ; win = win.parent) {
         if (window.parent === win) {
             return getParamsByUrl(win.location.href);
@@ -52,6 +59,9 @@ function encodeUriParams(params, defaults) {
 
 // 设置当前浏览器url参数
 function setUrlParams(params, defaults) {
+    if (!isHttpSchema()) {
+        return;
+    }
     var paramStr = encodeUriParams(params, defaults);
     paramStr = paramStr ? "?" + paramStr : paramStr;
     for (var win = window; ; win = win.parent) {
@@ -92,6 +102,9 @@ function replaceHtmlTag(input) {
 
 function gmAjaxTotals(settings, params) {
     return new Promise(resolve => {
+        if (!isHttpSchema()) {
+            return resolve(0);
+        }
         params.count = true
         $.ajax({
             url: settings.ajaxUrl,
@@ -107,13 +120,16 @@ function gmAjaxTotals(settings, params) {
 
 function gmAjaxData(settings, params) {
     return new Promise(resolve => {
+        if (!isHttpSchema()) {
+            return resolve({data: []});
+        }
         $.ajax({
             url: settings.ajaxUrl,
             method: "post",
             data: params,
             dataType: "json",
             complete: function (data) {
-                resolve(data || {});
+                resolve(data || {data: []});
             }
         });
     });
