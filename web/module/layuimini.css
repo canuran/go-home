@@ -60,8 +60,11 @@
  height:60px !important;
  line-height:60px !important;
  overflow:hidden;
- line-height:64px;
  transition:all .2s !important;
+ text-align:left;
+}
+.layui-layout-admin .layuimini-logo a{
+ padding-left:10px;
 }
 .layui-layout-admin .layuimini-logo img{
  display:inline-block;

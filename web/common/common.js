@@ -1,6 +1,12 @@
 $.ajaxSetup({
+    beforeSend: function () {
+        if (!location.href.startsWith('http')) {
+            layui.layer.msg("请启动服务体验完整功能");
+            return false;
+        }
+    },
     error: function () {
-        layui.layer.msg("请求服务失败", {tipsMore:true});
+        layui.layer.msg("请求服务失败");
     }
 });
 

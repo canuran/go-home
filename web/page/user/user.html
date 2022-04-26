@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="../../library/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../library/font-awesome/css/font-awesome.css" media="all">
     <link rel="stylesheet" href="../../library/GridManager/index.css" media="all">
+    <style>
+        .table-skin {
+            border-radius: 5px;
+            border-width: 0;
+        }
+    </style>
 </head>
 <body style="padding:10px">
-<form class="layui-form layui-form-pane" lay-filter="query-form">
+<form class="layui-form" lay-filter="query-form">
     <div class="layui-form-item" style="margin-bottom:10px">
         <div class="layui-col-sm3">
             <label class="layui-form-label">用户ID</label>
@@ -55,7 +61,7 @@
 <!--表单窗口-->
 <template id="main-edit-win">
     <div style="padding:10px">
-        <form id="main-edit-form" class="layui-form layui-form-pane" lay-filter="main-edit-form">
+        <form id="main-edit-form" class="layui-form" lay-filter="main-edit-form">
             <input type="hidden" name="id" value="0"/>
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
@@ -279,6 +285,7 @@
                 ajaxType: 'POST',
                 height: '100%',
                 width: '100%',
+                skinClassName: 'table-skin',
                 disableCache: false,
                 supportAjaxPage: true,
                 sizeData: [10, 20, 50, 100],
@@ -292,23 +299,43 @@
                     text: '加载中', handler: gmAjaxTotals
                 },
                 columnData: [{
-                    key: 'id', text: '<strong>用户ID</strong>', width: '80px', fixed: 'left', template: gmStrongTemplate
-                }, {key: 'name', text: '<strong>用户名</strong>', width: '200px'}, {
+                    key: 'id',
+                    text: '<strong>用户ID</strong>',
+                    width: '80px', fixed: 'left',
+                    template: gmStrongTemplate
+                }, {
+                    key: 'name',
+                    text: '<strong>用户名</strong>',
+                    width: '200px'
+                }, {
                     key: 'header',
                     text: '<strong>用户头像</strong>',
                     width: '200px',
                     template: gmHeaderTemplate
-                }, {key: 'status', text: '<strong>状态</strong>', width: '200px', template: statusTemplate}, {
+                }, {
+                    key: 'status',
+                    text: '<strong>状态</strong>',
+                    width: '200px',
+                    template: statusTemplate
+                }, {
                     key: 'gender',
                     text: '<strong>性别</strong>',
                     width: '200px'
-                }, {key: 'role', text: '<strong>角色</strong>', width: '200px'}, {
+                }, {
+                    key: 'role',
+                    text: '<strong>角色</strong>',
+                    width: '200px'
+                }, {
                     key: 'sign',
                     text: '<strong>签名</strong>',
                     width: '400px',
                     template: gmPreTemplate
                 }, {
-                    key: '_operate_', text: '<strong>操作</strong>', width: '160px', fixed: 'right', template: rowOperates
+                    key: '_operate_',
+                    text: '<strong>操作</strong>',
+                    width: '160px',
+                    fixed: 'right',
+                    template: rowOperates
                 }],
                 fullColumn: {
                     useFold: true, fixed: 'left', bottomTemplate: function (row, index) {
