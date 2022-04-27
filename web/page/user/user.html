@@ -47,7 +47,7 @@
             <button type="submit" class="layui-btn" lay-submit lay-filter="query-submit">
                 <i class="fa fa-search"></i> 搜索
             </button>
-            <button type="button" class="layui-btn layui-btn-normal">
+            <button type="button" class="layui-btn layui-btn-normal add-button">
                 <i class="fa fa-plus"></i> 添加
             </button>
         </div>
@@ -216,16 +216,15 @@
         var openEditWin = function (e) {
             var button = e.target;
             layui.layer.open({
-                id: 'main-edit-win-open',
+                type: 1,
                 title: '<i class="fa fa-list"></i> 表单数据',
                 offset: '160px',
                 area: '600px',
-                type: 1,
                 content: $('#main-edit-win').html()
             });
             initSelect();
-            if (button) {
-                var row = GridManager.getRowData('main-table', button.parentElement.parentElement);
+            if (button && button.parentElement.parentElement) {
+                var row = GridManager.getRowData('main-table', button.parentElement.parentElement) || {};
                 row.header_file = "";
                 layui.form.val('main-edit-form', row);
                 // 获取下拉组件赋值，true表示获取单个
@@ -269,10 +268,11 @@
 
         var rowOperates = function () {
             return '<button class="row-edit-btn layui-btn layui-btn-normal layui-btn-sm">' +
-                '<span class="fa fa-pencil"/> 修改</button>' +
-                '<button class="row-delete-btn layui-btn layui-btn-danger layui-btn-sm" ' +
-                '<span class="fa fa-remove"/> 删除</button>';
+                '<i class="fa fa-pencil"></i> 修改</button>' +
+                '<button class="row-delete-btn layui-btn layui-btn-danger layui-btn-sm">' +
+                '<i class="fa fa-remove"></i> 删除</button>';
         }
+
         // 加载表格
         var createTable = function (params) {
             // 单页面可能需要重新刷新
@@ -351,6 +351,8 @@
                 }
             });
         }
+
+        $('.add-button').on('click', openEditWin);
 
         var params = getUrlParams();
         var defaultParam = layui.form.val('query-form');
