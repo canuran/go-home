@@ -5,10 +5,12 @@
 .layui-layout-admin .layui-header{
  background-color:#1aa094 !important;
 }
-.layui-header > ul > .layui-nav-item.layui-this, .layuimini-tool i:hover{
+.layui-header > ul > .layui-nav-item.layui-this,
+.layuimini-tool i:hover{
  background-color:#197971 !important;
 }
-.layui-header .layuimini-header-content > ul > .layui-nav-item.layui-this, .layuimini-tool i:hover{
+.layui-header .layuimini-header-content > ul > .layui-nav-item.layui-this,
+.layuimini-tool i:hover{
  background-color:#197971 !important;
 }
 /**logo-配色*/
@@ -16,14 +18,18 @@
  background-color:#243346 !important;
 }
 /**左侧-配色*/
-.layui-side.layui-bg-black, .layui-side.layui-bg-black > .layuimini-menu-left > ul{
+.layui-side.layui-bg-black,
+.layui-side.layui-bg-black > .layuimini-menu-left > ul{
  background-color:#2f4056 !important;
 }
 .layuimini-menu-left .layui-nav .layui-nav-child a:hover:not(.layui-this){
  background-color:#3b3f4b;
 }
 /**左侧菜单选中-配色*/
-.layui-layout-admin .layui-nav-tree .layui-this, .layui-layout-admin .layui-nav-tree .layui-this > a, .layui-layout-admin .layui-nav-tree .layui-nav-child dd.layui-this, .layui-layout-admin .layui-nav-tree .layui-nav-child dd.layui-this a{
+.layui-layout-admin .layui-nav-tree .layui-this,
+.layui-layout-admin .layui-nav-tree .layui-this > a,
+.layui-layout-admin .layui-nav-tree .layui-nav-child dd.layui-this,
+.layui-layout-admin .layui-nav-tree .layui-nav-child dd.layui-this a{
  background-color:#1aa094 !important;
 }
 /**头部样式 */
@@ -136,7 +142,8 @@
  background-color:transparent !important;
 }
 /**左侧菜单栏 (正常) */
-.layui-layout-body .layui-nav-itemed .layui-nav-child a, .layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child a{
+.layui-layout-body .layui-nav-itemed .layui-nav-child a,
+.layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child a{
  padding-left:35px;
 }
 .layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child a{
@@ -186,7 +193,8 @@
  font-size:12px;
  color:#666;
 }
-.layuimini-color .color-content li.layui-this:after, .layuimini-color .color-content li:hover:after{
+.layuimini-color .color-content li.layui-this:after,
+.layuimini-color .color-content li:hover:after{
  width:100%;
  height:100%;
  padding:4px;
@@ -232,7 +240,8 @@
 .layui-nav{
  padding:0 !important;
 }
-.layui-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after{
+.layui-nav .layui-this:after, .layui-nav-bar,
+.layui-nav-tree .layui-nav-itemed:after{
  width:0 !important;
  height:0 !important;
 }
@@ -462,7 +471,8 @@
  letter-spacing:1px;
 }
 /**头部菜单字体间距*/
-.layui-layout-admin .layui-header .layuimini-header-menu.layuimini-pc-show, .layui-layout-admin .layui-header .layuimini-header-menu.layuimini-mobile-show{
+.layui-layout-admin .layui-header .layuimini-header-menu.layuimini-pc-show,
+.layui-layout-admin .layui-header .layuimini-header-menu.layuimini-mobile-show{
  letter-spacing:1px;
 }
 /**左侧菜单更多下拉样式*/
@@ -484,16 +494,20 @@
 .layuimini-menu-left .layui-nav-child .layui-nav-more{
  margin-top:12px !important;
 }
-.layuimini-menu-left .layui-nav .layui-nav-mored, .layuimini-menu-left .layui-nav-itemed > a .layui-nav-more{
+.layuimini-menu-left .layui-nav .layui-nav-mored,
+.layuimini-menu-left .layui-nav-itemed > a .layui-nav-more{
  margin-top:12px !important;
 }
-.layuimini-menu-left-zoom.layui-nav .layui-nav-mored, .layuimini-menu-left-zoom.layui-nav-itemed > a .layui-nav-more{
+.layuimini-menu-left-zoom.layui-nav .layui-nav-mored,
+.layuimini-menu-left-zoom.layui-nav-itemed > a .layui-nav-more{
  margin-top:12px !important;
 }
-.layuimini-menu-left .layui-nav-more:before, .layuimini-menu-left-zoom .layui-nav-more:before{
+.layuimini-menu-left .layui-nav-more:before,
+.layuimini-menu-left-zoom .layui-nav-more:before{
  content:"\e61a";
 }
-.layuimini-menu-left .layui-nav-itemed > a > .layui-nav-more, .layuimini-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more{
+.layuimini-menu-left .layui-nav-itemed > a > .layui-nav-more,
+.layuimini-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more{
  transform:rotate(180deg);
  -ms-transform:rotate(180deg);
  -moz-transform:rotate(180deg);
@@ -502,14 +516,16 @@
  width:12px;
  border-style:none;
 }
-.layuimini-menu-left .layui-nav-itemed > a > .layui-nav-more:before, .layuimini-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more:before{
+.layuimini-menu-left .layui-nav-itemed > a > .layui-nav-more:before,
+.layuimini-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more:before{
  content:'\e61a';
  background-color:transparent;
  display:inline-block;
  vertical-align:middle;
 }
 /**修复左侧菜单字体不对齐的问题*/
-.layuimini-menu-left .layui-nav-item a .fa, .layuimini-menu-left .layui-nav-item a .layui-icon{
+.layuimini-menu-left .layui-nav-item a .fa,
+.layuimini-menu-left .layui-nav-item a .layui-icon{
  width:20px;
 }
 /**
@@ -531,7 +547,9 @@
  .layuimini-mini .layuimini-menu-left{
   width:80px !important;
  }
- .layuimini-mini .layui-side.layui-bg-black, .layuimini-mini .layuimini-menu-left > ul, .layuimini-mini .layuimini-menu-left > ul li i{
+ .layuimini-mini .layui-side.layui-bg-black,
+ .layuimini-mini .layuimini-menu-left > ul,
+ .layuimini-mini .layuimini-menu-left > ul li i{
   width:60px !important;
  }
  .layuimini-mini .layuimini-menu-left > ul li span:first-child{
@@ -560,7 +578,8 @@
   display:none;
  }
  /**菜单缩放*/
- .layuimini-mini .layuimini-menu-left .layui-nav-more, .layuimini-mini .layuimini-menu-left .layui-nav-child{
+ .layuimini-mini .layuimini-menu-left .layui-nav-more,
+ .layuimini-mini .layuimini-menu-left .layui-nav-child{
   display:none !important;
  }
 }
@@ -595,12 +614,14 @@
  .layuimini-all .layui-layout-admin .layui-body{
   left:0px !important;
  }
- .layuimini-mini .layui-layout-admin .layuimini-menu-left, .layuimini-mini .layui-header .layuimini-logo{
+ .layuimini-mini .layui-layout-admin .layuimini-menu-left,
+ .layuimini-mini .layui-header .layuimini-logo{
   left:0;
   transition:left .2s;
   z-index:1001 !important;
  }
- .layuimini-all .layui-layout-admin .layuimini-menu-left, .layuimini-all .layui-header .layuimini-logo{
+ .layuimini-all .layui-layout-admin .layuimini-menu-left,
+ .layuimini-all .layui-header .layuimini-logo{
   left:-200px;
   transition:left .2s;
   top:0;
