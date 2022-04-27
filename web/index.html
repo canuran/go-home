@@ -125,25 +125,20 @@
         if (window.loginIndex) {
             return false
         }
-        $.ajax({
-            url: "login.html",
-            type: 'get',
-            dataType: 'html',
-            success: function (data) {
-                window.loginIndex = layui.layer.open({
-                    type: 1,
-                    resize: false,
-                    area: ['60%', '80%'],
-                    title: false,
-                    closeBtn: 0,
-                    content: data,
-                    skin: 'login-layer',
-                    cancel: function () {
-                        window.loginIndex = 0;
-                    }
-                });
-            }
-        });
+        $.get("login.html", function (data) {
+            window.loginIndex = layui.layer.open({
+                type: 1,
+                resize: false,
+                area: ['60%', '80%'],
+                title: false,
+                closeBtn: 0,
+                content: data,
+                skin: 'login-layer',
+                cancel: function () {
+                    window.loginIndex = 0;
+                }
+            });
+        }, 'html');
         return false;
     }
 
