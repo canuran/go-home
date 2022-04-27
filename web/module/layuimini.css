@@ -61,7 +61,7 @@
  line-height:60px !important;
  overflow:hidden;
  transition:all .2s !important;
- text-align:left;
+ text-align:left !important;
 }
 .layui-layout-admin .layuimini-logo a{
  padding-left:10px;
