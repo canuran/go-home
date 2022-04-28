@@ -113,6 +113,9 @@
 .side-fold-click {
  cursor:pointer;
 }
+.side-fold-click i{
+ margin-right:5px;
+}
 /**左侧菜单栏 (通用) */
 .layui-side.layui-bg-black{
  transition:all .2s;
@@ -608,10 +611,10 @@
  .layuimini-mini .layui-layout-left.layuimini-header-menu{
   left:205px !important
  }
- .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting){
+ .layui-layout-admin .layui-nav.layui-layout-right > li:not(.user-profile) {
   width:40px !important;
  }
- .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting) a{
+ .layui-layout-admin .layui-nav.layui-layout-right > li a{
   padding:0 15px;
  }
  .layuimini-all .layui-layout-admin .layui-body{
