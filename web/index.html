@@ -25,9 +25,7 @@
         <div class="layui-logo layuimini-logo layuimini-back-home"></div>
 
         <div class="layuimini-header-content">
-            <a>
-                <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
-            </a>
+            <div class="layuimini-tool side-fold-click"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
 
             <!--电脑端头部菜单-->
             <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show"></ul>
@@ -35,7 +33,7 @@
             <!--手机端头部菜单-->
             <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
                 <li class="layui-nav-item">
-                    <a><i class="fa fa-list-ul"></i> 模块导航</a>
+                    <a class="side-fold-click"><i class="fa fa-th-large" style="margin-right:5px"></i>导航</a>
                     <dl class="layui-nav-child layuimini-menu-header-mobile">
                     </dl>
                 </li>
@@ -57,7 +55,8 @@
                 </li>
                 <li id="user-login" class="layui-nav-item" lay-unselect>
                     <a href="javascript:">
-                        <span><i class="fa fa-user-circle"></i> 登录</span>
+                        <i class="fa fa-user-circle" style="margin:5px"></i>
+                        <span class="layuimini-pc-show">登录</span>
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
@@ -78,9 +77,6 @@
 
     <!--手机端遮罩层-->
     <div class="layuimini-make"></div>
-
-    <!-- 移动导航 -->
-    <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
 
     <div class="layui-body">
         <!-- 主体区域 -->
@@ -147,10 +143,11 @@
             url: '../api/loginer',
             success: function (data) {
                 $('#user-login').hide();
-                var headImg = data.data && data.data.header ?
-                    '<img style="width:30px;height:30px;border-radius:15px" src="data:image;base64,' +
-                    data.data.header + '" alt=""/> ' : '<i class="fa fa-user-circle"></i>';
-                $('#login-info').html(headImg + (data.data && data.data.name || ''));
+                var loginHtml = data.data ? '<img style="margin:5px;width:30px;height:30px;' +
+                    'border-radius:15px" src="data:image;base64,' + data.data.header + '" alt=""/>' +
+                    '<span class="layuimini-pc-show">' + data.data.name + '</span>' :
+                    '<i class="fa fa-user-circle"></i>';
+                $('#login-info').html(loginHtml);
                 $('#user-profile').show();
             },
             error: function (xhr) {
