@@ -14,7 +14,7 @@ func Success(c *gin.Context) {
 	c.JSON(http.StatusOK, &common.Response{})
 }
 
-func SuccessData(c *gin.Context, data interface{}) {
+func SuccessData(c *gin.Context, data any) {
 	c.JSON(http.StatusOK, &common.Response{Data: data})
 }
 
@@ -22,7 +22,7 @@ func SuccessTotals(c *gin.Context, totals int64) {
 	c.JSON(http.StatusOK, &common.Response{Totals: totals})
 }
 
-func SuccessResponse(c *gin.Context, totals int64, data interface{}) {
+func SuccessResponse(c *gin.Context, totals int64, data any) {
 	c.JSON(http.StatusOK, &common.Response{Totals: totals, Data: data})
 }
 

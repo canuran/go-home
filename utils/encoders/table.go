@@ -1,4 +1,4 @@
-package converter
+package encoders
 
 import (
 	"encoding/csv"
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func CsvToMap(reader io.Reader) (records []map[string]interface{}) {
+func CsvToMap(reader io.Reader) (records []map[string]any) {
 	r := csv.NewReader(reader)
 	var rows [][]string
 	for {
@@ -31,7 +31,7 @@ func CsvToMap(reader io.Reader) (records []map[string]interface{}) {
 	return RowsToMap(rows)
 }
 
-func ExcelToMap(reader io.Reader) (records []map[string]interface{}) {
+func ExcelToMap(reader io.Reader) (records []map[string]any) {
 	xlsx, err := excelize.OpenReader(reader)
 	if err != nil {
 		fmt.Println(err)
@@ -49,13 +49,13 @@ func ExcelToMap(reader io.Reader) (records []map[string]interface{}) {
 	return
 }
 
-func RowsToMap(rows [][]string) (records []map[string]interface{}) {
+func RowsToMap(rows [][]string) (records []map[string]any) {
 	if len(rows) < 2 {
 		fmt.Println("empty data row")
 		return
 	}
 
-	headers := []string{}
+	headers := make([]string, 0, len(rows[0]))
 	for i, value := range rows[0] {
 		if i == 0 { // 去掉utf8的bom
 			value = strings.Replace(value, "\xEF\xBB\xBF", "", 1)
@@ -77,7 +77,7 @@ func RowsToMap(rows [][]string) (records []map[string]interface{}) {
 		if len(row) < 1 {
 			continue
 		}
-		record := map[string]interface{}{}
+		record := map[string]any{}
 		for i, value := range row {
 			if i < headerLen {
 				header := headers[i]

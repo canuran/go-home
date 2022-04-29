@@ -5,10 +5,10 @@ import (
 )
 
 type Response struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message,omitempty"`
-	Totals  int64       `json:"totals,omitempty"`
-	Data    interface{} `json:"data,omitempty"`
+	Code    int    `json:"code"`
+	Message string `json:"message,omitempty"`
+	Totals  int64  `json:"totals,omitempty"`
+	Data    any    `json:"data,omitempty"`
 }
 
 type Pager struct {

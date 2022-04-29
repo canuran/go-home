@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"github.com/ewingtsai/go-home/common/ginutil"
 	"github.com/ewingtsai/go-home/service"
-	"github.com/ewingtsai/go-home/utils/converter"
 	"github.com/ewingtsai/go-home/utils/encoders"
 	"github.com/ewingtsai/go-home/utils/imager"
 	"github.com/ewingtsai/go-home/utils/stringer"
+	"github.com/ewingtsai/go-home/utils/valuer"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -69,7 +69,7 @@ func User(group *gin.RouterGroup) {
 
 func filterName(c *gin.Context) {
 	name := c.PostForm("name")
-	ginutil.SuccessData(c, stringer.StandardizeRunes([]rune(name)))
+	ginutil.SuccessData(c, stringer.FormatSpaceRunes([]rune(name)))
 }
 
 func saveUser(c *gin.Context) {
@@ -124,8 +124,8 @@ func queryUser(c *gin.Context) {
 
 	cPage := c.DefaultPostForm("cPage", "1")
 	pSize := c.DefaultPostForm("pSize", "10")
-	limit := int(converter.Int64ify(pSize))
-	offset := int(converter.Int64ify(cPage))*limit - limit
+	limit := int(valuer.Int64ify(pSize))
+	offset := int(valuer.Int64ify(cPage))*limit - limit
 	users, err := service.QueryUser(c, UserVO2BO(user), offset, limit)
 	if ginutil.FailIfError(c, err) {
 		return

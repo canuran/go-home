@@ -8,7 +8,7 @@ import (
 
 func TestAsyncCall(t *testing.T) {
 	now := time.Now()
-	result := AsyncCall(func() (interface{}, error) {
+	result := AsyncCall(func() (any, error) {
 		time.Sleep(time.Millisecond * 100)
 		return "ok", nil
 	})
@@ -20,7 +20,7 @@ func TestAsyncCall(t *testing.T) {
 
 	fmt.Println()
 	now = time.Now()
-	result = AsyncCall(func() (interface{}, error) {
+	result = AsyncCall(func() (any, error) {
 		panic("boom")
 	})
 
@@ -32,7 +32,7 @@ func TestAsyncCall(t *testing.T) {
 
 	fmt.Println()
 	now = time.Now()
-	result = AsyncTimeoutCall(func() (interface{}, error) {
+	result = AsyncTimeoutCall(func() (any, error) {
 		time.Sleep(time.Millisecond * 150)
 		return "ok", nil
 	}, time.Millisecond*100)

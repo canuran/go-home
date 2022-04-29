@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func JsonMarshal(val interface{}) []byte {
+func JsonMarshal(val any) []byte {
 	bts, err := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(val)
 	if err != nil {
 		log.Println(err)
@@ -14,17 +14,17 @@ func JsonMarshal(val interface{}) []byte {
 	return bts
 }
 
-func JsonUnmarshal(bts []byte, val interface{}) {
+func JsonUnmarshal(bts []byte, val any) {
 	err := jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(bts, val)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func JsonMarshalString(val interface{}) string {
+func JsonMarshalString(val any) string {
 	return string(JsonMarshal(val))
 }
 
-func JsonUnmarshalString(input string, val interface{}) {
+func JsonUnmarshalString(input string, val any) {
 	JsonUnmarshal([]byte(input), val)
 }

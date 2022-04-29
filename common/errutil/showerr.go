@@ -33,10 +33,10 @@ func NewWithCodeAndErr(code int, err error) ShowErr {
 	return ShowErr{error: err, Code: code}
 }
 
-func Format(format string, args ...interface{}) ShowErr {
+func Format(format string, args ...any) ShowErr {
 	return ShowErr{error: fmt.Errorf(format, args...), Code: consts.CodeFailure}
 }
 
-func FormatWithCode(code int, format string, args ...interface{}) ShowErr {
+func FormatWithCode(code int, format string, args ...any) ShowErr {
 	return ShowErr{error: fmt.Errorf(format, args...), Code: code}
 }

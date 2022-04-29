@@ -21,10 +21,10 @@ func StringHash64(input string) int64 {
 }
 
 func StringHashU64(src string) uint64 {
-	return FNV1aHashU64([]byte(src))
+	return FNVHashU64([]byte(src))
 }
 
-func FNV1aHashU64(src []byte) uint64 {
+func FNVHashU64(src []byte) uint64 {
 	h64 := fnv.New64a()
 	_, _ = h64.Write(src)
 	return h64.Sum64()

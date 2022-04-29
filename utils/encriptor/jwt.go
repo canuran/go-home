@@ -48,7 +48,7 @@ func GenTokenExpire(data *JwtData, secret []byte, expire time.Time) (string, err
 func ParseToken(tokenStr string, secret []byte) (*JwtClaims, error) {
 	// 解析token
 	token, err := jwt.ParseWithClaims(tokenStr, &JwtClaims{},
-		func(token *jwt.Token) (i interface{}, err error) {
+		func(token *jwt.Token) (i any, err error) {
 			return secret, nil
 		})
 	if err != nil {

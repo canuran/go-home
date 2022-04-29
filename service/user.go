@@ -75,7 +75,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		return nil
 	}
 	// 参数校验
-	user.Name = stringer.StandardizeString(user.Name)
+	user.Name = stringer.FormatSpaceString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
 		return errutil.Format("用户名不能为空")
@@ -86,7 +86,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	if len(user.Password) > 32 {
 		return errutil.Format("用户密码太长")
 	}
-	if user.Password != stringer.StandardizeString(user.Password) {
+	if user.Password != stringer.FormatSpaceString(user.Password) {
 		return errutil.Format("密码格式不正确")
 	}
 	// 很小的头像先放库里存着，有条件再升级

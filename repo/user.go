@@ -6,7 +6,7 @@ import (
 	"github.com/ewingtsai/go-home/config"
 	"github.com/ewingtsai/go-home/generate/model"
 	"github.com/ewingtsai/go-home/generate/query"
-	"github.com/ewingtsai/go-home/utils/converter"
+	"github.com/ewingtsai/go-home/utils/stringer"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 )
@@ -111,9 +111,8 @@ func queryUserScope(option QueryOption) func(gen.Dao) gen.Dao {
 		if len(option.NameEq) > 0 {
 			dao = dao.Where(u.Name.Eq(option.NameEq))
 		}
-		nameStartWith := converter.RemoveSqlWildcard(option.NameStartWith)
-		if len(nameStartWith) > 0 {
-			dao = dao.Where(u.Name.Like(nameStartWith + "%"))
+		if len(option.NameStartWith) > 0 {
+			dao = dao.Where(u.Name.Like(stringer.EscapeSqlLike(option.NameStartWith) + "%"))
 		}
 		if len(option.GenderEq) > 0 {
 			dao = dao.Where(u.Gender.Eq(option.GenderEq))

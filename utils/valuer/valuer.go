@@ -1,13 +1,24 @@
-package converter
+package valuer
 
 import (
 	"fmt"
+	"reflect"
 	"strconv"
-	"strings"
 	"time"
 )
 
-func Int64ify(input interface{}) int64 {
+func If[T any](value bool, yes, no T) T {
+	if value {
+		return yes
+	}
+	return no
+}
+
+func Elem[T any](value *T) T {
+	return *value
+}
+
+func Int64ify(input any) int64 {
 	if input == nil {
 		return 0
 	}
@@ -36,25 +47,24 @@ func Int64ify(input interface{}) int64 {
 		return int64(input.(float32))
 	case float64:
 		return int64(input.(float64))
-	case bool:
-		if input.(bool) {
-			return 1
-		} else {
-			return 0
-		}
+	case string:
+		return int64(ParseFloat(input.(string)))
+	case fmt.Stringer:
+		return int64(ParseFloat(input.(fmt.Stringer).String()))
 	case time.Time:
-		return input.(time.Time).Unix()
+		return input.(time.Time).UnixMilli()
+	case bool:
+		return If[int64](input.(bool), 1, 0)
 	default:
-		value, ok := input.(string)
-		if !ok {
-			value = fmt.Sprint(input)
+		value := reflect.ValueOf(input)
+		if value.Kind() == reflect.Pointer {
+			return Int64ify(value.Elem().Interface())
 		}
-		float, _ := strconv.ParseFloat(value, 64)
-		return int64(float)
+		return 0
 	}
 }
 
-func Float64ify(input interface{}) float64 {
+func Float64ify(input any) float64 {
 	if input == nil {
 		return 0
 	}
@@ -83,25 +93,24 @@ func Float64ify(input interface{}) float64 {
 		return float64(input.(float32))
 	case float64:
 		return input.(float64)
-	case bool:
-		if input.(bool) {
-			return 1
-		} else {
-			return 0
-		}
 	case time.Time:
-		return float64(input.(time.Time).Unix())
+		return float64(input.(time.Time).UnixMilli())
+	case string:
+		return ParseFloat(input.(string))
+	case fmt.Stringer:
+		return ParseFloat(input.(fmt.Stringer).String())
+	case bool:
+		return If[float64](input.(bool), 1, 0)
 	default:
-		value, ok := input.(string)
-		if !ok {
-			value = fmt.Sprint(input)
+		value := reflect.ValueOf(input)
+		if value.Kind() == reflect.Pointer {
+			return Float64ify(value.Elem().Interface())
 		}
-		float, _ := strconv.ParseFloat(value, 64)
-		return float
+		return 0
 	}
 }
 
-func Stringify(input interface{}) string {
+func Stringify(input any) string {
 	if input == nil {
 		return ""
 	}
@@ -133,16 +142,32 @@ func Stringify(input interface{}) string {
 	case float32:
 		return FormatFloat32(input.(float32))
 	case bool:
-		if input.(bool) {
-			return "true"
-		} else {
-			return "false"
-		}
-	case time.Time:
-		return input.(time.Time).String()
+		return If[string](input.(bool), "true", "false")
+	case fmt.Stringer:
+		return input.(fmt.Stringer).String()
 	default:
-		return fmt.Sprint(input)
+		value := reflect.ValueOf(input)
+		if value.Kind() == reflect.Pointer {
+			return Stringify(value.Elem().Interface())
+		}
+		return ""
 	}
+}
+
+func ParseFloat(input string) float64 {
+	if len(input) == 0 {
+		return 0
+	}
+	float, _ := strconv.ParseFloat(input, 64)
+	return float
+}
+
+func ParseFloat32(input string) float32 {
+	if len(input) == 0 {
+		return 0
+	}
+	float, _ := strconv.ParseFloat(input, 32)
+	return float32(float)
 }
 
 func FormatFloat(float float64) string {
@@ -214,9 +239,4 @@ func Int64Slice(input []rune) []int64 {
 		}
 	}
 	return res
-}
-
-func RemoveSqlWildcard(value string) string {
-	value = strings.ReplaceAll(value, "%", "")
-	return strings.ReplaceAll(value, "_", "")
 }

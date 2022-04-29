@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func AsyncCall(call func() (interface{}, error)) *AsyncResult {
+func AsyncCall(call func() (any, error)) *AsyncResult {
 	return AsyncTimeoutCall(call, 0)
 }
 
-func AsyncTimeoutCall(call func() (interface{}, error), timeout time.Duration) *AsyncResult {
+func AsyncTimeoutCall(call func() (any, error), timeout time.Duration) *AsyncResult {
 	start := time.Now()
 	asyncResult := &AsyncResult{}
 	asyncResult.rwLock.Lock()
@@ -51,14 +51,14 @@ func AsyncTimeoutCall(call func() (interface{}, error), timeout time.Duration) *
 
 type AsyncResult struct {
 	rwLock   sync.RWMutex
-	result   interface{}
+	result   any
 	error    error
-	panic    interface{}
+	panic    any
 	timeout  bool
 	duration time.Duration
 }
 
-func (r *AsyncResult) Result() interface{} {
+func (r *AsyncResult) Result() any {
 	r.rwLock.RLock()
 	defer r.rwLock.RUnlock()
 	return r.result
@@ -70,7 +70,7 @@ func (r *AsyncResult) Error() error {
 	return r.error
 }
 
-func (r *AsyncResult) Panic() interface{} {
+func (r *AsyncResult) Panic() any {
 	r.rwLock.RLock()
 	defer r.rwLock.RUnlock()
 	return r.panic
@@ -96,7 +96,7 @@ func (r *AsyncResult) Success() bool {
 }
 
 // SuccessResult 成功则返回结果，否则返回nil
-func (r *AsyncResult) SuccessResult() interface{} {
+func (r *AsyncResult) SuccessResult() any {
 	if r.Success() {
 		return r.result
 	}

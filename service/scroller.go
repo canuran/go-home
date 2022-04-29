@@ -6,8 +6,8 @@ import (
 	"errors"
 	"github.com/ewingtsai/go-home/generate/model"
 	"github.com/ewingtsai/go-home/repo"
-	"github.com/ewingtsai/go-home/utils/converter"
 	"github.com/ewingtsai/go-home/utils/jsoner"
+	"github.com/ewingtsai/go-home/utils/valuer"
 	log "github.com/sirupsen/logrus"
 	"reflect"
 	"runtime"
@@ -35,16 +35,16 @@ type Params struct {
 	ConfigKey string // 进度存储配置Key，默认不存储进度
 
 	// QueryFunc 单协程循环调用，返回的数据类型必须是数组或切片
-	QueryFunc func(ctx context.Context, preId int64) (interface{}, error)
+	QueryFunc func(ctx context.Context, preId int64) (any, error)
 
 	// GetIdFunc 单协程循环调用，返回当前数据的ID
-	GetIdFunc func(ctx context.Context, each interface{}) int64
+	GetIdFunc func(ctx context.Context, each any) int64
 
 	// FilterFunc 异步并发调用，返回是否让 RunFunc 处理该数据并统计跳过数
-	FilterFunc func(ctx context.Context, each interface{}) bool
+	FilterFunc func(ctx context.Context, each any) bool
 
 	// RunFunc 异步并发调用，返回是否出错并统计成功和失败数
-	RunFunc func(ctx context.Context, each interface{}) error
+	RunFunc func(ctx context.Context, each any) error
 }
 
 // Scrolling 滚动执行
@@ -142,7 +142,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 			// 并行处理
 			runningQueue <- 1
 			wg.Add(1)
-			go func(goCtx context.Context, goRow interface{}, goId int64) {
+			go func(goCtx context.Context, goRow any, goId int64) {
 				defer func() {
 					if r := recover(); r != nil {
 						atomic.AddInt64(&worker.Fail, 1)
@@ -192,8 +192,8 @@ func Scrolling(ctx context.Context, params *Params) error {
 func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 	// 找到最大的正在跑的
 	saveId := worker.PreId
-	runningIdMap.Range(func(key, value interface{}) bool {
-		keyInt := converter.Int64ify(key)
+	runningIdMap.Range(func(key, value any) bool {
+		keyInt := valuer.Int64ify(key)
 		if params.IdDesc { // 降序找比最大的更大
 			if keyInt >= saveId {
 				saveId = keyInt + 1

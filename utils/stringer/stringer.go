@@ -2,64 +2,64 @@ package stringer
 
 import (
 	"reflect"
+	"strings"
 	"unicode"
 	"unsafe"
 )
 
-// HasText 是否包含文本字符
-func HasText(value string) bool {
-	return HasTextRunes([]rune(value))
+// AllSpaceRune 是否包含非空字符
+func AllSpaceRune(runes []rune) bool {
+	for _, r := range runes {
+		if !unicode.IsSpace(r) {
+			return false
+		}
+	}
+	return true
 }
 
-// HasTextPtr 是否包含文本字符
-func HasTextPtr(value *string) bool {
+// AllSpaceString 是否包含非空字符
+func AllSpaceString(input string) bool {
+	return AllSpaceRune([]rune(input))
+}
+
+// AllSpacePtrString 是否包含文本字符
+func AllSpacePtrString(value *string) bool {
 	if value == nil {
 		return false
 	}
-	return HasTextRunes([]rune(*value))
+	return AllSpaceRune([]rune(*value))
 }
 
-// HasTextRunes 是否包含文本字符
-func HasTextRunes(runes []rune) bool {
-	for _, r := range runes {
-		if !unicode.IsSpace(r) {
-			return true
-		}
-	}
-	return false
+func FormatSpaceString(input string) string {
+	return string(FormatSpaceRunes([]rune(input)))
 }
 
-// StandardizeRunes 去掉所有不可见字符
+// FormatSpaceRunes 格式化空字符
 // 去掉开头和结尾的空白字符
 // 单个或多个空白字符以单个空格代替
-func StandardizeRunes(input []rune) []rune {
+func FormatSpaceRunes(runes []rune) []rune {
 	preSpace := true
-	runes := make([]rune, 0, len(input))
-	for _, r := range input {
+	result := make([]rune, 0, len(runes))
+	for _, r := range runes {
 		if unicode.IsSpace(r) {
 			if !preSpace {
-				runes = append(runes, ' ')
+				result = append(result, ' ')
 				preSpace = true
 			}
 		} else if unicode.IsGraphic(r) {
-			runes = append(runes, r)
+			result = append(result, r)
 			preSpace = false
 		} else {
 			if !preSpace {
-				runes = append(runes, ' ')
+				result = append(result, ' ')
 				preSpace = true
 			}
 		}
 	}
-	runesLen := len(runes)
-	if runesLen > 1 && runes[runesLen-1] == ' ' {
-		runes = runes[:runesLen-1]
+	if len(result) > 1 && result[len(result)-1] == ' ' {
+		result = result[:len(result)-1]
 	}
-	return runes
-}
-
-func StandardizeString(input string) string {
-	return string(StandardizeRunes([]rune(input)))
+	return result
 }
 
 func FastBytes2String(b []byte) (s string) {
@@ -80,7 +80,7 @@ func FastString2Bytes(s string) (b []byte) {
 	return
 }
 
-// RemoveAllSpace 移除空白字符，即使是中文全角空格
+// RemoveAllSpace 移除所有空白字符
 func RemoveAllSpace(input []rune) string {
 	newRunes := make([]rune, 0, len(input))
 	for _, r := range input {
@@ -91,8 +91,8 @@ func RemoveAllSpace(input []rune) string {
 	return string(newRunes)
 }
 
-// SubstringSafely 安全子字符串
-func SubstringSafely(input string, from int, to int) string {
+// SafeSubstring 安全子字符串
+func SafeSubstring(input string, from int, to int) string {
 	runes := []rune(input)
 	length := len(runes)
 	if length == 0 {
@@ -114,33 +114,18 @@ func SubstringSafely(input string, from int, to int) string {
 	return string(runes[from:to])
 }
 
-// IsNumber 是否整数或小数
-func IsNumber(s []rune) bool {
-	preNum := false
-	dotFound := false
-	maxIndex := len(s) - 1
-	for i, v := range s {
-		if v == '-' { // 负号
-			if i > 0 || i == maxIndex {
-				return false
-			}
-			continue
-		}
-		if v == '.' { // 浮点
-			if dotFound || !preNum {
-				return false
-			}
-			if i == 0 || i == maxIndex {
-				return false
-			}
-			dotFound = true
-			continue
-		}
-		if v < '0' || v > '9' { // 数字
+// AllDigits 是否都是数字
+func AllDigits(runes []rune) bool {
+	for _, r := range runes {
+		if !unicode.IsDigit(r) {
 			return false
-		} else {
-			preNum = true
 		}
 	}
 	return true
+}
+
+func EscapeSqlLike(value string) string {
+	value = strings.ReplaceAll(value, `\`, `\\`)
+	value = strings.ReplaceAll(value, `%`, `\%`)
+	return strings.ReplaceAll(value, `_`, `\_`)
 }
