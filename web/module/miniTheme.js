@@ -403,23 +403,24 @@ layui.define(function (exports) {
          * @param options
          */
         listen: function (options) {
-            $('body').on('click', '[data-bgcolor]', function () {
+            $('[data-bgcolor]').on('click', function () {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
-                var clientHeight = (document.documentElement.clientHeight) - 60;
                 var bgColorHtml = miniTheme.buildBgColorHtml(options);
-                var html = '<div class="layuimini-color">\n' + '<div class="color-title">\n' +
-                    '<span class="fa fa-picture-o"/> 主题风格</span>\n' + '</div>\n' +
-                    '<div class="color-content">\n' + '<ul>\n' + bgColorHtml + '</ul>\n' + '</div>\n' +
-                    '<div class="more-menu-list">\n' + '<a class="more-menu-item" href="index.html" target="_self">' +
-                    '<span class="fa fa-home"/> 主页设置</a>\n' + '</div>' + '</div>';
+                var html = '<div class="layuimini-color">\n<div class="color-title">\n' +
+                    '<span class="fa fa-delicious"/> 主题风格\n</div>\n' +
+                    '<div class="color-content">\n<ul>\n' + bgColorHtml + '</ul>\n</div>\n' +
+                    '<div class="more-menu-list">\n' +
+                    '<a class="more-menu-item" href="index.html" target="_self">' +
+                    '<span class="fa fa-home"/> 主页设置</a>\n' +
+                    '</div>\n</div>';
                 layer.open({
                     type: 1,
                     title: false,
                     closeBtn: 0,
-                    shade: 0.2,
+                    shade: 0.1,
                     anim: 2,
                     shadeClose: true,
-                    area: ['340px', clientHeight + 'px'],
+                    area: ['340px', 'calc(100% - 60px)'],
                     offset: 'rb',
                     content: html,
                     success: function (index, layero) {
@@ -430,7 +431,7 @@ layui.define(function (exports) {
                 });
                 layer.close(loading);
             });
-            $('body').on('click', '[data-select-bgcolor]', function () {
+            $('[data-select-bgcolor]').on('click', function () {
                 var bgcolorId = $(this).attr('data-select-bgcolor');
                 $('.layuimini-color .color-content ul .layui-this').attr('class', '');
                 $(this).attr('class', 'layui-this');

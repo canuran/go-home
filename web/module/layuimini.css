@@ -349,7 +349,7 @@
  border-width:0;
 }
 /*移动端遮罩层*/
-.layuimini-make{
+.layuimini-mobile-mask{
  position:fixed;
  left:0;
  right:0;
@@ -457,7 +457,7 @@
  right:16px;
  content:"\e602";
  position:absolute;
- font-family:layui-icon !important;
+ font-family: layui-icon, serif !important;
 }
 /**
 菜单缩放
@@ -483,7 +483,7 @@
 }
 /**左侧菜单更多下拉样式*/
 .layuimini-menu-left .layui-nav-more, .layuimini-menu-left-zoom .layui-nav-more{
- font-family:layui-icon !important;
+ font-family: layui-icon, serif !important;
  font-size:12px;
  font-style:normal;
  -webkit-font-smoothing:antialiased;
@@ -568,7 +568,7 @@
  .layuimini-mini .layuimini-menu-left .layui-nav .layui-nav-item a{
   height:40px;
   line-height:40px;
-  padding-right:0px !important;
+  padding-right:0 !important;
  }
  /**内容主体（缩放） */
  .layuimini-mini .layui-layout-admin .layui-body{
@@ -611,14 +611,11 @@
  .layuimini-mini .layui-layout-left.layuimini-header-menu{
   left:205px !important
  }
- .layui-layout-admin .layui-nav.layui-layout-right > li:not(.user-profile) {
-  width:40px !important;
- }
  .layui-layout-admin .layui-nav.layui-layout-right > li a{
   padding:0 15px;
  }
  .layuimini-all .layui-layout-admin .layui-body{
-  left:0px !important;
+  left:0 !important;
  }
  .layuimini-mini .layui-layout-admin .layuimini-menu-left,
  .layuimini-mini .layui-header .layuimini-logo{
@@ -639,7 +636,7 @@
   top:0;
   z-index:998;
  }
- .layuimini-mini .layuimini-make{
+ .layuimini-mini .layuimini-mobile-mask{
   display:block;
  }
  .layuimini-multi-module .layuimini-header-content .layuimini-tool{
@@ -655,7 +652,7 @@
   -webkit-overflow-scrolling:touch;
  }
  /*修复UC之类的浏览器点击无效*/
- .layuimini-make{
+ .layuimini-mobile-mask{
   cursor:pointer;
  }
 }

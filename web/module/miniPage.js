@@ -170,7 +170,7 @@ layui.define(function (exports) {
             /**
              * 打开新窗口
              */
-            $('body').on('click', '[layuimini-href]', function () {
+            $('[layuimini-href]').on('click', function () {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 var href = $(this).attr('layuimini-href'), target = $(this).attr('target');
                 if (!href) return;
@@ -192,7 +192,7 @@ layui.define(function (exports) {
             /**
              * 在子页面上打开新窗口
              */
-            $('body').on('click', '[layuimini-content-href]', function () {
+            $('[layuimini-content-href]').on('click', function () {
                 var loading = parent.layer.load(0, {shade: false, time: 2 * 1000});
                 var href = $(this).attr('layuimini-content-href'), title = $(this).attr('data-title'),
                     target = $(this).attr('target');
@@ -215,7 +215,7 @@ layui.define(function (exports) {
             /**
              * 返回主页
              */
-            $('body').on('click', '.layuimini-back-home', function () {
+            $('.layuimini-back-home').on('click', function () {
                 miniPage.hashHome();
             });
         }, /**

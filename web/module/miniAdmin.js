@@ -148,11 +148,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             var isIOS = (/iPhone|iPod|iPad/i).test(ua) && !isAndroid;
             var isWinPhone = (/Windows Phone|ZuneWP7/i).test(ua);
             var clientWidth = document.documentElement.clientWidth;
-            if (!isAndroid && !isIOS && !isWinPhone && clientWidth > 1024) {
-                return false;
-            } else {
-                return true;
-            }
+            return !(!isAndroid && !isIOS && !isWinPhone && clientWidth > 1024);
         }, /**
          * 监听
          * @param options
@@ -162,14 +158,14 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             /**
              * 刷新
              */
-            $('body').on('click', '[data-refresh]', function () {
+            $('.layuimini-refresh').on('click',function () {
                 miniPage.refresh(options);
                 miniAdmin.success('刷新成功');
             });
             /**
              * 监听提示信息
              */
-            $("body").on("mouseenter", ".layui-nav-tree .menu-li", function () {
+            $(".layui-nav-tree .menu-li").on("mouseenter", function () {
                 if (miniAdmin.checkMobile()) {
                     return false;
                 }
@@ -187,7 +183,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
                     });
                 }
             });
-            $("body").on("mouseleave", ".popup-tips", function () {
+            $(".popup-tips").on("mouseleave", function () {
                 if (miniAdmin.checkMobile()) {
                     return false;
                 }
@@ -203,7 +199,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             /**
              * 全屏
              */
-            $('body').on('click', '[data-check-screen]', function () {
+            $('[data-check-screen]').on('click', function () {
                 var check = $(this).attr('data-check-screen');
                 if (check == 'full') {
                     miniAdmin.fullScreen();
@@ -218,7 +214,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             /**
              * 点击遮罩层
              */
-            $('body').on('click', '.layuimini-make', function () {
+            $('.layuimini-mobile-mask').on('click', function () {
                 miniAdmin.renderDevice();
             });
         }

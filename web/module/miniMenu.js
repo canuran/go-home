@@ -59,7 +59,8 @@ layui.define(function (exports) {
             }
             return laytpl(menuHtml).render(menu);
         }, compileMenuContainer: function (menu, isSub) {
-            var wrapperHtml = '<ul class="layui-nav layui-nav-tree layui-left-nav-tree {{d.className}}" id="{{d.id}}">{{d.children}}</ul>';
+            var wrapperHtml = '<ul class="layui-nav layui-nav-tree layui-left-nav-tree' +
+                ' {{d.className}}" id="{{d.id}}">{{d.children}}</ul>';
             if (isSub) {
                 wrapperHtml = '<dl class="layui-nav-child ">{{d.children}}</dl>';
             }
@@ -78,7 +79,8 @@ layui.define(function (exports) {
             menuList = menuList || [];
             var html = this.each(menuList, function (idx, menu) {
                 if (menu.child && menu.child.length) {
-                    menu.children = me.renderChildrenMenu(menu.child, {childOpenClass: options.childOpenClass || ''});
+                    menu.children = me.renderChildrenMenu(menu.child,
+                        {childOpenClass: options.childOpenClass || ''});
                 }
                 menu.className = "";
                 return me.compileMenu(menu, true)
@@ -88,7 +90,8 @@ layui.define(function (exports) {
             options = options || {};
             var me = this;
             var leftMenusHtml = me.each(leftMenus || [], function (idx, leftMenu) { // 左侧菜单遍历
-                var children = me.renderChildrenMenu(leftMenu.child, {childOpenClass: options.childOpenClass});
+                var children = me.renderChildrenMenu(leftMenu.child,
+                    {childOpenClass: options.childOpenClass});
                 return me.compileMenu({
                     href: leftMenu.href,
                     target: leftMenu.target,
