@@ -49,10 +49,10 @@ func Int64ify(input any) int64 {
 		return int64(input.(float64))
 	case string:
 		return int64(ParseFloat(input.(string)))
-	case fmt.Stringer:
-		return int64(ParseFloat(input.(fmt.Stringer).String()))
 	case time.Time:
 		return input.(time.Time).UnixMilli()
+	case fmt.Stringer:
+		return int64(ParseFloat(input.(fmt.Stringer).String()))
 	case bool:
 		return If[int64](input.(bool), 1, 0)
 	default:
@@ -93,10 +93,10 @@ func Float64ify(input any) float64 {
 		return float64(input.(float32))
 	case float64:
 		return input.(float64)
-	case time.Time:
-		return float64(input.(time.Time).UnixMilli())
 	case string:
 		return ParseFloat(input.(string))
+	case time.Time:
+		return float64(input.(time.Time).UnixMilli())
 	case fmt.Stringer:
 		return ParseFloat(input.(fmt.Stringer).String())
 	case bool:
