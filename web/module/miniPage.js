@@ -6,8 +6,7 @@
  */
 layui.define(function (exports) {
     var layer = layui.layer;
-
-    function findMenuByHref(href, menuList) {
+    var findMenuByHref = function (href, menuList) {
         if (!(menuList instanceof Array)) {
             return;
         }
@@ -55,20 +54,13 @@ layui.define(function (exports) {
         renderHome: function (options) {
             options.homeInfo = options.homeInfo || {};
             options.homeInfo.href = options.homeInfo.href || '';
-            miniPage.renderPageContent(options.homeInfo.href, options);
+            miniPage.renderPage(options.homeInfo.href, options);
         }, /**
          * 初始化页面
          * @param href
          * @param options
          */
         renderPage: function (href, options) {
-            miniPage.renderPageContent(href, options);
-        }, /**
-         * 初始化页面内容
-         * @param options
-         * @param href
-         */
-        renderPageContent: function (href, options) {
             var menu = findMenuByHref(href, options.menuList);
             if (menu && menu.title) {
                 document.title = menu.title + " - " + options.homeInfo.baseTitle;
@@ -83,7 +75,7 @@ layui.define(function (exports) {
             if (href === null || href === undefined || href === '') {
                 miniPage.renderHome(options);
             } else {
-                miniPage.renderPageContent(href, options);
+                miniPage.renderPage(href, options);
             }
         }, /**
          * 单模块切换
