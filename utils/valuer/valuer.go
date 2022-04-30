@@ -14,7 +14,17 @@ func If[T any](value bool, yes, no T) T {
 	return no
 }
 
-func Elem[T any](value *T) T {
+func ExistOr[T any](value *T, or *T) *T {
+	if value == nil {
+		return or
+	}
+	return value
+}
+
+func ElemOr[T any](value *T, or T) T {
+	if value == nil {
+		return or
+	}
 	return *value
 }
 

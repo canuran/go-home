@@ -19,3 +19,11 @@ func TestFloat64ify(t *testing.T) {
 	numPP := &numP
 	fmt.Println(Float64ify(&numPP))
 }
+
+func TestElemOr(t *testing.T) {
+	str := "sss"
+	strP := &str
+	fmt.Println(ElemOr(strP, ""))
+	fmt.Println(ElemOr(ExistOr(nil, strP), ""))
+	fmt.Println(ElemOr(nil, "123"))
+}
