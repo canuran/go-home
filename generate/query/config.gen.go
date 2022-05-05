@@ -11,9 +11,10 @@ import (
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"
 
-	"github.com/ewingtsai/go-home/generate/model"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
+
+	"github.com/ewingtsai/go-home/generate/model"
 )
 
 func newConfig(db *gorm.DB) config {
@@ -258,12 +259,18 @@ func (c configDo) Assign(attrs ...field.AssignExpr) *configDo {
 	return c.withDO(c.DO.Assign(attrs...))
 }
 
-func (c configDo) Joins(field field.RelationField) *configDo {
-	return c.withDO(c.DO.Joins(field))
+func (c configDo) Joins(fields ...field.RelationField) *configDo {
+	for _, _f := range fields {
+		c = *c.withDO(c.DO.Joins(_f))
+	}
+	return &c
 }
 
-func (c configDo) Preload(field field.RelationField) *configDo {
-	return c.withDO(c.DO.Preload(field))
+func (c configDo) Preload(fields ...field.RelationField) *configDo {
+	for _, _f := range fields {
+		c = *c.withDO(c.DO.Preload(_f))
+	}
+	return &c
 }
 
 func (c configDo) FirstOrInit() (*model.Config, error) {
@@ -283,17 +290,12 @@ func (c configDo) FirstOrCreate() (*model.Config, error) {
 }
 
 func (c configDo) FindByPage(offset int, limit int) (result []*model.Config, count int64, err error) {
-	if limit <= 0 {
-		count, err = c.Count()
-		return
-	}
-
 	result, err = c.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
 	}
 
-	if size := len(result); 0 < size && size < limit {
+	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
 		return
 	}

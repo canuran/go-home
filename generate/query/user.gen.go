@@ -11,9 +11,10 @@ import (
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"
 
-	"github.com/ewingtsai/go-home/generate/model"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
+
+	"github.com/ewingtsai/go-home/generate/model"
 )
 
 func newUser(db *gorm.DB) user {
@@ -274,12 +275,18 @@ func (u userDo) Assign(attrs ...field.AssignExpr) *userDo {
 	return u.withDO(u.DO.Assign(attrs...))
 }
 
-func (u userDo) Joins(field field.RelationField) *userDo {
-	return u.withDO(u.DO.Joins(field))
+func (u userDo) Joins(fields ...field.RelationField) *userDo {
+	for _, _f := range fields {
+		u = *u.withDO(u.DO.Joins(_f))
+	}
+	return &u
 }
 
-func (u userDo) Preload(field field.RelationField) *userDo {
-	return u.withDO(u.DO.Preload(field))
+func (u userDo) Preload(fields ...field.RelationField) *userDo {
+	for _, _f := range fields {
+		u = *u.withDO(u.DO.Preload(_f))
+	}
+	return &u
 }
 
 func (u userDo) FirstOrInit() (*model.User, error) {
@@ -299,17 +306,12 @@ func (u userDo) FirstOrCreate() (*model.User, error) {
 }
 
 func (u userDo) FindByPage(offset int, limit int) (result []*model.User, count int64, err error) {
-	if limit <= 0 {
-		count, err = u.Count()
-		return
-	}
-
 	result, err = u.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
 	}
 
-	if size := len(result); 0 < size && size < limit {
+	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
 		return
 	}
