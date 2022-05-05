@@ -1,13 +1,13 @@
 package errutil
 
 import (
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"testing"
 )
 
 func LogIfErr(err error) bool {
 	if err != nil {
-		log.Println(err)
+		logrus.Error(err)
 		return true
 	}
 	return false

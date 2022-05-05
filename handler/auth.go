@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"bytes"
-	"encoding/base64"
 	"github.com/ewingtsai/go-home/common/consts"
 	"github.com/ewingtsai/go-home/common/errutil"
 	"github.com/ewingtsai/go-home/common/ginutil"
@@ -10,12 +8,12 @@ import (
 	"github.com/ewingtsai/go-home/service"
 	"github.com/ewingtsai/go-home/utils/encoders"
 	"github.com/ewingtsai/go-home/utils/encriptor"
+	"github.com/mojocn/base64Captcha"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
 )
 
@@ -87,10 +85,7 @@ func authHandler(c *gin.Context) {
 
 	decode64 := encoders.Base64DecodeString(claims.Name)
 	decodeAes, err := encriptor.AesDecrypt(decode64, captchaAesKey)
-	if ginutil.FailIfError(c, err) {
-		return
-	}
-	if captchaCode != string(decodeAes) {
+	if err != nil || captchaCode != string(decodeAes) {
 		ginutil.FailMessage(c, "验证码错误")
 		return
 	}
@@ -100,12 +95,8 @@ func authHandler(c *gin.Context) {
 	if ginutil.FailIfError(c, err) {
 		return
 	}
-	if user == nil {
-		ginutil.FailMessage(c, "登录用户不存在")
-		return
-	}
-	if len(user.Password) < 1 {
-		ginutil.FailMessage(c, "用户未设置密码")
+	if user == nil || len(user.Password) < 1 {
+		ginutil.FailMessage(c, "用户名或密码错误")
 		return
 	}
 
@@ -152,18 +143,15 @@ func authLogout(c *gin.Context) {
 }
 
 func authCaptcha(c *gin.Context) {
-	// 生成图片转Base64
+	// 生成验证码
 	code := strconv.Itoa(encoders.Random().Intn(9000) + 1000)
-	codeBts := []byte(code)
-	img := captcha.NewImage(code, digitBytes(codeBts), 150, 50)
-
-	var buffer bytes.Buffer
-	encoder := base64.NewEncoder(base64.StdEncoding, &buffer)
-	_, err := img.WriteTo(encoder)
-	_ = encoder.Close()
+	item, err := base64Captcha.DefaultDriverDigit.DrawCaptcha(code)
+	if ginutil.FailIfError(c, err) {
+		return
+	}
 
 	// 验证码加密后存储到JWT
-	encodeAes, err := encriptor.AesEncrypt(codeBts, captchaAesKey)
+	encodeAes, err := encriptor.AesEncrypt([]byte(code), captchaAesKey)
 	if ginutil.FailIfError(c, err) {
 		return
 	}
@@ -176,7 +164,7 @@ func authCaptcha(c *gin.Context) {
 
 	ginutil.SuccessData(c, &CaptchaInfo{
 		Encode: encodeJwt,
-		Image:  string(buffer.Bytes()),
+		Image:  item.EncodeB64string(),
 	})
 }
 

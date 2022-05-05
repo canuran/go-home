@@ -258,7 +258,7 @@
             $.get('../api/captcha', {}, function (data) {
                 $("input[name='login_captcha_code']").val("");
                 $("input[name='login_captcha_encode']").val(data.data && data.data.encode);
-                $('#login-captcha-img').attr('src', 'data:image;base64,' + (data.data && data.data.image));
+                $('#login-captcha-img').attr('src', data.data && data.data.image);
             });
         }
 

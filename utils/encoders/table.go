@@ -3,7 +3,6 @@ package encoders
 import (
 	"encoding/csv"
 	"fmt"
-	"github.com/360EntSecGroup-Skylar/excelize"
 	"io"
 	"strconv"
 	"strings"
@@ -29,24 +28,6 @@ func CsvToMap(reader io.Reader) (records []map[string]any) {
 		return
 	}
 	return RowsToMap(rows)
-}
-
-func ExcelToMap(reader io.Reader) (records []map[string]any) {
-	xlsx, err := excelize.OpenReader(reader)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	sheetMap := xlsx.GetSheetMap()
-	for _, v := range sheetMap {
-		rows := xlsx.GetRows(v)
-		if len(rows) < 2 {
-			fmt.Println("empty data row")
-			return
-		}
-		return RowsToMap(rows)
-	}
-	return
 }
 
 func RowsToMap(rows [][]string) (records []map[string]any) {

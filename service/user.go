@@ -10,7 +10,8 @@ import (
 	"github.com/ewingtsai/go-home/utils/encoders"
 	"github.com/ewingtsai/go-home/utils/encriptor"
 	"github.com/ewingtsai/go-home/utils/stringer"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
+	"log"
 	"strings"
 	"time"
 
@@ -195,16 +196,13 @@ func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 
 func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 	if len(tokenStr) < 1 {
+		logrus.Error("验证Token为空")
 		return nil
 	}
 
 	// 解析JWT
 	claims, err := encriptor.ParseToken(tokenStr, config.JwtSecret)
-	if errutil.LogIfErr(err) {
-		return nil
-	}
-	// 空名称的是盐
-	if len(claims.Name) < 1 {
+	if errutil.LogIfErr(err) || len(claims.Name) < 1 {
 		return nil
 	}
 
@@ -214,6 +212,7 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 		return nil
 	}
 	if user == nil || claims.Version < user.AuthVersion {
+		logrus.Error("用户登录已过期")
 		return nil
 	}
 	return user
