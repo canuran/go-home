@@ -60,38 +60,38 @@ type AsyncResult struct {
 
 func (r *AsyncResult) Result() any {
 	r.rwLock.RLock()
-	defer r.rwLock.RUnlock()
+	r.rwLock.RUnlock()
 	return r.result
 }
 
 func (r *AsyncResult) Error() error {
 	r.rwLock.RLock()
-	defer r.rwLock.RUnlock()
+	r.rwLock.RUnlock()
 	return r.error
 }
 
 func (r *AsyncResult) Panic() any {
 	r.rwLock.RLock()
-	defer r.rwLock.RUnlock()
+	r.rwLock.RUnlock()
 	return r.panic
 }
 
 func (r *AsyncResult) Timeout() bool {
 	r.rwLock.RLock()
-	defer r.rwLock.RUnlock()
+	r.rwLock.RUnlock()
 	return r.timeout
 }
 
 func (r *AsyncResult) Duration() time.Duration {
 	r.rwLock.RLock()
-	defer r.rwLock.RUnlock()
+	r.rwLock.RUnlock()
 	return r.duration
 }
 
 // Success 异步执行成功
 func (r *AsyncResult) Success() bool {
 	r.rwLock.RLock()
-	defer r.rwLock.RUnlock()
+	r.rwLock.RUnlock()
 	return r.error == nil && r.panic == nil && !r.timeout
 }
 
