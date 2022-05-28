@@ -8,18 +8,20 @@ import (
 	"time"
 )
 
-func NewBuilder(function any) Builder {
+func NewCaller(function any) Caller {
 	return &caller{
 		funcValue: reflect.ValueOf(function),
 	}
 }
 
-type Builder interface {
-	SetTimeout(timeout time.Duration) Builder
+type Caller interface {
+	String() string
+	SetTimeout(timeout time.Duration) Caller
 	Call(args ...any) Result
 }
 
 type Result interface {
+	String() string
 	FuncValue() reflect.Value
 	Timeout() time.Duration
 	Results() []any
@@ -29,6 +31,7 @@ type Result interface {
 	Error() error
 }
 
+// 实现了 Caller 和 Result
 type caller struct {
 	funcValue reflect.Value
 	timeout   time.Duration
@@ -40,7 +43,11 @@ type caller struct {
 	error     error
 }
 
-func (c *caller) SetTimeout(timeout time.Duration) Builder {
+func (c *caller) String() string {
+	return "async call " + c.funcValue.String()
+}
+
+func (c *caller) SetTimeout(timeout time.Duration) Caller {
 	c.timeout = timeout
 	return c
 }
