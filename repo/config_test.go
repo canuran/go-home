@@ -45,7 +45,7 @@ func TestGetConfig(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	println(jsoner.JsonMarshalString(configDO))
+	println(jsoner.MarshalString(configDO))
 }
 
 func TestUpdateConfigNotEmpty(t *testing.T) {

@@ -1,4 +1,4 @@
-package encriptor
+package codec
 
 import (
 	"bytes"

@@ -64,5 +64,5 @@ func TestQueryUser(t *testing.T) {
 		return
 	}
 	fmt.Println(count)
-	fmt.Println(jsoner.JsonMarshalString(users))
+	fmt.Println(jsoner.MarshalString(users))
 }

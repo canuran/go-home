@@ -7,8 +7,7 @@ import (
 	"github.com/ewingtsai/go-home/common/errutil"
 	"github.com/ewingtsai/go-home/generate/model"
 	"github.com/ewingtsai/go-home/repo"
-	"github.com/ewingtsai/go-home/utils/encoders"
-	"github.com/ewingtsai/go-home/utils/encriptor"
+	"github.com/ewingtsai/go-home/utils/codec"
 	"github.com/ewingtsai/go-home/utils/stringer"
 	"github.com/sirupsen/logrus"
 	"log"
@@ -115,7 +114,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 			return errutil.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Password) > 0 {
-			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
+			user.Password = codec.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 		option.OmitHeader = len(user.Header) < 1
 		option.OmitPassword = len(user.Password) < 1
@@ -131,7 +130,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		if len(user.Password) < 1 {
 			return errutil.Format("用户密码不能为空")
 		} else {
-			user.Password = encoders.Md5String([]byte(strings.Repeat(user.Password, 8)))
+			user.Password = codec.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
 	}
 
@@ -201,7 +200,7 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 	}
 
 	// 解析JWT
-	claims, err := encriptor.ParseToken(tokenStr, config.JwtSecret)
+	claims, err := codec.ParseToken(tokenStr, config.JwtSecret)
 	if errutil.LogIfErr(err) || len(claims.Name) < 1 {
 		return nil
 	}

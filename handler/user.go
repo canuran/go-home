@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"github.com/ewingtsai/go-home/common/ginutil"
 	"github.com/ewingtsai/go-home/service"
-	"github.com/ewingtsai/go-home/utils/encoders"
+	"github.com/ewingtsai/go-home/utils/codec"
 	"github.com/ewingtsai/go-home/utils/imager"
 	"github.com/ewingtsai/go-home/utils/stringer"
 	"github.com/ewingtsai/go-home/utils/valuer"
@@ -97,7 +97,7 @@ func saveUser(c *gin.Context) {
 			return
 		}
 		bts := buffer.Bytes()
-		user.Header = string(encoders.Base64Encode(bts))
+		user.Header = string(codec.Base64Encode(bts))
 	}
 	err = service.SaveUser(c, UserVO2BO(user))
 	if ginutil.FailIfError(c, err) {

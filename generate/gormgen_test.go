@@ -45,9 +45,9 @@ func TestGenQuery(t *testing.T) {
 	db, _ := gorm.Open(sqlite.Open("../../web.db"))
 	u := query.Use(db).User
 	users, _ := u.Where(u.ID.Lte(3)).Find()
-	fmt.Println(jsoner.JsonMarshalString(users))
+	fmt.Println(jsoner.MarshalString(users))
 
 	c := query.Use(db).Config
 	configs, _ := c.Where(c.ID.Lte(3)).Find()
-	fmt.Println(jsoner.JsonMarshalString(configs))
+	fmt.Println(jsoner.MarshalString(configs))
 }

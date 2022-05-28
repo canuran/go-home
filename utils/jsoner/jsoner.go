@@ -5,26 +5,86 @@ import (
 	"log"
 )
 
-func JsonMarshal(val any) []byte {
+var ForLog = NewAPI().
+	MaxStringFieldLen(128).
+	IntegerUnsafeToString()
+
+func NewAPI() API {
+	return &api{
+		API: jsoniter.Config{
+			SortMapKeys:            true,
+			ValidateJsonRawMessage: true,
+		}.Froze(),
+	}
+}
+
+func Marshal(val any) []byte {
 	bts, err := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(val)
 	if err != nil {
 		log.Println(err)
-		return nil
 	}
 	return bts
 }
 
-func JsonUnmarshal(bts []byte, val any) {
+func Unmarshal(bts []byte, val any) {
 	err := jsoniter.ConfigCompatibleWithStandardLibrary.Unmarshal(bts, val)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func JsonMarshalString(val any) string {
-	return string(JsonMarshal(val))
+func MarshalString(val any) string {
+	return string(Marshal(val))
 }
 
-func JsonUnmarshalString(input string, val any) {
-	JsonUnmarshal([]byte(input), val)
+func UnmarshalString(input string, val any) {
+	Unmarshal([]byte(input), val)
+}
+
+func MarshalLogString(val any) string {
+	marshal, err := ForLog.MarshalToString(val)
+	if err != nil {
+		log.Println(err)
+	}
+	return marshal
+}
+
+func UnmarshalLogString(input string, val any) {
+	err := ForLog.UnmarshalFromString(input, val)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+type API interface {
+	Config(config jsoniter.Config) API
+	MaxStringFieldLen(maxLen int) API
+	IntegerUnsafeToString() API
+	jsoniter.API
+}
+
+type api struct {
+	jsoniter.API
+}
+
+func (b *api) Config(config jsoniter.Config) API {
+	b.API = config.Froze()
+	return b
+}
+
+func (b *api) MaxStringFieldLen(maxLen int) API {
+	b.API.RegisterExtension(&StringCodecExtension{
+		MaxLen: maxLen,
+	})
+	return b
+}
+
+func (b *api) IntegerUnsafeToString() API {
+	b.API.RegisterExtension(&Int64CodecExtension{
+		UnsafeToString: true,
+	})
+	b.API.RegisterExtension(&Uint64CodecExtension{
+		UnsafeToString: true,
+	})
+	return b
 }

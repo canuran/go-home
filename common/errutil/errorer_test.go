@@ -2,7 +2,7 @@ package errutil
 
 import (
 	"fmt"
-	"github.com/ewingtsai/go-home/utils/encoders"
+	"github.com/ewingtsai/go-home/utils/codec"
 	"testing"
 )
 
@@ -13,6 +13,6 @@ func TestLogIfErr(t *testing.T) {
 }
 
 func TestStringMd5(t *testing.T) {
-	fmt.Println(encoders.Md5String([]byte("")))
-	fmt.Println(encoders.Md5String([]byte("1233")))
+	fmt.Println(codec.Md5String([]byte("")))
+	fmt.Println(codec.Md5String([]byte("1233")))
 }

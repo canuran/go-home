@@ -6,8 +6,7 @@ import (
 	"github.com/ewingtsai/go-home/common/ginutil"
 	"github.com/ewingtsai/go-home/config"
 	"github.com/ewingtsai/go-home/service"
-	"github.com/ewingtsai/go-home/utils/encoders"
-	"github.com/ewingtsai/go-home/utils/encriptor"
+	"github.com/ewingtsai/go-home/utils/codec"
 	"github.com/mojocn/base64Captcha"
 	"net/http"
 	"strconv"
@@ -77,14 +76,14 @@ func authHandler(c *gin.Context) {
 	// 获取并解析验证码
 	captchaEncode := c.PostForm("login_captcha_encode")
 	captchaCode := c.PostForm("login_captcha_code")
-	claims, err := encriptor.ParseToken(captchaEncode, config.JwtSecret)
+	claims, err := codec.ParseToken(captchaEncode, config.JwtSecret)
 	if err != nil {
 		ginutil.FailMessage(c, "验证码过期")
 		return
 	}
 
-	decode64 := encoders.Base64DecodeString(claims.Name)
-	decodeAes, err := encriptor.AesDecrypt(decode64, captchaAesKey)
+	decode64 := codec.Base64DecodeString(claims.Name)
+	decodeAes, err := codec.AesDecrypt(decode64, captchaAesKey)
 	if err != nil || captchaCode != string(decodeAes) {
 		ginutil.FailMessage(c, "验证码错误")
 		return
@@ -101,7 +100,7 @@ func authHandler(c *gin.Context) {
 	}
 
 	// 密码混淆加强
-	pwdMd5 := encoders.Md5String([]byte(user.Password + captchaCode))
+	pwdMd5 := codec.Md5String([]byte(user.Password + captchaCode))
 	if userParam.Password == pwdMd5 {
 		// 登录版本号增加
 		user.AuthVersion++
@@ -111,7 +110,7 @@ func authHandler(c *gin.Context) {
 		}
 
 		// 生成Token
-		tokenStr, err := encriptor.GenToken(&encriptor.JwtData{
+		tokenStr, err := codec.GenToken(&codec.JwtData{
 			ID:      user.ID,
 			Name:    user.Name,
 			Version: user.AuthVersion,
@@ -144,19 +143,19 @@ func authLogout(c *gin.Context) {
 
 func authCaptcha(c *gin.Context) {
 	// 生成验证码
-	code := strconv.Itoa(encoders.Random().Intn(9000) + 1000)
+	code := strconv.Itoa(codec.Random().Intn(9000) + 1000)
 	item, err := base64Captcha.DefaultDriverDigit.DrawCaptcha(code)
 	if ginutil.FailIfError(c, err) {
 		return
 	}
 
 	// 验证码加密后存储到JWT
-	encodeAes, err := encriptor.AesEncrypt([]byte(code), captchaAesKey)
+	encodeAes, err := codec.AesEncrypt([]byte(code), captchaAesKey)
 	if ginutil.FailIfError(c, err) {
 		return
 	}
-	encodeJwt, err := encriptor.GenTokenExpire(&encriptor.JwtData{
-		Name: encoders.Base64EncodeString(encodeAes),
+	encodeJwt, err := codec.GenTokenExpire(&codec.JwtData{
+		Name: codec.Base64EncodeString(encodeAes),
 	}, config.JwtSecret, time.Now().Add(time.Minute*10))
 	if ginutil.FailIfError(c, err) {
 		return

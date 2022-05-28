@@ -26,7 +26,7 @@ func TestQueryUser(t *testing.T) {
 		ID: 123, Name: "元宝",
 	}, 0, 2)
 	errutil.TestingErr(t, err)
-	fmt.Println(jsoner.JsonMarshalString(users))
+	fmt.Println(jsoner.MarshalString(users))
 }
 
 func TestCountUser(t *testing.T) {
