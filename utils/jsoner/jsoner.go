@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-var ForLog = NewAPI().
+var Simple = NewAPI().
 	MaxStringFieldLen(128).
 	IntegerUnsafeToString()
 
@@ -42,7 +42,7 @@ func UnmarshalString(input string, val any) {
 }
 
 func MarshalLogString(val any) string {
-	marshal, err := ForLog.MarshalToString(val)
+	marshal, err := Simple.MarshalToString(val)
 	if err != nil {
 		log.Println(err)
 	}
@@ -50,7 +50,7 @@ func MarshalLogString(val any) string {
 }
 
 func UnmarshalLogString(input string, val any) {
-	err := ForLog.UnmarshalFromString(input, val)
+	err := Simple.UnmarshalFromString(input, val)
 	if err != nil {
 		log.Println(err)
 	}
