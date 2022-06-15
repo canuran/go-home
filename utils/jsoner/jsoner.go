@@ -6,16 +6,16 @@ import (
 )
 
 var ForLog = NewAPI().
-	MaxStringFieldLen(128).
-	IntegerUnsafeToString()
+	MaxStringFieldLen(1024).
+	MaxSliceFieldLen(128).
+	SafeInteger()
 
 func NewAPI() API {
-	return &api{
-		API: jsoniter.Config{
-			SortMapKeys:            true,
-			ValidateJsonRawMessage: true,
-		}.Froze(),
-	}
+	return &api{API: jsoniter.Config{
+		EscapeHTML:             true,
+		SortMapKeys:            true,
+		ValidateJsonRawMessage: true,
+	}.Froze()}
 }
 
 func Marshal(val any) []byte {
@@ -57,34 +57,38 @@ func UnmarshalLogString(input string, val any) {
 }
 
 type API interface {
-	Config(config jsoniter.Config) API
-	MaxStringFieldLen(maxLen int) API
-	IntegerUnsafeToString() API
 	jsoniter.API
+	UseAPI(api jsoniter.API) API
+	MaxSliceFieldLen(maxLen int) API
+	MaxStringFieldLen(maxLen int) API
+	SafeInteger() API
 }
 
 type api struct {
 	jsoniter.API
 }
 
-func (b *api) Config(config jsoniter.Config) API {
-	b.API = config.Froze()
+func (b *api) UseAPI(api jsoniter.API) API {
+	b.API = api
 	return b
 }
 
-func (b *api) MaxStringFieldLen(maxLen int) API {
-	b.API.RegisterExtension(&StringCodecExtension{
+func (b *api) MaxSliceFieldLen(maxLen int) API {
+	b.API.RegisterExtension(&SliceMaxLenExtension{
 		MaxLen: maxLen,
 	})
 	return b
 }
 
-func (b *api) IntegerUnsafeToString() API {
-	b.API.RegisterExtension(&Int64CodecExtension{
-		UnsafeToString: true,
+func (b *api) MaxStringFieldLen(maxLen int) API {
+	b.API.RegisterExtension(&StringMaxLenExtension{
+		MaxLen: maxLen,
 	})
-	b.API.RegisterExtension(&Uint64CodecExtension{
-		UnsafeToString: true,
-	})
+	return b
+}
+
+func (b *api) SafeInteger() API {
+	b.API.RegisterExtension(&SafeInt64Extension{})
+	b.API.RegisterExtension(&SafeUint64Extension{})
 	return b
 }
