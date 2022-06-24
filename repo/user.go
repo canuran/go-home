@@ -29,7 +29,7 @@ type QueryOption struct {
 }
 
 func UpdateAuthVersion(ctx context.Context, user *model.User) error {
-	db, ctx := config.ApplyDB(ctx)
+	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
 	_, err := u.Where(u.ID.Eq(user.ID)).
 		Update(u.AuthVersion, user.AuthVersion)
@@ -37,7 +37,7 @@ func UpdateAuthVersion(ctx context.Context, user *model.User) error {
 }
 
 func SaveUser(ctx context.Context, user *model.User, option SaveOption) error {
-	db, ctx := config.ApplyDB(ctx)
+	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
 
 	err := u.Scopes(saveUserScope(option)).
@@ -70,7 +70,7 @@ func saveUserScope(option SaveOption) func(gen.Dao) gen.Dao {
 }
 
 func QueryUserPage(ctx context.Context, option QueryOption, pager common.Pager) ([]*model.User, int64, error) {
-	db, ctx := config.ApplyDB(ctx)
+	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
 	dao := u.Scopes(queryUserScope(option), common.PageScope(pager))
 
@@ -137,7 +137,7 @@ func DeleteUser(ctx context.Context, user *model.User) error {
 	if user == nil || user.ID < 1 {
 		return nil
 	}
-	db, ctx := config.ApplyDB(ctx)
+	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
 	_, err := u.Where(u.ID.Eq(user.ID)).Delete()
 	return err

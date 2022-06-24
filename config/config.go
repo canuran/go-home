@@ -37,9 +37,9 @@ func initGorm(dail gorm.Dialector) {
 	query.SetDefault(gormDB)
 }
 
-// ApplyDB 从Context中获取DB对象
+// GetDB 从Context中获取DB对象
 // 如果没有DB对象则添加DB并且返回新的Context
-func ApplyDB(ctx context.Context) (*gorm.DB, context.Context) {
+func GetDB(ctx context.Context) (*gorm.DB, context.Context) {
 	db, ok := ctx.Value(ctxDbKey).(*gorm.DB)
 	if db != nil && ok {
 		return db, ctx
@@ -49,14 +49,4 @@ func ApplyDB(ctx context.Context) (*gorm.DB, context.Context) {
 		db = db.Debug()
 	}
 	return db, context.WithValue(ctx, ctxDbKey, db)
-}
-
-// Transaction 开启并使用Context传递事务
-// 注意在使用WithDB时必须使用run函数的Context参数
-func Transaction(ctx context.Context, run func(ctx context.Context) error) error {
-	txDB, ctx := ApplyDB(ctx)
-	return txDB.Transaction(func(tx *gorm.DB) error {
-		ctx = context.WithValue(ctx, ctxDbKey, tx)
-		return run(ctx)
-	})
 }

@@ -134,9 +134,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		}
 	}
 
-	return config.Transaction(ctx, func(ctx context.Context) error {
-		return repo.SaveUser(ctx, UserBO2DO(user), option)
-	})
+	return repo.SaveUser(ctx, UserBO2DO(user), option)
 }
 
 func GetUserById(ctx context.Context, id int64) (*UserBO, error) {

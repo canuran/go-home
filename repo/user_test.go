@@ -30,7 +30,7 @@ create index if not exists idx_user_updated_at on user (updated_at);`
 
 func init() {
 	config.InitTest()
-	gormDB, _ := config.ApplyDB(context.Background())
+	gormDB, _ := config.GetDB(context.Background())
 	errutil.LogIfErr(gormDB.Exec(userDDL).Error)
 }
 

@@ -24,7 +24,7 @@ create index if not exists idx_config_updated_at on config (updated_at);`
 
 func init() {
 	config.InitTest()
-	gormDB, _ := config.ApplyDB(context.Background())
+	gormDB, _ := config.GetDB(context.Background())
 	errutil.LogIfErr(gormDB.Exec(configDDL).Error)
 }
 
