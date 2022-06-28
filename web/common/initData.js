@@ -28,12 +28,6 @@ var initData = {
                     "target": "_self"
                 },
                 {
-                    "title": "图片裁剪",
-                    "href": "page/demo/cropper.html",
-                    "icon": "fa fa-crop",
-                    "target": "_self"
-                },
-                {
                     "title": "日期选择",
                     "href": "page/demo/laydate.html",
                     "icon": "fa fa-calendar",
@@ -58,9 +52,9 @@ var initData = {
             "icon": "fa fa-gears",
             "child": [
                 {
-                    "title": "主页",
-                    "href": "page/welcome.html",
-                    "icon": "fa fa-home",
+                    "title": "图片裁剪",
+                    "href": "page/demo/cropper.html",
+                    "icon": "fa fa-crop",
                     "target": "_self"
                 },
                 {
@@ -104,12 +98,6 @@ var initData = {
                                                 {
                                                     "title": "五级菜单",
                                                     "icon": "fa fa-file-text",
-                                                    "target": "_self"
-                                                },
-                                                {
-                                                    "title": "主页",
-                                                    "href": "page/welcome.html",
-                                                    "icon": "fa fa-home",
                                                     "target": "_self"
                                                 }
                                             ]

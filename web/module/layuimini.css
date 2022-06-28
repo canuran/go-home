@@ -642,7 +642,10 @@
  .layuimini-multi-module .layuimini-header-content .layuimini-tool{
   display:none;
  }
- .layuimini-single-module .layuimini-header-content .layuimini-tool{
+ .layuimini-mini .layuimini-header-content .layuimini-tool{
+  left:225px;
+ }
+.layuimini-all .layuimini-header-content .layuimini-tool{
   left:15px;
  }
  .layuimini-header-content{
