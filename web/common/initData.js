@@ -105,6 +105,12 @@ var initData = {
                                                     "title": "五级菜单",
                                                     "icon": "fa fa-file-text",
                                                     "target": "_self"
+                                                },
+                                                {
+                                                    "title": "主页",
+                                                    "href": "page/welcome.html",
+                                                    "icon": "fa fa-home",
+                                                    "target": "_self"
                                                 }
                                             ]
                                         }
