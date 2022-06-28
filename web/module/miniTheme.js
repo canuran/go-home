@@ -370,7 +370,7 @@ layui.define(function (exports) {
                 " background-color:#tabActiveColor;\n" +
                 "}";
             for (const key in bgColorData) {
-                styleHtml = styleHtml.replace("#"+key, bgColorData[key])
+                styleHtml = styleHtml.replace("#" + key, bgColorData[key])
             }
             $('#layuimini-bg-color').html(styleHtml);
         }, /**
@@ -423,22 +423,22 @@ layui.define(function (exports) {
                     area: ['340px', 'calc(100% - 60px)'],
                     offset: 'rb',
                     content: html,
-                    success: function (index, layero) {
+                    success: function () {
+                        $('[data-select-bgcolor]').on('click', function () {
+                            var bgcolorId = $(this).attr('data-select-bgcolor');
+                            $('.layuimini-color .color-content ul .layui-this').attr('class', '');
+                            $(this).attr('class', 'layui-this');
+                            sessionStorage.setItem('layuiminiBgcolorId', bgcolorId);
+                            miniTheme.render({
+                                bgColorDefault: bgcolorId, listen: false,
+                            });
+                        });
                     },
                     end: function () {
                         $('.layuimini-select-bgcolor').removeClass('layui-this');
                     }
                 });
                 layer.close(loading);
-            });
-            $('[data-select-bgcolor]').on('click', function () {
-                var bgcolorId = $(this).attr('data-select-bgcolor');
-                $('.layuimini-color .color-content ul .layui-this').attr('class', '');
-                $(this).attr('class', 'layui-this');
-                sessionStorage.setItem('layuiminiBgcolorId', bgcolorId);
-                miniTheme.render({
-                    bgColorDefault: bgcolorId, listen: false,
-                });
             });
         }
     };

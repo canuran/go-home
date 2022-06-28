@@ -84,6 +84,16 @@ function formatDateTime(value) {
     return value && value.replace("T", " ")
 }
 
+function getParentRow(element) {
+    while (element) {
+        if (element instanceof HTMLTableRowElement) {
+            return element;
+        }
+        element = element.parentElement;
+    }
+    return element;
+}
+
 function gmTimeTemplate(cell, row, index, key) {
     return formatDateTime(row[key]);
 }
@@ -125,7 +135,7 @@ function gmAjaxData(settings, params) {
         }
         $.ajax({
             url: settings.ajaxUrl,
-            method: "post",
+            method: settings.ajaxType || "post",
             data: params,
             dataType: "json",
             complete: function (data) {
