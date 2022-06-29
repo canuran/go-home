@@ -2,7 +2,7 @@
 <html lang="cn">
 <head>
     <meta charset="utf-8">
-    <title>用户管理</title>
+    <title>增删改查</title>
     <link rel="icon" href="../../image/favicon.ico">
     <link rel="stylesheet" href="../../library/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../library/font-awesome/css/font-awesome.css" media="all">
@@ -129,24 +129,6 @@
     </div>
 </template>
 
-<template id="detail-template">
-    <div class="layui-inline">
-        <img style="border-radius:5px;margin:20px;width:200px"
-             alt="无法显示" src="data:image;base64,{{header}}"/>
-    </div>
-    <div class="layui-inline" style="vertical-align:top;margin:25px">
-        <h2>{{name}}</h2>
-        <hr/>
-        <h3>性别：{{gender}}</h3>
-        <br/>
-        <h3>角色：{{role}}</h3>
-        <br/>
-        <h3>签名：{{sign}}</h3>
-        <br/>
-        <h3>更新时间：{{updated_at}}</h3>
-    </div>
-</template>
-
 <script src="../../library/jquery/jquery.js" charset="utf-8"></script>
 <script src="../../library/layui/layui.js" charset="utf-8"></script>
 <script src="../../library/xm-select/xm-select.js" charset="utf-8"></script>
@@ -179,25 +161,8 @@
         // 编辑提交按钮
         var editFormSubmit = function (form) {
             var data = form.field;
-            data.id = parseInt(data.id) || 0;
-            data.valid_status = parseInt(data.valid_status) || 0;
-            $.ajax({
-                url: "../../../api/user/save",
-                method: "post",
-                processData: false,
-                contentType: false,
-                data: new FormData($('#main-edit-form')[0]),
-                dataType: "json",
-                success: function (result) {
-                    if (result && result.code === 0) {
-                        layui.layer.closeAll();
-                        GridManager.refreshGrid('main-table');
-                        layui.layer.msg("保存成功", {icon: 1});
-                    } else {
-                        layui.layer.msg(result.message, {icon: 2});
-                    }
-                }
-            });
+            layui.layer.closeAll();
+            layui.layer.msg("保存成功\n" + JSON.stringify(data), {icon: 1});
             return false;
         }
 
@@ -227,28 +192,8 @@
             layui.layer.confirm('你确定要删除' + data.id + '?', {
                 title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
             }, function () {
-                $.ajax({
-                    url: "../../../api/user/delete",
-                    method: "post",
-                    data: {id: data.id},
-                    dataType: "json",
-                    success: function (result) {
-                        if (result && result.code === 0) {
-                            layui.layer.closeAll();
-                            GridManager.refreshGrid('main-table');
-                            layui.layer.msg("删除成功", {icon: 1});
-                        } else {
-                            layui.layer.msg(result.message, {icon: 2});
-                        }
-                    }
-                });
+                layui.layer.msg("删除" + data.id + "成功", {icon: 1});
             });
-        }
-
-        var gmHeaderTemplate = function (cell, row, index, key) {
-            var value = row[key] || "";
-            return value ? "<img style='width:80px;border-radius:40px' " +
-                "src='data:image;base64," + value + "' alt=''/>" : ""
         }
 
         var rowOperates = function () {
@@ -258,13 +203,72 @@
                 '<i class="fa fa-remove"></i> 删除</button>';
         }
 
+        var testData = {
+            "data": [{
+                "id": 1,
+                "name": "元宝",
+                "gender": "男",
+                "role": "管理员",
+                "status": 1,
+                "sign": "哈哈哈哈哈哈！",
+                "auth_version": 33,
+                "updated_at": "2022-06-28T22:16:54.8546638+08:00"
+            }, {
+                "id": 2,
+                "name": "妲己",
+                "gender": "女",
+                "role": "前端",
+                "status": 1,
+                "sign": "没有心，就不会受伤~",
+                "auth_version": 2,
+                "updated_at": "2022-06-28T23:35:48.3446373+08:00"
+            }, {
+                "id": 3,
+                "name": "亚瑟",
+                "gender": "男",
+                "role": "后端",
+                "status": 1,
+                "sign": "正义必胜！",
+                "auth_version": 0,
+                "updated_at": "2022-06-28T23:35:58.8191257+08:00"
+            }, {
+                "id": 4,
+                "name": "九月",
+                "gender": "女",
+                "role": "测试",
+                "status": 1,
+                "sign": "好想早点放学出去玩~",
+                "auth_version": 0,
+                "updated_at": "2022-06-28T23:35:51.2530557+08:00"
+            }, {
+                "id": 5,
+                "name": "小乔",
+                "gender": "女",
+                "role": "产品",
+                "status": 1,
+                "sign": "小乔要努力变强~",
+                "auth_version": 0,
+                "updated_at": "2022-06-28T21:59:56.6868107+08:00"
+            }, {
+                "id": 6,
+                "name": "苏苏",
+                "gender": "女",
+                "role": "产品",
+                "status": 1,
+                "sign": "我要成为最强红线仙！",
+                "auth_version": 0,
+                "updated_at": "2022-06-28T21:59:58.9043835+08:00"
+            }]
+        };
+
         // 加载表格
         var createTable = function (params) {
             document.querySelector('#main-table').GM({
                 gridManagerName: 'main-table',
                 ajaxUrl: "../../../api/user/query",
                 query: params,
-                ajaxData: gmAjaxData,
+                // ajaxData: gmAjaxData, // 远程数据
+                ajaxData: testData,
                 ajaxType: 'POST',
                 height: '100%',
                 width: '100%',
@@ -290,11 +294,6 @@
                     text: '<strong>用户名</strong>',
                     width: '200px'
                 }, {
-                    key: 'header',
-                    text: '<strong>用户头像</strong>',
-                    width: '200px',
-                    template: gmHeaderTemplate
-                }, {
                     key: 'status',
                     text: '<strong>状态</strong>',
                     width: '200px',
@@ -319,14 +318,6 @@
                     fixed: 'right',
                     template: rowOperates
                 }],
-                fullColumn: {
-                    useFold: true, fixed: 'left', bottomTemplate: function (row, index) {
-                        var html = $('#detail-template').html().replace("{{header}}", row.header);
-                        html = html.replace("{{name}}", row.name).replace("{{gender}}", row.gender);
-                        html = html.replace("{{role}}", row.role).replace("{{sign}}", row.sign);
-                        return html.replace("{{updated_at}}", formatDateTime(row.updated_at));
-                    }
-                },
                 ajaxSuccess: function (response) {
                     $(".row-edit-btn").off('click').on('click', openEditWin);
                     $(".row-delete-btn").off('click').on('click', deleteAction);

@@ -118,7 +118,7 @@ function gmAjaxTotals(settings, params) {
         params.count = true
         $.ajax({
             url: settings.ajaxUrl,
-            method: "post",
+            method: settings.ajaxType || "get",
             data: params,
             dataType: "json",
             complete: function (data) {
@@ -135,7 +135,7 @@ function gmAjaxData(settings, params) {
         }
         $.ajax({
             url: settings.ajaxUrl,
-            method: settings.ajaxType || "post",
+            method: settings.ajaxType || "get",
             data: params,
             dataType: "json",
             complete: function (data) {

@@ -689,10 +689,3 @@
  font-size:10px;
  color:#a29c9c;
 }
-.form-labeled-width{
- width:calc(100% - 120px) !important;
-}
-.login-layer {
- overflow: hidden;
- border-radius: 12px !important;
-}
