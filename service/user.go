@@ -9,8 +9,10 @@ import (
 	"github.com/ewingtsai/go-home/repo"
 	"github.com/ewingtsai/go-home/utils/codec"
 	"github.com/ewingtsai/go-home/utils/stringer"
+	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -19,6 +21,10 @@ import (
 
 const (
 	MaxHeaderSize = 5120
+)
+
+var (
+	authUserCache = cache.New(time.Minute, time.Minute)
 )
 
 type UserBO struct {
@@ -188,6 +194,7 @@ func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 	if user == nil || user.ID < 0 {
 		return nil
 	}
+	authUserCache.Delete(strconv.FormatInt(user.ID, 10))
 	return repo.UpdateAuthVersion(ctx, UserBO2DO(user))
 }
 
@@ -203,13 +210,23 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 		return nil
 	}
 
-	// 验证登录版本是否失效
-	user, err := GetUserById(ctx, claims.ID)
-	if errutil.LogIfErr(err) {
-		return nil
+	// 用户信息缓存（需要强一致性则使用redis缓存）
+	var user *UserBO
+	userIdStr := strconv.FormatInt(claims.ID, 10)
+	cacheUser, ok := authUserCache.Get(userIdStr)
+	if ok {
+		user = cacheUser.(*UserBO)
+	} else {
+		user, err = GetUserById(ctx, claims.ID)
+		if errutil.LogIfErr(err) {
+			return nil
+		}
+		authUserCache.SetDefault(userIdStr, user)
 	}
+
+	// 验证登录版本是否失效
 	if user == nil || claims.Version < user.AuthVersion {
-		logrus.Error("用户登录已过期")
+		logrus.Error("用户登录信息无效")
 		return nil
 	}
 	return user

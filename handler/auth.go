@@ -171,13 +171,3 @@ func authLoginer(c *gin.Context) {
 	user, _ := c.Get(consts.LoginUserKey)
 	ginutil.SuccessData(c, user)
 }
-
-func digitBytes(input []byte) []byte {
-	var res []byte
-	for _, v := range input {
-		if v <= '9' && v >= '0' {
-			res = append(res, v-'0')
-		}
-	}
-	return res
-}
