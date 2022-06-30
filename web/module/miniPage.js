@@ -32,7 +32,7 @@ layui.define(function (exports) {
             options.homeInfo = options.homeInfo || {};
             options.menuList = options.menuList || [];
             options.multiModule = options.multiModule || false;
-            options.listenSwichCallback = options.listenSwichCallback || function () {
+            options.listenSwitchCallback = options.listenSwitchCallback || function () {
             };
             var href = location.hash.replace(/^#\/([^?]*).*/, '$1');
             if (href === null || href === undefined || href === '') {
@@ -79,11 +79,11 @@ layui.define(function (exports) {
             }
         }, /**
          * 单模块切换
-         * @param tabId
+         * @param href
          */
-        listenSwitchSingleModule: function (tabId) {
+        listenSwitchSingleModule: function (href) {
             $("[layuimini-href]").each(function () {
-                if ($(this).attr("layuimini-href") === tabId) {
+                if ($(this).attr("layuimini-href") === href) {
                     // 自动展开菜单栏
                     var addMenuClass = function ($element, type) {
                         if (type === 1) {
@@ -108,11 +108,11 @@ layui.define(function (exports) {
             });
         }, /**
          * 多模块切换
-         * @param tabId
+         * @param href
          */
-        listenSwitchMultiModule: function (tabId) {
+        listenSwitchMultiModule: function (href) {
             $("[layuimini-href]").each(function () {
-                if ($(this).attr("layuimini-href") === tabId) {
+                if ($(this).attr("layuimini-href") === href) {
                     // 自动展开菜单栏
                     var addMenuClass = function ($element, type) {
                         if (type === 1) {
@@ -218,12 +218,12 @@ layui.define(function (exports) {
         listenHash: function (options) {
             options.homeInfo = options.homeInfo || {};
             options.multiModule = options.multiModule || false;
-            options.listenSwichCallback = options.listenSwichCallback || function () {
+            options.listenSwitchCallback = options.listenSwitchCallback || function () {
             };
             window.onhashchange = function () {
                 var href = location.hash.replace(/^#\/([^?]*).*/, '$1');
-                if (typeof options.listenSwichCallback === 'function') {
-                    options.listenSwichCallback();
+                if (typeof options.listenSwitchCallback === 'function') {
+                    options.listenSwitchCallback();
                 }
                 if (href === null || href === undefined || href === '') {
                     $("[layuimini-href]").parent().removeClass('layui-this');

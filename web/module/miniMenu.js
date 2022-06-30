@@ -180,7 +180,7 @@ layui.define(function (exports) {
             $('.side-fold-click').on('click', function () {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 var isShow = $('[data-side-fold]').attr('data-side-fold');
-                if (isShow == 1) { // 缩放
+                if (isShow === "1") { // 缩放
                     $('[data-side-fold]').attr('data-side-fold', 0)
                         .attr('class', 'fa fa-indent');
                     $('.layui-layout-body').removeClass('layuimini-all')

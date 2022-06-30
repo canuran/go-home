@@ -18,38 +18,40 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
          * @param options.menuChildOpen 是否展开子菜单
          */
         render: function (options) {
-            options.initUrl = options.initUrl || null;
+            options.initUrl = options.initUrl || "";
             options.bgColorDefault = options.bgColorDefault || 0;
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
             miniAdmin.renderLogo();
-
             var initByData = function (data) {
-                if (data == null) {
-                    miniAdmin.error('暂无菜单信息')
-                } else {
-                    miniAdmin.listen({
-                        homeInfo: data.homeInfo, multiModule: options.multiModule,
-                    });
-                    miniMenu.render({
-                        menuList: data.menuInfo, multiModule: options.multiModule,
-                        menuChildOpen: options.menuChildOpen
-                    });
-                    miniPage.render({
-                        homeInfo: data.homeInfo,
-                        menuList: data.menuInfo,
-                        multiModule: options.multiModule,
-                        menuChildOpen: options.menuChildOpen,
-                        listenSwichCallback: function () {
-                            miniAdmin.renderDevice();
-                        }
-                    });
-                    miniTheme.render({
-                        bgColorDefault: options.bgColorDefault, listen: true,
-                    });
-                }
+                data = data || {
+                    homeInfo: {title: "无标题", baseTitle: "无标题", href: ""},
+                    menuInfo: [{
+                        title: "无导航", icon: "fa fa-home", child: [{
+                            title: "无菜单", href: "", "icon": "fa fa-home", target: "_self"
+                        }]
+                    }]
+                };
+                miniMenu.render({
+                    menuList: data.menuInfo, multiModule: options.multiModule,
+                    menuChildOpen: options.menuChildOpen
+                });
+                miniPage.render({
+                    homeInfo: data.homeInfo,
+                    menuList: data.menuInfo,
+                    multiModule: options.multiModule,
+                    menuChildOpen: options.menuChildOpen,
+                    listenSwitchCallback: function () {
+                        miniAdmin.renderDevice();
+                    }
+                });
+                miniTheme.render({
+                    bgColorDefault: options.bgColorDefault, listen: true,
+                });
+                miniAdmin.listen({
+                    homeInfo: data.homeInfo, multiModule: options.multiModule,
+                });
             }
-
             if (options.initData) {
                 initByData(options.initData);
             } else {
@@ -158,7 +160,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             /**
              * 刷新
              */
-            $('.layuimini-refresh').on('click',function () {
+            $('.layuimini-refresh').on('click', function () {
                 miniPage.refresh(options);
                 miniAdmin.success('刷新成功');
             });
@@ -169,31 +171,34 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
                 if (miniAdmin.checkMobile()) {
                     return false;
                 }
-                var tips = $(this).prop("innerHTML"),
-                    isShow = $('.layuimini-tool i').attr('data-side-fold');
-                if (isShow == 0 && tips) {
+                var tips = $(this).html();
+                var isShow = $('.layuimini-tool i').attr('data-side-fold');
+                if (isShow === "0" && tips) {
                     tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'>" +
                         "<li class='layui-nav-item layui-nav-itemed'>" + tips + "</li></ul>";
                     window.openTips = layer.tips(tips, $(this), {
-                        tips: [2, '#2f4056'], time: 300000, skin: "popup-tips", success: function (el) {
+                        tips: [2, '#2f4056'],
+                        time: 10000,
+                        skin: "popup-tips",
+                        success: function (el) {
                             var left = $(el).position().left - 10;
                             $(el).css({left: left});
                             element.render();
+                            $(".popup-tips").on("mouseleave", function () {
+                                if (miniAdmin.checkMobile()) {
+                                    return false;
+                                }
+                                var isShow = $('.layuimini-tool i').attr('data-side-fold');
+                                if (isShow === "0") {
+                                    try {
+                                        layer.close(window.openTips);
+                                    } catch (e) {
+                                        console.log(e.message);
+                                    }
+                                }
+                            });
                         }
                     });
-                }
-            });
-            $(".popup-tips").on("mouseleave", function () {
-                if (miniAdmin.checkMobile()) {
-                    return false;
-                }
-                var isShow = $('.layuimini-tool i').attr('data-side-fold');
-                if (isShow == 0) {
-                    try {
-                        layer.close(window.openTips);
-                    } catch (e) {
-                        console.log(e.message);
-                    }
                 }
             });
             /**
@@ -201,7 +206,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
              */
             $('[data-check-screen]').on('click', function () {
                 var check = $(this).attr('data-check-screen');
-                if (check == 'full') {
+                if (check === 'full') {
                     miniAdmin.fullScreen();
                     $(this).attr('data-check-screen', 'exit');
                     $(this).html('<i class="fa fa-compress"></i>');
