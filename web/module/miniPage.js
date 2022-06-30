@@ -154,7 +154,7 @@ layui.define(function (exports) {
          */
         hashHome: function () {
             window.location.hash = "/";
-            window.history.replaceState("", "", ".")
+            window.history.replaceState("", "", ".");
         }, /**
          * 监听
          * @param options
