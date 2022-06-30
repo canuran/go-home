@@ -4,10 +4,9 @@ import (
 	"github.com/ewingtsai/go-home/common"
 	"github.com/ewingtsai/go-home/common/consts"
 	"github.com/ewingtsai/go-home/common/errutil"
-	log "github.com/sirupsen/logrus"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"net/http"
 )
 
 func Success(c *gin.Context) {
@@ -22,7 +21,7 @@ func SuccessTotals(c *gin.Context, totals int64) {
 	c.JSON(http.StatusOK, &common.Response{Totals: totals})
 }
 
-func SuccessResponse(c *gin.Context, totals int64, data any) {
+func SuccessDataTotals(c *gin.Context, totals int64, data any) {
 	c.JSON(http.StatusOK, &common.Response{Totals: totals, Data: data})
 }
 
@@ -30,14 +29,18 @@ func FailMessage(c *gin.Context, message string) {
 	c.JSON(http.StatusOK, &common.Response{Code: consts.CodeFailure, Message: message})
 }
 
-func FailIfError(c *gin.Context, err error) bool {
+func FailCodeMessage(c *gin.Context, code int, message string) {
+	c.JSON(http.StatusOK, &common.Response{Code: code, Message: message})
+}
+
+func HandleError(c *gin.Context, err error) bool {
 	if err != nil {
-		log.Println(err)
-		// 只有 ShowErr 可以直接展示给用户
-		if he, ok := err.(errutil.ShowErr); ok {
+		logrus.Error(err)
+		// ShowErr 可以直接展示给用户
+		if showErr, ok := err.(errutil.ShowErr); ok {
 			c.JSON(http.StatusOK, &common.Response{
-				Code:    he.Code,
-				Message: he.Error(),
+				Code:    showErr.Code,
+				Message: showErr.Error(),
 			})
 		} else {
 			c.JSON(http.StatusOK, &common.Response{

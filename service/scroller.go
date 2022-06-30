@@ -8,7 +8,7 @@ import (
 	"github.com/ewingtsai/go-home/repo"
 	"github.com/ewingtsai/go-home/utils/jsoner"
 	"github.com/ewingtsai/go-home/utils/valuer"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"reflect"
 	"runtime"
 	"sync"
@@ -59,7 +59,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 		if r := recover(); r != nil {
 			stack := make([]byte, 4096)
 			size := runtime.Stack(stack, false)
-			log.Errorf("Scrolling panic:worker=%s, r=%v, stack=%v",
+			logrus.Errorf("Scrolling panic:worker=%s, r=%v, stack=%v",
 				jsoner.MarshalString(worker), r, string(stack[:size]))
 		}
 	}()
@@ -92,7 +92,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 		}
 	}
 
-	log.Infof("Scrolling begin:worker=%s", jsoner.MarshalString(worker))
+	logrus.Infof("Scrolling begin:worker=%s", jsoner.MarshalString(worker))
 
 	var runningIdMap sync.Map
 	runningQueue := make(chan int, runners)
@@ -100,25 +100,25 @@ func Scrolling(ctx context.Context, params *Params) error {
 	for {
 		start := time.Now()
 		// 循环滚动遍历数据
-		log.Infof("Scrolling batch begin:worker=%s", jsoner.MarshalString(worker))
+		logrus.Infof("Scrolling batch begin:worker=%s", jsoner.MarshalString(worker))
 		results, err := params.QueryFunc(ctx, worker.PreId)
 		if err != nil {
-			log.Errorf("Scrolling query error:worker=%s", jsoner.MarshalString(worker))
+			logrus.Errorf("Scrolling query error:worker=%s", jsoner.MarshalString(worker))
 			time.Sleep(time.Second)
 			continue
 		}
 		if results == nil {
-			log.Infof("Scrolling query nil:worker=%s", jsoner.MarshalString(worker))
+			logrus.Infof("Scrolling query nil:worker=%s", jsoner.MarshalString(worker))
 			break
 		}
 		kind := reflect.TypeOf(results).Kind()
 		if kind != reflect.Slice && kind != reflect.Array {
-			log.Errorf("Scrolling query unsupported result type:worker=%s", jsoner.MarshalString(worker))
+			logrus.Errorf("Scrolling query unsupported result type:worker=%s", jsoner.MarshalString(worker))
 			break
 		}
 		slice := reflect.ValueOf(results)
 		if slice.Len() < 1 {
-			log.Infof("Scrolling query empty:worker=%s", jsoner.MarshalString(worker))
+			logrus.Infof("Scrolling query empty:worker=%s", jsoner.MarshalString(worker))
 			break
 		}
 
@@ -148,7 +148,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 						atomic.AddInt64(&worker.Fail, 1)
 						stack := make([]byte, 4096)
 						size := runtime.Stack(stack, false)
-						log.Errorf("Scrolling each panic:id=%d, r=%v, stack=%v",
+						logrus.Errorf("Scrolling each panic:id=%d, r=%v, stack=%v",
 							jsoner.MarshalString(worker), r, string(stack[:size]))
 					}
 					<-runningQueue
@@ -170,22 +170,22 @@ func Scrolling(ctx context.Context, params *Params) error {
 				goErr := params.RunFunc(goCtx, goRow)
 				if goErr != nil {
 					atomic.AddInt64(&worker.Fail, 1)
-					log.Errorf("Scrolling RunFunc error:id=%d,err=%v", goId, goErr)
+					logrus.Errorf("Scrolling RunFunc error:id=%d,err=%v", goId, goErr)
 				} else {
 					atomic.AddInt64(&worker.Success, 1)
-					log.Errorf("Scrolling RunFunc done:id=%d,cost=%v", goId, time.Since(begin))
+					logrus.Errorf("Scrolling RunFunc done:id=%d,cost=%v", goId, time.Since(begin))
 				}
 			}(runCtx, runRow, runId)
 		}
 
 		time.Sleep(time.Millisecond * 10)
 		saveProgress(params, &runningIdMap, worker) // 保存进度
-		log.Infof("Scrolling batch done:worker=%s", jsoner.MarshalString(worker))
+		logrus.Infof("Scrolling batch done:worker=%s", jsoner.MarshalString(worker))
 		atomic.AddInt64(&worker.CostMs, int64(time.Since(start)/time.Millisecond))
 	}
 	wg.Wait()
 	saveProgress(params, &runningIdMap, worker) // 保存进度
-	log.Infof("Scrolling done:worker=%s", jsoner.MarshalString(worker))
+	logrus.Infof("Scrolling done:worker=%s", jsoner.MarshalString(worker))
 	return nil
 }
 
@@ -209,7 +209,7 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 	if worker.CostMs > 0 {
 		worker.Qps = worker.Total * 1000 / worker.CostMs
 	}
-	log.Infof("Scrolling saveProgress:saveId=%d,worker=%s",
+	logrus.Infof("Scrolling saveProgress:saveId=%d,worker=%s",
 		saveId, jsoner.MarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {

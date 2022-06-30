@@ -91,7 +91,7 @@ func authHandler(c *gin.Context) {
 
 	// 校验用户名和密码是否正确
 	user, err := service.GetUserByName(c, userParam.Name)
-	if ginutil.FailIfError(c, err) {
+	if ginutil.HandleError(c, err) {
 		return
 	}
 	if user == nil || len(user.Password) < 1 {
@@ -105,7 +105,7 @@ func authHandler(c *gin.Context) {
 		// 登录版本号增加
 		user.AuthVersion++
 		err = service.UpdateLoginIndex(c, user)
-		if ginutil.FailIfError(c, err) {
+		if ginutil.HandleError(c, err) {
 			return
 		}
 
@@ -115,7 +115,7 @@ func authHandler(c *gin.Context) {
 			Name:    user.Name,
 			Version: user.AuthVersion,
 		}, config.JwtSecret)
-		if ginutil.FailIfError(c, err) {
+		if ginutil.HandleError(c, err) {
 			return
 		}
 
@@ -133,7 +133,7 @@ func authLogout(c *gin.Context) {
 		user := loginUser.(*service.UserBO)
 		user.AuthVersion++
 		err := service.UpdateLoginIndex(c, user)
-		if ginutil.FailIfError(c, err) {
+		if ginutil.HandleError(c, err) {
 			return
 		}
 	}
@@ -145,19 +145,19 @@ func authCaptcha(c *gin.Context) {
 	// 生成验证码
 	code := strconv.Itoa(codec.Random().Intn(9000) + 1000)
 	item, err := base64Captcha.DefaultDriverDigit.DrawCaptcha(code)
-	if ginutil.FailIfError(c, err) {
+	if ginutil.HandleError(c, err) {
 		return
 	}
 
 	// 验证码加密后存储到JWT
 	encodeAes, err := codec.AesEncrypt([]byte(code), captchaAesKey)
-	if ginutil.FailIfError(c, err) {
+	if ginutil.HandleError(c, err) {
 		return
 	}
 	encodeJwt, err := codec.GenTokenExpire(&codec.JwtData{
 		Name: codec.Base64EncodeString(encodeAes),
 	}, config.JwtSecret, time.Now().Add(time.Minute*10))
-	if ginutil.FailIfError(c, err) {
+	if ginutil.HandleError(c, err) {
 		return
 	}
 

@@ -6,7 +6,7 @@ import (
 	"github.com/ewingtsai/go-home/handler"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -30,7 +30,7 @@ func main() {
 
 	err := root.Run(":80")
 	if err != nil {
-		log.Println("Run server error", err)
+		logrus.Errorf("run server error: %v", err)
 	}
 }
 
