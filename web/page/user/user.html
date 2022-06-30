@@ -160,11 +160,11 @@
             2: '<span style="color:red">无效</span>'
         }
 
-        var statusTemplate = function (cell, row) {
+        function statusTemplate(cell, row) {
             return statuses[row.status || 0] || row.status;
         }
 
-        var initSelect = function () {
+        function initSelect() {
             xmSelect.render({
                 el: '#select-role',
                 name: 'role',
@@ -177,7 +177,7 @@
         }
 
         // 编辑提交按钮
-        var editFormSubmit = function (form) {
+        function editFormSubmit(form) {
             var data = form.field;
             data.id = parseInt(data.id) || 0;
             data.valid_status = parseInt(data.valid_status) || 0;
@@ -202,7 +202,7 @@
         }
 
         // 打开编辑窗口
-        var openEditWin = function (e) {
+        function openEditWin(e) {
             var data = GridManager.getRowData('main-table', getParentRow(e.target)) || {};
             layui.layer.open({
                 type: 1,
@@ -222,7 +222,7 @@
         }
 
         // 删除操作
-        var deleteAction = function (e) {
+        function deleteAction(e) {
             var data = GridManager.getRowData('main-table', getParentRow(e.target));
             layui.layer.confirm('你确定要删除' + data.id + '?', {
                 title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
@@ -245,21 +245,44 @@
             });
         }
 
-        var gmHeaderTemplate = function (cell, row, index, key) {
+        function gmHeaderTemplate(cell, row, index, key) {
             var value = row[key] || "";
             return value ? "<img style='width:80px;border-radius:40px' " +
                 "src='data:image;base64," + value + "' alt=''/>" : ""
         }
 
-        var rowOperates = function () {
+        function rowOperates() {
             return '<button class="row-edit-btn layui-btn layui-btn-normal layui-btn-sm">' +
                 '<i class="fa fa-pencil"></i> 修改</button>' +
                 '<button class="row-delete-btn layui-btn layui-btn-danger layui-btn-sm">' +
                 '<i class="fa fa-remove"></i> 删除</button>';
         }
 
+        var columnData = [{
+            key: 'id', text: '<strong>用户ID</strong>',
+            width: '80px', fixed: 'left', template: gmStrongTemplate
+        }, {
+            key: 'name', text: '<strong>用户名</strong>', width: '200px'
+        }, {
+            key: 'header', text: '<strong>用户头像</strong>',
+            width: '200px', template: gmHeaderTemplate
+        }, {
+            key: 'status', text: '<strong>状态</strong>',
+            width: '200px', template: statusTemplate
+        }, {
+            key: 'gender', text: '<strong>性别</strong>', width: '200px'
+        }, {
+            key: 'role', text: '<strong>角色</strong>', width: '200px'
+        }, {
+            key: 'sign', text: '<strong>签名</strong>',
+            width: '400px', template: gmPreTemplate
+        }, {
+            key: '_operate_', text: '<strong>操作</strong>',
+            width: '160px', fixed: 'right', template: rowOperates
+        }];
+
         // 加载表格
-        var createTable = function (params) {
+        function createTable(params) {
             document.querySelector('#main-table').GM({
                 gridManagerName: 'main-table',
                 ajaxUrl: "../../../api/user/query",
@@ -280,45 +303,7 @@
                 asyncTotals: {
                     text: '加载中', handler: gmAjaxTotals
                 },
-                columnData: [{
-                    key: 'id',
-                    text: '<strong>用户ID</strong>',
-                    width: '80px', fixed: 'left',
-                    template: gmStrongTemplate
-                }, {
-                    key: 'name',
-                    text: '<strong>用户名</strong>',
-                    width: '200px'
-                }, {
-                    key: 'header',
-                    text: '<strong>用户头像</strong>',
-                    width: '200px',
-                    template: gmHeaderTemplate
-                }, {
-                    key: 'status',
-                    text: '<strong>状态</strong>',
-                    width: '200px',
-                    template: statusTemplate
-                }, {
-                    key: 'gender',
-                    text: '<strong>性别</strong>',
-                    width: '200px'
-                }, {
-                    key: 'role',
-                    text: '<strong>角色</strong>',
-                    width: '200px'
-                }, {
-                    key: 'sign',
-                    text: '<strong>签名</strong>',
-                    width: '400px',
-                    template: gmPreTemplate
-                }, {
-                    key: '_operate_',
-                    text: '<strong>操作</strong>',
-                    width: '160px',
-                    fixed: 'right',
-                    template: rowOperates
-                }],
+                columnData: columnData,
                 fullColumn: {
                     useFold: true, fixed: 'left', bottomTemplate: function (row, index) {
                         var html = $('#detail-template').html().replace("{{header}}", row.header);
@@ -347,7 +332,7 @@
             return false;
         });
 
-        createTable(params);
+        createTable(layui.form.val('query-form'));
     });
 </script>
 </body>

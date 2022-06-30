@@ -23,7 +23,8 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
             options.multiModule = options.multiModule || false;
             options.menuChildOpen = options.menuChildOpen || false;
             miniAdmin.renderLogo();
-            var initByData = function (data) {
+
+            function initByData(data) {
                 data = data || {
                     homeInfo: {title: "无标题", baseTitle: "无标题", href: ""},
                     menuInfo: [{
@@ -52,6 +53,7 @@ layui.define(["miniMenu", "miniPage", "miniTheme"], function (exports) {
                     homeInfo: data.homeInfo, multiModule: options.multiModule,
                 });
             }
+
             if (options.initData) {
                 initByData(options.initData);
             } else {

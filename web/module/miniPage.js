@@ -6,7 +6,8 @@
  */
 layui.define(function (exports) {
     var layer = layui.layer;
-    var findMenuByHref = function (href, menuList) {
+
+    function findMenuByHref(href, menuList) {
         if (!(menuList instanceof Array)) {
             return;
         }
@@ -85,7 +86,7 @@ layui.define(function (exports) {
             $("[layuimini-href]").each(function () {
                 if ($(this).attr("layuimini-href") === href) {
                     // 自动展开菜单栏
-                    var addMenuClass = function ($element, type) {
+                    function addMenuClass($element, type) {
                         if (type === 1) {
                             $element.addClass('layui-this');
                             if ($element.hasClass('layui-nav-item') && $element.hasClass('layui-this')) {
@@ -101,7 +102,8 @@ layui.define(function (exports) {
                                 addMenuClass($element.parent().parent(), 2);
                             }
                         }
-                    };
+                    }
+
                     addMenuClass($(this).parent(), 1);
                     return false;
                 }
@@ -114,7 +116,7 @@ layui.define(function (exports) {
             $("[layuimini-href]").each(function () {
                 if ($(this).attr("layuimini-href") === href) {
                     // 自动展开菜单栏
-                    var addMenuClass = function ($element, type) {
+                    function addMenuClass($element, type) {
                         if (type === 1) {
                             $element.addClass('layui-this');
                             if ($element.hasClass('layui-nav-item') && $element.hasClass('layui-this')) {
@@ -138,7 +140,8 @@ layui.define(function (exports) {
                                 addMenuClass($element.parent().parent(), 2);
                             }
                         }
-                    };
+                    }
+
                     addMenuClass($(this).parent(), 1);
                     return false;
                 }

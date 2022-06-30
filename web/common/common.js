@@ -58,11 +58,11 @@ function encodeUriParams(params, defaults) {
 }
 
 // 设置当前浏览器url参数
-function setUrlParams(params, defaults) {
+function setUrlParams(params, excludes) {
     if (!isHttpSchema()) {
         return;
     }
-    var paramStr = encodeUriParams(params, defaults);
+    var paramStr = encodeUriParams(params, excludes);
     paramStr = paramStr ? "?" + paramStr : paramStr;
     for (var win = window; ; win = win.parent) {
         if (window.parent === win) {
@@ -139,7 +139,7 @@ function gmAjaxData(settings, params) {
             data: params,
             dataType: "json",
             complete: function (data) {
-                resolve(data || {data: []});
+                resolve(data && data.responseJSON || {data: []});
             }
         });
     });
