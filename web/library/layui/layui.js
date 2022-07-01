@@ -1,8 +1,8 @@
-/** 2.7.1 | MIT Licensed */
+/** 2.7.2 | MIT Licensed */
 ;!function(d){
  "use strict";
  var t,h=d.document,m={modules:{},status:{},timeout:10,event:{}},r=function(){
-  this.v="2.7.1"
+  this.v="2.7.2"
  },e=d.LAYUI_GLOBAL||{},v=(t=h.currentScript?h.currentScript.src:function(){
   for(var t,e=h.scripts,o=e.length-1,r=o; 0<r; r--) if("interactive"===e[r].readyState){
    t=e[r].src;
@@ -74,10 +74,9 @@
   }), m.modules[u]=y), n
  }, r.prototype.disuse=function(t){
   var o=this;
-  t=o.isArray(t)?t:[t], o.each(t,function(t,e){
-   if(!m.status[e]) return g("module "+e+" is not exist");
-   delete o[e], delete N[e], delete o.modules[e], delete m.status[e], delete m.modules[e]
-  })
+  return t=o.isArray(t)?t:[t], o.each(t,function(t,e){
+   m.status[e], delete o[e], delete N[e], delete o.modules[e], delete m.status[e], delete m.modules[e]
+  }), o
  }, r.prototype.getStyle=function(t,e){
   t=t.currentStyle||d.getComputedStyle(t,null);
   return t[t.getPropertyValue?"getPropertyValue":"getAttribute"](e)
@@ -206,6 +205,48 @@
 layui.define(function(a){
  var i=layui.cache;
  layui.config({dir:i.dir.replace(/lay\/dest\/$/,"")}), a("layui.all",layui.v)
+});
+layui.define(function(e){
+ "use strict";
+ var p={open:"{{",close:"}}"},a={
+  exp:function(e){
+   return new RegExp(e,"g")
+  },query:function(e,r,n){
+   return l((r||"")+p.open+["#([\\s\\S])+?","([^{#}])*?"][e||0]+p.close+(n||""))
+  },escape:function(e){
+   return e===undefined||null===e?"":/[<"'>]|&(?=#[a-zA-Z0-9]+)/g.test(e+="")?e.replace(/&(?!#?[a-zA-Z0-9]+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&#39;").replace(/"/g,"&quot;"):e
+  },error:function(e,r){
+   var n="Laytpl Error: ";
+   return "object"== typeof console&&console.error(n+e+"\n"+(r||"")), n+e
+  }
+ },l=a.exp,r=function(e){
+  this.tpl=e
+ },n=(r.pt=r.prototype, window.errors=0, r.pt.parse=function(e,r){
+  var n=e,c=l("^"+p.open+"#",""),t=l(p.close+"$","");
+  e='"use strict";var view = "'+(e=e.replace(/\s+|\r|\t|\n/g," ").replace(l(p.open+"#"),p.open+"# ").replace(l(p.close+"}"),"} "+p.close).replace(/\\/g,"\\\\").replace(l(p.open+"!(.+?)!"+p.close),function(e){
+   return e=e.replace(l("^"+p.open+"!"),"").replace(l("!"+p.close),"").replace(l(p.open+"|"+p.close),function(e){
+    return e.replace(/(.)/g,"\\$1")
+   })
+  }).replace(/(?="|')/g,"\\").replace(a.query(),function(e){
+   return '";'+(e=e.replace(c,"").replace(t,"")).replace(/\\(.)/g,"$1")+';view+="'
+  }).replace(a.query(1),function(e){
+   var r='"+laytpl.escape(';
+   return e.replace(/\s/g,"")===p.open+p.close?"":(e=e.replace(l(p.open+"|"+p.close),""), /^=/.test(e)?e=e.replace(/^=/,""):/^-/.test(e)&&(e=e.replace(/^-/,""), r='"+('), r+e.replace(/\\(.)/g,"$1")+')+"')
+  }))+'";return view;';
+  try{
+   return this.cache=e=new Function("d, laytpl",e), e(r,a)
+  }catch(o){
+   return delete this.cache, a.error(o,n)
+  }
+ }, r.pt.render=function(e,r){
+  var n=this;
+  return e?(e=n.cache?n.cache(e,a):n.parse(n.tpl,e), r?void r(e):e):a.error("no data")
+ }, function(e){
+  return "string"!= typeof e?a.error("Template not found"):new r(e)
+ });
+ n.config=function(e){
+  for(var r in e=e||{}) p[r]=e[r]
+ }, n.v="1.2.0", e("laytpl",n)
 });
 !function(l){
  "use strict";
@@ -352,48 +393,6 @@ layui.define(function(a){
   t("lay",h)
  })
 }(window,window.document);
-layui.define(function(e){
- "use strict";
- var p={open:"{{",close:"}}"},a={
-  exp:function(e){
-   return new RegExp(e,"g")
-  },query:function(e,r,n){
-   return l((r||"")+p.open+["#([\\s\\S])+?","([^{#}])*?"][e||0]+p.close+(n||""))
-  },escape:function(e){
-   return e===undefined||null===e?"":/[<"'>]|&(?=#[a-zA-Z0-9]+)/g.test(e+="")?e.replace(/&(?!#?[a-zA-Z0-9]+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&#39;").replace(/"/g,"&quot;"):e
-  },error:function(e,r){
-   var n="Laytpl Error: ";
-   return "object"== typeof console&&console.error(n+e+"\n"+(r||"")), n+e
-  }
- },l=a.exp,r=function(e){
-  this.tpl=e
- },n=(r.pt=r.prototype, window.errors=0, r.pt.parse=function(e,r){
-  var n=e,c=l("^"+p.open+"#",""),t=l(p.close+"$","");
-  e='"use strict";var view = "'+(e=e.replace(/\s+|\r|\t|\n/g," ").replace(l(p.open+"#"),p.open+"# ").replace(l(p.close+"}"),"} "+p.close).replace(/\\/g,"\\\\").replace(l(p.open+"!(.+?)!"+p.close),function(e){
-   return e=e.replace(l("^"+p.open+"!"),"").replace(l("!"+p.close),"").replace(l(p.open+"|"+p.close),function(e){
-    return e.replace(/(.)/g,"\\$1")
-   })
-  }).replace(/(?="|')/g,"\\").replace(a.query(),function(e){
-   return '";'+(e=e.replace(c,"").replace(t,"")).replace(/\\(.)/g,"$1")+';view+="'
-  }).replace(a.query(1),function(e){
-   var r='"+laytpl.escape(';
-   return e.replace(/\s/g,"")===p.open+p.close?"":(e=e.replace(l(p.open+"|"+p.close),""), /^=/.test(e)?e=e.replace(/^=/,""):/^-/.test(e)&&(e=e.replace(/^-/,""), r='"+('), r+e.replace(/\\(.)/g,"$1")+')+"')
-  }))+'";return view;';
-  try{
-   return this.cache=e=new Function("d, laytpl",e), e(r,a)
-  }catch(o){
-   return delete this.cache, a.error(o,n)
-  }
- }, r.pt.render=function(e,r){
-  var n=this;
-  return e?(e=n.cache?n.cache(e,a):n.parse(n.tpl,e), r?void r(e):e):a.error("no data")
- }, function(e){
-  return "string"!= typeof e?a.error("Template not found"):new r(e)
- });
- n.config=function(e){
-  for(var r in e=e||{}) p[r]=e[r]
- }, n.v="1.2.0", e("laytpl",n)
-});
 layui.define(function(e){
  "use strict";
  var n=document,u="getElementById",c="getElementsByTagName",a="layui-disabled",t=function(e){
@@ -4822,15 +4821,16 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
    var t=this.config||{},a=(e=e||{}).item3,i=e.content,
     t=(t.escape&&(i=f.escape(i)), e.text&&a.exportTemplet||a.templet||a.toolbar);
    return t&&(i="function"== typeof t?t.call(a,e.tplData,e.obj):m(p(t).html()||String(i)).render(e.tplData)), e.text?p("<div>"+i+"</div>").text():i
-  },C="table",w="layui-hide",c="layui-hide-v",r="layui-none",o="layui-table-view",s=".layui-table-header",
-  T=".layui-table-body",N=".layui-table-sort",L="layui-table-edit",D="layui-table-hover",t=function(e){
+  },C="table",w="layui-hide",r="layui-hide-v",c="layui-none",s="layui-table-view",u=".layui-table-header",
+  T=".layui-table-body",N=".layui-table-pageview",L=".layui-table-sort",D="layui-table-edit",S="layui-table-hover",
+  t=function(e){
    return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>',"<thead>","{{# layui.each(d.data.cols, function(i1, item1){ }}","<tr>","{{# layui.each(item1, function(i2, item2){ }}",'{{# if(item2.fixed && item2.fixed !== "right"){ left = true; } }}','{{# if(item2.fixed === "right"){ right = true; } }}',(e=e||{}).fixed&&"right"!==e.fixed?'{{# if(item2.fixed && item2.fixed !== "right"){ }}':"right"===e.fixed?'{{# if(item2.fixed === "right"){ }}':"","{{# var isSort = !(item2.colGroup) && item2.sort; }}",'<th data-field="{{= item2.field||i2 }}" data-key="{{=d.index}}-{{=i1}}-{{=i2}}" {{# if( item2.parentKey){ }}data-parentkey="{{= item2.parentKey }}"{{# } }} {{# if(item2.minWidth){ }}data-minwidth="{{=item2.minWidth}}"{{# } }} {{#if(item2.colspan){}} colspan="{{=item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{=item2.rowspan}}"{{#}}} {{# if(item2.unresize || item2.colGroup){ }}data-unresize="true"{{# } }} class="{{# if(item2.hide){ }}layui-hide{{# } }}{{# if(isSort){ }} layui-unselect{{# } }}{{# if(!item2.field){ }} layui-table-col-special{{# } }}">','<div class="layui-table-cell laytable-cell-',"{{# if(item2.colGroup){ }}","group","{{# } else { }}","{{=d.index}}-{{=i1}}-{{=i2}}",'{{# if(item2.type !== "normal"){ }}'," laytable-cell-{{= item2.type }}","{{# } }}","{{# } }}",'" {{#if(item2.align){}}align="{{=item2.align}}"{{#}}}>','{{# if(item2.type === "checkbox"){ }}','<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose" {{# if(item2[d.data.checkName]){ }}checked{{# }; }}>',"{{# } else { }}",'<span>{{-item2.title||""}}</span>',"{{# if(isSort){ }}",'<span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="\u5347\u5e8f"></i><i class="layui-edge layui-table-sort-desc" title="\u964d\u5e8f"></i></span>',"{{# } }}","{{# } }}","</div>","</th>",e.fixed?"{{# }; }}":"","{{# }); }}","</tr>","{{# }); }}","</thead>","</table>"].join("")
   },
   a=['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>',"<tbody></tbody>","</table>"].join(""),
-  u=[,"{{# if(d.data.toolbar){ }}",'<div class="layui-table-tool">','<div class="layui-table-tool-temp"></div>','<div class="layui-table-tool-self"></div>',"</div>","{{# } }}",'<div class="layui-table-box">',"{{# if(d.data.loading){ }}",'<div class="layui-table-init" style="background-color: #fff;">','<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>',"</div>","{{# } }}","{{# var left, right; }}",'<div class="layui-table-header">',t(),"</div>",'<div class="layui-table-body layui-table-main">',a,"</div>","{{# if(left){ }}",'<div class="layui-table-fixed layui-table-fixed-l">','<div class="layui-table-header">',t({fixed:!0}),"</div>",'<div class="layui-table-body">',a,"</div>","</div>","{{# }; }}","{{# if(right){ }}",'<div class="layui-table-fixed layui-table-fixed-r">','<div class="layui-table-header">',t({fixed:"right"}),'<div class="layui-table-mend"></div>',"</div>",'<div class="layui-table-body">',a,"</div>","</div>","{{# }; }}","</div>","{{# if(d.data.totalRow){ }}",'<div class="layui-table-total">','<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>','<tbody><tr><td><div class="layui-table-cell" style="visibility: hidden;">Total</div></td></tr></tbody>',"</table>","</div>","{{# } }}","{{# if(d.data.page || d.data.pagebar){ }}",'<div class="layui-table-column layui-table-page">','<div class="layui-inline layui-table-pageview" id="layui-table-page{{=d.index}}"></div>',"</div>","{{# } }}","<style>","{{# layui.each(d.data.cols, function(i1, item1){","layui.each(item1, function(i2, item2){ }}",".laytable-cell-{{=d.index}}-{{=i1}}-{{=i2}}{ ","{{# if(item2.width){ }}","width: {{=item2.width}}px;","{{# } }}"," }","{{# });","}); }}","{{# if(d.data.lineStyle){",'var cellClassName = ".layui-table-view-"+ d.index +" .layui-table-body .layui-table .layui-table-cell";',"}}","{{= cellClassName }}{","display: -webkit-box; -webkit-box-align: center; white-space: normal; {{- d.data.lineStyle }} ","}","{{= cellClassName }}:hover{overflow: auto;}","{{# } }}","{{# if(d.data.css){ }}","{{- d.data.css }}","{{# } }}","</style>"].join(""),
-  S=p(window),F=p(document),i=function(e){
+  R=[,"{{# if(d.data.toolbar){ }}",'<div class="layui-table-tool">','<div class="layui-table-tool-temp"></div>','<div class="layui-table-tool-self"></div>',"</div>","{{# } }}",'<div class="layui-table-box">',"{{# if(d.data.loading){ }}",'<div class="layui-table-init" style="background-color: #fff;">','<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>',"</div>","{{# } }}","{{# var left, right; }}",'<div class="layui-table-header">',t(),"</div>",'<div class="layui-table-body layui-table-main">',a,"</div>","{{# if(left){ }}",'<div class="layui-table-fixed layui-table-fixed-l">','<div class="layui-table-header">',t({fixed:!0}),"</div>",'<div class="layui-table-body">',a,"</div>","</div>","{{# }; }}","{{# if(right){ }}",'<div class="layui-table-fixed layui-table-fixed-r layui-hide">','<div class="layui-table-header">',t({fixed:"right"}),'<div class="layui-table-mend"></div>',"</div>",'<div class="layui-table-body">',a,"</div>","</div>","{{# }; }}","</div>","{{# if(d.data.totalRow){ }}",'<div class="layui-table-total">','<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>','<tbody><tr><td><div class="layui-table-cell" style="visibility: hidden;">Total</div></td></tr></tbody>',"</table>","</div>","{{# } }}",'<div class="layui-table-column layui-table-page layui-hide">','<div class="layui-inline layui-table-pageview" id="layui-table-page{{=d.index}}"></div>',"</div>","<style>","{{# layui.each(d.data.cols, function(i1, item1){","layui.each(item1, function(i2, item2){ }}",".laytable-cell-{{=d.index}}-{{=i1}}-{{=i2}}{ ","{{# if(item2.width){ }}","width: {{=item2.width}}px;","{{# } }}"," }","{{# });","}); }}","{{# if(d.data.lineStyle){",'var cellClassName = ".layui-table-view-"+ d.index +" .layui-table-body .layui-table .layui-table-cell";',"}}","{{= cellClassName }}{","display: -webkit-box; -webkit-box-align: center; white-space: normal; {{- d.data.lineStyle }} ","}","{{= cellClassName }}:hover{overflow: auto;}","{{# } }}","{{# if(d.data.css){ }}","{{- d.data.css }}","{{# } }}","</style>"].join(""),
+  A=p(window),F=p(document),i=function(e){
    this.index= ++x.index, this.config=p.extend({},this.config,x.config,e), this.render()
-  },R=(i.prototype.config={
+  },j=(i.prototype.config={
    limit:10,
    loading:!0,
    escape:!0,
@@ -4853,47 +4853,49 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
     countName:"count"
    },a.response), "object"== typeof a.page&&(a.limit=a.page.limit||a.limit, a.limits=a.page.limits||a.limits, t.page=a.page.curr=a.page.curr||1, delete a.page.elem, delete a.page.jump), !a.elem[0]) return t;
    if("reloadData"===e) return t.pullData(t.page);
-   a.height&&/^full-\d+$/.test(a.height)&&(t.fullHeightGap=a.height.split("-")[1], a.height=S.height()-t.fullHeightGap), t.setInit();
-   var i,e=a.elem,l=e.next("."+o),n=t.elem=p('<div class="layui-form layui-border-box"></div>');
-   n.addClass((i=[o,o+"-"+t.index], a.className&&i.push(a.className), i.join(" "))).attr({
+   a.height&&/^full-\d+$/.test(a.height)&&(t.fullHeightGap=a.height.split("-")[1], a.height=A.height()-t.fullHeightGap), t.setInit();
+   var i,l,e=a.elem,n=e.next("."+s),o=t.elem=p("<div></div>");
+   o.addClass((i=[s,s+"-"+t.index,"layui-form","layui-border-box"], a.className&&i.push(a.className), i.join(" "))).attr({
     "lay-filter":"LAY-TABLE-FORM-DF-"+t.index,
     "lay-id":a.id,
     style:(i=[], a.width&&i.push("width:"+a.width+"px;"), a.height&&i.push("height:"+a.height+"px;"), i.join(""))
-   }).html(m(u).render({
+   }).html(m(R).render({
     data:a,
     index:t.index
-   })), a.index=t.index, t.key=a.id||a.index, l[0]&&l.remove(), e.after(n), t.layTool=n.find(".layui-table-tool"), t.layBox=n.find(".layui-table-box"), t.layHeader=n.find(s), t.layMain=n.find(".layui-table-main"), t.layBody=n.find(T), t.layFixed=n.find(".layui-table-fixed"), t.layFixLeft=n.find(".layui-table-fixed-l"), t.layFixRight=n.find(".layui-table-fixed-r"), t.layTotal=n.find(".layui-table-total"), t.layPage=n.find(".layui-table-page"), t.renderToolbar(), t.renderPagebar(), t.fullSize(), 1<a.cols.length&&(i=t.layFixed.find(s).find("th")).height(t.layHeader.height()-1-parseFloat(i.css("padding-top"))-parseFloat(i.css("padding-bottom"))), t.pullData(t.page), t.events()
+   })), a.index=t.index, t.key=a.id||a.index, n[0]&&n.remove(), e.after(o), t.layTool=o.find(".layui-table-tool"), t.layBox=o.find(".layui-table-box"), t.layHeader=o.find(u), t.layMain=o.find(".layui-table-main"), t.layBody=o.find(T), t.layFixed=o.find(".layui-table-fixed"), t.layFixLeft=o.find(".layui-table-fixed-l"), t.layFixRight=o.find(".layui-table-fixed-r"), t.layTotal=o.find(".layui-table-total"), t.layPage=o.find(".layui-table-page"), t.renderToolbar(), t.renderPagebar(), t.fullSize(), 1<a.cols.length&&(i=t.layFixed.find(u).find("th"), l=t.layHeader.first(), layui.each(i,function(e,t){
+    (t=p(t)).height(l.find('th[data-key="'+t.attr("data-key")+'"]').height()+"px")
+   })), t.pullData(t.page), t.events()
   }, i.prototype.initOpts=function(e){
    this.config;
    e.checkbox&&(e.type="checkbox"), e.space&&(e.type="space"), e.type||(e.type="normal"), "normal"!==e.type&&(e.unresize= !0, e.width=e.width||{
     checkbox:50,
     radio:50,
     space:15,
-    numbers:40
+    numbers:60
    }[e.type])
   }, i.prototype.setInit=function(e){
-   var l,a,d=this,c=d.config;
-   if(c.clientWidth=c.width||(l=function(e){
-    var t,a=(e=e||c.elem.parent()).width();
+   var l,a,d=this,r=d.config;
+   if(r.clientWidth=r.width||(l=function(e){
+    var t,a=(e=e||r.elem.parent()).width();
     try{
      t="none"===e.css("display")
     }catch(i){
     }
     return !e[0]||a&& !t?a:l(e.parent())
-   })(), "width"===e) return c.clientWidth;
-   c.css&& -1===c.css.indexOf(o)&&(a=c.css.split("}"), layui.each(a,function(e,t){
-    t&&(a[e]="."+o+"-"+d.index+" "+t)
-   }), c.css=a.join("}"));
-   var r=function(a,e,i,l){
+   })(), "width"===e) return r.clientWidth;
+   r.css&& -1===r.css.indexOf(s)&&(a=r.css.split("}"), layui.each(a,function(e,t){
+    t&&(a[e]="."+s+"-"+d.index+" "+t)
+   }), r.css=a.join("}"));
+   var c=function(a,e,i,l){
     var n,o;
-    l?(l.key=a+"-"+i, l.hide=l.hide|| !1, l.colspan=l.colspan||1, l.rowspan=l.rowspan||1, d.initOpts(l), (n=a+(parseInt(l.rowspan)||1))<c.cols.length?(l.colGroup= !0, o=0, layui.each(c.cols[n],function(e,t){
-     t.HAS_PARENT||1<=o&&o==(l.colspan||1)||(t.HAS_PARENT= !0, t.parentKey=a+"-"+i, o+=parseInt(1<t.colspan?t.colspan:1), r(n,c.cols[n],e,t))
+    l?(l.key=a+"-"+i, l.hide=l.hide|| !1, l.colspan=l.colspan||1, l.rowspan=l.rowspan||1, d.initOpts(l), (n=a+(parseInt(l.rowspan)||1))<r.cols.length?(l.colGroup= !0, o=0, layui.each(r.cols[n],function(e,t){
+     t.HAS_PARENT||1<=o&&o==(l.colspan||1)||(t.HAS_PARENT= !0, t.parentKey=a+"-"+i, o+=parseInt(1<t.colspan?t.colspan:1), c(n,r.cols[n],e,t))
     })):l.colGroup= !1):e.splice(i,1)
    };
-   layui.each(c.cols,function(a,i){
+   layui.each(r.cols,function(a,i){
     if(a) return !0;
     layui.each(i,function(e,t){
-     r(a,i,e,t)
+     c(a,i,e,t)
     })
    })
   }, i.prototype.renderToolbar=function(){
@@ -4927,19 +4929,19 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
     })
    })
   }, i.prototype.setColsWidth=function(){
-   var t,a,i=this,o=i.config,l=0,d=0,c=0,r=0,s=i.setInit("width"),e=(i.eachCols(function(e,t){
+   var t,a,i=this,o=i.config,l=0,d=0,r=0,c=0,s=i.setInit("width"),e=(i.eachCols(function(e,t){
     t.hide||l++
    }), s=s-("line"===o.skin||"nob"===o.skin?2:l+1)-i.getScrollWidth(i.layMain[0])-1, function(n){
     layui.each(o.cols,function(e,l){
      layui.each(l,function(e,t){
       var a=0,i=t.minWidth||o.cellMinWidth;
-      t?t.colGroup||t.hide||(n?c&&c<i&&(d--, a=i):(a=t.width||0, /\d+%$/.test(a)?(a=Math.floor(parseFloat(a)/100*s))<i&&(a=i):a||(t.width=a=0, d++)), t.hide&&(a=0), r+=a):l.splice(e,1)
+      t?t.colGroup||t.hide||(n?r&&r<i&&(d--, a=i):(a=t.width||0, /\d+%$/.test(a)?(a=Math.floor(parseFloat(a)/100*s))<i&&(a=i):a||(t.width=a=0, d++)), t.hide&&(a=0), c+=a):l.splice(e,1)
      })
-    }), r<s&&d&&(c=(s-r)/d)
+    }), c<s&&d&&(r=(s-c)/d)
    }),n=(e(), e(!0), i.autoColNums=d, i.eachCols(function(e,t){
     var a=t.minWidth||o.cellMinWidth;
     t.colGroup||t.hide||(0===t.width?i.getCssRule(o.index+"-"+t.key,function(e){
-     e.style.width=Math.floor(a<=c?c:a)+"px"
+     e.style.width=Math.floor(a<=r?r:a)+"px"
     }):/\d+%$/.test(t.width)&&i.getCssRule(o.index+"-"+t.key,function(e){
      e.style.width=Math.floor(parseFloat(t.width)/100*s)+"px"
     }))
@@ -4958,8 +4960,8 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
     "array"===layui.type(t)&& delete i.config[e]
    }), i.config=p.extend(t,{},i.config,e), i.render(a)
   }, i.prototype.errorView=function(e){
-   var t=this,a=t.layMain.find("."+r),e=p('<div class="'+r+'">'+(e||"Error")+"</div>");
-   a[0]&&(t.layNone.remove(), a.remove()), t.layFixed.addClass(w), t.layMain.find("tbody").html(""), t.layMain.append(t.layNone=e), t.layPage&&t.layPage.addClass(c).find(">div").html(""), t.layTotal&&t.layTotal.addClass(c).find("tbody").html(""), x.cache[t.key]=[]
+   var t=this,a=t.layMain.find("."+c),e=p('<div class="'+c+'">'+(e||"Error")+"</div>");
+   a[0]&&(t.layNone.remove(), a.remove()), t.layFixed.addClass(w), t.layMain.find("tbody").html(""), t.layMain.append(t.layNone=e), t.layTotal.addClass(r), t.layPage.find(N).addClass(r), x.cache[t.key]=[]
   }, i.prototype.page=1, i.prototype.pullData=function(t){
    var e,a=this,i=a.config,l=i.request,n=i.response,o=function(){
     "object"== typeof i.initSort&&a.sort(i.initSort.field,i.initSort.type)
@@ -4983,29 +4985,29 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
   }, i.prototype.renderData=function(e,t,a,l){
    var u=this,y=u.config,i=e[y.response.dataName]||[],e=e[y.response.totalRowName],n=[],h=[],f=[],o=function(){
     var s;
-    if(!l&&u.sortKey) return u.sort(u.sortKey.field,u.sortKey.sort,!0);
+    if(y.HAS_SET_COLS_PATCH||u.setColsPatch(), y.HAS_SET_COLS_PATCH= !0, !l&&u.sortKey) return u.sort(u.sortKey.field,u.sortKey.sort,!0);
     layui.each(i,function(o,d){
-     var a=[],i=[],c=[],r=o+y.limit*(t-1)+1;
+     var a=[],i=[],r=[],c=o+y.limit*(t-1)+1;
      "array"===layui.type(d)&&0===d.length||(l||(d[x.config.indexName]=o), u.eachCols(function(e,l){
       var e=l.field||e,t=y.index+"-"+l.key,n=d[e];
       n!==undefined&&null!==n||(n=""), l.colGroup||(t=['<td data-field="'+e+'" data-key="'+t+'" '+(e=[], l.edit&&e.push('data-edit="'+l.edit+'"'), l.templet&&e.push('data-content="'+n+'"'), l.toolbar&&e.push('data-off="true"'), l.event&&e.push('lay-event="'+l.event+'"'), l.minWidth&&e.push('data-minwidth="'+l.minWidth+'"'), e.join(" "))+' class="'+(e=[], l.hide&&e.push(w), l.field||e.push("layui-table-col-special"), e.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+("normal"===l.type?t:t+" laytable-cell-"+l.type)+'"'+(l.align?' align="'+l.align+'"':"")+(e=[], l.style&&e.push('style="'+l.style+'"'), e.join(" "))+">"+function(){
-       var e,t=p.extend(!0,{LAY_INDEX:r,LAY_COL:l},d),a=x.config.checkName,i=x.config.disabledName;
+       var e,t=p.extend(!0,{LAY_INDEX:c,LAY_COL:l},d),a=x.config.checkName,i=x.config.disabledName;
        switch(l.type){
         case"checkbox":
          return '<input type="checkbox" name="layTableCheckbox" lay-skin="primary" '+(e=[], l[a]&&(d[a]=l[a], l[a]&&(e[0]="checked")), t[a]&&(e[0]="checked"), t[i]&&e.push("disabled"), e.join(" "))+">";
         case"radio":
          return t[a]&&(s=o), '<input type="radio" name="layTableRadio_'+y.index+'" '+(e=[], t[a]&&(e[0]="checked"), t[i]&&e.push("disabled"), e.join(" "))+' lay-type="layTableRadio">';
         case"numbers":
-         return r
+         return c
        }
        return l.toolbar?m(p(l.toolbar).html()||"").render(t):k.call(u,{item3:l,content:n,tplData:t})
-      }(),"</div></td>"].join(""), a.push(t), l.fixed&&"right"!==l.fixed&&i.push(t), "right"===l.fixed&&c.push(t))
-     }), n.push('<tr data-index="'+o+'">'+a.join("")+"</tr>"), h.push('<tr data-index="'+o+'">'+i.join("")+"</tr>"), f.push('<tr data-index="'+o+'">'+c.join("")+"</tr>"))
-    }), u.layBody.scrollTop(0), y.resetScrollbar&&u.layBody.scrollLeft(0), u.layMain.find("."+r).remove(), u.layMain.find("tbody").html(n.join("")), u.layFixLeft.find("tbody").html(h.join("")), u.layFixRight.find("tbody").html(f.join("")), u.renderForm(), "number"== typeof s&&u.setThisRowChecked(s), u.syncCheckAll(), u.haveInit?u.scrollPatch():setTimeout(function(){
+      }(),"</div></td>"].join(""), a.push(t), l.fixed&&"right"!==l.fixed&&i.push(t), "right"===l.fixed&&r.push(t))
+     }), n.push('<tr data-index="'+o+'">'+a.join("")+"</tr>"), h.push('<tr data-index="'+o+'">'+i.join("")+"</tr>"), f.push('<tr data-index="'+o+'">'+r.join("")+"</tr>"))
+    }), u.layBody.scrollTop(0), y.resetScrollbar&&u.layBody.scrollLeft(0), u.layMain.find("."+c).remove(), u.layMain.find("tbody").html(n.join("")), u.layFixLeft.find("tbody").html(h.join("")), u.layFixRight.find("tbody").html(f.join("")), u.renderForm(), "number"== typeof s&&u.setThisRowChecked(s), u.syncCheckAll(), u.fullSize(), u.haveInit?u.scrollPatch():setTimeout(function(){
      u.scrollPatch()
-    },50), u.haveInit= !0, v.close(u.tipsIndex), y.HAS_SET_COLS_PATCH||u.setColsPatch(), y.HAS_SET_COLS_PATCH= !0
+    },50), u.haveInit= !0, v.close(u.tipsIndex)
    };
-   return x.cache[u.key]=i, u.layTotal[0==i.length?"addClass":"removeClass"](c), y.pagebar||u.layPage[0==a||0===i.length&&1==t?"addClass":"removeClass"](c), 0===i.length?(u.renderForm(), u.errorView(y.text.none)):(u.layFixed.removeClass(w), l?o():(o(), u.renderTotal(i,e), u.layTotal&&u.layTotal.removeClass(w), void (y.page&&(y.page=p.extend({
+   return x.cache[u.key]=i, u.layTotal[0==i.length?"addClass":"removeClass"](r), u.layPage[y.page||y.pagebar?"removeClass":"addClass"](w), u.layPage.find(N)[!y.page||0==a||0===i.length&&1==t?"addClass":"removeClass"](r), 0===i.length?(u.renderForm(), u.errorView(y.text.none)):(u.layFixLeft.removeClass(w), l?o():(o(), u.renderTotal(i,e), u.layTotal&&u.layTotal.removeClass(w), void (y.page&&(y.page=p.extend({
     elem:"layui-table-page"+y.index,
     count:a,
     limit:y.limit,
@@ -5019,20 +5021,23 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
     }
    },y.page), y.page.count=a, d.render(y.page)))))
   }, i.prototype.renderTotal=function(e,n){
-   var o,d=this,c=d.config,r={};
-   c.totalRow&&(layui.each(e,function(e,i){
+   var o,d=this,r=d.config,c={};
+   r.totalRow&&(layui.each(e,function(e,i){
     "array"===layui.type(i)&&0===i.length||d.eachCols(function(e,t){
      var e=t.field||e,a=i[e];
-     t.totalRow&&(r[e]=(r[e]||0)+(parseFloat(a)||0))
+     t.totalRow&&(c[e]=(c[e]||0)+(parseFloat(a)||0))
     })
    }), d.dataTotal={}, o=[], d.eachCols(function(e,t){
     var a,e=t.field||e,
-     i=(a=t.totalRowText||"", l="totalRowDecimals" in t?t.totalRowDecimals:2, l=parseFloat(r[e]).toFixed(l), (i={})[e]=l, l=t.totalRow&&k.call(d,{
+     i=(a=t.totalRowText||"", l="totalRowDecimals" in t?t.totalRowDecimals:2, l=parseFloat(c[e]).toFixed(l), (i={LAY_COL:t})[e]=l, l=t.totalRow&&k.call(d,{
       item3:t,
       content:l,
       tplData:i
      })||a, n&&n[t.field]||l),
-     l=['<td data-field="'+e+'" data-key="'+c.index+"-"+t.key+'" '+(a=[], t.align&&a.push('align="'+t.align+'"'), t.minWidth&&a.push('data-minwidth="'+t.minWidth+'"'), a.join(" "))+' class="'+(l=[], t.hide&&l.push(w), t.field||l.push("layui-table-col-special"), l.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+(a=c.index+"-"+t.key, "normal"===t.type?a:a+" laytable-cell-"+t.type)+'"'+(l=[], t.style&&l.push('style="'+t.style+'"'), l.join(" "))+">"+("string"== typeof (a=t.totalRow||c.totalRow)?m(a).render(p.extend({TOTAL_NUMS:r[e]},t)):i),"</div></td>"].join("");
+     l=['<td data-field="'+e+'" data-key="'+r.index+"-"+t.key+'" '+(a=[], t.align&&a.push('align="'+t.align+'"'), t.minWidth&&a.push('data-minwidth="'+t.minWidth+'"'), a.join(" "))+' class="'+(l=[], t.hide&&l.push(w), t.field||l.push("layui-table-col-special"), l.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+(a=r.index+"-"+t.key, "normal"===t.type?a:a+" laytable-cell-"+t.type)+'"'+(l=[], t.style&&l.push('style="'+t.style+'"'), l.join(" "))+">"+("string"== typeof (a=t.totalRow||r.totalRow)?m(a).render(p.extend({
+      TOTAL_NUMS:c[e],
+      LAY_COL:t
+     },t)):i),"</div></td>"].join("");
     t.field&&(d.dataTotal[e]=i), o.push(l)
    }), d.layTotal.find("tbody").html("<tr>"+o.join("")+"</tr>"))
   }, i.prototype.getColElem=function(e,t){
@@ -5047,7 +5052,7 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
    var t="layui-table-click";
    this.layBody.find('tr[data-index="'+e+'"]').addClass(t).siblings("tr").removeClass(t)
   }, i.prototype.sort=function(l,e,t,a){
-   var i,n=this,o={},d=n.config,c=d.elem.attr("lay-filter"),r=x.cache[n.key];
+   var i,n=this,o={},d=n.config,r=d.elem.attr("lay-filter"),c=x.cache[n.key];
    "string"== typeof l&&(s=l, n.layHeader.find("th").each(function(e,t){
     var a=p(this),i=a.data("field");
     if(i===l) return l=a, s=i, !1
@@ -5055,18 +5060,18 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
    try{
     var s=s||l.data("field"),u=l.data("key");
     if(n.sortKey&& !t&&s===n.sortKey.field&&e===n.sortKey.sort) return;
-    var y=n.layHeader.find("th .laytable-cell-"+u).find(N);
-    n.layHeader.find("th").find(N).removeAttr("lay-sort"), y.attr("lay-sort",e||null), n.layFixed.find("th")
+    var y=n.layHeader.find("th .laytable-cell-"+u).find(L);
+    n.layHeader.find("th").find(L).removeAttr("lay-sort"), y.attr("lay-sort",e||null), n.layFixed.find("th")
    }catch(h){
     g.error("Table modules: sort field '"+s+"' not matched")
    }
    n.sortKey={
     field:s,
     sort:e
-   }, d.autoSort&&("asc"===e?i=layui.sort(r,s):"desc"===e?i=layui.sort(r,s,!0):(i=layui.sort(r,x.config.indexName), delete n.sortKey)), o[d.response.dataName]=i||r, n.renderData(o,n.page,n.count,!0), a&&(d.initSort={
+   }, d.autoSort&&("asc"===e?i=layui.sort(c,s):"desc"===e?i=layui.sort(c,s,!0):(i=layui.sort(c,x.config.indexName), delete n.sortKey)), o[d.response.dataName]=i||c, n.renderData(o,n.page,n.count,!0), a&&(d.initSort={
     field:s,
     type:e
-   }, layui.event.call(l,C,"sort("+c+")",d.initSort))
+   }, layui.event.call(l,C,"sort("+r+")",d.initSort))
   }, i.prototype.loading=function(e){
    var t=this;
    t.config.loading&&(e?(t.layInit&&t.layInit.remove(), delete t.layInit, t.layBox.find(".layui-table-init").remove()):(t.layInit=p(['<div class="layui-table-init">','<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>',"</div>"].join("")), t.layBox.append(t.layInit)))
@@ -5087,7 +5092,7 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
    })
   }, i.prototype.fullSize=function(){
    var e=this,t=e.config,a=t.height;
-   e.fullHeightGap&&(a=S.height()-e.fullHeightGap, e.elem.css("height",a=a<135?135:a)), a&&(a=parseFloat(a)-(e.layHeader.outerHeight()||38), t.toolbar&&(a-=e.layTool.outerHeight()||50), t.totalRow&&(a-=e.layTotal.outerHeight()||40), t.page&&(a-=e.layPage.outerHeight()||41), e.layMain.css("height",a-2))
+   e.fullHeightGap&&(a=A.height()-e.fullHeightGap, e.elem.css("height",a=a<135?135:a)), a&&(a=parseFloat(a)-(e.layHeader.outerHeight()||38), t.toolbar&&(a-=e.layTool.outerHeight()||50), t.totalRow&&(a-=e.layTotal.outerHeight()||40), (t.page||t.pagebar)&&(a-=e.layPage.outerHeight()||43), e.layMain.outerHeight(a))
   }, i.prototype.getScrollWidth=function(e){
    var t=0;
    return e?t=e.offsetWidth-e.clientWidth:((e=document.createElement("div")).style.width="100px", e.style.height="100px", e.style.overflowY="scroll", document.body.appendChild(e), t=e.offsetWidth-e.clientWidth, document.body.removeChild(e)), t
@@ -5102,25 +5107,25 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
    n=e.layMain.height()-i;
    e.layFixed.find(T).css("height",t.height()>=n?n:"auto"), e.layFixRight[0<l?"removeClass":"addClass"](w), e.layFixRight.css("right",a-1)
   }, i.prototype.events=function(){
-   var l,r=this,c=r.config,i=p("body"),n={},e=r.layHeader.find("th"),s=".layui-table-cell",u=c.elem.attr("lay-filter"),
-    o=(r.layTool.on("click","*[lay-event]",function(e){
+   var l,c=this,r=c.config,i=p("body"),n={},e=c.layHeader.find("th"),s=".layui-table-cell",u=r.elem.attr("lay-filter"),
+    o=(c.layTool.on("click","*[lay-event]",function(e){
      var a,i=p(this),t=i.attr("lay-event"),l=function(e){
       var t=p(e.list),a=p('<ul class="layui-table-tool-panel"></ul>');
-      a.html(t), c.height&&a.css("max-height",c.height-(r.layTool.outerHeight()||50)), i.find(".layui-table-tool-panel")[0]||i.append(a), r.renderForm(), a.on("click",function(e){
+      a.html(t), r.height&&a.css("max-height",r.height-(c.layTool.outerHeight()||50)), i.find(".layui-table-tool-panel")[0]||i.append(a), c.renderForm(), a.on("click",function(e){
        layui.stope(e)
       }), e.done&&e.done(a,t)
      };
-     switch(layui.stope(e), F.trigger("table.tool.panel.remove"), v.close(r.tipsIndex), t){
+     switch(layui.stope(e), F.trigger("table.tool.panel.remove"), v.close(c.tipsIndex), t){
       case"LAYTABLE_COLS":
        l({
-        list:(a=[], r.eachCols(function(e,t){
+        list:(a=[], c.eachCols(function(e,t){
          t.field&&"normal"==t.type&&a.push('<li><input type="checkbox" name="'+t.field+'" data-key="'+t.key+'" data-parentkey="'+(t.parentKey||"")+'" lay-skin="primary" '+(t.hide?"":"checked")+' title="'+f.escape(t.title||t.field)+'" lay-filter="LAY_TABLE_TOOL_COLS"></li>')
         }), a.join("")),done:function(){
          h.on("checkbox(LAY_TABLE_TOOL_COLS)",function(e){
           var e=p(e.elem),i=this.checked,l=e.data("key"),n=e.data("parentkey");
-          layui.each(c.cols,function(a,e){
+          layui.each(r.cols,function(a,e){
            layui.each(e,function(e,t){
-            a+"-"+e===l&&(e=t.hide, t.hide= !i, r.elem.find('*[data-key="'+c.index+"-"+l+'"]')[i?"removeClass":"addClass"](w), e!=t.hide&&r.setParentCol(!i,n), r.resize())
+            a+"-"+e===l&&(e=t.hide, t.hide= !i, c.elem.find('*[data-key="'+r.index+"-"+l+'"]')[i?"removeClass":"addClass"](w), e!=t.hide&&c.setParentCol(!i,n), c.resize())
            })
           })
          })
@@ -5133,7 +5138,7 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
         done:function(e,t){
          t.on("click",function(){
           var e=p(this).data("type");
-          x.exportFile.call(r,c.id,null,e)
+          x.exportFile.call(c,r.id,null,e)
          })
         }
        });
@@ -5141,13 +5146,13 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
       case"LAYTABLE_PRINT":
        var n=window.open("about:blank","_blank"),
         o=["<style>","body{font-size: 12px; color: #5F5F5F;}","table{width: 100%; border-collapse: collapse; border-spacing: 0;}","th,td{line-height: 20px; padding: 9px 15px; border: 1px solid #ccc; text-align: left; font-size: 12px; color: #5F5F5F;}","a{color: #5F5F5F; text-decoration:none;}","*.layui-hide{display: none}","</style>"].join(""),
-        d=p(r.layHeader.html());
-       d.append(r.layMain.find("table").html()), d.append(r.layTotal.find("table").html()), d.find("th.layui-table-patch").remove(), d.find(".layui-table-col-special").remove(), n.document.write(o+d.prop("outerHTML")), n.document.close(), n.print(), n.close()
+        d=p(c.layHeader.html());
+       d.append(c.layMain.find("table").html()), d.append(c.layTotal.find("table").html()), d.find("th.layui-table-patch").remove(), d.find(".layui-table-col-special").remove(), n.document.write(o+d.prop("outerHTML")), n.document.close(), n.print(), n.close()
      }
-     layui.event.call(this,C,"toolbar("+u+")",p.extend({event:t,config:c},{}))
-    }), r.layPagebar.on("click","*[lay-event]",function(e){
+     layui.event.call(this,C,"toolbar("+u+")",p.extend({event:t,config:r},{}))
+    }), c.layPagebar.on("click","*[lay-event]",function(e){
      var t=p(this).attr("lay-event");
-     layui.event.call(this,C,"pagebar("+u+")",p.extend({event:t,config:c},{}))
+     layui.event.call(this,C,"pagebar("+u+")",p.extend({event:t,config:r},{}))
     }), e.on("mousemove",function(e){
      var t=p(this),a=t.offset().left,e=e.clientX-a;
      t.data("unresize")||n.resizeStart||(n.allowResize=t.width()-e<=10, i.css("cursor",n.allowResize?"col-resize":""))
@@ -5156,65 +5161,65 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
      n.resizeStart||i.css("cursor","")
     }).on("mousedown",function(e){
      var t,a=p(this);
-     n.allowResize&&(t=a.data("key"), e.preventDefault(), n.resizeStart= !0, n.offset=[e.clientX,e.clientY], r.getCssRule(t,function(e){
+     n.allowResize&&(t=a.data("key"), e.preventDefault(), n.resizeStart= !0, n.offset=[e.clientX,e.clientY], c.getCssRule(t,function(e){
       var t=e.style.width||a.outerWidth();
-      n.rule=e, n.ruleWidth=parseFloat(t), n.minWidth=a.data("minwidth")||c.cellMinWidth
+      n.rule=e, n.ruleWidth=parseFloat(t), n.minWidth=a.data("minwidth")||r.cellMinWidth
      }))
     }), F.on("mousemove",function(e){
-     n.resizeStart&&(e.preventDefault(), n.rule&&((e=n.ruleWidth+e.clientX-n.offset[0])<n.minWidth&&(e=n.minWidth), n.rule.style.width=e+"px", v.close(r.tipsIndex)), l=1)
+     n.resizeStart&&(e.preventDefault(), n.rule&&((e=n.ruleWidth+e.clientX-n.offset[0])<n.minWidth&&(e=n.minWidth), n.rule.style.width=e+"px", v.close(c.tipsIndex)), l=1)
     }).on("mouseup",function(e){
-     n.resizeStart&&(n={}, i.css("cursor",""), r.scrollPatch()), 2===l&&(l=null)
+     n.resizeStart&&(n={}, i.css("cursor",""), c.scrollPatch()), 2===l&&(l=null)
     }), e.on("click",function(e){
-     var t=p(this),a=t.find(N),i=a.attr("lay-sort");
+     var t=p(this),a=t.find(L),i=a.attr("lay-sort");
      if(!a[0]||1===l) return l=2;
-     r.sort(t,"asc"===i?"desc":"desc"===i?null:"asc",null,!0)
-    }).find(N+" .layui-edge ").on("click",function(e){
+     c.sort(t,"asc"===i?"desc":"desc"===i?null:"asc",null,!0)
+    }).find(L+" .layui-edge ").on("click",function(e){
      var t=p(this),a=t.index(),t=t.parents("th").eq(0).data("field");
-     layui.stope(e), 0===a?r.sort(t,"asc",null,!0):r.sort(t,"desc",null,!0)
-    }), r.commonMember=function(e){
-     var t=p(this).parents("tr").eq(0).data("index"),d=r.layBody.find('tr[data-index="'+t+'"]'),
-      c=(c=x.cache[r.key]||[])[t]||{};
+     layui.stope(e), 0===a?c.sort(t,"asc",null,!0):c.sort(t,"desc",null,!0)
+    }), c.commonMember=function(e){
+     var t=p(this).parents("tr").eq(0).data("index"),d=c.layBody.find('tr[data-index="'+t+'"]'),
+      r=(r=x.cache[c.key]||[])[t]||{};
      return p.extend({
-      tr:d,data:x.clearCacheKey(c),del:function(){
-       x.cache[r.key][t]=[], d.remove(), r.scrollPatch()
+      tr:d,data:x.clearCacheKey(r),del:function(){
+       x.cache[c.key][t]=[], d.remove(), c.scrollPatch()
       },update:function(e){
        e=e||{}, layui.each(e,function(i,l){
         var n=d.children('td[data-field="'+i+'"]'),o=n.children(s);
-        i in c&&(c[i]=l), r.eachCols(function(e,t){
+        i in r&&(r[i]=l), c.eachCols(function(e,t){
          var a;
-         t.field==i?(o.html(k.call(r,{
+         t.field==i?(o.html(k.call(c,{
           item3:t,
           content:l,
-          tplData:c
-         })), n.data("content",l), t.templet&&r.renderForm()):(t.templet||t.toolbar)&&(e=d.children('td[data-field="'+(t.field||e)+'"]'), a=c[t.field], e.children(s).html(k.call(r,{
+          tplData:r
+         })), n.data("content",l), t.templet&&c.renderForm()):(t.templet||t.toolbar)&&(e=d.children('td[data-field="'+(t.field||e)+'"]'), a=r[t.field], e.children(s).html(k.call(c,{
           item3:t,
           content:a,
-          tplData:c
-         })), e.data("content",a), r.renderForm())
+          tplData:r
+         })), e.data("content",a), c.renderForm())
         })
-       })
+       }), c.renderForm()
       }
      },e)
-    }),t=(r.elem.on("click",'input[name="layTableCheckbox"]+',function(){
-     var e=p(this).prev(),t=r.layBody.find('input[name="layTableCheckbox"]'),a=e.parents("tr").eq(0).data("index"),
+    }),t=(c.elem.on("click",'input[name="layTableCheckbox"]+',function(){
+     var e=p(this).prev(),t=c.layBody.find('input[name="layTableCheckbox"]'),a=e.parents("tr").eq(0).data("index"),
       i=e[0].checked,l="layTableAllChoose"===e.attr("lay-filter");
      e[0].disabled||(l?(t.each(function(e,t){
-      t.checked=i, r.setCheckData(e,i)
-     }), r.syncCheckAll(), r.renderForm("checkbox")):(r.setCheckData(a,i), r.syncCheckAll()), layui.event.call(e[0],C,"checkbox("+u+")",o.call(e[0],{
+      t.checked=i, c.setCheckData(e,i)
+     }), c.syncCheckAll(), c.renderForm("checkbox")):(c.setCheckData(a,i), c.syncCheckAll()), layui.event.call(e[0],C,"checkbox("+u+")",o.call(e[0],{
       checked:i,
       type:l?"all":"one"
      })))
-    }), r.elem.on("click",'input[lay-type="layTableRadio"]+',function(){
-     var e=p(this).prev(),t=e[0].checked,a=x.cache[r.key],i=e.parents("tr").eq(0).data("index");
+    }), c.elem.on("click",'input[lay-type="layTableRadio"]+',function(){
+     var e=p(this).prev(),t=e[0].checked,a=x.cache[c.key],i=e.parents("tr").eq(0).data("index");
      layui.each(a,function(e,t){
-      i===e?t[c.checkName]= !0:delete t[c.checkName]
-     }), r.setThisRowChecked(i), layui.event.call(this,C,"radio("+u+")",o.call(this,{checked:t}))
-    }), r.layBody.on("mouseenter","tr",function(){
+      i===e?t[r.checkName]= !0:delete t[r.checkName]
+     }), c.setThisRowChecked(i), layui.event.call(this,C,"radio("+u+")",o.call(this,{checked:t}))
+    }), c.layBody.on("mouseenter","tr",function(){
      var e=p(this),t=e.index();
-     e.data("off")||r.layBody.find("tr:eq("+t+")").addClass(D)
+     e.data("off")||c.layBody.find("tr:eq("+t+")").addClass(S)
     }).on("mouseleave","tr",function(){
      var e=p(this),t=e.index();
-     e.data("off")||r.layBody.find("tr:eq("+t+")").removeClass(D)
+     e.data("off")||c.layBody.find("tr:eq("+t+")").removeClass(S)
     }).on("click","tr",function(){
      t.call(this,"row")
     }).on("dblclick","tr",function(){
@@ -5222,35 +5227,35 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
     }), function(e){
      var t=p(this);
      t.data("off")||layui.event.call(this,C,e+"("+u+")",o.call(t.children("td")[0]))
-    }),d=(r.layBody.on("change","."+L,function(){
+    }),d=(c.layBody.on("change","."+D,function(){
      var e=p(this),t=this.value,a=e.parent().data("field"),e=e.parents("tr").eq(0).data("index");
-     x.cache[r.key][e][a]=t, layui.event.call(this,C,"edit("+u+")",o.call(this,{value:t,field:a}))
-    }).on("blur","."+L,function(){
-     var a,e,t=p(this),i=t.parent().data("field"),l=t.parents("tr").eq(0).data("index"),l=x.cache[r.key][l];
-     r.eachCols(function(e,t){
+     x.cache[c.key][e][a]=t, layui.event.call(this,C,"edit("+u+")",o.call(this,{value:t,field:a}))
+    }).on("blur","."+D,function(){
+     var a,e,t=p(this),i=t.parent().data("field"),l=t.parents("tr").eq(0).data("index"),l=x.cache[c.key][l];
+     c.eachCols(function(e,t){
       t.field==i&&t.templet&&(a=t)
-     }), t.siblings(s).html((e=this.value, k.call(r,{
+     }), t.siblings(s).html((e=this.value, k.call(c,{
       item3:a||{},
       content:e,
       tplData:l
      }))), t.parent().data("content",this.value), t.remove()
-    }), r.layBody.on(c.editTrigger,"td",function(e){
+    }), c.layBody.on(r.editTrigger,"td",function(e){
      var t=p(this),a=(t.data("field"), t.data("edit")),i=t.children(s);
-     t.data("off")||a&&((a=p("textarea"===a?'<textarea class="layui-input '+L+'"></textarea>':'<input class="layui-input '+L+'">'))[0].value=t.data("content")||i.text(), t.find("."+L)[0]||t.append(a), a.focus(), layui.stope(e))
+     t.data("off")||a&&((a=p("textarea"===a?'<textarea class="layui-input '+D+'"></textarea>':'<input class="layui-input '+D+'">'))[0].value=t.data("content")||i.text(), t.find("."+D)[0]||t.append(a), a.focus(), layui.stope(e))
     }).on("mouseenter","td",function(){
      a.call(this)
     }).on("mouseleave","td",function(){
      a.call(this,"hide")
     }), "layui-table-grid-down"),a=function(e){
      var t=p(this),a=t.children(s);
-     t.data("off")||(e?t.find(".layui-table-grid-down").remove():!(a.prop("scrollWidth")>a.outerWidth()||0<a.find("br").length)||c.lineStyle||a.find("."+d)[0]||t.append('<div class="'+d+'"><i class="layui-icon layui-icon-down"></i></div>'))
-    },y=(r.layBody.on("click","."+d,function(e){
+     t.data("off")||(e?t.find(".layui-table-grid-down").remove():!(a.prop("scrollWidth")>a.outerWidth()||0<a.find("br").length)||r.lineStyle||a.find("."+d)[0]||t.append('<div class="'+d+'"><i class="layui-icon layui-icon-down"></i></div>'))
+    },y=(c.layBody.on("click","."+d,function(e){
      var t=p(this).parent().children(s);
-     r.tipsIndex=v.tips(['<div class="layui-table-tips-main" style="margin-top: -'+(t.height()+23)+"px;"+("sm"===c.size?"padding: 4px 15px; font-size: 12px;":"lg"===c.size?"padding: 14px 15px;":"")+'">',t.html(),"</div>",'<i class="layui-icon layui-table-tips-c layui-icon-close"></i>'].join(""),t[0],{
+     c.tipsIndex=v.tips(['<div class="layui-table-tips-main" style="margin-top: -'+(t.height()+23)+"px;"+("sm"===r.size?"padding: 4px 15px; font-size: 12px;":"lg"===r.size?"padding: 14px 15px;":"")+'">',t.html(),"</div>",'<i class="layui-icon layui-table-tips-c layui-icon-close"></i>'].join(""),t[0],{
       tips:[3,""],
       time:-1,
       anim:-1,
-      maxWidth:b.ios||b.android?300:r.elem.width()/2,
+      maxWidth:b.ios||b.android?300:c.elem.width()/2,
       isOutAnim:!1,
       skin:"layui-table-tips",
       success:function(e,t){
@@ -5261,17 +5266,17 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
      }), layui.stope(e)
     }), function(e){
      var t=p(this),a=t.parents("tr").eq(0).data("index");
-     layui.event.call(this,C,(e||"tool")+"("+u+")",o.call(this,{event:t.attr("lay-event")})), r.setThisRowChecked(a)
+     layui.event.call(this,C,(e||"tool")+"("+u+")",o.call(this,{event:t.attr("lay-event")})), c.setThisRowChecked(a)
     });
-   r.layBody.on("click","*[lay-event]",function(){
+   c.layBody.on("click","*[lay-event]",function(){
     return y.call(this), !1
    }).on("dblclick","*[lay-event]",function(){
     return y.call(this,"toolDouble"), !1
-   }), r.layMain.on("scroll",function(){
+   }), c.layMain.on("scroll",function(){
     var e=p(this),t=e.scrollLeft(),e=e.scrollTop();
-    r.layHeader.scrollLeft(t), r.layTotal.scrollLeft(t), r.layFixed.find(T).scrollTop(e), v.close(r.tipsIndex)
-   }), S.on("resize",function(){
-    r.resize()
+    c.layHeader.scrollLeft(t), c.layTotal.scrollLeft(t), c.layFixed.find(T).scrollTop(e), v.close(c.tipsIndex)
+   }), A.on("resize",function(){
+    c.resize()
    })
   }, F.on("click",function(){
    F.trigger("table.remove.tool.panel")
@@ -5321,14 +5326,14 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
   }, y.that={}, y.config={}, function(a,i,e,l){
    var n,o;
    l.colGroup&&(n=0, a++, l.CHILD_COLS=[], o=e+(parseInt(l.rowspan)||1), layui.each(i[o],function(e,t){
-    t.PARENT_COL_INDEX||1<=n&&n==(l.colspan||1)||(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), n+=t.hide?0:parseInt(1<t.colspan?t.colspan:1), R(a,i,o,t))
+    t.parentKey?t.parentKey===l.key&&(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), j(a,i,o,t)):t.PARENT_COL_INDEX||1<=n&&n==(l.colspan||1)||(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), n+=t.hide?0:parseInt(1<t.colspan?t.colspan:1), j(a,i,o,t))
    }))
   });
  x.eachCols=function(e,a,i){
   var e=y.config[e]||{},l=[],n=(i=p.extend(!0,[],i||e.cols), layui.each(i,function(a,e){
    if(a) return !0;
    layui.each(e,function(e,t){
-    R(0,i,a,t), t.PARENT_COL_INDEX||l.push(t)
+    j(0,i,a,t), t.PARENT_COL_INDEX||l.push(t)
    })
   }), function(e){
    layui.each(e||l,function(e,t){
@@ -5349,10 +5354,10 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
   }), a
  }, x.exportFile=function(e,t,a){
   t=t||x.clearCacheKey(x.cache[e]);
-  var d,i,l,c,n=(a="object"== typeof a?a:(n={}, a&&(n.type=a), n)).type||"csv",r=y.that[e],o=y.config[e]||{},
+  var d,i,l,r,n=(a="object"== typeof a?a:(n={}, a&&(n.type=a), n)).type||"csv",c=y.that[e],o=y.config[e]||{},
    s={csv:"text/csv",xls:"application/vnd.ms-excel"}[n],u=document.createElement("a");
   if(b.ie) return g.error("IE_NOT_SUPPORT_EXPORTS");
-  u.href="data:"+s+";charset=utf-8,\ufeff"+encodeURIComponent((d=[], i=[], l=[], c={}, layui.each(t,function(l,n){
+  u.href="data:"+s+";charset=utf-8,\ufeff"+encodeURIComponent((d=[], i=[], l=[], r={}, layui.each(t,function(l,n){
    var o=[];
    "object"== typeof e?(layui.each(e,function(e,t){
     0==l&&d.push(t||"")
@@ -5360,20 +5365,20 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
     o.push('"'+(t||"")+'"')
    })):x.eachCols(e,function(e,t){
     var a,i;
-    t.field&&"normal"==t.type&&(t.hide?0==l&&(c[t.field]= !0):(a=n[t.field], i=r.layBody.find('tr[data-index="'+l+'"]>td'), a!==undefined&&null!==a||(a=""), 0==l&&d.push(t.title||""), o.push('"'+k.call(r,{
+    t.field&&"normal"==t.type&&(t.hide?0==l&&(r[t.field]= !0):(a=n[t.field], i=c.layBody.find('tr[data-index="'+l+'"]>td'), a!==undefined&&null!==a||(a=""), 0==l&&d.push(t.title||""), o.push('"'+k.call(c,{
      item3:t,
      content:a,
      tplData:n,
      text:"text",
-     obj:r.commonMember.call(i.eq(0),{
+     obj:c.commonMember.call(i.eq(0),{
       td:function(e){
        return i.filter('[data-field="'+e+'"]')
       }
      })
     })+'"')))
    }), i.push(o.join(","))
-  }), r&&layui.each(r.dataTotal,function(e,t){
-   c[e]||l.push(t)
+  }), c&&layui.each(c.dataTotal,function(e,t){
+   r[e]||l.push(t)
   }), d.join(",")+"\r\n"+i.join("\r\n")+"\r\n"+l.join(","))), u.download=(a.title||o.title||"table_"+(o.index||""))+"."+n, document.body.appendChild(u), u.click(), document.body.removeChild(u)
  }, x.resize=function(e){
   e?l(e)&&y.that[e].resize():layui.each(y.that,function(){
@@ -5383,7 +5388,7 @@ layui.define(["laytpl","laypage","layer","form","util"],function(e){
   if(l(e)) return e=y.that[e], e.reload(t,a,i), y.call(e)
  }, x.reloadData=function(){
   var a=p.extend([],arguments),
-   i=(a[3]="reloadData", new RegExp("^("+["data","url","where","page","limit","request","response","parseData"].join("|")+")$"));
+   i=(a[3]="reloadData", new RegExp("^("+["data","url","method","contentType","headers","where","page","limit","request","response","parseData"].join("|")+")$"));
   return layui.each(a[1],function(e,t){
    i.test(e)|| delete a[1][e]
   }), x.reload.apply(null,a)
@@ -6108,17 +6113,18 @@ layui.define(["layer","form"],function(t){
  },e=new e;
  t(i,e)
 });
-layui.define(["util"],function(l){
+layui.define(["util"],function(a){
  "use strict";
- var t=layui.$,n=layui.util;
- l("code",function(i){
-  var l=[];
-  (i=i||{}).elem=t(i.elem||".layui-code"), i.lang="lang" in i?i.lang:"code", i.elem.each(function(){
-   l.push(this)
-  }), layui.each(l.reverse(),function(l,a){
-   var a=t(a),e=(e=a.html(), t.trim(e).replace(/^\n|\n$/,"")),
-    e=((a.attr("lay-encode")||i.encode)&&(e=n.escape(e)), a.html('<ol class="layui-code-ol"><li>'+e.replace(/[\r\t\n]+/g,"</li><li>")+"</li></ol>"), a.find(">.layui-code-h3")[0]||a.prepend('<h3 class="layui-code-h3">'+(a.attr("lay-title")||i.title||"&lt;/&gt;")+'<a href="javascript:;">'+(a.attr("lay-lang")||i.lang||"")+"</a></h3>"), a.find(">.layui-code-ol"));
-   a.addClass("layui-box layui-code-view"), (a.attr("lay-skin")||i.skin)&&a.addClass("layui-code-"+(a.attr("lay-skin")||i.skin)), 0<(e.find("li").length/100|0)&&e.css("margin-left",(e.find("li").length/100|0)+"px"), (a.attr("lay-height")||i.height)&&e.css("max-height",a.attr("lay-height")||i.height)
+ var n=layui.$,c=layui.util;
+ a("code",function(t){
+  var a=[];
+  (t=t||{}).elem=n(t.elem||".layui-code"), t.lang="lang" in t?t.lang:"code", t.elem.each(function(){
+   a.push(this)
+  }), layui.each(a.reverse(),function(a,l){
+   var l=n(l),e=(e=l.html(), n.trim(e).replace(/^\n|\n$/,"")),
+    i=l.attr("lay-about")||t.about||l.attr("lay-lang")||t.lang||"",
+    e=((l.attr("lay-encode")||t.encode)&&(e=c.escape(e)), l.html('<ol class="layui-code-ol"><li>'+e.replace(/[\r\t\n]+/g,"</li><li>")+"</li></ol>"), l.find(">.layui-code-h3")[0]||l.prepend('<h3 class="layui-code-h3">'+(l.attr("lay-title")||t.title||"&lt;/&gt;")+'<a href="javascript:;">'+i+"</a></h3>"), l.find(">.layui-code-ol"));
+   l.addClass("layui-box layui-code-view"), (l.attr("lay-skin")||t.skin)&&l.addClass("layui-code-"+(l.attr("lay-skin")||t.skin)), 0<(e.find("li").length/100|0)&&e.css("margin-left",(e.find("li").length/100|0)+"px"), (l.attr("lay-height")||t.height)&&e.css("max-height",l.attr("lay-height")||t.height)
   })
  })
 }).addcss("modules/code.css?v=2","skincodecss");

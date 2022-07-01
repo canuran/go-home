@@ -2947,7 +2947,13 @@ a cite{
 }
 .layui-table-pagebar{
  float:right;
- line-height:32px
+ line-height:23px
+}
+.layui-table-pagebar .layui-btn-sm{
+ margin-top:-1px
+}
+.layui-table-pagebar .layui-btn-xs{
+ margin-top:2px
 }
 .layui-table-view select[lay-ignore]{
  display:inline-block
@@ -2970,6 +2976,9 @@ a cite{
 }
 .layui-table-edit:focus{
  border-color:#5fb878 !important
+}
+input.layui-input.layui-table-edit{
+ height:100%
 }
 select.layui-table-edit{
  padding:0 0 0 10px;
