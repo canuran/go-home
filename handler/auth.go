@@ -38,6 +38,21 @@ func JWTAuthMW(c *gin.Context) {
 		c.Next()
 		return
 	}
+
+	user := GetUser(c)
+	if user == nil {
+		c.Status(http.StatusUnauthorized)
+		c.Abort()
+		return
+	}
+	c.Next()
+}
+
+func GetUser(c *gin.Context) *service.UserBO {
+	if user, ok := c.Get(consts.LoginUserKey); ok {
+		return user.(*service.UserBO)
+	}
+
 	// 从Header的Authorization中获取
 	var tokenStr string
 	authHeader := c.Request.Header.Get("Authorization")
@@ -49,22 +64,14 @@ func JWTAuthMW(c *gin.Context) {
 	// 从Cookie中获取
 	if len(tokenStr) < 1 {
 		cookie, err := c.Request.Cookie("Authorization")
-		if !errutil.LogIfErr(err) {
+		if !errutil.HandlerError(err) {
 			tokenStr = cookie.Value
 		}
 	}
 
 	user := service.ValidateUser(c, tokenStr)
-	if user == nil {
-		c.Status(http.StatusUnauthorized)
-		c.Abort()
-		return
-	}
-
-	// 将当前请求的username信息保存到请求的上下文context上
-	user.Password = ""
 	c.Set(consts.LoginUserKey, user)
-	c.Next()
+	return user
 }
 
 func authHandler(c *gin.Context) {
@@ -127,12 +134,11 @@ func authHandler(c *gin.Context) {
 }
 
 func authLogout(c *gin.Context) {
-	loginUser, ok := c.Get(consts.LoginUserKey)
-	if ok && loginUser != nil {
+	loginUser := GetUser(c)
+	if loginUser != nil {
 		// 登录版本号增加
-		user := loginUser.(*service.UserBO)
-		user.AuthVersion++
-		err := service.UpdateLoginIndex(c, user)
+		loginUser.AuthVersion++
+		err := service.UpdateLoginIndex(c, loginUser)
 		if ginutil.HandleError(c, err) {
 			return
 		}
@@ -168,6 +174,5 @@ func authCaptcha(c *gin.Context) {
 }
 
 func authLoginer(c *gin.Context) {
-	user, _ := c.Get(consts.LoginUserKey)
-	ginutil.SuccessData(c, user)
+	ginutil.SuccessData(c, GetUser(c))
 }

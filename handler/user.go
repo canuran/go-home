@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"encoding/base64"
 	"github.com/ewingtsai/go-home/common/ginutil"
 	"github.com/ewingtsai/go-home/service"
 	"github.com/ewingtsai/go-home/utils/codec"
@@ -78,12 +79,14 @@ func saveUser(c *gin.Context) {
 	if ginutil.HandleError(c, err) {
 		return
 	}
+
 	headerImg, err := c.FormFile("header_file")
 	if err == nil {
 		headerFile, err := headerImg.Open()
 		if ginutil.HandleError(c, err) {
 			return
 		}
+
 		var buffer bytes.Buffer
 		err = imager.ConvertImage(&imager.ConvertOption{
 			Reader:        headerFile,
@@ -91,11 +94,12 @@ func saveUser(c *gin.Context) {
 			NewHeight:     100,
 			Writer:        &buffer,
 			OutFormat:     "jpg",
-			MaxJpgOutByte: service.MaxHeaderSize*0.75 - 20,
+			MaxJpgOutByte: base64.StdEncoding.DecodedLen(service.MaxHeaderSize),
 		})
 		if ginutil.HandleError(c, err) {
 			return
 		}
+
 		bts := buffer.Bytes()
 		user.Header = string(codec.Base64Encode(bts))
 	}

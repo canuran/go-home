@@ -103,14 +103,14 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	// 业务逻辑
 	option := repo.SaveOption{}
 	existsUser, err := GetUserByName(ctx, user.Name)
-	if errutil.LogIfErr(err) {
+	if errutil.HandlerError(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
 		oldUser, err := GetUserById(ctx, user.ID)
-		if errutil.LogIfErr(err) {
+		if errutil.HandlerError(err) {
 			return err
 		}
 		if oldUser == nil {
@@ -206,7 +206,7 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 
 	// 解析JWT
 	claims, err := codec.ParseToken(tokenStr, config.JwtSecret)
-	if errutil.LogIfErr(err) || len(claims.Name) < 1 {
+	if errutil.HandlerError(err) || len(claims.Name) < 1 {
 		return nil
 	}
 
@@ -218,7 +218,7 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 		user = cacheUser.(*UserBO)
 	} else {
 		user, err = GetUserById(ctx, claims.ID)
-		if errutil.LogIfErr(err) {
+		if errutil.HandlerError(err) {
 			return nil
 		}
 		authUserCache.SetDefault(userIdStr, user)
@@ -229,5 +229,6 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 		logrus.Error("用户登录信息无效")
 		return nil
 	}
+	user.Password = ""
 	return user
 }

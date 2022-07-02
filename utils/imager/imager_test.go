@@ -10,7 +10,7 @@ import (
 
 func TestImageResize(t *testing.T) {
 	fileBts, err := ioutil.ReadFile("test.jpg")
-	if errutil.LogIfErr(err) {
+	if errutil.HandlerError(err) {
 		return
 	}
 	for i := 80; i < 120; i++ {

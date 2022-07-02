@@ -8,6 +8,7 @@ import (
 	"github.com/ewingtsai/go-home/config"
 	"github.com/ewingtsai/go-home/generate/model"
 	"github.com/ewingtsai/go-home/utils/jsoner"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -31,7 +32,7 @@ create index if not exists idx_user_updated_at on user (updated_at);`
 func init() {
 	config.InitTest()
 	gormDB, _ := config.GetDB(context.Background())
-	errutil.LogIfErr(gormDB.Exec(userDDL).Error)
+	errutil.HandlerError(gormDB.Exec(userDDL).Error)
 }
 
 func TestSaveUser(t *testing.T) {
@@ -43,9 +44,7 @@ func TestSaveUser(t *testing.T) {
 		OmitPassword:    true,
 		OmitAuthVersion: true,
 	})
-	if errutil.TestingErr(t, err) {
-		return
-	}
+	assert.Nil(t, err)
 }
 
 func TestQueryUser(t *testing.T) {
@@ -60,9 +59,7 @@ func TestQueryUser(t *testing.T) {
 		GetRows:  true,
 		GetCount: true,
 	})
-	if errutil.TestingErr(t, err) {
-		return
-	}
+	assert.Nil(t, err)
 	fmt.Println(count)
 	fmt.Println(jsoner.MarshalString(users))
 }
