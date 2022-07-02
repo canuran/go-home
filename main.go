@@ -15,6 +15,7 @@ func main() {
 	config.Init()
 	root := gin.Default()
 	_ = root.SetTrustedProxies(nil)
+	gin.SetMode(gin.ReleaseMode)
 
 	// 缺省路由
 	root.NoRoute(none)
