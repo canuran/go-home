@@ -128,81 +128,81 @@
         </form>
     </div>
 </template>
-
 <script src="../../library/jquery/jquery.js" charset="utf-8"></script>
 <script src="../../library/layui/layui.js" charset="utf-8"></script>
 <script src="../../library/xm-select/xm-select.js" charset="utf-8"></script>
 <script src="../../library/GridManager/index.js" charset="utf-8"></script>
 <script src="../../common/common.js" charset="utf-8"></script>
 <script type="application/javascript">
-    $(function () {
-        var statuses = {
+    // 属于业务的代码命名空间
+
+    function initSelect() {
+        xmSelect.render({
+            el: '#select-role',
+            name: 'role',
+            data: [{name: '管理员', value: '管理员'},
+                {name: '前端', value: '前端'},
+                {name: '后端', value: '后端'},
+                {name: '产品', value: '产品'},
+                {name: '测试', value: '测试'}]
+        });
+    }
+
+    // 编辑提交按钮
+    function editFormSubmit(form) {
+        var data = form.field;
+        layui.layer.closeAll();
+        layui.layer.msg("保存成功\n" + JSON.stringify(data), {icon: 1});
+        return false;
+    }
+
+    // 打开编辑窗口
+    function openEditWin(e) {
+        var data = GridManager.getRowData('main-table', getParentRow(e)) || {};
+        layui.layer.open({
+            type: 1,
+            title: '<i class="fa fa-list"></i> ' + (data.id ? '修改用户 ' + data.id : '新增用户'),
+            offset: '160px',
+            area: '600px',
+            content: $('#main-edit-win').html(),
+            success: initSelect
+        });
+        data.header_file = "";
+        layui.form.val('main-edit-form', data);
+        // 获取下拉组件赋值，true表示获取单个
+        xmSelect.get('#select-role', true).setValue((data.role || "").split(","));
+        // 监听编辑提交
+        layui.form.on('submit(main-edit-ok)', editFormSubmit);
+        layui.form.render();
+    }
+
+    // 删除操作
+    function deleteAction(e) {
+        var data = GridManager.getRowData('main-table', getParentRow(e)) || {};
+        layui.layer.confirm('你确定要删除' + data.id + '?', {
+            title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
+        }, function () {
+            layui.layer.msg("删除" + data.id + "成功", {icon: 1});
+        });
+    }
+
+    function statusTemplate(cell, row, index, key) {
+        var value = row[key] || 0;
+        return {
             0: '<span style="color:gray">未知</span>',
             1: '<span style="color:green">有效</span>',
             2: '<span style="color:red">无效</span>'
-        }
+        }[value] || value;
+    }
 
-        function statusTemplate(cell, row) {
-            return statuses[row.status || 0] || row.status;
-        }
+    function rowOperates() {
+        return '<button class="layui-btn layui-btn-normal layui-btn-sm" onclick="openEditWin(this)">' +
+            '<i class="fa fa-pencil"></i> 修改</button>' +
+            '<button class="layui-btn layui-btn-danger layui-btn-sm" onclick="deleteAction(this)">' +
+            '<i class="fa fa-remove"></i> 删除</button>';
+    }
 
-        function initSelect() {
-            xmSelect.render({
-                el: '#select-role',
-                name: 'role',
-                data: [{name: '管理员', value: '管理员'},
-                    {name: '前端', value: '前端'},
-                    {name: '后端', value: '后端'},
-                    {name: '产品', value: '产品'},
-                    {name: '测试', value: '测试'}]
-            });
-        }
-
-        // 编辑提交按钮
-        function editFormSubmit(form) {
-            var data = form.field;
-            layui.layer.closeAll();
-            layui.layer.msg("保存成功\n" + JSON.stringify(data), {icon: 1});
-            return false;
-        }
-
-        // 打开编辑窗口
-        function openEditWin(e) {
-            var data = GridManager.getRowData('main-table', getParentRow(e.target)) || {};
-            layui.layer.open({
-                type: 1,
-                title: '<i class="fa fa-list"></i> ' + (data.id ? '修改用户 ' + data.id : '新增用户'),
-                offset: '160px',
-                area: '600px',
-                content: $('#main-edit-win').html(),
-                success: initSelect
-            });
-            data.header_file = "";
-            layui.form.val('main-edit-form', data);
-            // 获取下拉组件赋值，true表示获取单个
-            xmSelect.get('#select-role', true).setValue((data.role || "").split(","));
-            // 监听编辑提交
-            layui.form.on('submit(main-edit-ok)', editFormSubmit);
-            layui.form.render();
-        }
-
-        // 删除操作
-        function deleteAction(e) {
-            var data = GridManager.getRowData('main-table', getParentRow(e.target));
-            layui.layer.confirm('你确定要删除' + data.id + '?', {
-                title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
-            }, function () {
-                layui.layer.msg("删除" + data.id + "成功", {icon: 1});
-            });
-        }
-
-        function rowOperates() {
-            return '<button class="row-edit-btn layui-btn layui-btn-normal layui-btn-sm">' +
-                '<i class="fa fa-pencil"></i> 修改</button>' +
-                '<button class="row-delete-btn layui-btn layui-btn-danger layui-btn-sm">' +
-                '<i class="fa fa-remove"></i> 删除</button>';
-        }
-
+    $(function () {
         var testData = {
             "data": [{
                 "id": 1,
@@ -304,11 +304,7 @@
                 asyncTotals: {
                     text: '加载中', handler: gmAjaxTotals
                 },
-                columnData: columnData,
-                ajaxSuccess: function (response) {
-                    $(".row-edit-btn").off('click').on('click', openEditWin);
-                    $(".row-delete-btn").off('click').on('click', deleteAction);
-                }
+                columnData: columnData
             });
         }
 

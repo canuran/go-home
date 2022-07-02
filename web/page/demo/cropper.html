@@ -56,20 +56,19 @@
 <script src="../../library/layui/layui.js" charset="utf-8"></script>
 <script src="../../library/cropper/cropper.js"></script>
 <script type="text/javascript">
+    var avatar = document.getElementById('avatar');
+    var image = document.getElementById('image');
+    var cropper = newCropper(image);
+
+    function newCropper(image) {
+        return new Cropper(image, {
+            aspectRatio: 1,
+            viewMode: 1,
+            preview: document.getElementById('preview')
+        });
+    }
+
     $(function () {
-        var avatar = document.getElementById('avatar');
-        var image = document.getElementById('image');
-
-        function newCropper(image) {
-            return new Cropper(image, {
-                aspectRatio: 1,
-                viewMode: 1,
-                preview: document.getElementById('preview')
-            });
-        }
-
-        var cropper = newCropper(image);
-
         $("#input").on('change', function (e) {
             var files = e.target.files;
 
