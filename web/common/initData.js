@@ -2,7 +2,7 @@ var initData = {
     "homeInfo": {
         "title": "首页", "baseTitle": "后端之家", "href": "page/welcome.html"
     }, "menuInfo": [{
-        "title": "常用功能", "icon": "fa fa-user", "child": [{
+        "title": "常用功能", "icon": "fa fa-dashboard", "child": [{
             "title": "欢迎页", "href": "page/welcome.html", "icon": "fa fa-home", "target": "_self"
         }, {
             "title": "用户管理", "href": "page/user/user.html", "icon": "fa fa-user", "target": "_self"
