@@ -18,25 +18,43 @@ func NewCaller(fn func()) Caller {
 	}
 }
 
+func NewCaller2Any(fn func() any) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
 func NewCaller2Err(fn func() error) Caller {
 	return &caller{
 		fn: fn,
 	}
 }
 
-func NewCallerAny(fn func(inputs ...any)) Caller {
+func NewCaller2AnyErr(fn func() (any, error)) Caller {
 	return &caller{
 		fn: fn,
 	}
 }
 
-func NewCallerAny2Err(fn func(inputs ...any) error) Caller {
+func NewCallerAny(fn func(input any)) Caller {
 	return &caller{
 		fn: fn,
 	}
 }
 
-func NewCallerAny2Any(fn func(inputs ...any) []any) Caller {
+func NewCallerAny2Any(fn func(input any) any) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
+func NewCallerAny2Err(fn func(input any) error) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
+func NewCallerAny2AnyErr(fn func(input any) (any, error)) Caller {
 	return &caller{
 		fn: fn,
 	}
@@ -48,13 +66,43 @@ func NewCallerCtx(fn func(ctx context.Context)) Caller {
 	}
 }
 
+func NewCallerCtx2Any(fn func(ctx context.Context) any) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
 func NewCallerCtx2Err(fn func(ctx context.Context) error) Caller {
 	return &caller{
 		fn: fn,
 	}
 }
 
-func NewCallerCtxAny2Any(fn func(ctx context.Context, inputs ...any) []any) Caller {
+func NewCallerCtx2AnyErr(fn func(ctx context.Context) (any, error)) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
+func NewCallerCtxAny(fn func(ctx context.Context, input any)) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
+func NewCallerCtxAny2Any(fn func(ctx context.Context, input any) any) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
+func NewCallerCtxAny2Err(fn func(ctx context.Context, input any) error) Caller {
+	return &caller{
+		fn: fn,
+	}
+}
+
+func NewCallerCtxAny2AnyErr(fn func(ctx context.Context, input any) (any, error)) Caller {
 	return &caller{
 		fn: fn,
 	}
@@ -218,29 +266,57 @@ func (c *caller) callFunction() {
 	}()
 
 	// 此处经过测试 if 比 switch 效率要高
-	if fnCtx2Err, okCtx2Err := c.fn.(func(ctx context.Context) error); okCtx2Err {
-		c.outputs = []any{fnCtx2Err(c.inputs[0].(context.Context))}
-
-	} else if fnCtxAny2Any, okCtxAny2Any := c.fn.(func(ctx context.Context, inputs ...any) []any); okCtxAny2Any {
-		c.outputs = fnCtxAny2Any(c.inputs[0].(context.Context), c.inputs[1:]...)
-
-	} else if fnAny2Any, okAny2Any := c.fn.(func(inputs ...any) []any); okAny2Any {
-		c.outputs = fnAny2Any(c.inputs...)
-
-	} else if fnAny2Err, okAny2Err := c.fn.(func(inputs ...any) error); okAny2Err {
-		c.outputs = []any{fnAny2Err(c.inputs...)}
-
-	} else if fnErr, okErr := c.fn.(func() error); okErr {
-		c.outputs = []any{fnErr()}
-
-	} else if fn, okFn := c.fn.(func()); okFn {
+	if fn, ok := c.fn.(func()); ok {
 		fn()
 
-	} else if fnAny, okAny := c.fn.(func(inputs ...any)); okAny {
-		fnAny()
+	} else if fn2Any, ok2Any := c.fn.(func() any); ok2Any {
+		c.outputs = []any{fn2Any()}
+
+	} else if fn2Err, ok2Err := c.fn.(func() error); ok2Err {
+		c.outputs = []any{fn2Err()}
+
+	} else if fn2AnyErr, ok2AnyErr := c.fn.(func() (any, error)); ok2AnyErr {
+		result, callErr := fn2AnyErr()
+		c.outputs = []any{result, callErr}
+
+	} else if fnAny, okAny := c.fn.(func(input any)); okAny {
+		fnAny(c.inputs[0])
+
+	} else if fnAny2Any, okAny2Any := c.fn.(func(input any) any); okAny2Any {
+		c.outputs = []any{fnAny2Any(c.inputs[0])}
+
+	} else if fnAny2Err, okAny2Err := c.fn.(func(input any) error); okAny2Err {
+		c.outputs = []any{fnAny2Err(c.inputs[0])}
+
+	} else if fnAny2AnyErr, okAny2AnyErr := c.fn.(func(input any) (any, error)); okAny2AnyErr {
+		result, callErr := fnAny2AnyErr(c.inputs[0])
+		c.outputs = []any{result, callErr}
 
 	} else if fnCtx, okCtx := c.fn.(func(ctx context.Context)); okCtx {
 		fnCtx(c.inputs[0].(context.Context))
+
+	} else if fnCtx2Any, okCtx2Any := c.fn.(func(ctx context.Context) any); okCtx2Any {
+		c.outputs = []any{fnCtx2Any(c.inputs[0].(context.Context))}
+
+	} else if fnCtx2Err, okCtx2Err := c.fn.(func(ctx context.Context) error); okCtx2Err {
+		c.outputs = []any{fnCtx2Err(c.inputs[0].(context.Context))}
+
+	} else if fnCtx2AnyErr, okCtx2AnyErr := c.fn.(func(ctx context.Context) (any, error)); okCtx2AnyErr {
+		result, callErr := fnCtx2AnyErr(c.inputs[0].(context.Context))
+		c.outputs = []any{result, callErr}
+
+	} else if fnCtxAny, okCtxAny := c.fn.(func(ctx context.Context, input any)); okCtxAny {
+		fnCtxAny(c.inputs[0].(context.Context), c.inputs[1])
+
+	} else if fnCtxAny2Any, okCtxAny2Any := c.fn.(func(ctx context.Context, input any) any); okCtxAny2Any {
+		c.outputs = []any{fnCtxAny2Any(c.inputs[0].(context.Context), c.inputs[1])}
+
+	} else if fnCtxAny2Err, okCtxAny2Err := c.fn.(func(ctx context.Context, input any) error); okCtxAny2Err {
+		c.outputs = []any{fnCtxAny2Err(c.inputs[0].(context.Context), c.inputs[1])}
+
+	} else if fnCtxAny2AnyErr, okCtxAny2AnyErr := c.fn.(func(ctx context.Context, input any) (any, error)); okCtxAny2AnyErr {
+		result, callErr := fnCtxAny2AnyErr(c.inputs[0].(context.Context), c.inputs[1])
+		c.outputs = []any{result, callErr}
 	} else {
 		c.error = errors.New("unsupported func type")
 	}

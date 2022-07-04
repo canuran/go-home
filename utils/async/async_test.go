@@ -12,23 +12,26 @@ import (
 
 func TestAsync(t *testing.T) {
 	now := time.Now()
-	result := NewCallerAny2Any(func(inputs ...any) []any {
-		time.Sleep(time.Millisecond * 100)
-		return []any{"ok", errors.New("no")}
-	}).CheckOutputsError().Call(1, "a")
+	result := NewCallerCtxAny2AnyErr(
+		func(ctx context.Context, input any) (any, error) {
+			time.Sleep(time.Millisecond * 100)
+			return input, errors.New("CtxAny2AnyErr")
+		}).
+		CheckOutputsError().
+		Call(context.Background(), "CtxAny2AnyErr")
 
+	output, err := result.OutputAt(0)
 	fmt.Println("String:", result.String())
 	fmt.Println("Call error:", result.Error())
 	fmt.Println("Call inputs:", result.Inputs())
 	fmt.Println("Call outputs:", result.Outputs())
-	output, _ := result.OutputAt(0)
 	fmt.Println("Call output at 0:", output)
 	fmt.Println("Call duration:", result.Duration())
 	fmt.Println("Call wait:", time.Since(now))
 
-	assert.Equal(t, 1, result.Inputs()[0])
-	assert.Equal(t, "ok", result.Outputs()[0])
-	assert.Equal(t, "no", result.Error().Error())
+	assert.Equal(t, "CtxAny2AnyErr", err.Error())
+	assert.Equal(t, "CtxAny2AnyErr", result.Inputs()[1])
+	assert.Equal(t, "CtxAny2AnyErr", result.Outputs()[0])
 }
 
 func TestRecover(t *testing.T) {
@@ -48,10 +51,13 @@ func TestRecover(t *testing.T) {
 
 func TestTimeout(t *testing.T) {
 	now := time.Now()
-	result := NewCaller2Err(func() error {
-		time.Sleep(time.Millisecond * 150)
-		return nil
-	}).SetTimeout(time.Millisecond * 100).Call()
+	result := NewCaller2Any(
+		func() any {
+			time.Sleep(time.Millisecond * 150)
+			return "NewCaller2Err"
+		}).
+		SetTimeout(time.Millisecond * 100).
+		Call()
 	err := result.Error()
 	wait := time.Since(now)
 
@@ -65,55 +71,23 @@ func TestTimeout(t *testing.T) {
 	assert.True(t, result.Timeouted())
 }
 
-func TestAdvance(t *testing.T) {
-	result := NewCallerCtx(func(ctx context.Context) {
-		fmt.Println(ctx)
-	}).Call(context.Background())
-	assert.Nil(t, result.Error())
-
-	result = NewCallerAny2Err(func(inputs ...any) error {
-		fmt.Println(inputs...)
-		return nil
-	}).Call("NewCallerAny2Err", 1, 2, 3)
-	fmt.Println("NewCallerAny2Err outputs:", result.Outputs())
-	assert.Nil(t, result.Error())
-
-	result = NewCallerCtx2Err(func(ctx context.Context) error {
-		return nil
-	}).Call(context.Background())
-	assert.Nil(t, result.Error())
-
-	result = NewCallerCtxAny2Any(func(ctx context.Context, inputs ...any) []any {
-		inputs[0].(func(name string))(inputs[1].(string))
-		fmt.Println(inputs[2:])
-		return []any{"NewCallerCtxAny2Any", 1}
-	}).Call(context.Background(), func(name string) {
-		fmt.Println("name:", name)
-	}, "NewCallerCtxAny2Any", 1, 2, 3)
-
-	fmt.Println("Call error:", result.Error())
-	fmt.Println("Call outputs:", result.Outputs())
-	assert.Nil(t, result.Error())
-
-}
-
-// BenchmarkCaller-12        932640              1199 ns/op
+// BenchmarkCaller-12        934629              1174 ns/op
 func BenchmarkCaller(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = NewCallerAny(func(inputs ...any) {
-		}).Call("元宝", 1, 2, 3).
+		_ = NewCallerAny(func(input any) {
+		}).Call("元宝").
 			Error()
 	}
 }
 
-// BenchmarkDirect-12       1000000              1024 ns/op
+// BenchmarkDirect-12       1208538               988.5 ns/op
 func BenchmarkDirect(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var wg sync.WaitGroup
 		wg.Add(1)
-		go func(inputs ...any) {
+		go func(input any) {
 			wg.Done()
-		}("元宝", 1, 2, 3)
+		}("元宝")
 		wg.Wait()
 	}
 }
