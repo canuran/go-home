@@ -3,11 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>用户管理</title>
-    <link rel="icon" href="../../image/favicon.ico">
-    <link rel="stylesheet" href="../../library/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../library/font-awesome/css/font-awesome.css" media="all">
-    <link rel="stylesheet" href="../../library/GridManager/index.css" media="all">
+    <link rel="icon" href="../image/favicon.ico">
+    <link rel="stylesheet" href="../library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../library/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="../library/GridManager/index.css" media="all">
+    <style>
+        .gm-menu, .table-wrap {
+            --gm-font-size: 13px;
+        }
+    </style>
 </head>
+
 <body style="padding:15px">
 <form class="layui-form" lay-filter="query-form">
     <div class="layui-form-item" style="margin-bottom:15px">
@@ -147,11 +153,11 @@
     </div>
 </template>
 
-<script src="../../library/jquery/jquery.js" charset="utf-8"></script>
-<script src="../../library/layui/layui.js" charset="utf-8"></script>
-<script src="../../library/xm-select/xm-select.js" charset="utf-8"></script>
-<script src="../../library/GridManager/index.js" charset="utf-8"></script>
-<script src="../../common/common.js" charset="utf-8"></script>
+<script src="../library/jquery/jquery.js" charset="utf-8"></script>
+<script src="../library/layui/layui.js" charset="utf-8"></script>
+<script src="../library/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="../library/GridManager/index.js" charset="utf-8"></script>
+<script src="../common/common.js" charset="utf-8"></script>
 <script type="application/javascript">
     // 属于业务的代码命名空间
 
@@ -260,26 +266,26 @@
 
     $(function () {
         var columnData = [{
-            key: 'id', text: '<strong>用户ID</strong>',
-            width: '80px', fixed: 'left', template: gmStrongTemplate
+            key: 'id', width: '80px', fixed: 'left',
+            text: '用户ID', template: gmStrongTemplate
         }, {
-            key: 'name', text: '<strong>用户名</strong>', width: '200px'
+            key: 'name', width: '200px', text: '用户名'
         }, {
-            key: 'header', text: '<strong>用户头像</strong>',
-            width: '200px', template: gmHeaderTemplate
+            key: 'header', width: '200px', text: '用户头像',
+            template: gmHeaderTemplate
         }, {
-            key: 'status', text: '<strong>状态</strong>',
-            width: '200px', template: statusTemplate
+            key: 'status', width: '200px', text: '状态',
+            template: statusTemplate
         }, {
-            key: 'gender', text: '<strong>性别</strong>', width: '200px'
+            key: 'gender', width: '200px', text: '性别'
         }, {
-            key: 'role', text: '<strong>角色</strong>', width: '200px'
+            key: 'role', width: '200px', text: '角色'
         }, {
-            key: 'sign', text: '<strong>签名</strong>',
-            width: '400px', template: gmPreTemplate
+            key: 'sign', width: '400px', text: '签名',
+            template: gmPreTemplate
         }, {
-            key: '_operate_', text: '<strong>操作</strong>',
-            width: '160px', fixed: 'right', template: rowOperates
+            key: '_operate_', width: '160px', fixed: 'right',
+            text: '操作', template: rowOperates
         }];
 
         // 加载表格

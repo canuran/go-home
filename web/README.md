@@ -7,9 +7,9 @@
 
 #### Layui
 
-[查看示例](http://layui.org.cn/demo/index.html)
+[查看示例](https://layuion.com/demo/index.html)
 
-[查看文档](http://layui.org.cn/doc/index.html)
+[查看文档](https://layuion.com/docs/index.html)
 
 #### GridManager
 

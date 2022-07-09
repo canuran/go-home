@@ -3,11 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>增删改查</title>
-    <link rel="icon" href="../../image/favicon.ico">
-    <link rel="stylesheet" href="../../library/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../library/font-awesome/css/font-awesome.css" media="all">
-    <link rel="stylesheet" href="../../library/GridManager/index.css" media="all">
+    <link rel="icon" href="../image/favicon.ico">
+    <link rel="stylesheet" href="../library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../library/font-awesome/css/font-awesome.css" media="all">
+    <link rel="stylesheet" href="../library/GridManager/index.css" media="all">
+    <style>
+        .gm-menu, .table-wrap {
+            --gm-font-size: 13px;
+        }
+    </style>
 </head>
+
 <body style="padding:15px">
 <form class="layui-form" lay-filter="query-form">
     <div class="layui-form-item" style="margin-bottom:15px">
@@ -128,11 +134,11 @@
         </form>
     </div>
 </template>
-<script src="../../library/jquery/jquery.js" charset="utf-8"></script>
-<script src="../../library/layui/layui.js" charset="utf-8"></script>
-<script src="../../library/xm-select/xm-select.js" charset="utf-8"></script>
-<script src="../../library/GridManager/index.js" charset="utf-8"></script>
-<script src="../../common/common.js" charset="utf-8"></script>
+<script src="../library/jquery/jquery.js" charset="utf-8"></script>
+<script src="../library/layui/layui.js" charset="utf-8"></script>
+<script src="../library/xm-select/xm-select.js" charset="utf-8"></script>
+<script src="../library/GridManager/index.js" charset="utf-8"></script>
+<script src="../common/common.js" charset="utf-8"></script>
 <script type="application/javascript">
     // 属于业务的代码命名空间
 
@@ -202,114 +208,111 @@
             '<i class="fa fa-remove"></i> 删除</button>';
     }
 
+    var tableData = {
+        "data": [{
+            "id": 1,
+            "name": "元宝",
+            "gender": "男",
+            "role": "管理员",
+            "status": 1,
+            "sign": "哈哈哈哈哈哈！",
+            "auth_version": 33,
+            "updated_at": "2022-06-28T22:16:54.8546638+08:00"
+        }, {
+            "id": 2,
+            "name": "妲己",
+            "gender": "女",
+            "role": "前端",
+            "status": 1,
+            "sign": "没有心，就不会受伤~",
+            "auth_version": 2,
+            "updated_at": "2022-06-28T23:35:48.3446373+08:00"
+        }, {
+            "id": 3,
+            "name": "亚瑟",
+            "gender": "男",
+            "role": "后端",
+            "status": 1,
+            "sign": "正义必胜！",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T23:35:58.8191257+08:00"
+        }, {
+            "id": 4,
+            "name": "九月",
+            "gender": "女",
+            "role": "测试",
+            "status": 1,
+            "sign": "好想早点放学出去玩~",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T23:35:51.2530557+08:00"
+        }, {
+            "id": 5,
+            "name": "小乔",
+            "gender": "女",
+            "role": "产品",
+            "status": 1,
+            "sign": "小乔要努力变强~",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T21:59:56.6868107+08:00"
+        }, {
+            "id": 6,
+            "name": "苏苏",
+            "gender": "女",
+            "role": "产品",
+            "status": 1,
+            "sign": "我要成为最强红线仙！",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T21:59:58.9043835+08:00"
+        }]
+    };
+
+    var columnData = [{
+        key: 'id', width: '80px', fixed: 'left',
+        text: '用户ID', template: gmStrongTemplate
+    }, {
+        key: 'name', width: '200px', text: '用户名'
+    }, {
+        key: 'status', width: '200px', text: '状态',
+        template: statusTemplate
+    }, {
+        key: 'gender', width: '200px', text: '性别'
+    }, {
+        key: 'role', width: '200px', text: '角色'
+    }, {
+        key: 'sign', width: '400px', text: '签名',
+        template: gmPreTemplate
+    }, {
+        key: '_operate_', width: '160px', fixed: 'right',
+        text: '操作', template: rowOperates
+    }];
+
+    function createTable(params) {
+        document.querySelector('#main-table').GM({
+            gridManagerName: 'main-table',
+            ajaxUrl: "../../../api/user/query",
+            query: params,
+            // ajaxData: gmAjaxData, // 远程数据
+            ajaxData: tableData,
+            ajaxType: 'POST',
+            height: '100%',
+            width: '100%',
+            disableCache: false,
+            supportAjaxPage: true,
+            sizeData: [10, 20, 50, 100],
+            supportCheckbox: false,
+            supportMenu: true,
+            useWordBreak: true,
+            disableLine: true,
+            disableBorder: true,
+            supportAutoOrder: false,
+            asyncTotals: {
+                text: '加载中', handler: gmAjaxTotals
+            },
+            columnData: columnData
+        });
+    }
+
     $(function () {
-        var testData = {
-            "data": [{
-                "id": 1,
-                "name": "元宝",
-                "gender": "男",
-                "role": "管理员",
-                "status": 1,
-                "sign": "哈哈哈哈哈哈！",
-                "auth_version": 33,
-                "updated_at": "2022-06-28T22:16:54.8546638+08:00"
-            }, {
-                "id": 2,
-                "name": "妲己",
-                "gender": "女",
-                "role": "前端",
-                "status": 1,
-                "sign": "没有心，就不会受伤~",
-                "auth_version": 2,
-                "updated_at": "2022-06-28T23:35:48.3446373+08:00"
-            }, {
-                "id": 3,
-                "name": "亚瑟",
-                "gender": "男",
-                "role": "后端",
-                "status": 1,
-                "sign": "正义必胜！",
-                "auth_version": 0,
-                "updated_at": "2022-06-28T23:35:58.8191257+08:00"
-            }, {
-                "id": 4,
-                "name": "九月",
-                "gender": "女",
-                "role": "测试",
-                "status": 1,
-                "sign": "好想早点放学出去玩~",
-                "auth_version": 0,
-                "updated_at": "2022-06-28T23:35:51.2530557+08:00"
-            }, {
-                "id": 5,
-                "name": "小乔",
-                "gender": "女",
-                "role": "产品",
-                "status": 1,
-                "sign": "小乔要努力变强~",
-                "auth_version": 0,
-                "updated_at": "2022-06-28T21:59:56.6868107+08:00"
-            }, {
-                "id": 6,
-                "name": "苏苏",
-                "gender": "女",
-                "role": "产品",
-                "status": 1,
-                "sign": "我要成为最强红线仙！",
-                "auth_version": 0,
-                "updated_at": "2022-06-28T21:59:58.9043835+08:00"
-            }]
-        };
-
-        var columnData = [{
-            key: 'id', text: '<strong>用户ID</strong>',
-            width: '80px', fixed: 'left', template: gmStrongTemplate
-        }, {
-            key: 'name', text: '<strong>用户名</strong>', width: '200px'
-        }, {
-            key: 'status', text: '<strong>状态</strong>',
-            width: '200px', template: statusTemplate
-        }, {
-            key: 'gender', text: '<strong>性别</strong>', width: '200px'
-        }, {
-            key: 'role', text: '<strong>角色</strong>', width: '200px'
-        }, {
-            key: 'sign', text: '<strong>签名</strong>',
-            width: '400px', template: gmPreTemplate
-        }, {
-            key: '_operate_', text: '<strong>操作</strong>',
-            width: '160px', fixed: 'right', template: rowOperates
-        }];
-
-        // 加载表格
-        function createTable(params) {
-            document.querySelector('#main-table').GM({
-                gridManagerName: 'main-table',
-                ajaxUrl: "../../../api/user/query",
-                query: params,
-                // ajaxData: gmAjaxData, // 远程数据
-                ajaxData: testData,
-                ajaxType: 'POST',
-                height: '100%',
-                width: '100%',
-                disableCache: false,
-                supportAjaxPage: true,
-                sizeData: [10, 20, 50, 100],
-                supportCheckbox: false,
-                supportMenu: true,
-                useWordBreak: true,
-                disableLine: true,
-                disableBorder: true,
-                supportAutoOrder: false,
-                asyncTotals: {
-                    text: '加载中', handler: gmAjaxTotals
-                },
-                columnData: columnData
-            });
-        }
-
-        $('.add-button').on('click', openEditWin);
-
         var params = getUrlParams();
         var defaultParam = layui.form.val('query-form');
         layui.form.val('query-form', getUrlParams(params));
@@ -321,6 +324,7 @@
             return false;
         });
 
+        $('.add-button').on('click', openEditWin);
         createTable(layui.form.val('query-form'));
     });
 </script>
