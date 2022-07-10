@@ -34,6 +34,7 @@ func initGorm(dail gorm.Dialector) {
 	if err != nil {
 		panic("connect database fail")
 	}
+	gormDB.Exec(initTable)
 	query.SetDefault(gormDB)
 }
 
@@ -50,3 +51,37 @@ func GetDB(ctx context.Context) (*gorm.DB, context.Context) {
 	}
 	return db, context.WithValue(ctx, ctxDbKey, db)
 }
+
+var initTable = `
+create table if not exists user
+(
+    id           integer  primary key autoincrement,
+    name         text     default '' not null unique,
+    password     text     default '' not null,
+    header       text     default '' not null,
+    gender       text     default '' not null,
+    role         text     default '' not null,
+    status       integer  default 0 not null,
+    auth_version integer  default 0 not null,
+    sign         text     default '' not null,
+    created_at   datetime default current_time not null,
+    updated_at   datetime default current_time not null
+);
+
+create index  if not exists  idx_user_updated_at
+    on user (updated_at);
+
+create table if not exists config
+(
+    id         integer  primary key autoincrement,
+    config     text     default '' not null unique,
+    value      text     default '' not null,
+    num        integer  default '' not null,
+    extra      text     default '' not null,
+    created_at datetime default current_time not null,
+    updated_at datetime default current_time not null
+);
+
+create index if not exists idx_config_updated_at
+    on config (updated_at);
+`
