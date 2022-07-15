@@ -63,21 +63,21 @@
     <legend>图片懒加载</legend>
 </fieldset>
 <div class="site-demo-flow" id="LAY_demo3">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
-    <img lay-src="../../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
+    <img lay-src="../image/logo.png">
 </div>
 
 <p style="margin:20px 5px;">
@@ -119,7 +119,7 @@
                 setTimeout(function () {
                     var lis = [];
                     for (var i = 0; i < 6; i++) {
-                        lis.push('<li><img lay-src="../../image/logo.png?v=' + ((page - 1) * 6 + i + 1) + '"></li>')
+                        lis.push('<li><img lay-src="../image/logo.png?v=' + ((page - 1) * 6 + i + 1) + '"></li>')
                     }
                     next(lis.join(''), page < 6); //假设总页数为 6
                 }, 500);
