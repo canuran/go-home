@@ -81,7 +81,7 @@ function formatDateTime(value) {
     if (value && value.length > 19) {
         value = value.substring(0, 19)
     }
-    return value && value.replace("T", " ")
+    return value && value.replace("T", " ");
 }
 
 function getParentRow(element) {
@@ -99,15 +99,16 @@ function gmTimeTemplate(cell, row, index, key) {
 }
 
 function gmStrongTemplate(cell, row, index, key) {
-    return '<strong>' + (row[key] || '') + '</strong>'
+    return '<strong>' + (row[key] || '') + '</strong>';
 }
 
 function gmPreTemplate(cell, row, index, key) {
-    return '<pre>' + replaceHtmlTag(row[key]) + '</pre>'
+    return '<pre>' + replaceHtmlTag(row[key]) + '</pre>';
 }
 
 function replaceHtmlTag(input) {
-    return (input || "").replace(/</g, "&lt;").replace(/</g, "&gt;")
+    return (input || "").replace(/</g, "&lt;").replace(
+        />/g, "&gt;");
 }
 
 function gmAjaxTotals(settings, params) {
