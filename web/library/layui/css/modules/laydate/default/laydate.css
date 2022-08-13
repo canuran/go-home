@@ -147,6 +147,24 @@ html #layuicss-laydate{
  height:5px;
  border-radius:50%
 }
+.laydate-day-holidays:before{
+ position:absolute;
+ left:0;
+ top:0;
+ font-size:12px;
+ transform:scale(.7)
+}
+.laydate-day-holidays:before{
+ content:'\4F11';
+ color:#ff5722
+}
+.laydate-day-holidays[type=work]:before{
+ content:'\73ED';
+ color:inherit
+}
+.layui-laydate .layui-this .laydate-day-holidays:before{
+ color:#fff
+}
 .layui-laydate-footer{
  position:relative;
  height:46px;

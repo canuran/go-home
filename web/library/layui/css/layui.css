@@ -2599,7 +2599,9 @@ a cite{
 }
 .layui-table-view .layui-table[lay-size=sm] .layui-table-cell{
  height:30px;
- line-height:20px
+ line-height:20px;
+ padding-top:5px;
+ padding-right:5px
 }
 .layui-table[lay-data]{
  display:none
@@ -2824,6 +2826,9 @@ a cite{
 }
 .layui-table-cell .layui-table-link{
  color:#01aaed
+}
+.layui-table-cell .layui-btn{
+ vertical-align:inherit
 }
 .layui-table-cell[align=center]{
  -webkit-box-pack:center
