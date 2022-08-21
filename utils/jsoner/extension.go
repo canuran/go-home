@@ -1,10 +1,12 @@
 package jsoner
 
 import (
+	"github.com/ewingtsai/go-home/utils/valuer"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/modern-go/reflect2"
 	"reflect"
 	"strconv"
+	"time"
 	"unsafe"
 )
 
@@ -162,6 +164,29 @@ func (extension *SafeUint64Extension) CreateEncoder(typ reflect2.Type) jsoniter.
 
 func (extension *SafeUint64Extension) CreateDecoder(typ reflect2.Type) jsoniter.ValDecoder {
 	if typ.Kind() == reflect.Uint64 {
+		return extension
+	}
+	return nil
+}
+
+type GeneralDateExtension struct {
+	jsoniter.DummyExtension
+}
+
+func (extension *GeneralDateExtension) Decode(ptr unsafe.Pointer, iter *jsoniter.Iterator) {
+	switch iter.WhatIsNext() {
+	case jsoniter.NumberValue:
+		nanoseconds := iter.ReadInt64() * time.Millisecond.Nanoseconds()
+		*((*time.Time)(ptr)) = time.Unix(0, nanoseconds)
+	case jsoniter.NilValue:
+		// omit nil value
+	default:
+		*((*time.Time)(ptr)) = valuer.ParseGeneralDate([]rune(iter.ReadString()))
+	}
+}
+
+func (extension *GeneralDateExtension) CreateDecoder(typ reflect2.Type) jsoniter.ValDecoder {
+	if typ == reflect2.TypeOf(time.Now()) {
 		return extension
 	}
 	return nil

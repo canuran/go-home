@@ -8,7 +8,8 @@ import (
 var ForLog = NewAPI().
 	MaxStringFieldLen(1024).
 	MaxSliceFieldLen(128).
-	SafeInteger()
+	SafeInteger().
+	GeneralDate()
 
 func NewAPI() API {
 	return &api{API: jsoniter.Config{
@@ -62,6 +63,7 @@ type API interface {
 	MaxSliceFieldLen(maxLen int) API
 	MaxStringFieldLen(maxLen int) API
 	SafeInteger() API
+	GeneralDate() API
 }
 
 type api struct {
@@ -90,5 +92,10 @@ func (b *api) MaxStringFieldLen(maxLen int) API {
 func (b *api) SafeInteger() API {
 	b.API.RegisterExtension(&SafeInt64Extension{})
 	b.API.RegisterExtension(&SafeUint64Extension{})
+	return b
+}
+
+func (b *api) GeneralDate() API {
+	b.API.RegisterExtension(&GeneralDateExtension{})
 	return b
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
+	"time"
 )
 
 type test struct {
@@ -14,6 +15,8 @@ type test struct {
 	String string
 	Bytes  []byte
 	Bytes2 []byte
+	Date   time.Time
+	Date2  time.Time
 }
 
 func TestJsonExtensions(t *testing.T) {
@@ -21,13 +24,15 @@ func TestJsonExtensions(t *testing.T) {
 	jsonAPI := NewAPI().
 		MaxStringFieldLen(max).
 		MaxSliceFieldLen(max).
-		SafeInteger()
+		SafeInteger().
+		GeneralDate()
 
 	data := test{
 		Int64:  JsonSafeMinInteger - 1,
 		Uint64: JsonSafeMaxInteger + 1,
 		String: strings.Repeat("a", max*2),
 		Bytes:  bytes.Repeat([]byte{'b'}, max*2),
+		Date:   time.Now(),
 	}
 
 	str, err := jsonAPI.MarshalToString(data)
@@ -42,4 +47,6 @@ func TestJsonExtensions(t *testing.T) {
 	assert.Equal(t, data.String[:max], data2.String)
 	assert.Equal(t, data.Bytes[:max], data2.Bytes)
 	assert.Equal(t, data.Bytes2, data2.Bytes2)
+	assert.Equal(t, data.Date.UnixNano(), data2.Date.UnixNano())
+	assert.Equal(t, data.Date2, data2.Date2)
 }
