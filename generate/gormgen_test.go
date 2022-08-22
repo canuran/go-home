@@ -2,8 +2,8 @@ package generate
 
 import (
 	"fmt"
-	"github.com/ewingtsai/go-home/generate/query"
-	"github.com/ewingtsai/go-home/utils/jsoner"
+	"github.com/canuran/go-home/generate/query"
+	"github.com/canuran/go-home/utils/jsoner"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gen"
 	"gorm.io/gorm"

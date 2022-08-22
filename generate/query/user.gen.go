@@ -14,7 +14,7 @@ import (
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 
-	"github.com/ewingtsai/go-home/generate/model"
+	"github.com/canuran/go-home/generate/model"
 )
 
 func newUser(db *gorm.DB) user {

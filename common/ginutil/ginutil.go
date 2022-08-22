@@ -1,9 +1,9 @@
 package ginutil
 
 import (
-	"github.com/ewingtsai/go-home/common"
-	"github.com/ewingtsai/go-home/common/consts"
-	"github.com/ewingtsai/go-home/common/errutil"
+	"github.com/canuran/go-home/common"
+	"github.com/canuran/go-home/common/consts"
+	"github.com/canuran/go-home/common/errutil"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"

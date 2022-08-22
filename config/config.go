@@ -2,7 +2,7 @@ package config
 
 import (
 	"context"
-	"github.com/ewingtsai/go-home/generate/query"
+	"github.com/canuran/go-home/generate/query"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"

@@ -1,4 +1,4 @@
-module github.com/ewingtsai/go-home
+module github.com/canuran/go-home
 
 go 1.18
 

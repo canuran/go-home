@@ -2,13 +2,13 @@ package service
 
 import (
 	"context"
-	"github.com/ewingtsai/go-home/common"
-	"github.com/ewingtsai/go-home/common/consts"
-	"github.com/ewingtsai/go-home/common/errutil"
-	"github.com/ewingtsai/go-home/generate/model"
-	"github.com/ewingtsai/go-home/repo"
-	"github.com/ewingtsai/go-home/utils/codec"
-	"github.com/ewingtsai/go-home/utils/stringer"
+	"github.com/canuran/go-home/common"
+	"github.com/canuran/go-home/common/consts"
+	"github.com/canuran/go-home/common/errutil"
+	"github.com/canuran/go-home/generate/model"
+	"github.com/canuran/go-home/repo"
+	"github.com/canuran/go-home/utils/codec"
+	"github.com/canuran/go-home/utils/stringer"
 	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
 	"log"
@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ewingtsai/go-home/config"
+	"github.com/canuran/go-home/config"
 )
 
 const (

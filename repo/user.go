@@ -2,11 +2,11 @@ package repo
 
 import (
 	"context"
-	"github.com/ewingtsai/go-home/common"
-	"github.com/ewingtsai/go-home/config"
-	"github.com/ewingtsai/go-home/generate/model"
-	"github.com/ewingtsai/go-home/generate/query"
-	"github.com/ewingtsai/go-home/utils/stringer"
+	"github.com/canuran/go-home/common"
+	"github.com/canuran/go-home/config"
+	"github.com/canuran/go-home/generate/model"
+	"github.com/canuran/go-home/generate/query"
+	"github.com/canuran/go-home/utils/stringer"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 )

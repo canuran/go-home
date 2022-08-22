@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/ewingtsai/go-home/common"
-	"github.com/ewingtsai/go-home/config"
-	"github.com/ewingtsai/go-home/handler"
+	"github.com/canuran/go-home/common"
+	"github.com/canuran/go-home/config"
+	"github.com/canuran/go-home/handler"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"

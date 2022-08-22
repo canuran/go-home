@@ -2,9 +2,9 @@ package repo
 
 import (
 	"context"
-	"github.com/ewingtsai/go-home/config"
-	"github.com/ewingtsai/go-home/generate/model"
-	"github.com/ewingtsai/go-home/generate/query"
+	"github.com/canuran/go-home/config"
+	"github.com/canuran/go-home/generate/model"
+	"github.com/canuran/go-home/generate/query"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
