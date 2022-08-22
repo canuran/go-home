@@ -7,13 +7,12 @@ import (
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/service"
 	"github.com/canuran/go-home/utils/codec"
+	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 var captchaAesKey = []byte("MnfCSZWU0HPYbVfO")

@@ -3,11 +3,10 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/utils/jsoner"
 	"github.com/stretchr/testify/assert"
 	"testing"
-
-	"github.com/canuran/go-home/config"
 )
 
 func init() {

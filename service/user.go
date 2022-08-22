@@ -5,6 +5,7 @@ import (
 	"github.com/canuran/go-home/common"
 	"github.com/canuran/go-home/common/consts"
 	"github.com/canuran/go-home/common/errutil"
+	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/generate/model"
 	"github.com/canuran/go-home/repo"
 	"github.com/canuran/go-home/utils/codec"
@@ -15,8 +16,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/canuran/go-home/config"
 )
 
 const (
