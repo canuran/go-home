@@ -159,7 +159,108 @@
 <script src="../library/GridManager/index.js" charset="utf-8"></script>
 <script src="../common/common.js" charset="utf-8"></script>
 <script type="application/javascript">
-    // 属于业务的代码命名空间
+    $(function () {
+        var params = getUrlParams();
+        var defaultParam = layui.form.val('query-form');
+        layui.form.val('query-form', getUrlParams(params));
+
+        // 监听按钮事件
+        $('.add-button').on('click', openEditWin);
+        layui.form.on('submit(query-submit)', function (form) {
+            setUrlParams(form.field, defaultParam);
+            GridManager.setQuery('main-table', form.field);
+            return false;
+        });
+
+        createTable(layui.form.val('query-form'));
+    });
+
+    // 加载表格
+    function createTable(params) {
+        document.querySelector('#main-table').GM({
+            gridManagerName: 'main-table',
+            ajaxUrl: "../../../api/user/query",
+            query: params,
+            ajaxData: gmAjaxData,
+            ajaxType: 'POST',
+            height: '100%',
+            width: '100%',
+            disableCache: false,
+            supportAjaxPage: true,
+            sizeData: [10, 20, 50, 100],
+            supportCheckbox: false,
+            supportMenu: true,
+            useWordBreak: true,
+            disableLine: true,
+            disableBorder: true,
+            supportAutoOrder: false,
+            asyncTotals: {
+                text: '加载中', handler: gmAjaxTotals
+            },
+            columnData: [{
+                key: 'id', width: '80px', fixed: 'left',
+                text: '用户ID', template: gmStrongTemplate
+            }, {
+                key: 'name', width: '200px', text: '用户名'
+            }, {
+                key: 'header', width: '200px', text: '用户头像',
+                template: gmHeaderTemplate
+            }, {
+                key: 'status', width: '200px', text: '状态',
+                template: statusTemplate
+            }, {
+                key: 'gender', width: '200px', text: '性别',
+                template: genderTemplate
+            }, {
+                key: 'role', width: '200px', text: '角色'
+            }, {
+                key: 'sign', width: '400px', text: '签名',
+                template: gmPreTemplate
+            }, {
+                key: '_operate_', width: '160px', fixed: 'right',
+                text: '操作', template: rowOperates
+            }],
+            fullColumn: {
+                useFold: true, fixed: 'left', bottomTemplate: function (row, index) {
+                    var html = $('#detail-template').html().replace("{{header}}", row.header);
+                    html = html.replace("{{name}}", row.name).replace("{{gender}}", row.gender);
+                    html = html.replace("{{role}}", row.role).replace("{{sign}}", row.sign);
+                    return html.replace("{{updated_at}}", formatDateTime(row.updated_at));
+                }
+            }
+        });
+    }
+
+    function statusTemplate(cell, row, index, key) {
+        var value = row[key] || 0;
+        return {
+            0: '<span style="color:white;background:#999;border-radius:5px;padding:3px">未知</span>',
+            1: '<span style="color:white;background:#5b5;border-radius:5px;padding:3px">有效</span>',
+            2: '<span style="color:white;background:#e88;border-radius:5px;padding:3px">无效</span>'
+        }[value] || value;
+    }
+
+    function genderTemplate(cell, row, index, key) {
+        var value = row[key] || '保密';
+        return {
+            保密: '<span style="color:white;background:#999;border-radius:5px;padding:2px">保密</span>',
+            男: '<span style="color:white;background:#88e;border-radius:5px;padding:3px">男</span>',
+            女: '<span style="color:white;background:#e88;border-radius:5px;padding:3px">女</span>'
+        }[value] || value;
+    }
+
+    function gmHeaderTemplate(cell, row, index, key) {
+        var value = row[key] || "";
+        return value ? "<img style='width:80px;border-radius:40px' " +
+            "src='data:image;base64," + value + "' alt=''/>" : ""
+    }
+
+    function rowOperates() {
+        return '<button class="layui-btn layui-btn-normal layui-btn-sm" onclick="openEditWin(this)">' +
+            '<i class="fa fa-pencil"></i> 修改</button>' +
+            '<button class="layui-btn layui-btn-danger layui-btn-sm" onclick="deleteAction(this)">' +
+            '<i class="fa fa-remove"></i> 删除</button>';
+    }
 
     function initSelect() {
         xmSelect.render({
@@ -241,102 +342,6 @@
             });
         });
     }
-
-    function statusTemplate(cell, row, index, key) {
-        var value = row[key] || 0;
-        return {
-            0: '<span style="color:gray">未知</span>',
-            1: '<span style="color:green">有效</span>',
-            2: '<span style="color:red">无效</span>'
-        }[value] || value;
-    }
-
-    function gmHeaderTemplate(cell, row, index, key) {
-        var value = row[key] || "";
-        return value ? "<img style='width:80px;border-radius:40px' " +
-            "src='data:image;base64," + value + "' alt=''/>" : ""
-    }
-
-    function rowOperates() {
-        return '<button class="layui-btn layui-btn-normal layui-btn-sm" onclick="openEditWin(this)">' +
-            '<i class="fa fa-pencil"></i> 修改</button>' +
-            '<button class="layui-btn layui-btn-danger layui-btn-sm" onclick="deleteAction(this)">' +
-            '<i class="fa fa-remove"></i> 删除</button>';
-    }
-
-    $(function () {
-        var columnData = [{
-            key: 'id', width: '80px', fixed: 'left',
-            text: '用户ID', template: gmStrongTemplate
-        }, {
-            key: 'name', width: '200px', text: '用户名'
-        }, {
-            key: 'header', width: '200px', text: '用户头像',
-            template: gmHeaderTemplate
-        }, {
-            key: 'status', width: '200px', text: '状态',
-            template: statusTemplate
-        }, {
-            key: 'gender', width: '200px', text: '性别'
-        }, {
-            key: 'role', width: '200px', text: '角色'
-        }, {
-            key: 'sign', width: '400px', text: '签名',
-            template: gmPreTemplate
-        }, {
-            key: '_operate_', width: '160px', fixed: 'right',
-            text: '操作', template: rowOperates
-        }];
-
-        // 加载表格
-        function createTable(params) {
-            document.querySelector('#main-table').GM({
-                gridManagerName: 'main-table',
-                ajaxUrl: "../../../api/user/query",
-                query: params,
-                ajaxData: gmAjaxData,
-                ajaxType: 'POST',
-                height: '100%',
-                width: '100%',
-                disableCache: false,
-                supportAjaxPage: true,
-                sizeData: [10, 20, 50, 100],
-                supportCheckbox: false,
-                supportMenu: true,
-                useWordBreak: true,
-                disableLine: true,
-                disableBorder: true,
-                supportAutoOrder: false,
-                asyncTotals: {
-                    text: '加载中', handler: gmAjaxTotals
-                },
-                columnData: columnData,
-                fullColumn: {
-                    useFold: true, fixed: 'left', bottomTemplate: function (row, index) {
-                        var html = $('#detail-template').html().replace("{{header}}", row.header);
-                        html = html.replace("{{name}}", row.name).replace("{{gender}}", row.gender);
-                        html = html.replace("{{role}}", row.role).replace("{{sign}}", row.sign);
-                        return html.replace("{{updated_at}}", formatDateTime(row.updated_at));
-                    }
-                }
-            });
-        }
-
-        $('.add-button').on('click', openEditWin);
-
-        var params = getUrlParams();
-        var defaultParam = layui.form.val('query-form');
-        layui.form.val('query-form', getUrlParams(params));
-
-        // 监听搜索按钮
-        layui.form.on('submit(query-submit)', function (form) {
-            setUrlParams(form.field, defaultParam);
-            GridManager.setQuery('main-table', form.field);
-            return false;
-        });
-
-        createTable(layui.form.val('query-form'));
-    });
 </script>
 </body>
 </html>
