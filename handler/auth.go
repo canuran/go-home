@@ -9,6 +9,7 @@ import (
 	"github.com/canuran/go-home/utils/codec"
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
@@ -125,7 +126,11 @@ func authHandler(c *gin.Context) {
 			return
 		}
 
-		c.Header("Set-Cookie", "Authorization="+tokenStr)
+		c.Header("Set-Cookie", (&http.Cookie{
+			Name:   "Authorization",
+			Value:  tokenStr,
+			MaxAge: 3600 * 24 * 30,
+		}).String())
 		ginutil.SuccessData(c, tokenStr)
 		return
 	}
@@ -142,13 +147,18 @@ func authLogout(c *gin.Context) {
 			return
 		}
 	}
-	c.Header("Set-Cookie", "Authorization=none")
+	c.Header("Set-Cookie", (&http.Cookie{
+		Name:   "Authorization",
+		Value:  "",
+		MaxAge: 1,
+	}).String())
 	ginutil.Success(c)
 }
 
 func authCaptcha(c *gin.Context) {
 	// 生成验证码
-	code := strconv.Itoa(codec.Random().Intn(9000) + 1000)
+	rand.Seed(time.Now().UnixNano())
+	code := strconv.Itoa(rand.Intn(9000) + 1000)
 	item, err := base64Captcha.DefaultDriverDigit.DrawCaptcha(code)
 	if ginutil.HandleError(c, err) {
 		return
