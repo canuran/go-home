@@ -6,24 +6,6 @@
  */
 layui.define(function (exports) {
     var layer = layui.layer;
-
-    function findMenuByHref(href, menuList) {
-        if (!(menuList instanceof Array)) {
-            return;
-        }
-        for (let menu of menuList) {
-            if (menu.href && menu.href.indexOf(href) > -1) {
-                return menu;
-            }
-            if (menu.child instanceof Array) {
-                let res = findMenuByHref(href, menu.child);
-                if (res) {
-                    return res;
-                }
-            }
-        }
-    }
-
     var miniPage = {
         /**
          * 初始化tab
@@ -56,13 +38,29 @@ layui.define(function (exports) {
             options.homeInfo = options.homeInfo || {};
             options.homeInfo.href = options.homeInfo.href || '';
             miniPage.renderPage(options.homeInfo.href, options);
+        },
+        findMenuByHref: function (href, menuList) {
+            if (!(menuList instanceof Array)) {
+                return;
+            }
+            for (let menu of menuList) {
+                if (menu.href && menu.href.indexOf(href) > -1) {
+                    return menu;
+                }
+                if (menu.child instanceof Array) {
+                    let res = miniPage.findMenuByHref(href, menu.child);
+                    if (res) {
+                        return res;
+                    }
+                }
+            }
         }, /**
          * 初始化页面
          * @param href
          * @param options
          */
         renderPage: function (href, options) {
-            var menu = findMenuByHref(href, options.menuList);
+            var menu = miniPage.findMenuByHref(href, options.menuList);
             if (menu && menu.title) {
                 document.title = menu.title + " - " + options.homeInfo.baseTitle;
             }

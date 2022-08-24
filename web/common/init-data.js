@@ -15,7 +15,9 @@ var initData = {
         }]
     }, {
         "title": "更多示例", "icon": "fa fa-cubes", "child": [{
-            "title": "增删改查", "href": "demo/crud.html", "icon": "fa fa-table", "target": "_self"
+            "title": "流式加载", "href": "demo/flow.html", "icon": "fa fa-spinner", "target": "_self"
+        }, {
+            "title": "图片处理", "href": "demo/cropper.html", "icon": "fa fa-image", "target": "_self"
         }, {
             "title": "多级菜单", "icon": "fa fa-th-list", "child": [{
                 "title": "二级菜单", "icon": "fa fa-file-text", "target": "_self"
@@ -35,9 +37,7 @@ var initData = {
                 }]
             }]
         }, {
-            "title": "流式加载", "href": "demo/flow.html", "icon": "fa fa-image", "target": "_self"
-        }, {
-            "title": "图片裁剪", "href": "demo/cropper.html", "icon": "fa fa-crop", "target": "_self"
+            "title": "增删改查", "href": "demo/crud.html", "icon": "fa fa-table", "target": "_self"
         }]
     }]
 }

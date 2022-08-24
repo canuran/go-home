@@ -177,16 +177,14 @@
 </div>
 <script src="../library/jquery/jquery.js" charset="utf-8"></script>
 <script src="../library/layui/layui.js" charset="utf-8"></script>
+<script src="../library/echarts/echarts.js" charset="utf-8"></script>
+<script src="../library/echarts/shine.js" charset="utf-8"></script>
 <script>
-    layui.extend({echarts: '../module/echarts'});
-
-    layui.use(['echarts'], function () {
-        var echarts = layui.echarts;
-
+    $(function () {
         /**
          * 报表功能
          */
-        var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+        var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'shine');
         var optionRecords = {
             tooltip: {
                 trigger: 'axis'
@@ -217,16 +215,19 @@
                 {
                     name: '今天',
                     type: 'line',
+                    smooth: true,
                     data: [150, 232, 201, 154, 190, 330, 360]
                 },
                 {
                     name: '昨天',
                     type: 'line',
+                    smooth: true,
                     data: [220, 182, 191, 234, 290, 330, 310]
                 },
                 {
                     name: '前天',
                     type: 'line',
+                    smooth: true,
                     data: [120, 132, 101, 134, 90, 230, 210]
                 }
             ]
@@ -237,7 +238,6 @@
         window.onresize = function () {
             echartsRecords.resize();
         }
-
     });
 </script>
 </body>
