@@ -1,28 +1,19 @@
-function isHttpSchema() {
-    return location.href.startsWith('http');
-}
-
 $.ajaxSetup({
-    beforeSend: function () {
-        if (!isHttpSchema()) {
-            layui.layer.msg("请启动服务体验完整功能");
-            return false;
-        }
-    },
     error: function () {
-        layui.layer.msg("请求服务失败");
+        layui.layer.msg("请求远程服务失败");
     }
 });
 
 /*获取当前Url里面的参数*/
 function getUrlParams() {
-    if (!isHttpSchema()) {
-        return {};
-    }
-    for (var win = window; ; win = win.parent) {
-        if (window.parent === win) {
-            return getParamsByUrl(win.location.href);
+    try {
+        for (var win = window; ; win = win.parent) {
+            if (window.parent === win) {
+                return getParamsByUrl(win.location.href);
+            }
         }
+    } catch (e) {
+        console.log(e);
     }
 }
 
@@ -59,9 +50,6 @@ function encodeUriParams(params, defaults) {
 
 // 设置当前浏览器url参数
 function setUrlParams(params, excludes) {
-    if (!isHttpSchema()) {
-        return;
-    }
     var paramStr = encodeUriParams(params, excludes);
     paramStr = paramStr ? "?" + paramStr : paramStr;
     for (var win = window; ; win = win.parent) {
@@ -103,7 +91,8 @@ function gmStrongTemplate(cell, row, index, key) {
 }
 
 function gmPreTemplate(cell, row, index, key) {
-    return '<pre>' + replaceHtmlTag(row[key]) + '</pre>';
+    return '<pre style="word-break:break-all;max-height:156px;overflow-y:scroll">'
+        + replaceHtmlTag(row[key]) + '</pre>';
 }
 
 function replaceHtmlTag(input) {
@@ -113,9 +102,6 @@ function replaceHtmlTag(input) {
 
 function gmAjaxTotals(settings, params) {
     return new Promise(resolve => {
-        if (!isHttpSchema()) {
-            return resolve(0);
-        }
         params.count = true
         $.ajax({
             url: settings.ajaxUrl,
@@ -131,16 +117,13 @@ function gmAjaxTotals(settings, params) {
 
 function gmAjaxData(settings, params) {
     return new Promise(resolve => {
-        if (!isHttpSchema()) {
-            return resolve({data: []});
-        }
         $.ajax({
             url: settings.ajaxUrl,
             method: settings.ajaxType || "get",
             data: params,
             dataType: "json",
             complete: function (data) {
-                resolve(data && data.responseJSON || {data: []});
+                resolve(data && data.responseJSON || {data: [], totals: 0});
             }
         });
     });
