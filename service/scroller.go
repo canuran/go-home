@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/generate/model"
-	"github.com/canuran/go-home/repo"
 	"github.com/canuran/go-home/utils/jsoner"
 	"github.com/canuran/go-home/utils/valuer"
 	"github.com/sirupsen/logrus"
@@ -73,7 +73,7 @@ func Scrolling(ctx context.Context, params *Params) error {
 	// 重置进度
 	if params.Reset {
 		if len(params.ConfigKey) > 0 {
-			_ = repo.SaveConfig(ctx, &model.Config{
+			_ = dal.SaveConfig(ctx, &model.Config{
 				Config: params.ConfigKey, Num: 0, Value: "{}",
 			})
 		}
@@ -81,12 +81,12 @@ func Scrolling(ctx context.Context, params *Params) error {
 
 	// 获取进度
 	if len(params.ConfigKey) > 0 {
-		Config, _ := repo.GetConfig(context.Background(), params.ConfigKey)
+		Config, _ := dal.GetConfig(context.Background(), params.ConfigKey)
 		if Config != nil {
 			_ = json.Unmarshal([]byte(Config.Value), worker)
 			worker.PreId = Config.Num
 		} else {
-			_ = repo.SaveConfig(ctx, &model.Config{
+			_ = dal.SaveConfig(ctx, &model.Config{
 				Config: params.ConfigKey, Num: 0, Value: "{}",
 			})
 		}
@@ -213,7 +213,7 @@ func saveProgress(params *Params, runningIdMap *sync.Map, worker *Worker) {
 		saveId, jsoner.MarshalString(worker))
 
 	if len(params.ConfigKey) > 0 {
-		_ = repo.UpdateConfig(context.Background(), &model.Config{
+		_ = dal.UpdateConfig(context.Background(), &model.Config{
 			Config: params.ConfigKey,
 			Num:    saveId,
 			Value:  jsoner.MarshalString(worker),

@@ -6,8 +6,8 @@ import (
 	"github.com/canuran/go-home/common/consts"
 	"github.com/canuran/go-home/common/errutil"
 	"github.com/canuran/go-home/config"
+	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/generate/model"
-	"github.com/canuran/go-home/repo"
 	"github.com/canuran/go-home/utils/codec"
 	"github.com/canuran/go-home/utils/stringer"
 	"github.com/patrickmn/go-cache"
@@ -100,7 +100,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	}
 
 	// 业务逻辑
-	option := repo.SaveOption{}
+	option := dal.SaveOption{}
 	existsUser, err := GetUserByName(ctx, user.Name)
 	if errutil.HandlerError(err) {
 		return err
@@ -139,14 +139,14 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		}
 	}
 
-	return repo.SaveUser(ctx, UserBO2DO(user), option)
+	return dal.SaveUser(ctx, UserBO2DO(user), option)
 }
 
 func GetUserById(ctx context.Context, id int64) (*UserBO, error) {
 	if id < 1 {
 		return nil, nil
 	}
-	userPo, err := repo.QueryFirstUser(ctx, repo.QueryOption{IdEq: id})
+	userPo, err := dal.QueryFirstUser(ctx, dal.QueryOption{IdEq: id})
 	return UserDO2BO(userPo), err
 }
 
@@ -154,12 +154,12 @@ func GetUserByName(ctx context.Context, name string) (*UserBO, error) {
 	if len(name) < 1 {
 		return nil, nil
 	}
-	userPo, err := repo.QueryFirstUser(ctx, repo.QueryOption{NameEq: name})
+	userPo, err := dal.QueryFirstUser(ctx, dal.QueryOption{NameEq: name})
 	return UserDO2BO(userPo), err
 }
 
 func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO, error) {
-	userPos, _, err := repo.QueryUserPage(ctx, repo.QueryOption{
+	userPos, _, err := dal.QueryUserPage(ctx, dal.QueryOption{
 		IdEq:          user.ID,
 		NameStartWith: user.Name,
 		GenderEq:      user.Gender,
@@ -176,7 +176,7 @@ func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO,
 }
 
 func CountUser(ctx context.Context, user *UserBO) (int64, error) {
-	_, count, err := repo.QueryUserPage(ctx, repo.QueryOption{
+	_, count, err := dal.QueryUserPage(ctx, dal.QueryOption{
 		IdEq:          user.ID,
 		NameStartWith: user.Name,
 		GenderEq:      user.Gender,
@@ -186,7 +186,7 @@ func CountUser(ctx context.Context, user *UserBO) (int64, error) {
 }
 
 func DeleteUser(ctx context.Context, user *UserBO) error {
-	return repo.DeleteUser(ctx, UserBO2DO(user))
+	return dal.DeleteUser(ctx, UserBO2DO(user))
 }
 
 func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
@@ -194,7 +194,7 @@ func UpdateLoginIndex(ctx context.Context, user *UserBO) error {
 		return nil
 	}
 	authUserCache.Delete(strconv.FormatInt(user.ID, 10))
-	return repo.UpdateAuthVersion(ctx, UserBO2DO(user))
+	return dal.UpdateAuthVersion(ctx, UserBO2DO(user))
 }
 
 func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
