@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <title>JSON组件</title>
+    <link rel="icon" href="../image/favicon.ico">
+    <link rel="stylesheet" href="../library/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../library/font-awesome/css/font-awesome.css" media="all">
+</head>
+
+<body style="margin:15px">
+
+<div id="json-div"></div>
+
+<script src="../library/jquery/jquery.js" charset="utf-8"></script>
+<script src="../library/layui/layui.js" charset="utf-8"></script>
+<script src="../library/scripts/json-viewer.js" charset="utf-8"></script>
+<script type="application/javascript">
+    $(function () {
+        let jsonViewer = new JsonViewer({
+            value: jsonData,
+            rootName: false,
+            displayDataTypes: false,
+            editable: true,
+            onChange: function (paths, before, after) {
+                let object = jsonData;
+                for (let i = 0; i < paths.length; i++) {
+                    if (i === paths.length - 1) {
+                        object[paths[i]] = after;
+                    } else {
+                        object = object[paths[i]];
+                    }
+                }
+                // 暂时重新渲染，后续官方支持编辑回显
+                jsonViewer.render('#json-div');
+            }
+        });
+        jsonViewer.render('#json-div');
+    });
+
+    var jsonData = {
+        "data": [{
+            "id": 1,
+            "name": "元宝",
+            "gender": "男",
+            "role": "管理员",
+            "status": 1,
+            "sign": "哈哈哈哈哈哈！",
+            "auth_version": 33,
+            "updated_at": "2022-06-28T22:16:54.8546638+08:00"
+        }, {
+            "id": 2,
+            "name": "妲己",
+            "gender": "女",
+            "role": "前端",
+            "status": 1,
+            "sign": "没有心，就不会受伤~",
+            "auth_version": 2,
+            "updated_at": "2022-06-28T23:35:48.3446373+08:00"
+        }, {
+            "id": 3,
+            "name": "亚瑟",
+            "gender": "男",
+            "role": "后端",
+            "status": 1,
+            "sign": "正义必胜！",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T23:35:58.8191257+08:00"
+        }, {
+            "id": 4,
+            "name": "九月",
+            "gender": "女",
+            "role": "测试",
+            "status": 1,
+            "sign": "好想早点放学出去玩~",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T23:35:51.2530557+08:00"
+        }, {
+            "id": 5,
+            "name": "小乔",
+            "gender": "女",
+            "role": "产品",
+            "status": 1,
+            "sign": "小乔要努力变强~",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T21:59:56.6868107+08:00"
+        }, {
+            "id": 6,
+            "name": "苏苏",
+            "gender": "女",
+            "role": "产品",
+            "status": 1,
+            "sign": "我要成为最强红线仙！",
+            "auth_version": 0,
+            "updated_at": "2022-06-28T21:59:58.9043835+08:00"
+        }]
+    };
+</script>
+</body>
+</html>
