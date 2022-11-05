@@ -91,7 +91,7 @@ function gmStrongTemplate(cell, row, index, key) {
 }
 
 function gmPreTemplate(cell, row, index, key) {
-    return '<pre style="word-break:break-all;max-height:156px;overflow-y:scroll">'
+    return '<pre style="word-break:break-all;max-height:156px;overflow-y:auto">'
         + replaceHtmlTag(row[key]) + '</pre>';
 }
 

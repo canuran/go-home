@@ -1,4 +1,3 @@
-/**GridManager v3.1.0*/
 !function(e,t){
  if("object"== typeof exports&&"object"== typeof module) module.exports=t(); else if("function"== typeof define&&define.amd) define([],t); else{
   var o=t();
@@ -629,7 +628,7 @@
      "en-us":"OK"
     }, e.reset={"zh-cn":"重置","zh-tw":"重置","en-us":"Reset"}
    }
-   const lo={version:"3.1.0",responseData:{},checkedData:{},settings:{}},
+   const lo={version:"3.1.1",responseData:{},checkedData:{},settings:{}},
     uo=["width","__width","isShow","__isShow","index","__index"],ho=["__width","__isShow","__index"],
     go=e=>localStorage.getItem(e),po=(e,t)=>{
      localStorage.setItem(e,t)
@@ -1617,21 +1616,20 @@
       }))
      };
      o(t,0), ((e,t,o)=>{
-      const {_:n,summaryHandler:s,browser:r}=e;
+      const {_:n,summaryHandler:s}=e;
       if(!v(s)) return;
-      const a=s(bo(n,!0)),i=ft(n);
-      if(i.find(es).remove(), w(a)) return void i.removeAttr(Qn);
-      i.attr(Qn,"");
-      const c=[];
-      let l="";
-      "safari"===r&&(l=`style="bottom: ${vt(n).height()}px"`), u(t,(t=>{
+      const r=s(bo(n,!0)),a=ft(n);
+      if(a.find(es).remove(), w(r)) return void a.removeAttr(Qn);
+      a.attr(Qn,"");
+      const i=[];
+      u(t,(t=>{
        const {key:o,align:n}=t;
-       let s=a[o];
+       let s=r[o];
        (f(s)||p(s))&&(s="");
-       const r=n?`align="${n}"`:"";
-       let {text:i,compileAttr:d}=No(e,(()=>s),{},void 0,o);
-       i=$(i)?i.outerHTML:i, c.push(`<td ${d} ${r} disable-move ${l}>${i}</td>`)
-      })), o.push({className:[],attribute:[[Zn,""]],querySelector:es,tdList:c})
+       const a=n?`align="${n}"`:"";
+       let {text:c,compileAttr:l}=No(e,(()=>s),{},void 0,o);
+       c=$(c)?c.outerHTML:c, i.push(`<td ${l} ${a} disable-move >${c}</td>`)
+      })), o.push({className:[],attribute:[[Zn,""]],querySelector:es,tdList:i})
      })(e,j,S);
      const a=document.createDocumentFragment(),d=document.createDocumentFragment(),h=x.find("tr");
      if(u(h,(e=>{
