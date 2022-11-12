@@ -3,8 +3,8 @@ package dal
 import (
 	"context"
 	"fmt"
-	"github.com/canuran/go-home/common"
-	"github.com/canuran/go-home/common/errutil"
+	"github.com/canuran/go-home/comm"
+	"github.com/canuran/go-home/comm/errutil"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/generate/model"
 	"github.com/canuran/go-home/utils/jsoner"
@@ -39,7 +39,7 @@ func TestSaveUser(t *testing.T) {
 	err := SaveUser(context.Background(), &model.User{
 		ID:   1,
 		Name: "元宝",
-	}, SaveOption{
+	}, SaveUserParam{
 		OmitHeader:      true,
 		OmitPassword:    true,
 		OmitAuthVersion: true,
@@ -48,12 +48,12 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestQueryUser(t *testing.T) {
-	users, count, err := QueryUserPage(context.Background(), QueryOption{
+	users, count, err := QueryUserPage(context.Background(), QueryUserParam{
 		NameEq:        "元宝",
 		NameStartWith: "元宝",
 		OmitHeader:    false,
 		OmitPassword:  false,
-	}, common.Pager{
+	}, comm.Pager{
 		Offset:   0,
 		Limit:    10,
 		GetRows:  true,

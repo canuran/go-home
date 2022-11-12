@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/canuran/go-home/common"
+	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/handler"
 	"github.com/gin-contrib/static"
@@ -40,7 +40,7 @@ func none(c *gin.Context) {
 	if c.Request.Method == "GET" || c.Request.Method == "" {
 		c.File("web/none.html")
 	} else {
-		c.JSON(http.StatusOK, common.Response{
+		c.JSON(http.StatusOK, comm.Response{
 			Code:    http.StatusNotFound,
 			Message: "path not found",
 		})

@@ -2,30 +2,32 @@ package dal
 
 import (
 	"context"
-	"github.com/canuran/go-home/common"
+	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/generate/model"
 	"github.com/canuran/go-home/generate/query"
 	"github.com/canuran/go-home/utils/stringer"
+	"github.com/canuran/go-home/utils/valuer"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
+	"strings"
 )
 
-type SaveOption struct {
+type SaveUserParam struct {
 	OmitHeader        bool
 	OmitPassword      bool
 	OmitAuthVersion   bool
 	SelectAuthVersion bool
 }
 
-type QueryOption struct {
-	IdEq          int64
-	NameEq        string
-	NameStartWith string
-	GenderEq      string
-	StatusEq      int64
-	OmitHeader    bool
-	OmitPassword  bool
+type QueryUserParam struct {
+	IdEq         int64
+	NameEq       string
+	GenderEq     string
+	StatusEq     int64
+	OmitHeader   bool
+	OmitPassword bool
+	Conditions   []*comm.Condition
 }
 
 func UpdateAuthVersion(ctx context.Context, user *model.User) error {
@@ -36,32 +38,32 @@ func UpdateAuthVersion(ctx context.Context, user *model.User) error {
 	return err
 }
 
-func SaveUser(ctx context.Context, user *model.User, option SaveOption) error {
+func SaveUser(ctx context.Context, user *model.User, param SaveUserParam) error {
 	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
 
-	err := u.Scopes(saveUserScope(option)).
+	err := u.Scopes(saveUserScope(param)).
 		Clauses(config.ConflictUpdateAll).
 		Save(user)
 	return err
 }
 
-func saveUserScope(option SaveOption) func(gen.Dao) gen.Dao {
+func saveUserScope(param SaveUserParam) func(gen.Dao) gen.Dao {
 	return func(dao gen.Dao) gen.Dao {
 		u := query.Q.User
 		var omitFields []field.Expr
-		if option.OmitHeader {
+		if param.OmitHeader {
 			omitFields = append(omitFields, u.Header)
 		}
-		if option.OmitPassword {
+		if param.OmitPassword {
 			omitFields = append(omitFields, u.Password)
 		}
-		if option.OmitAuthVersion {
+		if param.OmitAuthVersion {
 			omitFields = append(omitFields, u.AuthVersion)
 		}
 
 		var selectFields []field.Expr
-		if option.SelectAuthVersion {
+		if param.SelectAuthVersion {
 			selectFields = append(selectFields, u.AuthVersion)
 		}
 		return dao.Select(selectFields...).
@@ -69,10 +71,10 @@ func saveUserScope(option SaveOption) func(gen.Dao) gen.Dao {
 	}
 }
 
-func QueryUserPage(ctx context.Context, option QueryOption, pager common.Pager) ([]*model.User, int64, error) {
+func QueryUserPage(ctx context.Context, param *QueryUserParam, pager comm.Pager) ([]*model.User, int64, error) {
 	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
-	dao := u.Scopes(queryUserScope(option), common.PageScope(pager))
+	dao := u.Scopes(queryUserScope(param), comm.PageScope(pager))
 
 	var err error
 	var count int64
@@ -93,40 +95,72 @@ func QueryUserPage(ctx context.Context, option QueryOption, pager common.Pager) 
 	return data, count, err
 }
 
-func queryUserScope(option QueryOption) func(gen.Dao) gen.Dao {
+func queryUserScope(param *QueryUserParam) func(gen.Dao) gen.Dao {
 	return func(dao gen.Dao) gen.Dao {
 		u := query.Q.User
 		var omitFields []field.Expr
-		if option.OmitHeader {
+		if param.OmitHeader {
 			omitFields = append(omitFields, u.Header)
 		}
-		if option.OmitPassword {
+		if param.OmitPassword {
 			omitFields = append(omitFields, u.Password)
 		}
 		dao = dao.Omit(omitFields...)
 
-		if option.IdEq > 0 {
-			dao = dao.Where(u.ID.Eq(option.IdEq))
+		if param.IdEq > 0 {
+			dao = dao.Where(u.ID.Eq(param.IdEq))
 		}
-		if len(option.NameEq) > 0 {
-			dao = dao.Where(u.Name.Eq(option.NameEq))
+		if len(param.NameEq) > 0 {
+			dao = dao.Where(u.Name.Eq(param.NameEq))
 		}
-		if len(option.NameStartWith) > 0 {
-			dao = dao.Where(u.Name.Like(stringer.EscapeSqlLike(option.NameStartWith) + "%"))
+		if len(param.GenderEq) > 0 {
+			dao = dao.Where(u.Gender.Eq(param.GenderEq))
 		}
-		if len(option.GenderEq) > 0 {
-			dao = dao.Where(u.Gender.Eq(option.GenderEq))
+		if param.StatusEq > 0 {
+			dao = dao.Where(u.Status.Eq(param.StatusEq))
 		}
-		if option.StatusEq > 0 {
-			dao = dao.Where(u.Status.Eq(option.StatusEq))
-		}
-		return dao
+		return dao.Where(queryUserConditions(param.Conditions))
 	}
 }
 
-func QueryFirstUser(ctx context.Context, option QueryOption) (*model.User, error) {
-	users, _, err := QueryUserPage(ctx, option,
-		common.Pager{Limit: 1, GetRows: true})
+func queryUserConditions(conditions []*comm.Condition) gen.Condition {
+	u := query.Q.User
+	where := u.Where()
+	for _, condition := range conditions {
+		var cond gen.Condition
+		switch condition.Name {
+		case "id_in":
+			cond = u.ID.In(valuer.Int64Slice([]rune(condition.Value))...)
+		case "id_gt":
+			cond = u.ID.Gt(valuer.Int64ify(condition.Value))
+		case "id_lt":
+			cond = u.ID.Lt(valuer.Int64ify(condition.Value))
+		case "name_in":
+			cond = u.Name.In(strings.Split(condition.Value, ",")...)
+		case "name_contain":
+			cond = u.Name.Like("%" + stringer.EscapeSqlLike(condition.Value) + "%")
+		case "name_gt":
+			cond = u.Name.Gt(condition.Value)
+		case "name_lt":
+			cond = u.Name.Lt(condition.Value)
+		default:
+			continue
+		}
+		child := queryUserConditions(condition.Children)
+		if condition.Type == "or" {
+			cond = u.Or(cond).Or(child)
+			where = where.Or(cond)
+		} else {
+			cond = u.Where(cond).Or(child)
+			where = where.Where(cond)
+		}
+	}
+	return where
+}
+
+func QueryFirstUser(ctx context.Context, param *QueryUserParam) (*model.User, error) {
+	users, _, err := QueryUserPage(ctx, param,
+		comm.Pager{Limit: 1, GetRows: true})
 	if len(users) > 0 {
 		return users[0], err
 	}

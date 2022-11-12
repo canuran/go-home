@@ -3,7 +3,9 @@ package handler
 import (
 	"bytes"
 	"encoding/base64"
-	"github.com/canuran/go-home/common/ginutil"
+	"encoding/json"
+	"github.com/canuran/go-home/comm/ginutil"
+	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/service"
 	"github.com/canuran/go-home/utils/codec"
 	"github.com/canuran/go-home/utils/imager"
@@ -23,6 +25,13 @@ type UserVO struct {
 	Status    int64     `json:"status,omitempty" form:"status"`
 	Sign      string    `json:"sign,omitempty" form:"sign"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
+}
+
+type UserQuery struct {
+	ID         int64  `json:"id,omitempty" form:"id"`
+	Name       string `json:"name,omitempty" form:"name"`
+	Gender     string `json:"gender,omitempty" form:"gender"`
+	Conditions string `json:"conditions,omitempty" form:"conditions"`
 }
 
 func UserVO2BO(bo *UserVO) *service.UserBO {
@@ -111,14 +120,25 @@ func saveUser(c *gin.Context) {
 }
 
 func queryUser(c *gin.Context) {
-	user := &UserVO{}
+	user := &UserQuery{}
 	err := c.ShouldBind(user)
 	if ginutil.HandleError(c, err) {
 		return
 	}
 
+	param := &dal.QueryUserParam{
+		IdEq:         user.ID,
+		NameEq:       user.Name,
+		GenderEq:     user.Gender,
+		OmitPassword: true,
+	}
+	err = json.Unmarshal([]byte(user.Conditions), &param.Conditions)
+	if ginutil.HandleError(c, err) {
+		return
+	}
+
 	if c.PostForm("count") == "true" {
-		totals, err := service.CountUser(c, UserVO2BO(user))
+		totals, err := service.CountUser(c, param)
 		if ginutil.HandleError(c, err) {
 			return
 		}
@@ -130,11 +150,15 @@ func queryUser(c *gin.Context) {
 	pSize := c.DefaultPostForm("pSize", "10")
 	limit := int(valuer.Int64ify(pSize))
 	offset := int(valuer.Int64ify(cPage))*limit - limit
-	users, err := service.QueryUser(c, UserVO2BO(user), offset, limit)
+	users, err := service.QueryUser(c, param, offset, limit)
 	if ginutil.HandleError(c, err) {
 		return
 	}
-	ginutil.SuccessData(c, users)
+	userVos := make([]*UserVO, 0, len(users))
+	for _, userBo := range users {
+		userVos = append(userVos, UserBO2VO(userBo))
+	}
+	ginutil.SuccessData(c, userVos)
 }
 
 func deleteUser(c *gin.Context) {

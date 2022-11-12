@@ -2,7 +2,7 @@ package dal
 
 import (
 	"context"
-	"github.com/canuran/go-home/common/errutil"
+	"github.com/canuran/go-home/comm/errutil"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/generate/model"
 	"github.com/canuran/go-home/utils/jsoner"

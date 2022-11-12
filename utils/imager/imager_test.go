@@ -3,7 +3,7 @@ package imager
 import (
 	"bytes"
 	"fmt"
-	"github.com/canuran/go-home/common/errutil"
+	"github.com/canuran/go-home/comm/errutil"
 	"io/ioutil"
 	"testing"
 )

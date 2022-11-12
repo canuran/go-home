@@ -1,4 +1,4 @@
-package common
+package comm
 
 import (
 	"gorm.io/gen"
@@ -9,6 +9,13 @@ type Response struct {
 	Message string `json:"message,omitempty"`
 	Totals  int64  `json:"totals,omitempty"`
 	Data    any    `json:"data,omitempty"`
+}
+
+type Condition struct {
+	Name     string       `json:"name,omitempty"`
+	Value    string       `json:"value,omitempty"`
+	Type     string       `json:"type,omitempty"`
+	Children []*Condition `json:"children,omitempty"`
 }
 
 type Pager struct {

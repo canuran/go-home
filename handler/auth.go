@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"github.com/canuran/go-home/common/consts"
-	"github.com/canuran/go-home/common/errutil"
-	"github.com/canuran/go-home/common/ginutil"
+	"github.com/canuran/go-home/comm/consts"
+	"github.com/canuran/go-home/comm/errutil"
+	"github.com/canuran/go-home/comm/ginutil"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/service"
 	"github.com/canuran/go-home/utils/codec"

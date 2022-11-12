@@ -3,7 +3,7 @@ package errutil
 import (
 	"errors"
 	"fmt"
-	"github.com/canuran/go-home/common/consts"
+	"github.com/canuran/go-home/comm/consts"
 	"strconv"
 )
 

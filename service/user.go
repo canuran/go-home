@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"github.com/canuran/go-home/common"
-	"github.com/canuran/go-home/common/consts"
-	"github.com/canuran/go-home/common/errutil"
+	"github.com/canuran/go-home/comm"
+	"github.com/canuran/go-home/comm/consts"
+	"github.com/canuran/go-home/comm/errutil"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/generate/model"
@@ -100,7 +100,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	}
 
 	// 业务逻辑
-	option := dal.SaveOption{}
+	option := dal.SaveUserParam{}
 	existsUser, err := GetUserByName(ctx, user.Name)
 	if errutil.HandlerError(err) {
 		return err
@@ -146,7 +146,7 @@ func GetUserById(ctx context.Context, id int64) (*UserBO, error) {
 	if id < 1 {
 		return nil, nil
 	}
-	userPo, err := dal.QueryFirstUser(ctx, dal.QueryOption{IdEq: id})
+	userPo, err := dal.QueryFirstUser(ctx, &dal.QueryUserParam{IdEq: id})
 	return UserDO2BO(userPo), err
 }
 
@@ -154,18 +154,12 @@ func GetUserByName(ctx context.Context, name string) (*UserBO, error) {
 	if len(name) < 1 {
 		return nil, nil
 	}
-	userPo, err := dal.QueryFirstUser(ctx, dal.QueryOption{NameEq: name})
+	userPo, err := dal.QueryFirstUser(ctx, &dal.QueryUserParam{NameEq: name})
 	return UserDO2BO(userPo), err
 }
 
-func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO, error) {
-	userPos, _, err := dal.QueryUserPage(ctx, dal.QueryOption{
-		IdEq:          user.ID,
-		NameStartWith: user.Name,
-		GenderEq:      user.Gender,
-		StatusEq:      user.Status,
-		OmitPassword:  true,
-	}, common.Pager{Offset: offset,
+func QueryUser(ctx context.Context, user *dal.QueryUserParam, offset, limit int) ([]*UserBO, error) {
+	userPos, _, err := dal.QueryUserPage(ctx, user, comm.Pager{Offset: offset,
 		Limit:   limit,
 		GetRows: true})
 	userBos := make([]*UserBO, 0, len(userPos))
@@ -175,13 +169,8 @@ func QueryUser(ctx context.Context, user *UserBO, offset, limit int) ([]*UserBO,
 	return userBos, err
 }
 
-func CountUser(ctx context.Context, user *UserBO) (int64, error) {
-	_, count, err := dal.QueryUserPage(ctx, dal.QueryOption{
-		IdEq:          user.ID,
-		NameStartWith: user.Name,
-		GenderEq:      user.Gender,
-		StatusEq:      user.Status,
-	}, common.Pager{GetCount: true})
+func CountUser(ctx context.Context, user *dal.QueryUserParam) (int64, error) {
+	_, count, err := dal.QueryUserPage(ctx, user, comm.Pager{GetCount: true})
 	return count, err
 }
 

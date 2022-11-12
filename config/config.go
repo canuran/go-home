@@ -19,6 +19,7 @@ var (
 type dbKey int // 专属Key
 
 func Init() {
+	debug = true
 	initGorm(sqlite.Open("web.db"))
 }
 
