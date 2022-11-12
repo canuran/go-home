@@ -107,25 +107,26 @@ func queryUserScope(param *QueryUserParam) func(gen.Dao) gen.Dao {
 		}
 		dao = dao.Omit(omitFields...)
 
+		where := u.Where()
 		if param.IdEq > 0 {
-			dao = dao.Where(u.ID.Eq(param.IdEq))
+			where = where.Where(u.ID.Eq(param.IdEq))
 		}
 		if len(param.NameEq) > 0 {
-			dao = dao.Where(u.Name.Eq(param.NameEq))
+			where = where.Where(u.Name.Eq(param.NameEq))
 		}
 		if len(param.GenderEq) > 0 {
-			dao = dao.Where(u.Gender.Eq(param.GenderEq))
+			where = where.Where(u.Gender.Eq(param.GenderEq))
 		}
 		if param.StatusEq > 0 {
-			dao = dao.Where(u.Status.Eq(param.StatusEq))
+			where = where.Where(u.Status.Eq(param.StatusEq))
 		}
-		return dao.Where(queryUserConditions(param.Conditions))
+		return dao.Where(queryUserConditions(where, param.Conditions))
 	}
 }
 
-func queryUserConditions(conditions []*comm.Condition) gen.Condition {
+func queryUserConditions(prev gen.Condition, conditions []*comm.Condition) gen.Condition {
 	u := query.Q.User
-	where := u.Where()
+	orCond := u.Where()
 	for _, condition := range conditions {
 		var cond gen.Condition
 		switch condition.Name {
@@ -143,19 +144,26 @@ func queryUserConditions(conditions []*comm.Condition) gen.Condition {
 			cond = u.Name.Gt(condition.Value)
 		case "name_lt":
 			cond = u.Name.Lt(condition.Value)
+		case "gender_male":
+			cond = u.Gender.Eq("男")
+		case "gender_female":
+			cond = u.Gender.Eq("女")
+		case "gender_secret":
+			cond = u.Gender.Eq("保密")
 		default:
 			continue
 		}
-		child := queryUserConditions(condition.Children)
+		cond = queryUserConditions(cond, condition.Children)
+		// and条件优先，直接连接，or条件暂存至prev
 		if condition.Type == "or" {
-			cond = u.Or(cond).Or(child)
-			where = where.Or(cond)
+			orCond = u.Where(orCond).Or(prev)
+			prev = cond
 		} else {
-			cond = u.Where(cond).Or(child)
-			where = where.Where(cond)
+			prev = u.Where(prev).Where(cond)
 		}
 	}
-	return where
+	orCond = u.Where(orCond).Or(prev)
+	return orCond
 }
 
 func QueryFirstUser(ctx context.Context, param *QueryUserParam) (*model.User, error) {

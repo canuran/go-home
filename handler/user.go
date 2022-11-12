@@ -132,9 +132,11 @@ func queryUser(c *gin.Context) {
 		GenderEq:     user.Gender,
 		OmitPassword: true,
 	}
-	err = json.Unmarshal([]byte(user.Conditions), &param.Conditions)
-	if ginutil.HandleError(c, err) {
-		return
+	if len(user.Conditions) > 5 {
+		err = json.Unmarshal([]byte(user.Conditions), &param.Conditions)
+		if ginutil.HandleError(c, err) {
+			return
+		}
 	}
 
 	if c.PostForm("count") == "true" {

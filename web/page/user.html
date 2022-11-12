@@ -158,45 +158,45 @@
 </template>
 
 <template id="condition-template">
-    <div class="layui-inline">
-        <div class="layui-inline condition" type="and" style="margin:5px 2px 5px 5px;
+    <div class="layui-inline condition" type="and" style="margin:5px 0 5px 5px;
         border-radius:5px;border:1px solid #123456">
-            <div class="layui-input-inline" style="width:130px;margin:5px 0 5px 5px">
-                <select class="layui-select">
-                    <option value="id_in">用户ID-在其中</option>
-                    <option value="id_gt">用户ID-大于</option>
-                    <option value="id_lt">用户ID-小于</option>
-                    <option value="name_in">姓名-在其中</option>
-                    <option value="name_contain">姓名-中包含</option>
-                    <option value="name_gt">姓名-大于</option>
-                    <option value="name_lt">姓名-小于</option>
-                </select>
-            </div>
-            <div class="layui-input-inline" style="width:170px;margin:5px 5px 5px 0">
-                <input type="text" class="layui-input" placeholder="请输入值">
-            </div>
+        <div class="layui-input-inline" style="width:130px;margin:5px 0 5px 5px">
+            <select class="layui-select">
+                <option value="id_in">用户ID-在内</option>
+                <option value="id_gt">用户ID-大于</option>
+                <option value="id_lt">用户ID-小于</option>
+                <option value="name_in">姓名-在内</option>
+                <option value="name_contain">姓名-包含</option>
+                <option value="name_gt">姓名-大于</option>
+                <option value="name_lt">姓名-小于</option>
+                <option value="gender_male">性别-男</option>
+                <option value="gender_female">性别-女</option>
+                <option value="gender_secret">性别-保密</option>
+            </select>
         </div>
-        <div class="layui-inline" style="margin:5px 5px 5px 0">
-            <div class="layui-btn-group">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-normal"
-                        style="width:30px;line-height:18px;height:18px" onclick="addCondition(this, 'and')">且
-                </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger"
-                        style="width:30px;line-height:18px;height:18px"
-                        onclick="$(this).parent().parent().parent().remove()">
-                    <i class="fa fa-close"></i>
-                </button>
-            </div>
-            <br/>
-            <div class="layui-btn-group">
-                <button type="button" class="layui-btn layui-btn-xs"
-                        style="width:30px;line-height:18px;height:18px" onclick="addCondition(this, '(or)')">(或)
-                </button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm"
-                        style="width:30px;line-height:18px;height:18px" onclick="addCondition(this, 'or')">或
-                </button>
-            </div>
+        <div class="layui-input-inline" style="width:170px;margin:5px 0">
+            <input type="text" class="layui-input" placeholder="条件值">
         </div>
+        <div class="layui-btn-group" style="margin:5px">
+            <button type="button" class="layui-btn layui-btn-normal" style="width:22px;padding:2px"
+                    onclick="addCondition(this, 'and')">且
+            </button>
+            <button type="button" class="layui-btn layui-btn-warm" style="width:22px;padding:2px"
+                    onclick="addCondition(this, 'or')">或
+            </button>
+        </div>
+    </div>
+    <div class="layui-btn-group" style="margin:5px">
+        <button type="button" class="layui-btn layui-btn-normal" style="width:22px;padding:2px"
+                onclick="addCondition(this, 'and')">且
+        </button>
+        <button type="button" class="layui-btn layui-btn-warm" style="width:22px;padding:2px"
+                onclick="addCondition(this, 'or')">或
+        </button>
+        <button type="button" class="layui-btn layui-btn-danger" style="width:22px;padding:2px"
+                onclick="$(this).parent().prev().remove();$(this).parent().remove();">
+            <i class="fa fa-remove"></i>
+        </button>
     </div>
 </template>
 
@@ -208,6 +208,10 @@
 <script type="application/javascript">
     function addCondition(e, type) {
         let $target = $(e);
+        if ($('.condition-root .condition').length >= 20) {
+            layui.layer.msg('最多只能支持20个条件');
+            return;
+        }
         let html = $('#condition-template').html();
         if (type === 'new') {
             html = html.replace('#123456', '#8bf')
@@ -219,9 +223,7 @@
             html = type === 'and' ? html : html.replace('type="and"', 'type="or"');
 
             if (type === 'and' || type === 'or') {
-                $(html).insertAfter($target.parent().parent().parent());
-            } else {
-                $target.parent().parent().prev().append(html);
+                $(html).insertAfter($target.parent());
             }
         }
         layui.form.render();
