@@ -161,21 +161,19 @@
     <div class="layui-inline condition" type="and" style="margin:5px 0 5px 5px;
         border-radius:5px;border:1px solid #123456">
         <div class="layui-input-inline" style="width:130px;margin:5px 0 5px 5px">
-            <select class="layui-select">
+            <select class="layui-select" lay-filter="condition">
                 <option value="id_in">用户ID-在内</option>
                 <option value="id_gt">用户ID-大于</option>
                 <option value="id_lt">用户ID-小于</option>
                 <option value="name_in">姓名-在内</option>
-                <option value="name_contain">姓名-包含</option>
+                <option value="name_contains">姓名-包含</option>
                 <option value="name_gt">姓名-大于</option>
                 <option value="name_lt">姓名-小于</option>
-                <option value="gender_male">性别-男</option>
-                <option value="gender_female">性别-女</option>
-                <option value="gender_secret">性别-保密</option>
+                <option value="gender_eq">性别-等于</option>
             </select>
         </div>
         <div class="layui-input-inline" style="width:170px;margin:5px 0">
-            <input type="text" class="layui-input" placeholder="条件值">
+            <input type="text" class="layui-input" placeholder="请输入"/>
         </div>
         <div class="layui-btn-group" style="margin:5px">
             <button type="button" class="layui-btn layui-btn-normal" style="width:22px;padding:2px"
@@ -207,11 +205,12 @@
 <script src="../admin/common.js" charset="utf-8"></script>
 <script type="application/javascript">
     function addCondition(e, type) {
-        let $target = $(e);
-        if ($('.condition-root .condition').length >= 20) {
-            layui.layer.msg('最多只能支持20个条件');
+        let sum = $('.condition-root .condition').length;
+        if (sum >= 12) {
+            layui.layer.msg('最多只支持' + sum + '个条件');
             return;
         }
+        let $target = $(e);
         let html = $('#condition-template').html();
         if (type === 'new') {
             html = html.replace('#123456', '#8bf')
@@ -227,13 +226,33 @@
             }
         }
         layui.form.render();
+        layui.form.on('select(condition)', function (data) {
+            if (data.value === 'id_gt' || data.value === 'id_lt') {
+                data.othis.parent().next().html(
+                    '<input type="number" class="layui-input" placeholder="请输入"/>');
+            } else if (data.value === 'gender_eq') {
+                data.othis.parent().next().html('<select class="layui-select">' +
+                    '<option value="保密" selected>保密</option>' +
+                    '<option value="男">男</option>' +
+                    '<option value="女">女</option></select>');
+            } else {
+                data.othis.parent().next().html(
+                    '<input type="text" class="layui-input" placeholder="请输入"/>');
+            }
+            layui.form.render();
+        });
     }
 
     function findCondition(elem, conditions) {
         let $elem = $(elem);
         if ($elem.hasClass('condition')) {
             let name = $($elem.children()[0]).find('.layui-this').attr('lay-value');
-            let value = $($elem.children()[1]).find('input').val();
+            let value = $($elem.children()[1]).find('.layui-this');
+            if (value && value.length > 0) {
+                value = value.attr('lay-value');
+            } else {
+                value = $($elem.children()[1]).find('input').val();
+            }
             let condition = {
                 name: name,
                 value: value,

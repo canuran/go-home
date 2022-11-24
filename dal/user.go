@@ -138,18 +138,14 @@ func queryUserConditions(prev gen.Condition, conditions []*comm.Condition) gen.C
 			cond = u.ID.Lt(valuer.Int64ify(condition.Value))
 		case "name_in":
 			cond = u.Name.In(strings.Split(condition.Value, ",")...)
-		case "name_contain":
+		case "name_contains":
 			cond = u.Name.Like("%" + stringer.EscapeSqlLike(condition.Value) + "%")
 		case "name_gt":
 			cond = u.Name.Gt(condition.Value)
 		case "name_lt":
 			cond = u.Name.Lt(condition.Value)
-		case "gender_male":
-			cond = u.Gender.Eq("男")
-		case "gender_female":
-			cond = u.Gender.Eq("女")
-		case "gender_secret":
-			cond = u.Gender.Eq("保密")
+		case "gender_eq":
+			cond = u.Gender.Eq(condition.Value)
 		default:
 			continue
 		}
