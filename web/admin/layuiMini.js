@@ -23,8 +23,8 @@ var miniMenu = {
      */
     renderSingleModule: function (menuList, menuChildOpen) {
         menuList = menuList || [];
-        var leftMenuHtml = '', childOpenClass = menuChildOpen ? ' layui-nav-itemed' : '';
-        leftMenuHtml = this.renderLeftMenu(menuList, {childOpenClass: childOpenClass});
+        var childOpenClass = menuChildOpen ? ' layui-nav-itemed' : '';
+        var leftMenuHtml = this.renderLeftMenu(menuList, {childOpenClass: childOpenClass});
         $('.layui-layout-body').addClass('layuimini-single-module'); //单模块标识
         $('.layuimini-header-menu').remove();
         $('.layuimini-menu-left').html(leftMenuHtml);
@@ -125,8 +125,7 @@ var miniMenu = {
         var headerMenuHtml = this.eachMenu(menuList, function (index, val) { //顶部菜单渲染
             var menu = 'multi_module_' + index;
             var id = menu + "HeaderId";
-            var topMenuItemHtml = "";
-            topMenuItemHtml = me.compileMenu({
+            var topMenuItemHtml = me.compileMenu({
                 className: headerMenuCheckDefault,
                 menu: menu,
                 id: id,
@@ -175,14 +174,14 @@ var miniMenu = {
          */
         $('.side-fold-click').on('click', function () {
             var loading = layui.layer.load(0, {shade: false, time: 2 * 1000});
-            var isShow = $('[data-side-fold]').attr('data-side-fold');
-            if (isShow === "1") { // 缩放
-                $('[data-side-fold]').attr('data-side-fold', 0)
+            var sideFold = $('[data-side-fold]');
+            if (sideFold.attr('data-side-fold') === "1") { // 缩放
+                sideFold.attr('data-side-fold', 0)
                     .attr('class', 'fa fa-indent');
                 $('.layui-layout-body').removeClass('layuimini-all')
                     .addClass('layuimini-mini');
             } else { // 正常
-                $('[data-side-fold]').attr('data-side-fold', 1)
+                sideFold.attr('data-side-fold', 1)
                     .attr('class', 'fa fa-outdent');
                 $('.layui-layout-body').removeClass('layuimini-mini')
                     .addClass('layuimini-all');
@@ -196,9 +195,9 @@ var miniMenu = {
          */
         $('.layuimini-header-menu.layuimini-mobile-show dd').on('click', function () {
             var loading = layui.layer.load(0, {shade: false, time: 2 * 1000});
-            var check = $('[data-side-fold]').attr('data-side-fold');
-            if (check === "1") {
-                $('[data-side-fold]').attr('data-side-fold', 0)
+            var sideFold = $('[data-side-fold]');
+            if (sideFold.attr('data-side-fold') === "1") {
+                sideFold.attr('data-side-fold', 0)
                     .attr('class', 'fa fa-indent');
                 $('.layui-layout-body').removeClass('layuimini-all')
                     .addClass('layuimini-mini');
@@ -354,20 +353,6 @@ var miniPage = {
         });
     },
     /**
-     * 修改hash地址定位
-     * @param href
-     */
-    hashChange: function (href) {
-        window.location.hash = "/" + href;
-    },
-    /**
-     * 修改hash地址为主页
-     */
-    hashHome: function () {
-        window.location.hash = "/";
-        window.history.replaceState("", "", ".");
-    },
-    /**
      * 监听
      */
     listenClick: function () {
@@ -389,7 +374,7 @@ var miniPage = {
                 window.open(href, "_blank");
                 return false;
             }
-            miniPage.hashChange(href);
+            window.location.hash = "/" + href;
             $('.layuimini-menu-left').attr('layuimini-page-add', 'yes');
             layui.layer.close(loading);
         });
@@ -397,7 +382,8 @@ var miniPage = {
          * 返回主页
          */
         $('.layuimini-back-home').on('click', function () {
-            miniPage.hashHome();
+            window.location.hash = "/";
+            window.history.replaceState("", "", ".");
         });
     },
     /**
@@ -420,8 +406,9 @@ var miniPage = {
             } else {
                 miniPage.renderPage(href, options);
             }
-            if ($('.layuimini-menu-left').attr('layuimini-page-add') === 'yes') {
-                $('.layuimini-menu-left').attr('layuimini-page-add', 'no');
+            var menuLeft = $('.layuimini-menu-left');
+            if (menuLeft.attr('layuimini-page-add') === 'yes') {
+                menuLeft.attr('layuimini-page-add', 'no');
             } else {
                 // 从页面中打开的话，浏览器前进后退、需要重新定位菜单焦点
                 $("[layuimini-href]").parent().removeClass('layui-this');
@@ -1014,12 +1001,12 @@ var miniAdmin = {
      * @returns {boolean}
      */
     checkMobile: function () {
-        var ua = navigator.userAgent.toLocaleLowerCase();
-        var pf = navigator.platform.toLocaleLowerCase();
-        var isAndroid = (/android/i).test(ua) || ((/iPhone|iPod|iPad/i).test(ua) &&
-            (/linux/i).test(pf)) || (/ucweb.*linux/i.test(ua));
-        var isIOS = (/iPhone|iPod|iPad/i).test(ua) && !isAndroid;
-        var isWinPhone = (/Windows Phone|ZuneWP7/i).test(ua);
+        var userAgent = navigator.userAgent.toLocaleLowerCase();
+        var platform = navigator.platform.toLocaleLowerCase();
+        var isAndroid = (/android/i).test(userAgent) || ((/iPhone|iPod|iPad/i).test(userAgent) &&
+            (/linux/i).test(platform)) || (/ucweb.*linux/i.test(userAgent));
+        var isIOS = (/iPhone|iPod|iPad/i).test(userAgent) && !isAndroid;
+        var isWinPhone = (/Windows Phone|ZuneWP7/i).test(userAgent);
         var clientWidth = document.documentElement.clientWidth;
         return !(!isAndroid && !isIOS && !isWinPhone && clientWidth > 1024);
     },
