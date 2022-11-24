@@ -22,9 +22,12 @@
 
 ### 自由条件
 
+- 满足产品及研发任意查询需求，适用于B端后台或OLAP系统
+- 图中蓝色框为`且`，黄色框为`或`，所见即所得，无隐藏逻辑
+
 ```sql
-(((`user`.`id` = 1 OR `user`.`id` IN (2,3)) AND `user`.`id` IN (3,4,5))
- OR (`user`.`id` > 1 AND (`user`.`id` < 6 AND `user`.`gender` = "女")))
+((`user`.`id` > 3 AND (`user`.`id` < 2 OR `user`.`id` IN (5,6)))
+ OR `user`.`name` LIKE "%元宝%") OR (`user`.`gender` = "女" AND `user`.`id` < 3)
 ```
 
-![预览](web/image/condition.jpeg)
+![预览](web/image/condition.png)

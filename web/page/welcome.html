@@ -170,7 +170,7 @@
         <div class="layui-card">
             <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>用户趋势</div>
             <div class="layui-card-body">
-                <div id="echarts-records" style="width:100%;height:calc(100vh - 280px)"></div>
+                <div id="echarts-div" style="width:100%;height:calc(100vh - 280px)"></div>
             </div>
         </div>
     </div>
@@ -184,33 +184,17 @@
         /**
          * 报表功能
          */
-        var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'shine');
-        var optionRecords = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['今天', '昨天', '前天']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
+        var echartsDiv = echarts.init(document.getElementById('echarts-div'), 'shine');
+        var echartsOption = {
+            tooltip: {trigger: 'axis'},
+            legend: {data: ['今天', '昨天', '前天']},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {title: '保存', name: '用户趋势'}}},
             xAxis: {
-                type: 'category',
-                boundaryGap: false,
+                type: 'category', boundaryGap: false,
                 data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
             },
-            yAxis: {
-                type: 'value'
-            },
+            yAxis: {type: 'value'},
             series: [
                 {
                     name: '今天',
@@ -232,11 +216,11 @@
                 }
             ]
         };
-        echartsRecords.setOption(optionRecords);
+        echartsDiv.setOption(echartsOption);
 
         // echarts 窗口缩放自适应
         window.onresize = function () {
-            echartsRecords.resize();
+            echartsDiv.resize();
         }
     });
 </script>

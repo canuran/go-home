@@ -44,7 +44,7 @@
             <button type="submit" class="layui-btn" lay-submit lay-filter="query-submit">
                 <i class="fa fa-search"></i> 搜索
             </button>
-            <button type="button" class="layui-btn layui-btn-normal" onclick="addCondition(this, 'new')">
+            <button type="button" class="layui-btn layui-btn-normal" onclick="addCondition(this)">
                 <i class="fa fa-filter"></i> 条件
             </button>
             <button type="button" class="layui-btn add-button">
@@ -158,9 +158,9 @@
 </template>
 
 <template id="condition-template">
-    <div class="layui-inline condition" type="and" style="margin:5px 0 5px 5px;
-        border-radius:5px;border:1px solid #123456">
-        <div class="layui-input-inline" style="width:130px;margin:5px 0 5px 5px">
+    <div class="layui-inline condition" type="and" style="margin:5px;
+    padding:5px;border-radius:5px;border:1px solid #123456">
+        <div class="layui-input-inline" style="width:150px">
             <select class="layui-select" lay-filter="condition">
                 <option value="id_in">用户ID-在内</option>
                 <option value="id_gt">用户ID-大于</option>
@@ -172,29 +172,43 @@
                 <option value="gender_eq">性别-等于</option>
             </select>
         </div>
-        <div class="layui-input-inline" style="width:170px;margin:5px 0">
+        <div class="layui-input-inline" style="width:200px">
             <input type="text" class="layui-input" placeholder="请输入"/>
         </div>
-        <div class="layui-btn-group" style="margin:5px">
-            <button type="button" class="layui-btn layui-btn-normal" style="width:22px;padding:2px"
-                    onclick="addCondition(this, 'and')">且
-            </button>
-            <button type="button" class="layui-btn layui-btn-warm" style="width:22px;padding:2px"
-                    onclick="addCondition(this, 'or')">或
-            </button>
+        <div class="layui-inline">
+            <div style="display:table-cell">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm"
+                        style="width:30px;height:18px;line-height:16px;
+                        border-bottom:1px solid white;border-radius:3px 0 0 0"
+                        onclick="addCondition(this)">(或)
+                </button>
+                <br/>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-normal"
+                        style="width:30px;height:18px;line-height:16px;margin-left:0;border-radius:0 0 0 3px"
+                        onclick="addCondition(this)">(且)
+                </button>
+            </div>
+            <div style="display:table-cell">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm"
+                        style="width:30px;height:18px;line-height:16px;border-left:1px solid white;
+                        border-bottom:1px solid white;margin-left:0;border-radius:0"
+                        onclick="addCondition(this)">()或
+                </button>
+                <br/>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-normal"
+                        style="width:30px;height:18px;line-height:16px;
+                        border-left:1px solid white;border-radius:0"
+                        onclick="addCondition(this)">()且
+                </button>
+            </div>
+            <div style="display:table-cell;vertical-align:middle;border-left:1px solid white">
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger"
+                        style="width:18px;height:36px;padding:0;border-radius:0 3px 3px 0"
+                        onclick="$(this).parent().parent().parent().remove()">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="layui-btn-group" style="margin:5px">
-        <button type="button" class="layui-btn layui-btn-normal" style="width:22px;padding:2px"
-                onclick="addCondition(this, 'and')">且
-        </button>
-        <button type="button" class="layui-btn layui-btn-warm" style="width:22px;padding:2px"
-                onclick="addCondition(this, 'or')">或
-        </button>
-        <button type="button" class="layui-btn layui-btn-danger" style="width:22px;padding:2px"
-                onclick="$(this).parent().prev().remove();$(this).parent().remove();">
-            <i class="fa fa-remove"></i>
-        </button>
     </div>
 </template>
 
@@ -204,25 +218,28 @@
 <script src="../library/GridManager/index.js" charset="utf-8"></script>
 <script src="../admin/common.js" charset="utf-8"></script>
 <script type="application/javascript">
-    function addCondition(e, type) {
+    function addCondition(e) {
         let sum = $('.condition-root .condition').length;
         if (sum >= 12) {
             layui.layer.msg('最多只支持' + sum + '个条件');
             return;
         }
         let $target = $(e);
+        let text = $target.text();
         let html = $('#condition-template').html();
-        if (type === 'new') {
+        if (text.indexOf('条件') > -1) {
             html = html.replace('#123456', '#8bf')
             $('.condition-root').append(html);
         } else {
-            html = type === 'and' ? html.replace('#123456', '#8bf') :
+            html = text.indexOf('且') > -1 ? html.replace('#123456', '#8bf') :
                 html.replace('#123456', '#eb6');
 
-            html = type === 'and' ? html : html.replace('type="and"', 'type="or"');
+            html = text.indexOf('且') > -1 ? html : html.replace('type="and"', 'type="or"');
 
-            if (type === 'and' || type === 'or') {
-                $(html).insertAfter($target.parent());
+            if (text.indexOf('()') > -1) {
+                $(html).insertAfter($target.parent().parent().parent());
+            } else {
+                $(html).insertAfter($target.parent().parent());
             }
         }
         layui.form.render();
