@@ -1,3 +1,6 @@
+// Package uuidx 是 uuid 的升级版，用于生成全局唯一且趋势递增的ID
+// 抛弃了云时代虚拟的机器码、IP地址、进程ID等元素，只使用时间+60位真随机数，简单可靠
+// 10进制最长32数位，用Mysql的Decimal长度14字节，字符串使用36进制可压缩到20字符
 package uuidx
 
 import (
