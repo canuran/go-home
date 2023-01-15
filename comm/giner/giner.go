@@ -1,9 +1,9 @@
-package ginutil
+package giner
 
 import (
 	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/comm/consts"
-	"github.com/canuran/go-home/comm/errutil"
+	"github.com/canuran/go-home/comm/errorer"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -37,7 +37,7 @@ func HandleError(c *gin.Context, err error) bool {
 	if err != nil {
 		logrus.Error(err)
 		// ShowErr 可以直接展示给用户
-		if showErr, ok := err.(errutil.ShowErr); ok {
+		if showErr, ok := err.(errorer.ShowErr); ok {
 			c.JSON(http.StatusOK, &comm.Response{
 				Code:    showErr.Code,
 				Message: showErr.Error(),

@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/comm/consts"
-	"github.com/canuran/go-home/comm/errutil"
+	"github.com/canuran/go-home/comm/errorer"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/generate/model"
@@ -83,40 +83,40 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	user.Name = stringer.FormatSpaceString(user.Name)
 	log.Printf("SaveUser:id=%d,name=%s", user.ID, user.Name)
 	if len(user.Name) < 1 {
-		return errutil.Format("用户名不能为空")
+		return errorer.Format("用户名不能为空")
 	}
 	if len(user.Name) > 32 {
-		return errutil.Format("用户名太长")
+		return errorer.Format("用户名太长")
 	}
 	if len(user.Password) > 32 {
-		return errutil.Format("用户密码太长")
+		return errorer.Format("用户密码太长")
 	}
 	if user.Password != stringer.FormatSpaceString(user.Password) {
-		return errutil.Format("密码格式不正确")
+		return errorer.Format("密码格式不正确")
 	}
 	// 很小的头像先放库里存着，有条件再升级
 	if len(user.Header) > MaxHeaderSize {
-		return errutil.Format("头像图片太大")
+		return errorer.Format("头像图片太大")
 	}
 
 	// 业务逻辑
 	option := dal.SaveUserParam{}
 	existsUser, err := GetUserByName(ctx, user.Name)
-	if errutil.HandlerError(err) {
+	if errorer.HandlerError(err) {
 		return err
 	}
 
 	if user.ID > 0 {
 		// 更新用户
 		oldUser, err := GetUserById(ctx, user.ID)
-		if errutil.HandlerError(err) {
+		if errorer.HandlerError(err) {
 			return err
 		}
 		if oldUser == nil {
-			return errutil.Format("用户%d不存在", user.ID)
+			return errorer.Format("用户%d不存在", user.ID)
 		}
 		if existsUser != nil && existsUser.ID != user.ID {
-			return errutil.Format("用户名%s已存在", user.Name)
+			return errorer.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Password) > 0 {
 			user.Password = codec.Md5String([]byte(strings.Repeat(user.Password, 8)))
@@ -127,13 +127,13 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 	} else {
 		// 新增用户
 		if existsUser != nil {
-			return errutil.Format("用户名%s已存在", user.Name)
+			return errorer.Format("用户名%s已存在", user.Name)
 		}
 		if len(user.Header) < 1 {
 			user.Header = consts.DefaultHeader
 		}
 		if len(user.Password) < 1 {
-			return errutil.Format("用户密码不能为空")
+			return errorer.Format("用户密码不能为空")
 		} else {
 			user.Password = codec.Md5String([]byte(strings.Repeat(user.Password, 8)))
 		}
@@ -194,7 +194,7 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 
 	// 解析JWT
 	claims, err := codec.ParseToken(tokenStr, config.JwtSecret)
-	if errutil.HandlerError(err) || len(claims.Name) < 1 {
+	if errorer.HandlerError(err) || len(claims.Name) < 1 {
 		return nil
 	}
 
@@ -206,7 +206,7 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 		user = cacheUser.(*UserBO)
 	} else {
 		user, err = GetUserById(ctx, claims.ID)
-		if errutil.HandlerError(err) {
+		if errorer.HandlerError(err) {
 			return nil
 		}
 		authUserCache.SetDefault(userIdStr, user)

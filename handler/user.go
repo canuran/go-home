@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/canuran/go-home/comm/ginutil"
+	"github.com/canuran/go-home/comm/giner"
 	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/service"
 	"github.com/canuran/go-home/utils/codec"
@@ -79,20 +79,20 @@ func User(group *gin.RouterGroup) {
 
 func filterName(c *gin.Context) {
 	name := c.PostForm("name")
-	ginutil.SuccessData(c, stringer.FormatSpaceRunes([]rune(name)))
+	giner.SuccessData(c, stringer.FormatSpaceRunes([]rune(name)))
 }
 
 func saveUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 
 	headerImg, err := c.FormFile("header_file")
 	if err == nil {
 		headerFile, err := headerImg.Open()
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
 
@@ -105,7 +105,7 @@ func saveUser(c *gin.Context) {
 			OutFormat:  "jpg",
 			JpgMaxSize: base64.StdEncoding.DecodedLen(service.MaxHeaderSize),
 		})
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
 
@@ -113,16 +113,16 @@ func saveUser(c *gin.Context) {
 		user.Header = string(codec.Base64Encode(bts))
 	}
 	err = service.SaveUser(c, UserVO2BO(user))
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
-	ginutil.Success(c)
+	giner.Success(c)
 }
 
 func queryUser(c *gin.Context) {
 	user := &UserQuery{}
 	err := c.ShouldBind(user)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 
@@ -134,17 +134,17 @@ func queryUser(c *gin.Context) {
 	}
 	if len(user.Conditions) > 5 {
 		err = json.Unmarshal([]byte(user.Conditions), &param.Conditions)
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
 	}
 
 	if c.PostForm("count") == "true" {
 		totals, err := service.CountUser(c, param)
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
-		ginutil.SuccessTotals(c, totals)
+		giner.SuccessTotals(c, totals)
 		return
 	}
 
@@ -153,25 +153,25 @@ func queryUser(c *gin.Context) {
 	limit := int(valuer.Int64ify(pSize))
 	offset := int(valuer.Int64ify(cPage))*limit - limit
 	users, err := service.QueryUser(c, param, offset, limit)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 	userVos := make([]*UserVO, 0, len(users))
 	for _, userBo := range users {
 		userVos = append(userVos, UserBO2VO(userBo))
 	}
-	ginutil.SuccessData(c, userVos)
+	giner.SuccessData(c, userVos)
 }
 
 func deleteUser(c *gin.Context) {
 	user := &UserVO{}
 	err := c.ShouldBind(user)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 	err = service.DeleteUser(c, UserVO2BO(user))
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
-	ginutil.Success(c)
+	giner.Success(c)
 }

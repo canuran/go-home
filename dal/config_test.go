@@ -2,7 +2,7 @@ package dal
 
 import (
 	"context"
-	"github.com/canuran/go-home/comm/errutil"
+	"github.com/canuran/go-home/comm/errorer"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/generate/model"
 	"github.com/canuran/go-home/utils/jsoner"
@@ -25,7 +25,7 @@ create index if not exists idx_config_updated_at on config (updated_at);`
 func init() {
 	config.InitTest()
 	gormDB, _ := config.GetDB(context.Background())
-	errutil.HandlerError(gormDB.Exec(configDDL).Error)
+	errorer.HandlerError(gormDB.Exec(configDDL).Error)
 }
 
 func TestSaveConfig(t *testing.T) {

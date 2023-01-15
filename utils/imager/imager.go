@@ -20,7 +20,7 @@ type ConvertOption struct {
 	Writer        io.Writer // 输出流
 	OutFormat     string    // 输出格式默认jpg
 	JpgMaxSize    int       // jpg最大输出文件大小
-	JpgMaxQuality int       // jpg最大输出质量默认100
+	JpgMaxQuality int       // jpg最大输出质量默认75
 }
 
 func ConvertImage(option *ConvertOption) error {
@@ -63,7 +63,7 @@ func writeImage(img image.Image, option *ConvertOption) error {
 func encodeJpgImage(img image.Image, option *ConvertOption) error {
 	maxQuality := option.JpgMaxQuality
 	if maxQuality < 1 {
-		maxQuality = 100
+		maxQuality = 75
 	}
 	if option.JpgMaxSize > 0 {
 		var buffer bytes.Buffer
@@ -76,7 +76,7 @@ func encodeJpgImage(img image.Image, option *ConvertOption) error {
 			return err
 		}
 		if maxQuality < 2 {
-			return fmt.Errorf("final image size %d large than %d", buffer.Len(), option.JpgMaxSize)
+			return fmt.Errorf("minimum size %d large than %d", buffer.Len(), option.JpgMaxSize)
 		}
 		return encodeJpgImage(img, &ConvertOption{
 			JpgMaxQuality: maxQuality * 3 / 4,

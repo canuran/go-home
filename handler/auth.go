@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/canuran/go-home/comm/consts"
-	"github.com/canuran/go-home/comm/errutil"
-	"github.com/canuran/go-home/comm/ginutil"
+	"github.com/canuran/go-home/comm/errorer"
+	"github.com/canuran/go-home/comm/giner"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/service"
 	"github.com/canuran/go-home/utils/codec"
@@ -64,7 +64,7 @@ func GetUser(c *gin.Context) *service.UserBO {
 	// 从Cookie中获取
 	if len(tokenStr) < 1 {
 		cookie, err := c.Request.Cookie("Authorization")
-		if !errutil.HandlerError(err) {
+		if !errorer.HandlerError(err) {
 			tokenStr = cookie.Value
 		}
 	}
@@ -85,24 +85,24 @@ func authHandler(c *gin.Context) {
 	captchaCode := c.PostForm("login_captcha_code")
 	claims, err := codec.ParseToken(captchaEncode, config.JwtSecret)
 	if err != nil {
-		ginutil.FailMessage(c, "验证码过期")
+		giner.FailMessage(c, "验证码过期")
 		return
 	}
 
 	decode64 := codec.Base64DecodeString(claims.Name)
 	decodeAes, err := codec.AesDecrypt(decode64, captchaAesKey)
 	if err != nil || captchaCode != string(decodeAes) {
-		ginutil.FailMessage(c, "验证码错误")
+		giner.FailMessage(c, "验证码错误")
 		return
 	}
 
 	// 校验用户名和密码是否正确
 	user, err := service.GetUserByName(c, userParam.Name)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 	if user == nil || len(user.Password) < 1 {
-		ginutil.FailMessage(c, "用户名或密码错误")
+		giner.FailMessage(c, "用户名或密码错误")
 		return
 	}
 
@@ -112,7 +112,7 @@ func authHandler(c *gin.Context) {
 		// 登录版本号增加
 		user.AuthVersion++
 		err = service.UpdateLoginIndex(c, user)
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
 
@@ -122,7 +122,7 @@ func authHandler(c *gin.Context) {
 			Name:    user.Name,
 			Version: user.AuthVersion,
 		}, config.JwtSecret)
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
 
@@ -131,10 +131,10 @@ func authHandler(c *gin.Context) {
 			Value:  tokenStr,
 			MaxAge: 3600 * 24 * 30,
 		}).String())
-		ginutil.SuccessData(c, tokenStr)
+		giner.SuccessData(c, tokenStr)
 		return
 	}
-	ginutil.FailMessage(c, "用户名或密码错误")
+	giner.FailMessage(c, "用户名或密码错误")
 }
 
 func authLogout(c *gin.Context) {
@@ -143,7 +143,7 @@ func authLogout(c *gin.Context) {
 		// 登录版本号增加
 		loginUser.AuthVersion++
 		err := service.UpdateLoginIndex(c, loginUser)
-		if ginutil.HandleError(c, err) {
+		if giner.HandleError(c, err) {
 			return
 		}
 	}
@@ -152,7 +152,7 @@ func authLogout(c *gin.Context) {
 		Value:  "",
 		MaxAge: 1,
 	}).String())
-	ginutil.Success(c)
+	giner.Success(c)
 }
 
 func authCaptcha(c *gin.Context) {
@@ -160,28 +160,28 @@ func authCaptcha(c *gin.Context) {
 	rand.Seed(time.Now().UnixNano())
 	code := strconv.Itoa(rand.Intn(9000) + 1000)
 	item, err := base64Captcha.DefaultDriverDigit.DrawCaptcha(code)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 
 	// 验证码加密后存储到JWT
 	encodeAes, err := codec.AesEncrypt([]byte(code), captchaAesKey)
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 	encodeJwt, err := codec.GenTokenExpire(&codec.JwtData{
 		Name: codec.Base64EncodeString(encodeAes),
 	}, config.JwtSecret, time.Now().Add(time.Minute*10))
-	if ginutil.HandleError(c, err) {
+	if giner.HandleError(c, err) {
 		return
 	}
 
-	ginutil.SuccessData(c, &CaptchaInfo{
+	giner.SuccessData(c, &CaptchaInfo{
 		Encode: encodeJwt,
 		Image:  item.EncodeB64string(),
 	})
 }
 
 func authLoginer(c *gin.Context) {
-	ginutil.SuccessData(c, GetUser(c))
+	giner.SuccessData(c, GetUser(c))
 }

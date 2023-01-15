@@ -24,8 +24,8 @@ func TestJsonExtensions(t *testing.T) {
 	jsonAPI := NewAPI().
 		MaxStringFieldLen(max).
 		MaxSliceFieldLen(max).
-		SafeInteger().
-		GeneralDate()
+		EncodeIntegerSafely().
+		DecodeGeneralDate()
 
 	data := test{
 		Int64:  JsonSafeMinInteger - 1,
