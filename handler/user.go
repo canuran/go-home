@@ -98,12 +98,12 @@ func saveUser(c *gin.Context) {
 
 		var buffer bytes.Buffer
 		err = imager.ConvertImage(&imager.ConvertOption{
-			Reader:        headerFile,
-			NewWidth:      100,
-			NewHeight:     100,
-			Writer:        &buffer,
-			OutFormat:     "jpg",
-			MaxJpgOutByte: base64.StdEncoding.DecodedLen(service.MaxHeaderSize),
+			Reader:     headerFile,
+			NewWidth:   100,
+			NewHeight:  100,
+			Writer:     &buffer,
+			OutFormat:  "jpg",
+			JpgMaxSize: base64.StdEncoding.DecodedLen(service.MaxHeaderSize),
 		})
 		if ginutil.HandleError(c, err) {
 			return

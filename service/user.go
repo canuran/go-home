@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	MaxHeaderSize = 5120
+	MaxHeaderSize = 10240
 )
 
 var (
@@ -95,7 +95,7 @@ func SaveUser(ctx context.Context, user *UserBO) error {
 		return errutil.Format("密码格式不正确")
 	}
 	// 很小的头像先放库里存着，有条件再升级
-	if len(user.Header) > 5120 {
+	if len(user.Header) > MaxHeaderSize {
 		return errutil.Format("头像图片太大")
 	}
 
