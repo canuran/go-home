@@ -220,12 +220,27 @@
 <script type="application/javascript">
     function addCondition(e) {
         let sum = $('.condition-root .condition').length;
-        if (sum >= 12) {
+        if (sum >= 20) {
             layui.layer.msg('最多只支持' + sum + '个条件');
             return;
         }
+
         let $target = $(e);
         let text = $target.text();
+        let addChild = text.indexOf('(且)') > -1 || text.indexOf('(或)') > -1;
+        if (addChild) {
+            let level = -2;
+            let parent = $target.parent();
+            while (!parent.hasClass('condition-root')) {
+                parent = parent.parent();
+                level++;
+                if (level >= 5) {
+                    layui.layer.msg('最多只支持' + level + '层条件');
+                    return;
+                }
+            }
+        }
+
         let html = $('#condition-template').html();
         if (text.indexOf('条件') > -1) {
             html = html.replace('#123456', '#8bf')
@@ -236,12 +251,13 @@
 
             html = text.indexOf('且') > -1 ? html : html.replace('type="and"', 'type="or"');
 
-            if (text.indexOf('()') > -1) {
-                $(html).insertAfter($target.parent().parent().parent());
-            } else {
+            if (addChild) {
                 $(html).insertAfter($target.parent().parent());
+            } else {
+                $(html).insertAfter($target.parent().parent().parent());
             }
         }
+
         layui.form.render();
         layui.form.on('select(condition)', function (data) {
             if (data.value === 'id_gt' || data.value === 'id_lt') {
