@@ -20,16 +20,16 @@ func TestImageResize(t *testing.T) {
 		option := &ConvertOption{
 			Reader:     &reader,
 			Writer:     &buffer,
-			NewHeight:  100,
-			NewWidth:   100,
+			NewHeight:  128,
+			NewWidth:   128,
 			OutFormat:  "jpg",
 			JpgMaxSize: i * 10,
 		}
 		err = ConvertImage(option)
 		if err != nil {
-			fmt.Println(option.JpgMaxSize, "->", err.Error())
+			fmt.Println("目标", option.JpgMaxSize, "结果", err.Error())
 		} else {
-			fmt.Println(option.JpgMaxSize, "->", buffer.Len())
+			fmt.Println("目标", option.JpgMaxSize, "结果", buffer.Len())
 		}
 	}
 }
