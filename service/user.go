@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	MaxHeaderSize = 10240
+	MaxHeaderSize = 5120
 )
 
 var (
