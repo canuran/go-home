@@ -99,8 +99,8 @@ func saveUser(c *gin.Context) {
 		var buffer bytes.Buffer
 		err = imager.ConvertImage(&imager.ConvertOption{
 			Reader:     headerFile,
-			NewWidth:   128,
-			NewHeight:  128,
+			NewWidth:   200,
+			NewHeight:  200,
 			Writer:     &buffer,
 			OutFormat:  "jpg",
 			JpgMaxSize: base64.StdEncoding.DecodedLen(service.MaxHeaderSize),

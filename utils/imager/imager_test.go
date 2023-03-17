@@ -9,21 +9,21 @@ import (
 )
 
 func TestImageResize(t *testing.T) {
-	fileBts, err := os.ReadFile("test.jpg")
+	fileBts, err := os.ReadFile("test.jpeg")
 	if !assert.Nil(t, err) {
 		return
 	}
-	for i := 80; i < 120; i++ {
+	for i := 10; i < 40; i++ {
 		var reader bytes.Buffer
 		reader.Write(fileBts)
 		var buffer bytes.Buffer
 		option := &ConvertOption{
 			Reader:     &reader,
 			Writer:     &buffer,
-			NewHeight:  128,
-			NewWidth:   128,
+			NewHeight:  200,
+			NewWidth:   200,
 			OutFormat:  "jpg",
-			JpgMaxSize: i * 10,
+			JpgMaxSize: i * 100,
 		}
 		err = ConvertImage(option)
 		if err != nil {
