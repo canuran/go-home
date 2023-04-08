@@ -18,7 +18,7 @@
 
 ### 主页面
 
-![预览](web/image/preview.jpeg)
+![预览](web/image/preview.jpg)
 
 ### 自由条件
 
@@ -26,8 +26,7 @@
 - 图中蓝色框为`且`，黄色框为`或`，所见即所得，无隐藏逻辑
 
 ```sql
-((`user`.`id` > 3 AND (`user`.`id` < 2 OR `user`.`id` IN (5,6)))
- OR `user`.`name` LIKE "%元宝%") OR (`user`.`gender` = "女" AND `user`.`id` < 3)
+((`user`.`id` < 3 OR `user`.`id` > 5) AND (`user`.`gender` = "男" OR `user`.`gender` = "女"))
 ```
 
-![预览](web/image/condition.png)
+![预览](web/image/condition.jpg)

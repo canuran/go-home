@@ -8,11 +8,9 @@ import (
 	"testing"
 )
 
-func TestImageResize(t *testing.T) {
+func TestConvertImage(t *testing.T) {
 	fileBts, err := os.ReadFile("test.jpeg")
-	if !assert.Nil(t, err) {
-		return
-	}
+	assert.Nil(t, err)
 	for i := 10; i < 40; i++ {
 		var reader bytes.Buffer
 		reader.Write(fileBts)
