@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/utils/jsoner"
@@ -23,14 +24,15 @@ func TestSaveUser(t *testing.T) {
 
 func TestQueryUser(t *testing.T) {
 	users, err := QueryUser(context.Background(), &dal.QueryUserParam{
-		IdEq: 123, NameEq: "元宝",
-	}, 0, 2)
+		Pager: &comm.Pager{Limit: 2, GetRows: true},
+		IdEq:  123, NameEq: "元宝",
+	})
 	assert.Nil(t, err)
 	fmt.Println(jsoner.MarshalString(users))
 }
 
 func TestCountUser(t *testing.T) {
-	users, err := CountUser(context.Background(), nil)
+	users, err := CountUser(context.Background(), &dal.QueryUserParam{})
 	assert.Nil(t, err)
 	fmt.Println(users)
 }

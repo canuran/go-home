@@ -26,25 +26,25 @@ func SuccessDataTotals(c *gin.Context, totals int64, data any) {
 }
 
 func FailMessage(c *gin.Context, message string) {
-	c.JSON(http.StatusOK, &comm.Response{Code: consts.CodeFailure, Message: message})
+	c.JSON(http.StatusOK, &comm.Response{Status: consts.CodeFailure, Message: message})
 }
 
-func FailCodeMessage(c *gin.Context, code int, message string) {
-	c.JSON(http.StatusOK, &comm.Response{Code: code, Message: message})
+func FailStatusMessage(c *gin.Context, status int, message string) {
+	c.JSON(http.StatusOK, &comm.Response{Status: status, Message: message})
 }
 
 func HandleError(c *gin.Context, err error) bool {
 	if err != nil {
 		logrus.Error(err)
-		// ShowErr 可以直接展示给用户
-		if showErr, ok := err.(errorer.ShowErr); ok {
+		// StatusError 可以直接展示给用户
+		if showErr, ok := err.(*errorer.StatusError); ok {
 			c.JSON(http.StatusOK, &comm.Response{
-				Code:    showErr.Code,
+				Status:  showErr.Status,
 				Message: showErr.Error(),
 			})
 		} else {
 			c.JSON(http.StatusOK, &comm.Response{
-				Code:    consts.CodeFailure,
+				Status:  consts.CodeFailure,
 				Message: "操作失败",
 			})
 		}

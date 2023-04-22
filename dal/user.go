@@ -21,6 +21,7 @@ type SaveUserParam struct {
 }
 
 type QueryUserParam struct {
+	*comm.Pager
 	IdEq         int64
 	NameEq       string
 	GenderEq     string
@@ -71,22 +72,23 @@ func saveUserScope(param SaveUserParam) func(gen.Dao) gen.Dao {
 	}
 }
 
-func QueryUserPage(ctx context.Context, param *QueryUserParam, pager comm.Pager) ([]*model.User, int64, error) {
+func QueryUserPage(ctx context.Context, param *QueryUserParam) ([]*model.User, int64, error) {
 	db, ctx := config.GetDB(ctx)
 	u := query.Use(db).User
-	dao := u.Scopes(queryUserScope(param), comm.PageScope(pager))
+	dao := u.Scopes(queryUserScope(param), comm.PageScope(param.Pager))
 
 	var err error
 	var count int64
 	var data []*model.User
-	if pager.GetCount {
+	if param.Pager != nil && param.Pager.GetCount {
 		count, err = dao.Count()
 		if err != nil {
 			return data, count, err
 		}
 	}
 
-	if pager.GetRows && (!pager.GetCount || count > 0) {
+	if param.Pager != nil && param.Pager.GetRows &&
+		(!param.Pager.GetCount || count > 0) {
 		data, err = dao.Find()
 		if err != nil {
 			return data, count, err
@@ -163,8 +165,8 @@ func queryUserConditions(prev gen.Condition, conditions []*comm.Condition) gen.C
 }
 
 func QueryFirstUser(ctx context.Context, param *QueryUserParam) (*model.User, error) {
-	users, _, err := QueryUserPage(ctx, param,
-		comm.Pager{Limit: 1, GetRows: true})
+	param.Pager = &comm.Pager{Limit: 1, GetRows: true}
+	users, _, err := QueryUserPage(ctx, param)
 	if len(users) > 0 {
 		return users[0], err
 	}

@@ -5,7 +5,7 @@ import (
 )
 
 type Response struct {
-	Code    int    `json:"code"`
+	Status  int    `json:"status"`
 	Message string `json:"message,omitempty"`
 	Totals  int64  `json:"totals,omitempty"`
 	Data    any    `json:"data,omitempty"`
@@ -25,8 +25,11 @@ type Pager struct {
 	GetCount bool
 }
 
-func PageScope(pager Pager) func(gen.Dao) gen.Dao {
+func PageScope(pager *Pager) func(gen.Dao) gen.Dao {
 	return func(dao gen.Dao) gen.Dao {
+		if pager == nil {
+			return dao
+		}
 		if pager.Offset > 0 {
 			dao = dao.Offset(pager.Offset)
 		}

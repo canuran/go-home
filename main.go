@@ -41,7 +41,7 @@ func none(c *gin.Context) {
 		c.File("web/none.html")
 	} else {
 		c.JSON(http.StatusOK, comm.Response{
-			Code:    http.StatusNotFound,
+			Status:  http.StatusNotFound,
 			Message: "path not found",
 		})
 	}

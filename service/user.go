@@ -158,10 +158,8 @@ func GetUserByName(ctx context.Context, name string) (*UserBO, error) {
 	return UserDO2BO(userPo), err
 }
 
-func QueryUser(ctx context.Context, user *dal.QueryUserParam, offset, limit int) ([]*UserBO, error) {
-	userPos, _, err := dal.QueryUserPage(ctx, user, comm.Pager{Offset: offset,
-		Limit:   limit,
-		GetRows: true})
+func QueryUser(ctx context.Context, user *dal.QueryUserParam) ([]*UserBO, error) {
+	userPos, _, err := dal.QueryUserPage(ctx, user)
 	userBos := make([]*UserBO, 0, len(userPos))
 	for _, po := range userPos {
 		userBos = append(userBos, UserDO2BO(po))
@@ -170,7 +168,8 @@ func QueryUser(ctx context.Context, user *dal.QueryUserParam, offset, limit int)
 }
 
 func CountUser(ctx context.Context, user *dal.QueryUserParam) (int64, error) {
-	_, count, err := dal.QueryUserPage(ctx, user, comm.Pager{GetCount: true})
+	user.Pager = &comm.Pager{GetCount: true}
+	_, count, err := dal.QueryUserPage(ctx, user)
 	return count, err
 }
 

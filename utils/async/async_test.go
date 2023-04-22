@@ -2,7 +2,6 @@ package async
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"sync"
@@ -10,77 +9,56 @@ import (
 	"time"
 )
 
-func TestAsync(t *testing.T) {
+func TestSimpleCaller(t *testing.T) {
 	now := time.Now()
-	result := NewCallerCtxAny2AnyErr(
-		func(ctx context.Context, input any) (any, error) {
-			time.Sleep(time.Millisecond * 100)
-			return input, errors.New("CtxAny2AnyErr")
-		}).
-		CheckOutputsError().
-		Call(context.Background(), "CtxAny2AnyErr")
+	result := NewCaller(func(in any) any {
+		time.Sleep(time.Millisecond * 100)
+		return fmt.Sprint(in) + " done"
+	}).SetInput("simple caller").Call()
 
-	output, err := result.OutputAt(0)
+	output := result.Output()
+	assert.Equal(t, output, "simple caller done")
 	fmt.Println("String:", result.String())
 	fmt.Println("Call error:", result.Error())
-	fmt.Println("Call inputs:", result.Inputs())
-	fmt.Println("Call outputs:", result.Outputs())
-	fmt.Println("Call output at 0:", output)
+	fmt.Println("Call input:", result.Input())
+	fmt.Println("Call output:", result.Output())
 	fmt.Println("Call duration:", result.Duration())
+	fmt.Println("Call timeouted:", result.Timeouted())
+	fmt.Println("Call success:", result.Success())
 	fmt.Println("Call wait:", time.Since(now))
-
-	assert.Equal(t, "CtxAny2AnyErr", err.Error())
-	assert.Equal(t, "CtxAny2AnyErr", result.Inputs()[1])
-	assert.Equal(t, "CtxAny2AnyErr", result.Outputs()[0])
 }
 
-func TestRecover(t *testing.T) {
+func TestPanicCaller(t *testing.T) {
 	now := time.Now()
-	result := NewCaller(func() {
-		panic("boom")
-	}).Call()
+	result := NewCtxCaller[string, string](
+		func(ctx context.Context, in string) (string, error) {
+			time.Sleep(time.Millisecond * 100)
+			panic("panic caller")
+			return "", nil
+		}).Call()
 
-	fmt.Println("Call recovered error:", result.Error())
-	fmt.Println("Call recovered outputs:", result.Outputs())
-	fmt.Println("Call recovered recover:", result.Recovered())
-	fmt.Println("Call recovered duration:", result.Duration())
-	fmt.Println("Call recovered wait:", time.Since(now))
-
-	assert.Equal(t, "boom", result.Recovered())
-}
-
-func TestTimeout(t *testing.T) {
-	now := time.Now()
-	result := NewCaller2Any(
-		func() any {
-			time.Sleep(time.Millisecond * 150)
-			return "NewCaller2Err"
-		}).
-		SetTimeout(time.Millisecond * 100).
-		Call()
-	err := result.Error()
-	wait := time.Since(now)
-
-	time.Sleep(time.Millisecond * 200)
-	fmt.Println("Call error:", err)
-	fmt.Println("Call outputs:", result.Outputs())
+	recovered := result.Recovered()
+	assert.Equal(t, recovered, "panic caller")
+	fmt.Println("String:", result.String())
+	fmt.Println("Call error:", result.Error())
+	fmt.Println("Call input:", result.Input())
+	fmt.Println("Call output:", result.Output())
 	fmt.Println("Call duration:", result.Duration())
-	fmt.Println("Call wait:", wait)
-
-	assert.Error(t, err)
-	assert.True(t, result.Timeouted())
+	fmt.Println("Call timeouted:", result.Timeouted())
+	fmt.Println("Call success:", result.Success())
+	fmt.Println("Call wait:", time.Since(now))
 }
 
-// BenchmarkCaller-12        934629              1174 ns/op
+// BenchmarkCaller-12        910650              1201 ns/op
 func BenchmarkCaller(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = NewCallerAny(func(input any) {
-		}).Call("元宝").
-			Error()
+		_ = NewCaller(func(input any) any {
+			return nil
+		}).SetInput("元宝").Call().Error()
 	}
 }
 
-// BenchmarkDirect-12       1208538               988.5 ns/op
+// BenchmarkDirect-12       1000000              1034 ns/op
 func BenchmarkDirect(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var wg sync.WaitGroup

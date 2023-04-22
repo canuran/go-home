@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/comm/giner"
 	"github.com/canuran/go-home/dal"
 	"github.com/canuran/go-home/service"
@@ -127,6 +128,7 @@ func queryUser(c *gin.Context) {
 	}
 
 	param := &dal.QueryUserParam{
+		Pager:        &comm.Pager{GetRows: true},
 		IdEq:         user.ID,
 		NameEq:       user.Name,
 		GenderEq:     user.Gender,
@@ -150,9 +152,9 @@ func queryUser(c *gin.Context) {
 
 	cPage := c.DefaultPostForm("cPage", "1")
 	pSize := c.DefaultPostForm("pSize", "10")
-	limit := int(valuer.Int64ify(pSize))
-	offset := int(valuer.Int64ify(cPage))*limit - limit
-	users, err := service.QueryUser(c, param, offset, limit)
+	param.Limit = int(valuer.Int64ify(pSize))
+	param.Offset = int(valuer.Int64ify(cPage))*param.Limit - param.Limit
+	users, err := service.QueryUser(c, param)
 	if giner.HandleError(c, err) {
 		return
 	}

@@ -5,9 +5,9 @@ import (
 	"log"
 )
 
-var ForLog = NewAPI().
-	MaxStringFieldLen(1024).
-	MaxSliceFieldLen(128).
+var LogJsoner = NewAPI().
+	MaxStringFieldLen(256).
+	MaxSliceFieldLen(32).
 	EncodeIntegerSafely().
 	DecodeGeneralDate()
 
@@ -43,7 +43,7 @@ func UnmarshalString(input string, val any) {
 }
 
 func MarshalLogString(val any) string {
-	marshal, err := ForLog.MarshalToString(val)
+	marshal, err := LogJsoner.MarshalToString(val)
 	if err != nil {
 		log.Println(err)
 	}
@@ -51,7 +51,7 @@ func MarshalLogString(val any) string {
 }
 
 func UnmarshalLogString(input string, val any) {
-	err := ForLog.UnmarshalFromString(input, val)
+	err := LogJsoner.UnmarshalFromString(input, val)
 	if err != nil {
 		log.Println(err)
 	}

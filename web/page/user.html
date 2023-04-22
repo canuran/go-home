@@ -439,7 +439,7 @@
             data: new FormData($('#main-edit-form')[0]),
             dataType: "json",
             success: function (result) {
-                if (result && result.code === 0) {
+                if (result && result.status === 0) {
                     layui.layer.closeAll();
                     GridManager.refreshGrid('main-table');
                     layui.layer.msg("保存成功", {icon: 1});
@@ -483,7 +483,7 @@
                 data: {id: data.id},
                 dataType: "json",
                 success: function (result) {
-                    if (result && result.code === 0) {
+                    if (result && result.status === 0) {
                         layui.layer.closeAll();
                         GridManager.refreshGrid('main-table');
                         layui.layer.msg("删除成功", {icon: 1});

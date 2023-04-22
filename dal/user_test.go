@@ -48,16 +48,16 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestQueryUser(t *testing.T) {
-	users, count, err := QueryUserPage(context.Background(), QueryUserParam{
-		NameEq:        "元宝",
-		NameStartWith: "元宝",
-		OmitHeader:    false,
-		OmitPassword:  false,
-	}, comm.Pager{
-		Offset:   0,
-		Limit:    10,
-		GetRows:  true,
-		GetCount: true,
+	users, count, err := QueryUserPage(context.Background(), &QueryUserParam{
+		Pager: &comm.Pager{
+			Offset:   0,
+			Limit:    10,
+			GetRows:  true,
+			GetCount: true,
+		},
+		NameEq:       "元宝",
+		OmitHeader:   false,
+		OmitPassword: false,
 	})
 	assert.Nil(t, err)
 	fmt.Println(count)
