@@ -1,6 +1,5 @@
-// Package async 高性能异步方法调用
-// 支持超时控制、错误检查、自动recover
-// 不使用channel，方便多次获取返回值
+// Package async 高性能异步方法调用，支持超时控制、错误检查、自动recover
+// 返回值可多次获取，经测试性能与直接使用WaitGroup、Channel接近
 package async
 
 import (

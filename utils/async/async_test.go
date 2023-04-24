@@ -69,3 +69,14 @@ func BenchmarkDirect(b *testing.B) {
 		wg.Wait()
 	}
 }
+
+// BenchmarkChanel-12       1204821               989.5 ns/op
+func BenchmarkChanel(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ch := make(chan any)
+		go func(input any) {
+			ch <- input
+		}("元宝")
+		<-ch
+	}
+}
