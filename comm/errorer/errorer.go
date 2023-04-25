@@ -48,9 +48,12 @@ func (c *StatusError) SetMessage(msg string) *StatusError {
 }
 
 func (c *StatusError) String() string {
-	return c.Error()
+	return fmt.Sprintf("status:%d, error:%v", c.Status, c.Err)
 }
 
 func (c *StatusError) Error() string {
-	return fmt.Sprintf("status:%d, error:%v", c.Status, c.Err)
+	if c.Err == nil {
+		return ""
+	}
+	return c.Err.Error()
 }

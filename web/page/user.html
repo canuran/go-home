@@ -331,7 +331,7 @@
     function createTable(params) {
         document.querySelector('#main-table').GM({
             gridManagerName: 'main-table',
-            ajaxUrl: "../../../api/user/query",
+            ajaxUrl: "../../api/user/query",
             query: params,
             ajaxData: gmAjaxData,
             ajaxType: 'POST',
@@ -432,7 +432,7 @@
         data.id = parseInt(data.id) || 0;
         data.valid_status = parseInt(data.valid_status) || 0;
         $.ajax({
-            url: "../../../api/user/save",
+            url: "../../api/user/save",
             method: "post",
             processData: false,
             contentType: false,
@@ -478,7 +478,7 @@
             title: '<i class="fa fa-remove"></i> 确认删除', icon: 3
         }, function () {
             $.ajax({
-                url: "../../../api/user/delete",
+                url: "../../api/user/delete",
                 method: "post",
                 data: {id: data.id},
                 dataType: "json",
