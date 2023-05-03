@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -27,7 +28,12 @@ func main() {
 		c.Redirect(http.StatusTemporaryRedirect, "/web/")
 	})
 	// 静态文件
-	root.Any("/web/*filepath", embedStatic())
+	webDir, err := os.Stat("web")
+	if err == nil && webDir.IsDir() {
+		root.Static("/web/", "web")
+	} else {
+		root.Any("/web/*filepath", embedStatic())
+	}
 
 	// 后端接口
 	api := root.Group("/api")
@@ -35,7 +41,7 @@ func main() {
 	handler.Auth(api)
 	handler.User(api)
 
-	err := root.Run(":80")
+	err = root.Run(":80")
 	if err != nil {
 		logrus.Errorf("run server error: %v", err)
 	}
