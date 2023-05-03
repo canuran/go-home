@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GO坦克游戏</title>
+</head>
+<script src="wasm_exec.js"></script>
+<script>
+ // Polyfill
+ if(!WebAssembly.instantiateStreaming){
+  WebAssembly.instantiateStreaming=async(resp,importObject)=>{
+   const source=await (await resp).arrayBuffer();
+   return await WebAssembly.instantiate(source,importObject);
+  };
+ }
+ const go=new Go();
+ WebAssembly.instantiateStreaming(fetch("go-tank.wasm"),go.importObject).then(result=>{
+  go.run(result.instance);
+ });
+</script>
+</html>

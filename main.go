@@ -23,6 +23,9 @@ func main() {
 
 	// 缺省路由
 	root.NoRoute(none)
+	root.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/web/")
+	})
 	// 静态文件
 	root.Any("/web/*filepath", embedStatic())
 

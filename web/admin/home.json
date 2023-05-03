@@ -22,6 +22,12 @@
           "target": "_self"
         },
         {
+          "title": "坦克游戏",
+          "href": "demo/go-tank.html",
+          "icon": "fa fa-gamepad",
+          "target": "_self"
+        },
+        {
           "title": "字体图标",
           "href": "demo/font-icon.html",
           "icon": "fa fa-fonticons",
