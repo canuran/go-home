@@ -1,14 +1,14 @@
-/** v2.8.1 | MIT Licensed */
+/** v2.8.3 | MIT Licensed */
 ;!function(d){
  "use strict";
- var t,h=d.document,m={modules:{},status:{},timeout:10,event:{}},n=function(){
-  this.v="2.8.1"
+ var t,h=d.document,m={modules:{},status:{},timeout:10,event:{}},o=function(){
+  this.v="2.8.3"
  },e=d.LAYUI_GLOBAL||{},v=(t=h.currentScript?h.currentScript.src:function(){
-  for(var t,e=h.scripts,r=e.length-1,n=r; 0<n; n--) if("interactive"===e[n].readyState){
-   t=e[n].src;
+  for(var t,e=h.scripts,n=e.length-1,o=n; 0<o; o--) if("interactive"===e[o].readyState){
+   t=e[o].src;
    break
   }
-  return t||e[r].src
+  return t||e[n].src
  }(), m.dir=e.dir||t.substring(0,t.lastIndexOf("/")+1)),g=function(t,e){
   e=e||"log", d.console&&console[e]&&console[e]("layui error hint: "+t)
  },b="undefined"!= typeof opera&&"[object Opera]"===opera.toString(),N=m.builtin={
@@ -35,151 +35,151 @@
   jquery:"jquery",
   all:"all",
   "layui.all":"layui.all"
- },s=(n.prototype.cache=m, n.prototype.define=function(t,n){
-  return "function"== typeof t&&(n=t, t=[]), this.use(t,function(){
-   var r=function(t,e){
+ },s=(o.prototype.cache=m, o.prototype.define=function(t,o){
+  return "function"== typeof t&&(o=t, t=[]), this.use(t,function(){
+   var n=function(t,e){
     layui[t]=e, m.status[t]= !0
    };
-   return "function"== typeof n&&n(function(t,e){
-    r(t,e), m.callback[t]=function(){
-     n(r)
+   return "function"== typeof o&&o(function(t,e){
+    n(t,e), m.callback[t]=function(){
+     o(n)
     }
    }), this
   },null,"define"), this
- }, n.prototype.use=function(r,t,e,n){
-  var o=this,i=m.dir=m.dir||v,a=h.getElementsByTagName("head")[0],
-   u=(r="string"== typeof r?[r]:"function"== typeof r?(t=r, ["all"]):r, d.jQuery&&jQuery.fn.on&&(o.each(r,function(t,e){
-    "jquery"===e&&r.splice(t,1)
-   }), layui.jquery=layui.$=jQuery), r[0]),l=0;
+ }, o.prototype.use=function(n,t,e,o){
+  var r=this,i=m.dir=m.dir||v,a=h.getElementsByTagName("head")[0],
+   u=(n="string"== typeof n?[n]:"function"== typeof n?(t=n, ["all"]):n, d.jQuery&&jQuery.fn.on&&(r.each(n,function(t,e){
+    "jquery"===e&&n.splice(t,1)
+   }), layui.jquery=layui.$=jQuery), n[0]),l=0;
   function s(t,e){
-   var r="PLaySTATION 3"===navigator.platform?/^complete$/:/^(complete|loaded)$/;
-   "load"!==t.type&& !r.test((t.currentTarget||t.srcElement).readyState)||(m.modules[u]=e, a.removeChild(p), function n(){
-    return ++l>1e3*m.timeout/4?g(u+" is not a valid module","error"):void (m.status[u]?c():setTimeout(n,4))
+   var n="PLaySTATION 3"===navigator.platform?/^complete$/:/^(complete|loaded)$/;
+   "load"!==t.type&& !n.test((t.currentTarget||t.srcElement).readyState)||(m.modules[u]=e, a.removeChild(p), function o(){
+    return ++l>1e3*m.timeout/4?g(u+" is not a valid module","error"):void (m.status[u]?c():setTimeout(o,4))
    }())
   }
   function c(){
-   e.push(layui[u]), 1<r.length?o.use(r.slice(1),t,e,n):"function"== typeof t&&(layui.jquery&&"function"== typeof layui.jquery&&"define"!==n?layui.jquery(function(){
+   e.push(layui[u]), 1<n.length?r.use(n.slice(1),t,e,o):"function"== typeof t&&(layui.jquery&&"function"== typeof layui.jquery&&"define"!==o?layui.jquery(function(){
     t.apply(layui,e)
    }):t.apply(layui,e))
   }
-  if(e=e||[], m.host=m.host||(i.match(/\/\/([\s\S]+?)\//)||["//"+location.host+"/"])[0], 0===r.length||layui["layui.all"]&&N[u]) return c(), o;
+  if(e=e||[], m.host=m.host||(i.match(/\/\/([\s\S]+?)\//)||["//"+location.host+"/"])[0], 0===n.length||layui["layui.all"]&&N[u]) return c(), r;
   var p,
-   y=(y=(N[u]?i+"modules/":!/^\{\/\}/.test(o.modules[u])&&m.base||"")+(o.modules[u]||u)+".js").replace(/^\{\/\}/,"");
+   y=(y=(N[u]?i+"modules/":!/^\{\/\}/.test(r.modules[u])&&m.base||"")+(r.modules[u]||u)+".js").replace(/^\{\/\}/,"");
   return !m.modules[u]&&layui[u]&&(m.modules[u]=y), m.modules[u]?function f(){
    return ++l>1e3*m.timeout/4?g(u+" is not a valid module","error"):void ("string"== typeof m.modules[u]&&m.status[u]?c():setTimeout(f,4))
   }():((p=h.createElement("script"))["async"]= !0, p.charset="utf-8", p.src=y+((i=!0===m.version?m.v||(new Date).getTime():m.version||"")?"?v="+i:""), a.appendChild(p), !p.attachEvent||p.attachEvent.toString&&p.attachEvent.toString().indexOf("[native code")<0||b?p.addEventListener("load",function(t){
    s(t,y)
   },!1):p.attachEvent("onreadystatechange",function(t){
    s(t,y)
-  }), m.modules[u]=y), o
- }, n.prototype.disuse=function(t){
-  var r=this;
-  return t=r.isArray(t)?t:[t], r.each(t,function(t,e){
-   m.status[e], delete r[e], delete N[e], delete r.modules[e], delete m.status[e], delete m.modules[e]
-  }), r
- }, n.prototype.getStyle=function(t,e){
+  }), m.modules[u]=y), r
+ }, o.prototype.disuse=function(t){
+  var n=this;
+  return t=n.isArray(t)?t:[t], n.each(t,function(t,e){
+   m.status[e], delete n[e], delete N[e], delete n.modules[e], delete m.status[e], delete m.modules[e]
+  }), n
+ }, o.prototype.getStyle=function(t,e){
   t=t.currentStyle||d.getComputedStyle(t,null);
   return t[t.getPropertyValue?"getPropertyValue":"getAttribute"](e)
- }, n.prototype.link=function(r,n,t){
-  var o=this,e=h.getElementsByTagName("head")[0],i=h.createElement("link"),
-   t=((t="string"== typeof n?n:t)||r).replace(/\.|\//g,""),a=i.id="layuicss-"+t,u="creating",l=0;
-  return i.rel="stylesheet", i.href=r+(m.debug?"?v="+(new Date).getTime():""), i.media="all", h.getElementById(a)||e.appendChild(i), "function"!= typeof n||function s(t){
+ }, o.prototype.link=function(n,o,t){
+  var r=this,e=h.getElementsByTagName("head")[0],i=h.createElement("link"),
+   t=((t="string"== typeof o?o:t)||n).replace(/\.|\//g,""),a=i.id="layuicss-"+t,u="creating",l=0;
+  return i.rel="stylesheet", i.href=n+(m.debug?"?v="+(new Date).getTime():""), i.media="all", h.getElementById(a)||e.appendChild(i), "function"!= typeof o||function s(t){
    var e=h.getElementById(a);
-   return ++l>1e3*m.timeout/100?g(r+" timeout"):void (1989===parseInt(o.getStyle(e,"width"))?(t===u&&e.removeAttribute("lay-status"), e.getAttribute("lay-status")===u?setTimeout(s,100):n()):(e.setAttribute("lay-status",u), setTimeout(function(){
+   return ++l>1e3*m.timeout/100?g(n+" timeout"):void (1989===parseInt(r.getStyle(e,"width"))?(t===u&&e.removeAttribute("lay-status"), e.getAttribute("lay-status")===u?setTimeout(s,100):o()):(e.setAttribute("lay-status",u), setTimeout(function(){
     s(u)
    },100)))
-  }(), o
- }, n.prototype.addcss=function(t,e,r){
-  return layui.link(m.dir+"css/"+t,e,r)
- }, m.callback={}, n.prototype.factory=function(t){
+  }(), r
+ }, o.prototype.addcss=function(t,e,n){
+  return layui.link(m.dir+"css/"+t,e,n)
+ }, m.callback={}, o.prototype.factory=function(t){
   if(layui[t]) return "function"== typeof m.callback[t]?m.callback[t]:null
- }, n.prototype.img=function(t,e,r){
-  var n=new Image;
-  if(n.src=t, n.complete) return e(n);
-  n.onload=function(){
-   n.onload=null, "function"== typeof e&&e(n)
-  }, n.onerror=function(t){
-   n.onerror=null, "function"== typeof r&&r(t)
+ }, o.prototype.img=function(t,e,n){
+  var o=new Image;
+  if(o.src=t, o.complete) return e(o);
+  o.onload=function(){
+   o.onload=null, "function"== typeof e&&e(o)
+  }, o.onerror=function(t){
+   o.onerror=null, "function"== typeof n&&n(t)
   }
- }, n.prototype.config=function(t){
+ }, o.prototype.config=function(t){
   for(var e in t=t||{}) m[e]=t[e];
   return this
- }, n.prototype.modules=function(){
+ }, o.prototype.modules=function(){
   var t,e={};
   for(t in N) e[t]=N[t];
   return e
- }(), n.prototype.extend=function(t){
+ }(), o.prototype.extend=function(t){
   for(var e in t=t||{}) this[e]||this.modules[e]?g(e+" Module already exists","error"):this.modules[e]=t[e];
   return this
- }, n.prototype.router=n.prototype.hash=function(t){
-  var r={path:[],search:{},hash:((t=t||location.hash).match(/[^#](#.*$)/)||[])[1]||""};
-  return /^#\//.test(t)&&(t=t.replace(/^#\//,""), r.href="/"+t, t=t.replace(/([^#])(#.*$)/,"$1").split("/")||[], this.each(t,function(t,e){
-   /^\w+=/.test(e)?(e=e.split("="), r.search[e[0]]=e[1]):r.path.push(e)
-  })), r
- }, n.prototype.url=function(t){
-  var o,e,r=this;
+ }, o.prototype.router=o.prototype.hash=function(t){
+  var n={path:[],search:{},hash:((t=t||location.hash).match(/[^#](#.*$)/)||[])[1]||""};
+  return /^#\//.test(t)&&(t=t.replace(/^#\//,""), n.href="/"+t, t=t.replace(/([^#])(#.*$)/,"$1").split("/")||[], this.each(t,function(t,e){
+   /^\w+=/.test(e)?(e=e.split("="), n.search[e[0]]=e[1]):n.path.push(e)
+  })), n
+ }, o.prototype.url=function(t){
+  var r,e,n=this;
   return {
    pathname:(t?((t.match(/\.[^.]+?\/.+/)||[])[0]||"").replace(/^[^\/]+/,"").replace(/\?.+/,""):location.pathname).replace(/^\//,"").split("/"),
-   search:(o={}, e=(t?((t.match(/\?.+/)||[])[0]||"").replace(/\#.+/,""):location.search).replace(/^\?+/,"").split("&"), r.each(e,function(t,e){
-    var r=e.indexOf("="),n=r<0?e.substr(0,e.length):0!==r&&e.substr(0,r);
-    n&&(o[n]=0<r?e.substr(r+1):null)
-   }), o),
-   hash:r.router(t?(t.match(/#.+/)||[])[0]||"/":location.hash)
+   search:(r={}, e=(t?((t.match(/\?.+/)||[])[0]||"").replace(/\#.+/,""):location.search).replace(/^\?+/,"").split("&"), n.each(e,function(t,e){
+    var n=e.indexOf("="),o=n<0?e.substr(0,e.length):0!==n&&e.substr(0,n);
+    o&&(r[o]=0<n?e.substr(n+1):null)
+   }), r),
+   hash:n.router(t?(t.match(/#.+/)||[])[0]||"/":location.hash)
   }
- }, n.prototype.data=function(t,e,r){
-  if(t=t||"layui", r=r||localStorage, d.JSON&&d.JSON.parse){
-   if(null===e) return delete r[t];
+ }, o.prototype.data=function(t,e,n){
+  if(t=t||"layui", n=n||localStorage, d.JSON&&d.JSON.parse){
+   if(null===e) return delete n[t];
    e="object"== typeof e?e:{key:e};
    try{
-    var n=JSON.parse(r[t])
-   }catch(o){
-    n={}
+    var o=JSON.parse(n[t])
+   }catch(r){
+    o={}
    }
-   return "value" in e&&(n[e.key]=e.value), e.remove&& delete n[e.key], r[t]=JSON.stringify(n), e.key?n[e.key]:n
+   return "value" in e&&(o[e.key]=e.value), e.remove&& delete o[e.key], n[t]=JSON.stringify(o), e.key?o[e.key]:o
   }
- }, n.prototype.sessionData=function(t,e){
+ }, o.prototype.sessionData=function(t,e){
   return this.data(t,e,sessionStorage)
- }, n.prototype.device=function(t){
-  var r=navigator.userAgent.toLowerCase(),e=function(t){
+ }, o.prototype.device=function(t){
+  var n=navigator.userAgent.toLowerCase(),e=function(t){
    var e=new RegExp(t+"/([^\\s\\_\\-]+)");
-   return (t=(r.match(e)||[])[1])|| !1
-  },n={
-   os:/windows/.test(r)?"windows":/linux/.test(r)?"linux":/iphone|ipod|ipad|ios/.test(r)?"ios":/mac/.test(r)?"mac":void 0,
-   ie:!!(d.ActiveXObject||"ActiveXObject" in d)&&((r.match(/msie\s(\d+)/)||[])[1]||"11"),
+   return (t=(n.match(e)||[])[1])|| !1
+  },o={
+   os:/windows/.test(n)?"windows":/linux/.test(n)?"linux":/iphone|ipod|ipad|ios/.test(n)?"ios":/mac/.test(n)?"mac":void 0,
+   ie:!!(d.ActiveXObject||"ActiveXObject" in d)&&((n.match(/msie\s(\d+)/)||[])[1]||"11"),
    weixin:e("micromessenger")
   };
-  return t&& !n[t]&&(n[t]=e(t)), n.android=/android/.test(r), n.ios="ios"===n.os, n.mobile= !(!n.android&& !n.ios), n
- }, n.prototype.hint=function(){
+  return t&& !o[t]&&(o[t]=e(t)), o.android=/android/.test(n), o.ios="ios"===o.os, o.mobile= !(!o.android&& !o.ios), o
+ }, o.prototype.hint=function(){
   return {error:g}
- }, n.prototype._typeof=n.prototype.type=function(t){
+ }, o.prototype._typeof=o.prototype.type=function(t){
   return null===t?String(t):"object"== typeof t||"function"== typeof t?(e=(e=Object.prototype.toString.call(t).match(/\s(.+)\]$/)||[])[1]||"Object", new RegExp("\\b(Function|Array|Date|RegExp|Object|Error|Symbol)\\b").test(e)?e.toLowerCase():"object"):typeof t;
   var e
- }, n.prototype._isArray=n.prototype.isArray=function(t){
-  var e,r=this.type(t);
-  return !(!t||"object"!= typeof t||t===d)&&(e="length" in t&&t.length, "array"===r||0===e||"number"== typeof e&&0<e&&e-1 in t)
- }, n.prototype.each=function(t,r){
-  var e,n=function(t,e){
-   return r.call(e[t],t,e[t])
+ }, o.prototype._isArray=o.prototype.isArray=function(t){
+  var e,n=this.type(t);
+  return !(!t||"object"!= typeof t||t===d)&&(e="length" in t&&t.length, "array"===n||0===e||"number"== typeof e&&0<e&&e-1 in t)
+ }, o.prototype.each=function(t,n){
+  var e,o=function(t,e){
+   return n.call(e[t],t,e[t])
   };
-  if("function"!= typeof r) return this;
-  if(this.isArray(t=t||[])) for(e=0; e<t.length&& !n(e,t); e++) ; else for(e in t) if(n(e,t)) break;
+  if("function"!= typeof n) return this;
+  if(this.isArray(t=t||[])) for(e=0; e<t.length&& !o(e,t); e++) ; else for(e in t) if(o(e,t)) break;
   return this
- }, n.prototype.sort=function(t,o,e){
-  var r=JSON.parse(JSON.stringify(t||[]));
-  return "object"!==this.type(t)||o?"object"!= typeof t?[r]:(r.sort(function(t,e){
-   var r=t[o],n=e[o];
+ }, o.prototype.sort=function(t,r,e,n){
+  n=n?t||[]:JSON.parse(JSON.stringify(t||[]));
+  return "object"!==this.type(t)||r?"object"!= typeof t?[n]:(n.sort(function(t,e){
+   var n=t[r],o=e[r];
    if(!isNaN(t)&& !isNaN(e)) return t-e;
    if(!isNaN(t)&&isNaN(e)){
-    if(!o||"object"!= typeof e) return -1;
-    r=t
+    if(!r||"object"!= typeof e) return -1;
+    n=t
    }else if(isNaN(t)&& !isNaN(e)){
-    if(!o||"object"!= typeof t) return 1;
-    n=e
+    if(!r||"object"!= typeof t) return 1;
+    o=e
    }
-   t=[!isNaN(r),!isNaN(n)];
-   return t[0]&&t[1]?r&& !n&&0!==n?1:!r&&0!==r&&n?-1:r-n:t[0]||t[1]?t[0]|| !t[1]?-1:!t[0]||t[1]?1:void 0:n<r?1:r<n?-1:0
-  }), e&&r.reverse(), r):r
- }, n.prototype.stope=function(t){
+   t=[!isNaN(n),!isNaN(o)];
+   return t[0]&&t[1]?n&& !o&&0!==o?1:!n&&0!==n&&o?-1:n-o:t[0]||t[1]?t[0]|| !t[1]?-1:!t[0]||t[1]?1:void 0:o<n?1:n<o?-1:0
+  }), e&&n.reverse(), n):n
+ }, o.prototype.stope=function(t){
   t=t||d.event;
   try{
    t.stopPropagation()
@@ -187,81 +187,99 @@
    t.cancelBubble= !0
   }
  }, "LAYUI-EVENT-REMOVE");
- n.prototype.onevent=function(t,e,r){
-  return "string"!= typeof t||"function"!= typeof r?this:n.event(t,e,null,r)
- }, n.prototype.event=n.event=function(t,e,r,n){
-  var o=this,i=null,a=(e||"").match(/\((.*)\)$/)||[],t=(t+"."+e).replace(a[0],""),u=a[1]||"",l=function(t,e){
-   !1===(e&&e.call(o,r))&&null===i&&(i= !1)
+ o.prototype.onevent=function(t,e,n){
+  return "string"!= typeof t||"function"!= typeof n?this:o.event(t,e,null,n)
+ }, o.prototype.event=o.event=function(t,e,n,o){
+  var r=this,i=null,a=(e||"").match(/\((.*)\)$/)||[],t=(t+"."+e).replace(a[0],""),u=a[1]||"",l=function(t,e){
+   !1===(e&&e.call(r,n))&&null===i&&(i= !1)
   };
-  return r===s?(delete (o.cache.event[t]||{})[u], o):n?(m.event[t]=m.event[t]||{}, u?m.event[t][u]=[n]:(m.event[t][u]=m.event[t][u]||[], m.event[t][u].push(n)), this):(layui.each(m.event[t],function(t,e){
+  return n===s?(delete (r.cache.event[t]||{})[u], r):o?(m.event[t]=m.event[t]||{}, u?m.event[t][u]=[o]:(m.event[t][u]=m.event[t][u]||[], m.event[t][u].push(o)), this):(layui.each(m.event[t],function(t,e){
    "{*}"===u?layui.each(e,l):(""===t&&layui.each(e,l), u&&t===u&&layui.each(e,l))
   }), i)
- }, n.prototype.on=function(t,e,r){
-  return this.onevent.call(this,e,t,r)
- }, n.prototype.off=function(t,e){
+ }, o.prototype.on=function(t,e,n){
+  return this.onevent.call(this,e,t,n)
+ }, o.prototype.off=function(t,e){
   return this.event.call(this,e,t,s)
- }, d.layui=new n
+ }, o.prototype.debounce=function(n,o){
+  var r;
+  return function(){
+   var t=this,e=arguments;
+   clearTimeout(r), r=setTimeout(function(){
+    n.apply(t,e)
+   },o)
+  }
+ }, o.prototype.throttle=function(t,e){
+  var n=!1;
+  return function(){
+   n||(t.apply(this,arguments), n= !0, setTimeout(function(){
+    n= !1
+   },e))
+  }
+ }, d.layui=new o
 }(window);
 layui.define(function(a){
  var i=layui.cache;
  layui.config({dir:i.dir.replace(/lay\/dest\/$/,"")}), a("layui.all",layui.v)
 });
-!function(l){
+!function(s){
  "use strict";
- var t,f=l.document,h=function(t){
+ var t,l=s.document,h=function(t){
   return new r(t)
  },r=function(t){
-  for(var e=0,n="object"== typeof t?layui.isArray(t)?t:[t]:(this.selector=t, f.querySelectorAll(t||null)); e<n.length; e++) this.push(n[e])
+  var n=this,i="object"== typeof t?layui.isArray(t)?t:[t]:(this.selector=t, l.querySelectorAll(t||null));
+  h.each(i,function(t,e){
+   n.push(i[t])
+  })
  };
- (r.prototype=[]).constructor=r, h.extend=function(){
-  var t,e=1,n=arguments,o=function(t,e){
-   for(var n in t=t||("array"===layui.type(e)?[]:{}), e) t[n]=e[n]&&e[n].constructor===Object?o(t[n],e[n]):e[n];
+ r.fn=r.prototype=[], r.fn.constructor=r, h.extend=function(){
+  var t,e=1,n=arguments,i=function(t,e){
+   for(var n in t=t||("array"===layui.type(e)?[]:{}), e) t[n]=e[n]&&e[n].constructor===Object?i(t[n],e[n]):e[n];
    return t
   };
-  for(n[0]="object"== typeof n[0]?n[0]:{}, t=n.length; e<t; e++) "object"== typeof n[e]&&o(n[0],n[e]);
+  for(n[0]="object"== typeof n[0]?n[0]:{}, t=n.length; e<t; e++) "object"== typeof n[e]&&i(n[0],n[e]);
   return n[0]
- }, h.v="1.0.8", h.ie=(t=navigator.userAgent.toLowerCase(), !!(l.ActiveXObject||"ActiveXObject" in l)&&((t.match(/msie\s(\d+)/)||[])[1]||"11")), h.layui=layui||{}, h.getPath=layui.cache.dir, h.stope=layui.stope, h.each=function(){
+ }, h.ie=(t=navigator.userAgent.toLowerCase(), !!(s.ActiveXObject||"ActiveXObject" in s)&&((t.match(/msie\s(\d+)/)||[])[1]||"11")), h.layui=layui||{}, h.getPath=layui.cache.dir, h.stope=layui.stope, h.each=function(){
   return layui.each.apply(layui,arguments), this
  }, h.digit=function(t,e){
   if("string"!= typeof t&&"number"!= typeof t) return "";
   var n="";
   e=e||2;
-  for(var o=(t=String(t)).length; o<e; o++) n+="0";
+  for(var i=(t=String(t)).length; i<e; i++) n+="0";
   return t<Math.pow(10,e)?n+t:t
  }, h.elem=function(t,e){
-  var n=f.createElement(t);
+  var n=l.createElement(t);
   return h.each(e||{},function(t,e){
    n.setAttribute(t,e)
   }), n
  }, h.hasScrollbar=function(){
-  return f.body.scrollHeight>(l.innerHeight||f.documentElement.clientHeight)
+  return l.body.scrollHeight>(s.innerHeight||l.documentElement.clientHeight)
  }, h.position=function(t,e,n){
-  var o,r,i,c,u,a,s;
-  e&&(n=n||{}, t!==f&&t!==h("body")[0]||(n.clickType="right"), u="right"===n.clickType?{
-   left:(u=n.e||l.event||{}).clientX,
+  var i,r,o,c,u,a,f;
+  e&&(n=n||{}, t!==l&&t!==h("body")[0]||(n.clickType="right"), u="right"===n.clickType?{
+   left:(u=n.e||s.event||{}).clientX,
    top:u.clientY,
    right:u.clientX,
    bottom:u.clientY
-  }:t.getBoundingClientRect(), a=e.offsetWidth, s=e.offsetHeight, o=function(t){
-   return f.body[t=t?"scrollLeft":"scrollTop"]|f.documentElement[t]
-  }, i=u.left, c=u.bottom, "center"===n.align?i-=(a-t.offsetWidth)/2:"right"===n.align&&(i=i-a+t.offsetWidth), (i=i+a+5>(r=function(t){
-   return f.documentElement[t?"clientWidth":"clientHeight"]
-  })("width")?r("width")-a-5:i)<5&&(i=5), c+s+5>r()&&(u.top>s+5?c=u.top-s-10:"right"===n.clickType?(c=r()-s-10)<0&&(c=0):c=5), (a=n.position)&&(e.style.position=a), e.style.left=i+("fixed"===a?0:o(1))+"px", e.style.top=c+("fixed"===a?0:o())+"px", h.hasScrollbar()||(s=e.getBoundingClientRect(), !n.SYSTEM_RELOAD&&s.bottom+5>r()&&(n.SYSTEM_RELOAD= !0, setTimeout(function(){
+  }:t.getBoundingClientRect(), a=e.offsetWidth, f=e.offsetHeight, i=function(t){
+   return l.body[t=t?"scrollLeft":"scrollTop"]|l.documentElement[t]
+  }, o=u.left, c=u.bottom, "center"===n.align?o-=(a-t.offsetWidth)/2:"right"===n.align&&(o=o-a+t.offsetWidth), (o=o+a+5>(r=function(t){
+   return l.documentElement[t?"clientWidth":"clientHeight"]
+  })("width")?r("width")-a-5:o)<5&&(o=5), c+f+5>r()&&(u.top>f+5?c=u.top-f-10:"right"===n.clickType?(c=r()-f-10)<0&&(c=0):c=5), (a=n.position)&&(e.style.position=a), e.style.left=o+("fixed"===a?0:i(1))+"px", e.style.top=c+("fixed"===a?0:i())+"px", h.hasScrollbar()||(f=e.getBoundingClientRect(), !n.SYSTEM_RELOAD&&f.bottom+5>r()&&(n.SYSTEM_RELOAD= !0, setTimeout(function(){
    h.position(t,e,n)
   },50))))
  }, h.options=function(t,e){
-  if(e="object"== typeof e?e:{attr:e}, t===f) return {};
+  if(e="object"== typeof e?e:{attr:e}, t===l) return {};
   var t=h(t),n=e.attr||"lay-options",t=t.attr(n);
   try{
    return new Function("return "+(t||"{}"))()
-  }catch(o){
-   return layui.hint().error(e.errorText||[n+'="'+t+'"',"\n parseerror: "+o].join("\n"),"error"), {}
+  }catch(i){
+   return layui.hint().error(e.errorText||[n+'="'+t+'"',"\n parseerror: "+i].join("\n"),"error"), {}
   }
  }, h.isTopElem=function(n){
-  var t=[f,h("body")[0]],o=!1;
+  var t=[l,h("body")[0]],i=!1;
   return h.each(t,function(t,e){
-   if(e===n) return o= !0
-  }), o
+   if(e===n) return i= !0
+  }), i
  }, r.addStr=function(n,t){
   return n=n.replace(/\s+/," "), t=t.replace(/\s+/," ").split(" "), h.each(t,function(t,e){
    new RegExp("\\b"+e+"\\b").test(n)||(n=n+" "+e)
@@ -271,84 +289,84 @@ layui.define(function(a){
    e=new RegExp("\\b"+e+"\\b");
    e.test(n)&&(n=n.replace(e,""))
   }), n.replace(/\s+/," ").replace(/^\s|\s$/,"")
- }, r.prototype.find=function(o){
-  var r=this,i=0,c=[],u="object"== typeof o;
+ }, r.fn.find=function(n){
+  var i=[],r="object"== typeof n;
   return this.each(function(t,e){
-   for(var n=u?e.contains(o):e.querySelectorAll(o||null); i<n.length; i++) c.push(n[i]);
-   r.shift()
-  }), u||(r.selector=(r.selector?r.selector+" ":"")+o), h.each(c,function(t,e){
-   r.push(e)
-  }), r
- }, r.prototype.each=function(t){
+   e=r&&e.contains(n)?n:e.querySelectorAll(n||null);
+   h.each(e,function(t,e){
+    i.push(e)
+   })
+  }), h(i)
+ }, r.fn.each=function(t){
   return h.each.call(this,this,t)
- }, r.prototype.addClass=function(n,o){
+ }, r.fn.addClass=function(n,i){
   return this.each(function(t,e){
-   e.className=r[o?"removeStr":"addStr"](e.className,n)
+   e.className=r[i?"removeStr":"addStr"](e.className,n)
   })
- }, r.prototype.removeClass=function(t){
+ }, r.fn.removeClass=function(t){
   return this.addClass(t,!0)
- }, r.prototype.hasClass=function(n){
-  var o=!1;
+ }, r.fn.hasClass=function(n){
+  var i=!1;
   return this.each(function(t,e){
-   new RegExp("\\b"+n+"\\b").test(e.className)&&(o= !0)
-  }), o
- }, r.prototype.css=function(e,o){
+   new RegExp("\\b"+n+"\\b").test(e.className)&&(i= !0)
+  }), i
+ }, r.fn.css=function(e,i){
   var t=this,r=function(t){
    return isNaN(t)?t:t+"px"
   };
-  return "string"!= typeof e||o!==undefined?t.each(function(t,n){
+  return "string"!= typeof e||i!==undefined?t.each(function(t,n){
    "object"== typeof e?h.each(e,function(t,e){
     n.style[t]=r(e)
-   }):n.style[e]=r(o)
+   }):n.style[e]=r(i)
   }):0<t.length?t[0].style[e]:void 0
- }, r.prototype.width=function(n){
-  var o=this;
-  return n!==undefined?o.each(function(t,e){
-   o.css("width",n)
-  }):0<o.length?o[0].offsetWidth:void 0
- }, r.prototype.height=function(n){
-  var o=this;
-  return n!==undefined?o.each(function(t,e){
-   o.css("height",n)
-  }):0<o.length?o[0].offsetHeight:void 0
- }, r.prototype.attr=function(n,o){
+ }, r.fn.width=function(n){
+  var i=this;
+  return n!==undefined?i.each(function(t,e){
+   i.css("width",n)
+  }):0<i.length?i[0].offsetWidth:void 0
+ }, r.fn.height=function(n){
+  var i=this;
+  return n!==undefined?i.each(function(t,e){
+   i.css("height",n)
+  }):0<i.length?i[0].offsetHeight:void 0
+ }, r.fn.attr=function(n,i){
   var t=this;
-  return o!==undefined?t.each(function(t,e){
-   e.setAttribute(n,o)
+  return i!==undefined?t.each(function(t,e){
+   e.setAttribute(n,i)
   }):0<t.length?t[0].getAttribute(n):void 0
- }, r.prototype.removeAttr=function(n){
+ }, r.fn.removeAttr=function(n){
   return this.each(function(t,e){
    e.removeAttribute(n)
   })
- }, r.prototype.html=function(n){
+ }, r.fn.html=function(n){
   var t=this;
   return n!==undefined?this.each(function(t,e){
    e.innerHTML=n
   }):0<t.length?t[0].innerHTML:void 0
- }, r.prototype.val=function(n){
+ }, r.fn.val=function(n){
   var t=this;
   return n!==undefined?this.each(function(t,e){
    e.value=n
   }):0<t.length?t[0].value:void 0
- }, r.prototype.append=function(n){
+ }, r.fn.append=function(n){
   return this.each(function(t,e){
    "object"== typeof n?e.appendChild(n):e.innerHTML=e.innerHTML+n
   })
- }, r.prototype.remove=function(n){
+ }, r.fn.remove=function(n){
   return this.each(function(t,e){
    n?e.removeChild(n):e.parentNode.removeChild(e)
   })
- }, r.prototype.on=function(n,o){
+ }, r.fn.on=function(n,i){
   return this.each(function(t,e){
    e.attachEvent?e.attachEvent("on"+n,function(t){
-    t.target=t.srcElement, o.call(e,t)
-   }):e.addEventListener(n,o,!1)
+    t.target=t.srcElement, i.call(e,t)
+   }):e.addEventListener(n,i,!1)
   })
- }, r.prototype.off=function(n,o){
+ }, r.fn.off=function(n,i){
   return this.each(function(t,e){
-   e.detachEvent?e.detachEvent("on"+n,o):e.removeEventListener(n,o,!1)
+   e.detachEvent?e.detachEvent("on"+n,i):e.removeEventListener(n,i,!1)
   })
- }, l.lay=h, l.layui&&layui.define&&layui.define(function(t){
+ }, s.lay=h, s.layui&&layui.define&&layui.define(function(t){
   t("lay",h)
  })
 }(window,window.document);
@@ -471,7 +489,7 @@ layui.define(function(e){
  });
  e("laypage",o)
 });
-!function(i,p){
+!function(i,g){
  "use strict";
  var n=i.layui&&layui.define,l={
    getPath:i.lay&&lay.getPath?lay.getPath:"",link:function(e,t,a){
@@ -496,8 +514,7 @@ layui.define(function(e){
    }
   },a="laydate",x="layui-this",k="laydate-disabled",h=[100,2e5],D="layui-laydate-static",w="layui-laydate-list",
   o="laydate-selected",r="layui-laydate-hint",y="laydate-day-prev",m="laydate-day-next",C=".laydate-btns-confirm",
-  M="laydate-time-text",L="laydate-btns-time",T="layui-laydate-preview",E="layui-laydate-main",S="layui-laydate-shade",
-  I=function(e){
+  M="laydate-time-text",L="laydate-btns-time",T="layui-laydate-preview",E="layui-laydate-shade",S=function(e){
    var t,a=this,n=(a.index= ++v.index, a.config=lay.extend({},a.config,v.config,e), lay(e.elem||a.config.elem));
    return 1<n.length?(lay.each(n,function(){
     v.render(lay.extend({},a.config,{elem:this}))
@@ -507,9 +524,9 @@ layui.define(function(e){
   },u="yyyy|y|MM|M|dd|d|HH|H|mm|m|ss|s";
  s.formatArr=function(e){
   return (e||"").match(new RegExp(u+"|.","g"))||[]
- }, I.isLeapYear=function(e){
+ }, S.isLeapYear=function(e){
   return e%4==0&&e%100!=0||e%400==0
- }, I.prototype.config={
+ }, S.prototype.config={
   type:"date",
   range:!1,
   format:"yyyy-MM-dd",
@@ -533,7 +550,7 @@ layui.define(function(e){
   change:null,
   autoConfirm:!0,
   shade:0
- }, I.prototype.lang=function(){
+ }, S.prototype.lang=function(){
   var e={
    cn:{
     weeks:["\u65e5","\u4e00","\u4e8c","\u4e09","\u56db","\u4e94","\u516d"],
@@ -565,9 +582,9 @@ layui.define(function(e){
    }
   };
   return e[this.config.lang]||e.cn
- }, I.prototype.reload=function(e){
+ }, S.prototype.reload=function(e){
   this.config=lay.extend({},this.config,e), this.init()
- }, I.prototype.init=function(){
+ }, S.prototype.init=function(){
   var r=this,o=r.config,e="static"===o.position,
    t={year:"yyyy",month:"yyyy-MM",date:"yyyy-MM-dd",time:"HH:mm:ss",datetime:"yyyy-MM-dd HH:mm:ss"};
   o.elem=lay(o.elem), o.eventElem=lay(o.eventElem), o.elem[0]&&("array"!==layui.type(o.theme)&&(o.theme=[o.theme]), o.fullPanel&&("datetime"!==o.type||o.range)&& delete o.fullPanel, r.rangeStr=o.range?"string"== typeof o.range?o.range:"-":"", r.rangeLinked= !(!o.range|| !o.rangeLinked||"date"!==o.type&&"datetime"!==o.type), r.autoCalendarModel=function(){
@@ -608,7 +625,7 @@ layui.define(function(e){
     seconds:0|n[2]
    }
   }), r.elemID="layui-laydate"+o.elem.attr("lay-key"), (o.show||e)&&r.render(), e||r.events(), o.value&&o.isInitValue&&("date"===layui.type(o.value)?r.setValue(r.parse(0,r.systemDate(o.value))):r.setValue(o.value)))
- }, I.prototype.render=function(){
+ }, S.prototype.render=function(){
   var a,n,i,l,r=this,o=r.config,d=r.lang(),s="static"===o.position,y=r.elem=lay.elem("div",{
     id:r.elemID,
     "class":["layui-laydate",o.range?" layui-laydate-range":"",r.rangeLinked?" layui-laydate-linkage":"",s?" "+D:"",o.fullPanel?" laydate-theme-fullpanel":"",(a="", lay.each(o.theme,function(e,t){
@@ -630,7 +647,7 @@ layui.define(function(e){
       var t;
       0===a&&((t=lay.elem("th")).innerHTML=d.weeks[(e+o.weekStart)%7], r.appendChild(t)), n.insertCell(e)
      })
-    }), i.insertBefore(l,i.children[0]), n.appendChild(i), m[e]=lay.elem("div",{"class":E+" laydate-main-list-"+e}), m[e].appendChild(a), m[e].appendChild(n), u.push(t), c.push(n), h.push(i)
+    }), i.insertBefore(l,i.children[0]), n.appendChild(i), m[e]=lay.elem("div",{"class":"layui-laydate-main laydate-main-list-"+e}), m[e].appendChild(a), m[e].appendChild(n), u.push(t), c.push(n), h.push(i)
    }), lay(e).html((f=[], n=[], "datetime"===o.type&&f.push('<span lay-type="datetime" class="'+L+'">'+d.timeTips+"</span>"), (o.range||"datetime"!==o.type||o.fullPanel)&&f.push('<span class="'+T+'" title="'+d.preview+'"></span>'), lay.each(o.btns,function(e,t){
     var a=d.tools[t]||"btn";
     o.range&&"now"===t||(s&&"clear"===t&&(a="cn"===o.lang?"\u91cd\u7f6e":"Reset"), n.push('<span lay-type="'+t+'" class="laydate-btns-'+t+'">'+a+"</span>"))
@@ -650,29 +667,29 @@ layui.define(function(e){
        seconds:a.seconds
       }), 0===e?r.startDate=lay.extend({},a):r.endState= !0, "year"===n||"month"===n||"time"===n?r.listYM[e]=[a.year,a.month+1]:e&&r.autoCalendarModel.auto&&r.autoCalendarModel()
      }), r.checkDate("limit").calendar(null,null,"init"), lay(r.footer).find("."+L).removeClass(k));
-    t&&"date"===t.attr("lay-type")&&t[0].click(), r.done(null,"change"), lay(this).addClass(x), "static"!==o.position&& !o.range&&o.autoConfirm&&("date"===n?r.choose(lay(y).find("td.layui-this")):"year"!==n&&"month"!==n||lay(m[0]).find("."+E+" li."+x+":not(.laydate-disabled)")[0]&&r.setValue(r.parse()).done().remove())
+    t&&"date"===t.attr("lay-type")&&t[0].click(), r.done(null,"change"), lay(this).addClass(x), "static"!==o.position&&r.setValue(r.parse()).done().remove()
    })), lay.each(m,function(e,t){
     y.appendChild(t)
-   }), o.showBottom&&y.appendChild(e), lay.elem("style")),g=[],t=(lay.each(o.theme,function(e,t){
-    /^#/.test(t)&&(l= !0, g.push(["#{{id}} .layui-laydate-header{background-color:{{theme}};}","#{{id}} li.layui-this,#{{id}} td.layui-this>div{background-color:{{theme}} !important;}",-1!==o.theme.indexOf("circle")?"":"#{{id}} .layui-this{background-color:{{theme}} !important;}"].join("").replace(/{{id}}/g,r.elemID).replace(/{{theme}}/g,t)))
-   }), o.shortcuts&&o.range&&g.push("#{{id}}.layui-laydate-range{width: 628px;}".replace(/{{id}}/g,r.elemID)), g.length&&(g=g.join(""), "styleSheet" in f?(f.setAttribute("type","text/css"), f.styleSheet.cssText=g):f.innerHTML=g, l&&lay(y).addClass("laydate-theme-molv"), y.appendChild(f)), r.remove(I.thisElemDate), v.thisId=o.id, s?o.elem.append(y):(p.body.appendChild(y), r.position()), o.shade?'<div class="'+S+'" style="z-index:'+(parseInt(layui.getStyle(y,"z-index"))-1)+"; background-color: "+(o.shade[1]||"#000")+"; opacity: "+(o.shade[0]||o.shade)+'"></div>':"");
-  y.insertAdjacentHTML("beforebegin",t), r.checkDate().calendar(null,0,"init"), r.changeEvent(), I.thisElemDate=r.elemID, r.renderAdditional(), "function"== typeof o.ready&&o.ready(lay.extend({},o.dateTime,{month:o.dateTime.month+1})), r.preview()
- }, I.prototype.remove=function(e){
+   }), o.showBottom&&y.appendChild(e), lay.elem("style")),p=[],t=(lay.each(o.theme,function(e,t){
+    /^#/.test(t)&&(l= !0, p.push(["#{{id}} .layui-laydate-header{background-color:{{theme}};}","#{{id}} li.layui-this,#{{id}} td.layui-this>div{background-color:{{theme}} !important;}",-1!==o.theme.indexOf("circle")?"":"#{{id}} .layui-this{background-color:{{theme}} !important;}"].join("").replace(/{{id}}/g,r.elemID).replace(/{{theme}}/g,t)))
+   }), o.shortcuts&&o.range&&p.push("#{{id}}.layui-laydate-range{width: 628px;}".replace(/{{id}}/g,r.elemID)), p.length&&(p=p.join(""), "styleSheet" in f?(f.setAttribute("type","text/css"), f.styleSheet.cssText=p):f.innerHTML=p, l&&lay(y).addClass("laydate-theme-molv"), y.appendChild(f)), r.remove(S.thisElemDate), v.thisId=o.id, s?o.elem.append(y):(g.body.appendChild(y), r.position()), o.shade?'<div class="'+E+'" style="z-index:'+(parseInt(layui.getStyle(y,"z-index"))-1)+"; background-color: "+(o.shade[1]||"#000")+"; opacity: "+(o.shade[0]||o.shade)+'"></div>':"");
+  y.insertAdjacentHTML("beforebegin",t), r.checkDate().calendar(null,0,"init"), r.changeEvent(), S.thisElemDate=r.elemID, r.renderAdditional(), "function"== typeof o.ready&&o.ready(lay.extend({},o.dateTime,{month:o.dateTime.month+1})), r.preview()
+ }, S.prototype.remove=function(e){
   var t=this,a=t.config,n=lay("#"+(e||t.elemID));
   return n[0]&&(n.hasClass(D)||t.checkDate(function(){
    n.remove(), delete t.startDate, delete t.endDate, delete t.endState, delete t.startTime, delete t.endTime, delete v.thisId, "function"== typeof a.close&&a.close(t)
-  }), lay("."+S).remove()), t
- }, I.prototype.position=function(){
+  }), lay("."+E).remove()), t
+ }, S.prototype.position=function(){
   var e=this.config;
   return lay.position(e.elem[0],this.elem,{position:e.position}), this
- }, I.prototype.hint=function(e){
+ }, S.prototype.hint=function(e){
   var t=this,a=(t.config, lay.elem("div",{"class":r}));
   t.elem&&(a.innerHTML=(e="object"== typeof e?e||{}:{content:e}).content||"", lay(t.elem).find("."+r).remove(), t.elem.appendChild(a), clearTimeout(t.hinTimer), t.hinTimer=setTimeout(function(){
    lay(t.elem).find("."+r).remove()
   },"ms" in e?e.ms:3e3))
- }, I.prototype.getAsYM=function(e,t,a){
+ }, S.prototype.getAsYM=function(e,t,a){
   return a?t--:t++, t<0&&(t=11, e--), 11<t&&(t=0, e++), [e,t]
- }, I.prototype.systemDate=function(e){
+ }, S.prototype.systemDate=function(e){
   var t=e||new Date;
   return {
    year:t.getFullYear(),
@@ -682,7 +699,7 @@ layui.define(function(e){
    minutes:e?e.getMinutes():0,
    seconds:e?e.getSeconds():0
   }
- }, I.prototype.checkDate=function(e){
+ }, S.prototype.checkDate=function(e){
   var t,o,d=this,s=(new Date, d.config),a=d.lang(),n=s.dateTime=s.dateTime||d.systemDate(),i=s.elem[0],
    l=(d.isInput(i), function(){
     if(d.rangeElem){
@@ -718,20 +735,20 @@ layui.define(function(e){
    minutes:d.endDate.minutes,
    seconds:d.endDate.seconds
   }, "month"===s.type&&(s.dateTime.date=1, d.endDate.date=1)), u&&l&&(d.setValue(d.parse()), d.hint("value "+a.invalidDate+a.formatError[1])), d.startDate=d.startDate||l&&lay.extend({},s.dateTime), d.autoCalendarModel.auto&&d.autoCalendarModel(), d.endState=!s.range|| !d.rangeLinked|| !(!d.startDate|| !d.endDate), e&&e(), d
- }, I.prototype.mark=function(e,a){
+ }, S.prototype.mark=function(e,a){
   var n,t=this.config;
   return lay.each(t.mark,function(e,t){
    e=e.split("-");
    e[0]!=a[0]&&0!=e[0]||e[1]!=a[1]&&0!=e[1]||e[2]!=a[2]||(n=t||a[2])
   }), n&&e.find("div").html('<span class="laydate-day-mark">'+n+"</span>"), this
- }, I.prototype.holidays=function(n,i){
+ }, S.prototype.holidays=function(n,i){
   var e=this.config,l=["","work"];
   return "array"!==layui.type(e.holidays)||lay.each(e.holidays,function(a,e){
    lay.each(e,function(e,t){
     t===n.attr("lay-ymd")&&n.find("div").html('<span class="laydate-day-holidays"'+(l[a]?'type="'+l[a]+'"':"")+">"+i[2]+"</span>")
    })
   }), this
- }, I.prototype.limit=function(t){
+ }, S.prototype.limit=function(t){
   t=t||{};
   var i=this,e=i.config,l={},a=t.index>(t.time?0:41)?i.endDate:e.dateTime;
   return lay.each({now:lay.extend({},a,t.date||{}),min:e.min,max:e.max},function(e,a){
@@ -744,10 +761,10 @@ layui.define(function(e){
     n[t]=a[t]
    }), n))).getTime()
   }), a=l.now<l.min||l.now>l.max, t.elem&&t.elem[a?"addClass":"removeClass"](k), a
- }, I.prototype.thisDateTime=function(e){
+ }, S.prototype.thisDateTime=function(e){
   var t=this.config;
   return e?this.endDate:t.dateTime
- }, I.prototype.calendar=function(e,t,a){
+ }, S.prototype.calendar=function(e,t,a){
   var i,l,r,o=this,n=o.config,t=t?1:0,d=e||o.thisDateTime(t),s=new Date,y=o.lang(),
    m="date"!==n.type&&"datetime"!==n.type,u=lay(o.table[t]).find("td"),c=lay(o.elemHeader[t][2]).find("span");
   return d.year<h[0]&&(d.year=h[0], o.hint(y.invalidDate)), d.year>h[1]&&(d.year=h[1], o.hint(y.invalidDate)), o.firstDate||(o.firstDate=lay.extend({},d)), s.setFullYear(d.year,d.month,1), i=(s.getDay()+(7-n.weekStart))%7, l=v.getEndDate(d.month||12,d.year), r=v.getEndDate(d.month+1,d.year), lay.each(u,function(e,t){
@@ -770,24 +787,24 @@ layui.define(function(e){
    index:0,
    time:u
   })), o.setBtnStatus(), lay(o.shortcut).find("li."+x).removeClass(x), n.range&& !m&&"init"!==a&&o.stampRange(), o
- }, I.prototype.list=function(n,i){
+ }, S.prototype.list=function(n,i){
   var l,r,e,o,d=this,s=d.config,y=d.rangeLinked?s.dateTime:[s.dateTime,d.endDate][i],m=d.lang(),
    t=s.range&&"date"!==s.type&&"datetime"!==s.type,
    u=lay.elem("ul",{"class":w+" "+{year:"laydate-year-list",month:"laydate-month-list",time:"laydate-time-list"}[n]}),
-   a=d.elemHeader[i],c=lay(a[2]).find("span"),h=d.elemCont[i||0],f=lay(h).find("."+w)[0],g="cn"===s.lang,
-   p=g?"\u5e74":"",v=d.listYM[i]||{},D=["hours","minutes","seconds"],T=["startTime","endTime"][i];
+   a=d.elemHeader[i],c=lay(a[2]).find("span"),h=d.elemCont[i||0],f=lay(h).find("."+w)[0],p="cn"===s.lang,
+   g=p?"\u5e74":"",v=d.listYM[i]||{},D=["hours","minutes","seconds"],T=["startTime","endTime"][i];
   return v[0]<1&&(v[0]=1), "year"===n?(e=l=v[0]-7, l<1&&(e=l=1), lay.each(new Array(15),function(e){
    var t=lay.elem("li",{"lay-ym":l}),a={year:l,month:0,date:1};
-   l==v[0]&&lay(t).addClass(x), t.innerHTML=l+p, u.appendChild(t), d.limit({elem:lay(t),date:a,index:i,type:n}), l++
-  }), lay(c[g?0:1]).attr("lay-ym",l-8+"-"+v[1]).html(e+p+" - "+(l-1)+p)):"month"===n?(lay.each(new Array(12),function(e){
+   l==v[0]&&lay(t).addClass(x), t.innerHTML=l+g, u.appendChild(t), d.limit({elem:lay(t),date:a,index:i,type:n}), l++
+  }), lay(c[p?0:1]).attr("lay-ym",l-8+"-"+v[1]).html(e+g+" - "+(l-1)+g)):"month"===n?(lay.each(new Array(12),function(e){
    var t=lay.elem("li",{"lay-ym":e}),a={year:v[0],month:e,date:1};
-   e+1==v[1]&&lay(t).addClass(x), t.innerHTML=m.month[e]+(g?"\u6708":""), u.appendChild(t), d.limit({
+   e+1==v[1]&&lay(t).addClass(x), t.innerHTML=m.month[e]+(p?"\u6708":""), u.appendChild(t), d.limit({
     elem:lay(t),
     date:a,
     index:i,
     type:n
    })
-  }), lay(c[g?0:1]).attr("lay-ym",v[0]+"-"+v[1]).html(v[0]+p)):"time"===n&&(r=function(){
+  }), lay(c[p?0:1]).attr("lay-ym",v[0]+"-"+v[1]).html(v[0]+g)):"time"===n&&(r=function(){
    lay(u).find("ol").each(function(a,e){
     lay(e).find("li").each(function(e,t){
      d.limit({
@@ -823,35 +840,35 @@ layui.define(function(e){
     lay(this).hasClass(k)||(s.range?d[T][D[t]]=e:y[D[t]]=e, lay(a).find("."+x).removeClass(x), lay(this).addClass(x), r(), o(), (d.endDate||"time"===s.type||"datetime"===s.type&&s.fullPanel)&&d.done(null,"change"), d.setBtnStatus())
    })
   })), d
- }, I.prototype.listYM=[], I.prototype.closeList=function(){
+ }, S.prototype.listYM=[], S.prototype.closeList=function(){
   var a=this;
   a.config;
   lay.each(a.elemCont,function(e,t){
    lay(this).find("."+w).remove(), lay(a.elemMain[e]).removeClass("laydate-ym-show laydate-time-show")
   }), lay(a.elem).find("."+M).remove()
- }, I.prototype.setBtnStatus=function(e,t,a){
+ }, S.prototype.setBtnStatus=function(e,t,a){
   var n=this,i=n.config,l=n.lang(),r=lay(n.footer).find(C);
   i.range&&"time"!==i.type&&(t=t||(n.rangeLinked?n.startDate:i.dateTime), a=a||n.endDate, i=!n.endState||n.newDate(t).getTime()>n.newDate(a).getTime(), n.limit({date:t})||n.limit({date:a})?r.addClass(k):r[i?"addClass":"removeClass"](k), e&&i&&n.hint("string"== typeof e?l.timeout.replace(/\u65e5\u671f/g,e):l.timeout))
- }, I.prototype.parse=function(e,t){
+ }, S.prototype.parse=function(e,t){
   var a=this,n=a.config,
    t=t||("end"==e?lay.extend({},a.endDate,a.endTime):n.range?lay.extend({},a.rangeLinked?a.startDate:n.dateTime,a.startTime):n.dateTime),
    t=v.parse(t,a.format,1);
   return n.range&&e===undefined?t+" "+a.rangeStr+" "+a.parse("end"):t
- }, I.prototype.newDate=function(e){
+ }, S.prototype.newDate=function(e){
   return e=e||{}, new Date(e.year||1,e.month||0,e.date||1,e.hours||0,e.minutes||0,e.seconds||0)
- }, I.prototype.getDateTime=function(e){
+ }, S.prototype.getDateTime=function(e){
   return this.newDate(e).getTime()
- }, I.prototype.setValue=function(e){
+ }, S.prototype.setValue=function(e){
   var t=this,a=t.config,n=a.elem[0];
   return "static"===a.position||(e=e||"", t.isInput(n)?lay(n).val(e):(a=t.rangeElem)?("array"!==layui.type(e)&&(e=e.split(" "+t.rangeStr+" ")), a[0].val(e[0]||""), a[1].val(e[1]||"")):(0===lay(n).find("*").length&&lay(n).html(e), lay(n).attr("lay-date",e))), t
- }, I.prototype.preview=function(){
+ }, S.prototype.preview=function(){
   var e,t=this,a=t.config;
   a.isPreview&&(e=lay(t.elem).find("."+T), a=!a.range||(t.rangeLinked?t.endState:t.endDate)?t.parse():"", e.html(a), e.html()&&(e.css({color:"#16b777"}), setTimeout(function(){
    e.css({color:"#777"})
   },300)))
- }, I.prototype.renderAdditional=function(){
+ }, S.prototype.renderAdditional=function(){
   this.config.fullPanel&&this.list("time",0)
- }, I.prototype.stampRange=function(){
+ }, S.prototype.stampRange=function(){
   var n,i=this,l=i.config,r=i.rangeLinked?i.startDate:l.dateTime,e=lay(i.elem).find("td");
   l.range&& !i.endState&&lay(i.footer).find(C).addClass(k), r=r&&i.newDate({
    year:r.year,
@@ -865,13 +882,13 @@ layui.define(function(e){
    var a=lay(t).attr("lay-ymd").split("-"),a=i.newDate({year:a[0],month:a[1]-1,date:a[2]}).getTime();
    l.rangeLinked&& !i.startDate&&a===i.newDate(i.systemDate()).getTime()&&lay(t).addClass(lay(t).hasClass(y)||lay(t).hasClass(m)?"":"laydate-day-now"), lay(t).removeClass(o+" "+x), a!==r&&a!==n||(i.rangeLinked|| !i.rangeLinked&&(e<42?a===r:a===n))&&lay(t).addClass(lay(t).hasClass(y)||lay(t).hasClass(m)?o:x), r<a&&a<n&&lay(t).addClass(o)
   })
- }, I.prototype.done=function(e,t){
+ }, S.prototype.done=function(e,t){
   var a=this,n=a.config,i=lay.extend({},lay.extend(n.dateTime,a.startTime)),
    l=lay.extend({},lay.extend(a.endDate,a.endTime));
   return lay.each([i,l],function(e,t){
    "month" in t&&lay.extend(t,{month:t.month+1})
   }), a.preview(), e=e||[a.parse(),i,l], "change"===t&&a.renderAdditional(), "function"== typeof n[t||"done"]&&n[t||"done"].apply(n,e), a
- }, I.prototype.choose=function(e,a){
+ }, S.prototype.choose=function(e,a){
   var n,i,t,l,r,o;
   e.hasClass(k)||(i=(n=this).config, t=a, n.rangeLinked&&(n.endState|| !n.startDate?(a=0, n.endState= !1, n.endDate={}):(a=1, n.endState= !0)), l=n.thisDateTime(a), lay(n.elem).find("td"), e={
    year:0|(e=e.attr("lay-ymd").split("-"))[0],
@@ -895,7 +912,7 @@ layui.define(function(e){
    year:o[0],
    month:o[1]
   })), n.calendar(e,t,r?"init":null)):n.calendar(null,a,r?"init":null), n.endState&&n.done(null,"change")):"static"===i.position?n.calendar().done().done(null,"change"):"date"===i.type?i.autoConfirm?n.setValue(n.parse()).done().remove():n.calendar().done(null,"change"):"datetime"===i.type&&n.calendar().done(null,"change"))
- }, I.prototype.tool=function(t,e){
+ }, S.prototype.tool=function(t,e){
   var a=this,n=a.config,i=a.lang(),l=n.dateTime,r="static"===n.position,o={
    datetime:function(){
     lay(t).hasClass(k)||(a.list("time",0), n.range&&a.list("time",1), lay(t).attr("lay-type","date").html(a.lang().dateTips))
@@ -919,7 +936,7 @@ layui.define(function(e){
    }
   };
   o[e]&&o[e]()
- }, I.prototype.change=function(n){
+ }, S.prototype.change=function(n){
   var i=this,l=i.config,r=i.thisDateTime(n),o=l.range&&("year"===l.type||"month"===l.type),d=i.elemCont[n||0],
    s=i.listYM[n],e=function(e){
     var t=lay(d).find(".laydate-year-list")[0],a=lay(d).find(".laydate-month-list")[0];
@@ -949,7 +966,7 @@ layui.define(function(e){
     e()||(i.rangeLinked?(l.dateTime.year++, i.checkDate("limit").calendar(null,0,"init")):(r.year++, i.checkDate("limit").calendar(null,n), i.autoCalendarModel.auto?i.choose(lay(d).find("td.layui-this"),n):i.done(null,"change")))
    }
   }
- }, I.prototype.changeEvent=function(){
+ }, S.prototype.changeEvent=function(){
   var i=this;
   i.config;
   lay(i.elem).on("click",function(e){
@@ -977,9 +994,9 @@ layui.define(function(e){
    var e=lay(this).attr("lay-type");
    i.tool(this,e)
   })
- }, I.prototype.isInput=function(e){
+ }, S.prototype.isInput=function(e){
   return /input|textarea/.test(e.tagName.toLocaleLowerCase())||/INPUT|TEXTAREA/.test(e.tagName)
- }, I.prototype.events=function(){
+ }, S.prototype.events=function(){
   var e,t=this,a=t.config;
   a.elem[0]&& !a.elem[0].eventHandler&&(a.elem.on(a.trigger,e=function(){
    v.thisId!==a.id&&t.render()
@@ -990,12 +1007,12 @@ layui.define(function(e){
   var t=s.that[e];
   return !t&&n&&layui.hint().error(e?a+" instance with ID '"+e+"' not found":"ID argument required"), t
  }, l.run=function(n){
-  n(p).on("mousedown",function(e){
+  n(g).on("mousedown",function(e){
    var t,a;
    !v.thisId||(t=s.getThis(v.thisId))&&(a=t.config, e.target!==a.elem[0]&&e.target!==a.eventElem[0]&&e.target!==n(a.closeStop)[0]&&t.remove())
   }).on("keydown",function(e){
    var t;
-   !v.thisId||(t=s.getThis(v.thisId))&&"static"!==t.config.position&&13===e.keyCode&&n("#"+t.elemID)[0]&&t.elemID===I.thisElemDate&&(e.preventDefault(), n(t.footer).find(C)[0].click())
+   !v.thisId||(t=s.getThis(v.thisId))&&"static"!==t.config.position&&13===e.keyCode&&n("#"+t.elemID)[0]&&t.elemID===S.thisElemDate&&(e.preventDefault(), n(t.footer).find(C)[0].click())
   }), n(i).on("resize",function(){
    if(v.thisId){
     var e=s.getThis(v.thisId);
@@ -1003,7 +1020,7 @@ layui.define(function(e){
    }
   })
  }, v.render=function(e){
-  e=new I(e);
+  e=new S(e);
   return s.call(e)
  }, v.reload=function(e,t){
   e=s.getThis(e);
@@ -3431,7 +3448,7 @@ layui.define(function(e){
 });
 !function(p){
  "use strict";
- var m,c,e,n=p.layui&&layui.define,f={
+ var m,d,e,n=p.layui&&layui.define,u={
    getPath:(e=document.currentScript?document.currentScript.src:function(){
     for(var e,t=document.scripts,i=t.length-1,n=i; 0<n; n--) if("interactive"===t[n].readyState){
      e=t[n].src;
@@ -3454,7 +3471,7 @@ layui.define(function(e){
     var n,a,o,s,l,r;
     h.path&&(n=document.getElementsByTagName("head")[0], a=document.createElement("link"), o=((t="string"== typeof i?i:t)||e).replace(/\.|\//g,""), s="layuicss-"+o, l="creating", r=0, a.rel="stylesheet", a.href=h.path+e, a.id=s, document.getElementById(s)||n.appendChild(a), "function"== typeof i&&function c(e){
      var t=document.getElementById(s);
-     return 100< ++r?p.console&&console.error(o+".css: Invalid"):void (1989===parseInt(f.getStyle(t,"width"))?(e===l&&t.removeAttribute("lay-status"), t.getAttribute("lay-status")===l?setTimeout(c,100):i()):(t.setAttribute("lay-status",l), setTimeout(function(){
+     return 100< ++r?p.console&&console.error(o+".css: Invalid"):void (1989===parseInt(u.getStyle(t,"width"))?(e===l&&t.removeAttribute("lay-status"), t.getAttribute("lay-status")===l?setTimeout(c,100):i()):(t.setAttribute("lay-status",l), setTimeout(function(){
       c(l)
      },100)))
     }())
@@ -3463,13 +3480,13 @@ layui.define(function(e){
    v:"3.6.0",
    ie:(e=navigator.userAgent.toLowerCase(), !!(p.ActiveXObject||"ActiveXObject" in p)&&((e.match(/msie\s(\d+)/)||[])[1]||"11")),
    index:p.layer&&p.layer.v?1e5:0,
-   path:f.getPath,
+   path:u.getPath,
    config:function(e,t){
-    return h.cache=f.config=m.extend({},f.config,e=e||{}), h.path=f.config.path||h.path, "string"== typeof e.extend&&(e.extend=[e.extend]), f.config.path&&h.ready(), e.extend&&(n?layui.addcss("modules/layer/"+e.extend):f.link("css/"+e.extend)), this
+    return h.cache=u.config=m.extend({},u.config,e=e||{}), h.path=u.config.path||h.path, "string"== typeof e.extend&&(e.extend=[e.extend]), u.config.path&&h.ready(), e.extend&&(n?layui.addcss("modules/layer/"+e.extend):u.link("css/"+e.extend)), this
    },
    ready:function(e){
     var t="layer",i=(n?"modules/":"css/")+"layer.css?v="+h.v;
-    return n?layui["layui.all"]?"function"== typeof e&&e():layui.addcss(i,e,t):f.link(i,e,t), this
+    return n?layui["layui.all"]?"function"== typeof e&&e():layui.addcss(i,e,t):u.link(i,e,t), this
    },
    alert:function(e,t,i){
     var n="function"== typeof t;
@@ -3477,10 +3494,10 @@ layui.define(function(e){
    },
    confirm:function(e,t,i,n){
     var a="function"== typeof t;
-    return a&&(n=i, i=t), h.open(m.extend({content:e,btn:f.btn,yes:i,btn2:n},a?{}:t))
+    return a&&(n=i, i=t), h.open(m.extend({content:e,btn:u.btn,yes:i,btn2:n},a?{}:t))
    },
    msg:function(e,t,i){
-    var n="function"== typeof t,a=f.config.skin,a=(a?a+" "+a+"-msg":"")||"layui-layer-msg",o=d.anim.length-1;
+    var n="function"== typeof t,a=u.config.skin,a=(a?a+" "+a+"-msg":"")||"layui-layer-msg",o=y.anim.length-1;
     return n&&(i=t), h.open(m.extend({
      content:e,
      time:3e3,
@@ -3492,10 +3509,10 @@ layui.define(function(e){
      resize:!1,
      end:i,
      removeFocus:!1
-    },n&& !f.config.skin?{
+    },n&& !u.config.skin?{
      skin:a+" layui-layer-hui",
      anim:o
-    }:(-1!==(t=t||{}).icon&&(void 0!==t.icon||f.config.skin)||(t.skin=a+" "+(t.skin||"layui-layer-hui")), t)))
+    }:(-1!==(t=t||{}).icon&&(void 0!==t.icon||u.config.skin)||(t.skin=a+" "+(t.skin||"layui-layer-hui")), t)))
    },
    load:function(e,t){
     return h.open(m.extend({type:3,icon:e||0,resize:!1,shade:.01,removeFocus:!1},t))
@@ -3517,12 +3534,12 @@ layui.define(function(e){
    var t=this,i=function(){
     t.creat()
    };
-   t.index= ++h.index, t.config.maxWidth=m(c).width()-30, t.config=m.extend({},t.config,f.config,e), document.body?i():setTimeout(function(){
+   t.index= ++h.index, t.config.maxWidth=m(d).width()-30, t.config=m.extend({},t.config,u.config,e), document.body?i():setTimeout(function(){
     i()
    },30)
   },
-  d=(t.pt=t.prototype, ["layui-layer",".layui-layer-title",".layui-layer-main",".layui-layer-dialog","layui-layer-iframe","layui-layer-content","layui-layer-btn","layui-layer-close"]),
-  i=(d.anim={
+  y=(t.pt=t.prototype, ["layui-layer",".layui-layer-title",".layui-layer-main",".layui-layer-dialog","layui-layer-iframe","layui-layer-content","layui-layer-btn","layui-layer-close"]),
+  i=(y.anim={
    0:"layer-anim-00",
    1:"layer-anim-01",
    2:"layer-anim-02",
@@ -3534,22 +3551,22 @@ layui.define(function(e){
    slideLeft:"layer-anim-slide-left",
    slideUp:"layer-anim-slide-up",
    slideRight:"layer-anim-slide-right"
-  }, d.SHADE="layui-layer-shade", d.MOVE="layui-layer-move", t.pt.config={
+  }, y.SHADE="layui-layer-shade", y.MOVE="layui-layer-move", t.pt.config={
    type:0,
    shade:.3,
    fixed:!0,
-   move:d[1],
+   move:y[1],
    title:"&#x4FE1;&#x606F;",
    offset:"auto",
    area:"auto",
    closeBtn:1,
+   icon:-1,
    time:0,
    zIndex:19891014,
    maxWidth:360,
    anim:0,
    isOutAnim:!0,
    minStack:!0,
-   icon:-1,
    moveType:1,
    resize:!0,
    scrollbar:!0,
@@ -3557,57 +3574,56 @@ layui.define(function(e){
   }, t.pt.vessel=function(e,t){
    var i,n=this.index,a=this.config,o=a.zIndex+n,s="object"== typeof a.title,l=a.maxmin&&(1===a.type||2===a.type),
     s=a.title?'<div class="layui-layer-title" style="'+(s?a.title[1]:"")+'">'+(s?a.title[0]:a.title)+"</div>":"";
-   return a.zIndex=o, t([a.shade?'<div class="'+d.SHADE+'" id="'+d.SHADE+n+'" times="'+n+'" style="z-index:'+(o-1)+'; "></div>':"",'<div class="'+d[0]+" layui-layer-"+f.type[a.type]+(0!=a.type&&2!=a.type||a.shade?"":" layui-layer-border")+" "+(a.skin||"")+'" id="'+d[0]+n+'" type="'+f.type[a.type]+'" times="'+n+'" showtime="'+a.time+'" conType="'+(e?"object":"string")+'" style="z-index: '+o+"; width:"+a.area[0]+";height:"+a.area[1]+";position:"+(a.fixed?"fixed;":"absolute;")+'">'+(e&&2!=a.type?"":s)+"<div"+(a.id?' id="'+a.id+'"':"")+' class="layui-layer-content'+(0==a.type&& -1!==a.icon?" layui-layer-padding":"")+(3==a.type?" layui-layer-loading"+a.icon:"")+'">'+(n=["layui-icon-tips","layui-icon-success","layui-icon-error","layui-icon-question","layui-icon-lock","layui-icon-face-cry","layui-icon-face-smile"], o="layui-anim layui-anim-rotate layui-anim-loop", 0==a.type&& -1!==a.icon?'<i class="layui-layer-face layui-icon '+((i=16==a.icon?"layui-icon layui-icon-loading "+o:i)||n[a.icon]||n[0])+'"></i>':3==a.type?(i=["layui-icon-loading","layui-icon-loading-1"], 2==a.icon?'<div class="layui-layer-loading-2 '+o+'"></div>':'<i class="layui-layer-loading-icon layui-icon '+(i[a.icon]||i[0])+" "+o+'"></i>'):"")+((1!=a.type|| !e)&&a.content||"")+'</div><div class="layui-layer-setwin">'+(n=[], l&&(n.push('<span class="layui-layer-min"></span>'), n.push('<span class="layui-layer-max"></span>')), a.closeBtn&&n.push('<span class="layui-icon layui-icon-close '+[d[7],d[7]+(a.title?a.closeBtn:4==a.type?"1":"2")].join(" ")+'"></span>'), n.join(""))+"</div>"+(a.btn?function(){
+   return a.zIndex=o, t([a.shade?'<div class="'+y.SHADE+'" id="'+y.SHADE+n+'" times="'+n+'" style="z-index:'+(o-1)+'; "></div>':"",'<div class="'+y[0]+" layui-layer-"+u.type[a.type]+(0!=a.type&&2!=a.type||a.shade?"":" layui-layer-border")+" "+(a.skin||"")+'" id="'+y[0]+n+'" type="'+u.type[a.type]+'" times="'+n+'" showtime="'+a.time+'" conType="'+(e?"object":"string")+'" style="z-index: '+o+"; width:"+a.area[0]+";height:"+a.area[1]+";position:"+(a.fixed?"fixed;":"absolute;")+'">'+(e&&2!=a.type?"":s)+"<div"+(a.id?' id="'+a.id+'"':"")+' class="layui-layer-content'+(0==a.type&& -1!==a.icon?" layui-layer-padding":"")+(3==a.type?" layui-layer-loading"+a.icon:"")+'">'+(n=["layui-icon-tips","layui-icon-success","layui-icon-error","layui-icon-question","layui-icon-lock","layui-icon-face-cry","layui-icon-face-smile"], o="layui-anim layui-anim-rotate layui-anim-loop", 0==a.type&& -1!==a.icon?'<i class="layui-layer-face layui-icon '+((i=16==a.icon?"layui-icon layui-icon-loading "+o:i)||n[a.icon]||n[0])+'"></i>':3==a.type?(i=["layui-icon-loading","layui-icon-loading-1"], 2==a.icon?'<div class="layui-layer-loading-2 '+o+'"></div>':'<i class="layui-layer-loading-icon layui-icon '+(i[a.icon]||i[0])+" "+o+'"></i>'):"")+((1!=a.type|| !e)&&a.content||"")+'</div><div class="layui-layer-setwin">'+(n=[], l&&(n.push('<span class="layui-layer-min"></span>'), n.push('<span class="layui-layer-max"></span>')), a.closeBtn&&n.push('<span class="layui-icon layui-icon-close '+[y[7],y[7]+(a.title?a.closeBtn:4==a.type?"1":"2")].join(" ")+'"></span>'), n.join(""))+"</div>"+(a.btn?function(){
     var e="";
     "string"== typeof a.btn&&(a.btn=[a.btn]);
-    for(var t=0,i=a.btn.length; t<i; t++) e+='<a class="'+d[6]+t+'">'+a.btn[t]+"</a>";
-    return '<div class="'+d[6]+" layui-layer-btn-"+(a.btnAlign||"")+'">'+e+"</div>"
-   }():"")+(a.resize?'<span class="layui-layer-resize"></span>':"")+"</div>"],s,m('<div class="'+d.MOVE+'" id="'+d.MOVE+'"></div>')), this
+    for(var t=0,i=a.btn.length; t<i; t++) e+='<a class="'+y[6]+t+'">'+a.btn[t]+"</a>";
+    return '<div class="'+y[6]+" layui-layer-btn-"+(a.btnAlign||"")+'">'+e+"</div>"
+   }():"")+(a.resize?'<span class="layui-layer-resize"></span>':"")+"</div>"],s,m('<div class="'+y.MOVE+'" id="'+y.MOVE+'"></div>')), this
   }, t.pt.creat=function(){
-   var e,n=this,a=n.config,o=n.index,s="object"== typeof (r=a.content),l=m("body");
-   if(!a.id|| !m("."+d[0]).find("#"+a.id)[0]){
-    switch(a.removeFocus&&document.activeElement.blur(), "string"== typeof a.area&&(a.area="auto"===a.area?["",""]:[a.area,""]), a.shift&&(a.anim=a.shift), 6==h.ie&&(a.fixed= !1), a.type){
-     case 0:
-      a.btn="btn" in a?a.btn:f.btn[0], h.closeAll("dialog");
-      break;
-     case 2:
-      var r=a.content=s?a.content:[a.content||"","auto"];
-      a.content='<iframe scrolling="'+(a.content[1]||"auto")+'" allowtransparency="true" id="'+d[4]+o+'" name="'+d[4]+o+'" onload="this.className=\'\';" class="layui-layer-load" frameborder="0" src="'+a.content[0]+'"></iframe>';
-      break;
-     case 3:
-      delete a.title, delete a.closeBtn, -1===a.icon&&a.icon, h.closeAll("loading");
-      break;
-     case 4:
-      s||(a.content=[a.content,"body"]), a.follow=a.content[1], a.content=a.content[0]+'<i class="layui-layer-TipsG"></i>', delete a.title, a.tips="object"== typeof a.tips?a.tips:[a.tips,!0], a.tipsMore||h.closeAll("tips")
-    }
-    n.vessel(s,function(e,t,i){
-     l.append(e[0]), s?2==a.type||4==a.type?m("body").append(e[1]):r.parents("."+d[0])[0]||(r.data("display",r.css("display")).show().addClass("layui-layer-wrap").wrap(e[1]), m("#"+d[0]+o).find("."+d[5]).before(t)):l.append(e[1]), m("#"+d.MOVE)[0]||l.append(f.moveElem=i), n.layero=m("#"+d[0]+o), n.shadeo=m("#"+d.SHADE+o), a.scrollbar||d.html.css("overflow","hidden").attr("layer-full",o)
-    }).auto(o), n.shadeo.css({
-     "background-color":a.shade[1]||"#000",
-     opacity:a.shade[0]||a.shade
-    }), 2==a.type&&6==h.ie&&n.layero.find("iframe").attr("src",r[0]), 4==a.type?n.tips():(n.offset(), parseInt(f.getStyle(document.getElementById(d.MOVE),"z-index"))||(n.layero.css("visibility","hidden"), h.ready(function(){
-     n.offset(), n.layero.css("visibility","visible")
-    }))), !a.fixed||f.events.resize[n.index]||(f.events.resize[n.index]=function(){
-     n.resize()
-    }, c.on("resize",f.events.resize[n.index])), a.time<=0||setTimeout(function(){
-     h.close(n.index)
-    },a.time), n.move().callback(), d.anim[a.anim]&&(e="layer-anim "+d.anim[a.anim], n.layero.addClass(e).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",function(){
-     m(this).removeClass(e)
-    })), a.isOutAnim&&n.layero.data({isOutAnim:!0,anim:a.anim})
+   var e,t,i,n,a,o=this,s=o.config,l=o.index,r="object"== typeof (f=s.content),c=m("body");
+   if(s.id&&m("."+y[0]).find("#"+s.id)[0]) return e=m("#"+s.id).closest("."+y[0]), t=e.attr("times"), i=e.data("config"), n=m("#"+y.SHADE+t), void ("min"===(e.data("maxminStatus")||{})?h.restore(t):i.hideOnClose&&(n.show(), e.show()));
+   switch(s.removeFocus&&document.activeElement.blur(), "string"== typeof s.area&&(s.area="auto"===s.area?["",""]:[s.area,""]), s.shift&&(s.anim=s.shift), 6==h.ie&&(s.fixed= !1), s.type){
+    case 0:
+     s.btn="btn" in s?s.btn:u.btn[0], h.closeAll("dialog");
+     break;
+    case 2:
+     var f=s.content=r?s.content:[s.content||"","auto"];
+     s.content='<iframe scrolling="'+(s.content[1]||"auto")+'" allowtransparency="true" id="'+y[4]+l+'" name="'+y[4]+l+'" onload="this.className=\'\';" class="layui-layer-load" frameborder="0" src="'+s.content[0]+'"></iframe>';
+     break;
+    case 3:
+     delete s.title, delete s.closeBtn, -1===s.icon&&s.icon, h.closeAll("loading");
+     break;
+    case 4:
+     r||(s.content=[s.content,"body"]), s.follow=s.content[1], s.content=s.content[0]+'<i class="layui-layer-TipsG"></i>', delete s.title, s.tips="object"== typeof s.tips?s.tips:[s.tips,!0], s.tipsMore||h.closeAll("tips")
    }
+   o.vessel(r,function(e,t,i){
+    c.append(e[0]), r?2==s.type||4==s.type?m("body").append(e[1]):f.parents("."+y[0])[0]||(f.data("display",f.css("display")).show().addClass("layui-layer-wrap").wrap(e[1]), m("#"+y[0]+l).find("."+y[5]).before(t)):c.append(e[1]), m("#"+y.MOVE)[0]||c.append(u.moveElem=i), o.layero=m("#"+y[0]+l), o.shadeo=m("#"+y.SHADE+l), s.scrollbar||y.html.css("overflow","hidden").attr("layer-full",l)
+   }).auto(l), o.shadeo.css({
+    "background-color":s.shade[1]||"#000",
+    opacity:s.shade[0]||s.shade
+   }), 2==s.type&&6==h.ie&&o.layero.find("iframe").attr("src",f[0]), 4==s.type?o.tips():(o.offset(), parseInt(u.getStyle(document.getElementById(y.MOVE),"z-index"))||(o.layero.css("visibility","hidden"), h.ready(function(){
+    o.offset(), o.layero.css("visibility","visible")
+   }))), s.fixed&& !u.events.resize[o.index]&&(u.events.resize[o.index]=function(){
+    o.resize()
+   }, d.on("resize",u.events.resize[o.index])), s.time<=0||setTimeout(function(){
+    h.close(o.index)
+   },s.time), o.move().callback(), y.anim[s.anim]&&(a="layer-anim "+y.anim[s.anim], o.layero.addClass(a).one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",function(){
+    m(this).removeClass(a)
+   })), o.layero.data("config",s)
   }, t.pt.resize=function(){
    var e=this,t=e.config;
    e.offset(), (/^\d+%$/.test(t.area[0])||/^\d+%$/.test(t.area[1]))&&e.auto(e.index), 4==t.type&&e.tips()
   }, t.pt.auto=function(e){
-   var t=this.config,i=m("#"+d[0]+e),
+   var t=this.config,i=m("#"+y[0]+e),
     n=(""===t.area[0]&&0<t.maxWidth&&(h.ie&&h.ie<8&&t.btn&&i.width(i.innerWidth()), i.outerWidth()>t.maxWidth&&i.width(t.maxWidth)), [i.innerWidth(),i.innerHeight()]),
-    a=i.find(d[1]).outerHeight()||0,o=i.find("."+d[6]).outerHeight()||0,e=function(e){
+    a=i.find(y[1]).outerHeight()||0,o=i.find("."+y[6]).outerHeight()||0,e=function(e){
      (e=i.find(e)).height(n[1]-a-o-2*(0|parseFloat(e.css("padding-top"))))
     };
-   return 2===t.type?e("iframe"):""===t.area[1]?0<t.maxHeight&&i.outerHeight()>t.maxHeight?(n[1]=t.maxHeight, e("."+d[5])):t.fixed&&n[1]>=c.height()&&(n[1]=c.height(), e("."+d[5])):e("."+d[5]), this
+   return 2===t.type?e("iframe"):""===t.area[1]?0<t.maxHeight&&i.outerHeight()>t.maxHeight?(n[1]=t.maxHeight, e("."+y[5])):t.fixed&&n[1]>=d.height()&&(n[1]=d.height(), e("."+y[5])):e("."+y[5]), this
   }, t.pt.offset=function(){
    var e=this,t=e.config,i=e.layero,n=[i.outerWidth(),i.outerHeight()],a="object"== typeof t.offset;
-   e.offsetTop=(c.height()-n[1])/2, e.offsetLeft=(c.width()-n[0])/2, a?(e.offsetTop=t.offset[0], e.offsetLeft=t.offset[1]||e.offsetLeft):"auto"!==t.offset&&("t"===t.offset?e.offsetTop=0:"r"===t.offset?e.offsetLeft=c.width()-n[0]:"b"===t.offset?e.offsetTop=c.height()-n[1]:"l"===t.offset?e.offsetLeft=0:"lt"===t.offset?(e.offsetTop=0, e.offsetLeft=0):"lb"===t.offset?(e.offsetTop=c.height()-n[1], e.offsetLeft=0):"rt"===t.offset?(e.offsetTop=0, e.offsetLeft=c.width()-n[0]):"rb"===t.offset?(e.offsetTop=c.height()-n[1], e.offsetLeft=c.width()-n[0]):e.offsetTop=t.offset), t.fixed||(e.offsetTop=/%$/.test(e.offsetTop)?c.height()*parseFloat(e.offsetTop)/100:parseFloat(e.offsetTop), e.offsetLeft=/%$/.test(e.offsetLeft)?c.width()*parseFloat(e.offsetLeft)/100:parseFloat(e.offsetLeft), e.offsetTop+=c.scrollTop(), e.offsetLeft+=c.scrollLeft()), "min"===i.data("maxminStatus")&&(e.offsetTop=c.height()-(i.find(d[1]).outerHeight()||0), e.offsetLeft=i.css("left")), i.css({
+   e.offsetTop=(d.height()-n[1])/2, e.offsetLeft=(d.width()-n[0])/2, a?(e.offsetTop=t.offset[0], e.offsetLeft=t.offset[1]||e.offsetLeft):"auto"!==t.offset&&("t"===t.offset?e.offsetTop=0:"r"===t.offset?e.offsetLeft=d.width()-n[0]:"b"===t.offset?e.offsetTop=d.height()-n[1]:"l"===t.offset?e.offsetLeft=0:"lt"===t.offset?(e.offsetTop=0, e.offsetLeft=0):"lb"===t.offset?(e.offsetTop=d.height()-n[1], e.offsetLeft=0):"rt"===t.offset?(e.offsetTop=0, e.offsetLeft=d.width()-n[0]):"rb"===t.offset?(e.offsetTop=d.height()-n[1], e.offsetLeft=d.width()-n[0]):e.offsetTop=t.offset), t.fixed||(e.offsetTop=/%$/.test(e.offsetTop)?d.height()*parseFloat(e.offsetTop)/100:parseFloat(e.offsetTop), e.offsetLeft=/%$/.test(e.offsetLeft)?d.width()*parseFloat(e.offsetLeft)/100:parseFloat(e.offsetLeft), e.offsetTop+=d.scrollTop(), e.offsetLeft+=d.scrollLeft()), "min"===i.data("maxminStatus")&&(e.offsetTop=d.height()-(i.find(y[1]).outerHeight()||0), e.offsetLeft=i.css("left")), i.css({
     top:e.offsetTop,
     left:e.offsetLeft
    })
@@ -3616,7 +3632,7 @@ layui.define(function(e){
     a={width:(n=n[0]?n:m("body")).outerWidth(),height:n.outerHeight(),top:n.offset().top,left:n.offset().left},
     o=t.find(".layui-layer-TipsG"),n=e.tips[0];
    e.tips[1]||o.remove(), a.autoLeft=function(){
-    0<a.left+i[0]-c.width()?(a.tipLeft=a.left+a.width-i[0], o.css({right:12,left:"auto"})):a.tipLeft=a.left
+    0<a.left+i[0]-d.width()?(a.tipLeft=a.left+a.width-i[0], o.css({right:12,left:"auto"})):a.tipLeft=a.left
    }, a.where=[function(){
     a.autoLeft(), a.tipTop=a.top-i[1]-10, o.removeClass("layui-layer-TipsB").addClass("layui-layer-TipsT").css("border-right-color",e.tips[1])
    },function(){
@@ -3625,40 +3641,40 @@ layui.define(function(e){
     a.autoLeft(), a.tipTop=a.top+a.height+10, o.removeClass("layui-layer-TipsT").addClass("layui-layer-TipsB").css("border-right-color",e.tips[1])
    },function(){
     a.tipLeft=a.left-i[0]-10, a.tipTop=a.top, o.removeClass("layui-layer-TipsR").addClass("layui-layer-TipsL").css("border-bottom-color",e.tips[1])
-   }], a.where[n-1](), 1===n?a.top-(c.scrollTop()+i[1]+16)<0&&a.where[2]():2===n?0<c.width()-(a.left+a.width+i[0]+16)||a.where[3]():3===n?0<a.top-c.scrollTop()+a.height+i[1]+16-c.height()&&a.where[0]():4===n&&0<i[0]+16-a.left&&a.where[1](), t.find("."+d[5]).css({
+   }], a.where[n-1](), 1===n?a.top-(d.scrollTop()+i[1]+16)<0&&a.where[2]():2===n?0<d.width()-(a.left+a.width+i[0]+16)||a.where[3]():3===n?0<a.top-d.scrollTop()+a.height+i[1]+16-d.height()&&a.where[0]():4===n&&0<i[0]+16-a.left&&a.where[1](), t.find("."+y[5]).css({
     "background-color":e.tips[1],
     "padding-right":e.closeBtn?"30px":""
-   }), t.css({left:a.tipLeft-(e.fixed?c.scrollLeft():0),top:a.tipTop-(e.fixed?c.scrollTop():0)})
+   }), t.css({left:a.tipLeft-(e.fixed?d.scrollLeft():0),top:a.tipTop-(e.fixed?d.scrollTop():0)})
   }, t.pt.move=function(){
    var n=this,a=n.config,e=m(document),o=n.layero,r=["LAY_MOVE_DICT","LAY_RESIZE_DICT"],t=o.find(a.move),
     i=o.find(".layui-layer-resize");
    return a.move&&t.css("cursor","move"), t.on("mousedown",function(e){
     var t,i;
-    e.button||(t=m(this), i={}, a.move&&(i.layero=o, i.config=a, i.offset=[e.clientX-parseFloat(o.css("left")),e.clientY-parseFloat(o.css("top"))], t.data(r[0],i), f.eventMoveElem=t, f.moveElem.css("cursor","move").show()), e.preventDefault())
+    e.button||(t=m(this), i={}, a.move&&(i.layero=o, i.config=a, i.offset=[e.clientX-parseFloat(o.css("left")),e.clientY-parseFloat(o.css("top"))], t.data(r[0],i), u.eventMoveElem=t, u.moveElem.css("cursor","move").show()), e.preventDefault())
    }), i.on("mousedown",function(e){
     var t=m(this),i={};
-    a.resize&&(i.layero=o, i.config=a, i.offset=[e.clientX,e.clientY], i.index=n.index, i.area=[o.outerWidth(),o.outerHeight()], t.data(r[1],i), f.eventResizeElem=t, f.moveElem.css("cursor","se-resize").show()), e.preventDefault()
-   }), f.docEvent||(e.on("mousemove",function(e){
+    a.resize&&(i.layero=o, i.config=a, i.offset=[e.clientX,e.clientY], i.index=n.index, i.area=[o.outerWidth(),o.outerHeight()], t.data(r[1],i), u.eventResizeElem=t, u.moveElem.css("cursor","se-resize").show()), e.preventDefault()
+   }), u.docEvent||(e.on("mousemove",function(e){
     var t,i,n,a,o,s,l;
-    f.eventMoveElem&&(t=(a=f.eventMoveElem.data(r[0])||{}).layero, o=a.config, s=e.clientX-a.offset[0], l=e.clientY-a.offset[1], i="fixed"===t.css("position"), e.preventDefault(), a.stX=i?0:c.scrollLeft(), a.stY=i?0:c.scrollTop(), o.moveOut||(i=c.width()-t.outerWidth()+a.stX, n=c.height()-t.outerHeight()+a.stY, i<(s=s<a.stX?a.stX:s)&&(s=i), n<(l=l<a.stY?a.stY:l)&&(l=n)), t.css({
+    u.eventMoveElem&&(t=(a=u.eventMoveElem.data(r[0])||{}).layero, o=a.config, s=e.clientX-a.offset[0], l=e.clientY-a.offset[1], i="fixed"===t.css("position"), e.preventDefault(), a.stX=i?0:d.scrollLeft(), a.stY=i?0:d.scrollTop(), o.moveOut||(i=d.width()-t.outerWidth()+a.stX, n=d.height()-t.outerHeight()+a.stY, i<(s=s<a.stX?a.stX:s)&&(s=i), n<(l=l<a.stY?a.stY:l)&&(l=n)), t.css({
      left:s,
      top:l
-    })), f.eventResizeElem&&(o=(a=f.eventResizeElem.data(r[1])||{}).config, s=e.clientX-a.offset[0], l=e.clientY-a.offset[1], e.preventDefault(), h.style(a.index,{
+    })), u.eventResizeElem&&(o=(a=u.eventResizeElem.data(r[1])||{}).config, s=e.clientX-a.offset[0], l=e.clientY-a.offset[1], e.preventDefault(), h.style(a.index,{
      width:a.area[0]+s,
      height:a.area[1]+l
     }), o.resizing&&o.resizing(a.layero))
    }).on("mouseup",function(e){
     var t,i;
-    f.eventMoveElem&&(i=(t=f.eventMoveElem.data(r[0])||{}).config, f.eventMoveElem.removeData(r[0]), delete f.eventMoveElem, f.moveElem.hide(), i.moveEnd&&i.moveEnd(t.layero)), f.eventResizeElem&&(f.eventResizeElem.removeData(r[1]), delete f.eventResizeElem, f.moveElem.hide())
-   }), f.docEvent= !0), n
+    u.eventMoveElem&&(i=(t=u.eventMoveElem.data(r[0])||{}).config, u.eventMoveElem.removeData(r[0]), delete u.eventMoveElem, u.moveElem.hide(), i.moveEnd&&i.moveEnd(t.layero)), u.eventResizeElem&&(u.eventResizeElem.removeData(r[1]), delete u.eventResizeElem, u.moveElem.hide())
+   }), u.docEvent= !0), n
   }, t.pt.callback=function(){
    var t=this,i=t.layero,n=t.config;
    t.openLayer(), n.success&&(2==n.type?i.find("iframe").on("load",function(){
     n.success(i,t.index,t)
-   }):n.success(i,t.index,t)), 6==h.ie&&t.IE6(i), i.find("."+d[6]).children("a").on("click",function(){
+   }):n.success(i,t.index,t)), 6==h.ie&&t.IE6(i), i.find("."+y[6]).children("a").on("click",function(){
     var e=m(this).index();
     0===e?n.yes?n.yes(t.index,i,t):n.btn1?n.btn1(t.index,i,t):h.close(t.index):!1!==(n["btn"+(e+1)]&&n["btn"+(e+1)](t.index,i,t))&&h.close(t.index)
-   }), i.find("."+d[7]).on("click",function(){
+   }), i.find("."+y[7]).on("click",function(){
     !1!==(n.cancel&&n.cancel(t.index,i,t))&&h.close(t.index)
    }), n.shadeClose&&t.shadeo.on("click",function(){
     h.close(t.index)
@@ -3668,16 +3684,16 @@ layui.define(function(e){
     m(this).hasClass("layui-layer-maxmin")?(h.restore(t.index), n.restore&&n.restore(i,t.index,t)):(h.full(t.index,n), setTimeout(function(){
      n.full&&n.full(i,t.index,t)
     },100))
-   }), n.end&&(f.end[t.index]=n.end)
-  }, f.reselect=function(){
+   }), n.end&&(u.end[t.index]=n.end)
+  }, u.reselect=function(){
    m.each(m("select"),function(e,t){
     var i=m(this);
-    i.parents("."+d[0])[0]||1==i.attr("layer")&&m("."+d[0]).length<1&&i.removeAttr("layer").show()
+    i.parents("."+y[0])[0]||1==i.attr("layer")&&m("."+y[0]).length<1&&i.removeAttr("layer").show()
    })
   }, t.pt.IE6=function(e){
    m("select").each(function(e,t){
     var i=m(this);
-    i.parents("."+d[0])[0]||"none"!==i.css("display")&&i.attr({layer:"1"}).hide()
+    i.parents("."+y[0])[0]||"none"!==i.css("display")&&i.attr({layer:"1"}).hide()
    })
   }, t.pt.openLayer=function(){
    h.zIndex=this.config.zIndex, h.setTop=function(e){
@@ -3685,37 +3701,36 @@ layui.define(function(e){
      h.zIndex++, e.css("z-index",h.zIndex+1)
     }), h.zIndex
    }
-  }, f.record=function(e){
+  }, u.record=function(e){
    if(!e[0]) return p.console&&console.error("index error");
    var t=[e[0].style.width||e.width(),e[0].style.height||e.height(),e.position().top,e.position().left+parseFloat(e.css("margin-left"))];
    e.find(".layui-layer-max").addClass("layui-layer-maxmin"), e.attr({area:t})
-  }, f.rescollbar=function(e){
-   d.html.attr("layer-full")==e&&(d.html[0].style.removeProperty?d.html[0].style.removeProperty("overflow"):d.html[0].style.removeAttribute("overflow"), d.html.removeAttr("layer-full"))
+  }, u.rescollbar=function(e){
+   y.html.attr("layer-full")==e&&(y.html[0].style.removeProperty?y.html[0].style.removeProperty("overflow"):y.html[0].style.removeAttribute("overflow"), y.html.removeAttr("layer-full"))
   }, (p.layer=h).getChildFrame=function(e,t){
-   return t=t||m("."+d[4]).attr("times"), m("#"+d[0]+t).find("iframe").contents().find(e)
+   return t=t||m("."+y[4]).attr("times"), m("#"+y[0]+t).find("iframe").contents().find(e)
   }, h.getFrameIndex=function(e){
-   return m("#"+e).parents("."+d[4]).attr("times")
+   return m("#"+e).parents("."+y[4]).attr("times")
   }, h.iframeAuto=function(e){
    var t,i,n;
-   e&&(t=h.getChildFrame("html",e).outerHeight(), i=(e=m("#"+d[0]+e)).find(d[1]).outerHeight()||0, n=e.find("."+d[6]).outerHeight()||0, e.css({height:t+i+n}), e.find("iframe").css({height:t}))
+   e&&(t=h.getChildFrame("html",e).outerHeight(), i=(e=m("#"+y[0]+e)).find(y[1]).outerHeight()||0, n=e.find("."+y[6]).outerHeight()||0, e.css({height:t+i+n}), e.find("iframe").css({height:t}))
   }, h.iframeSrc=function(e,t){
-   m("#"+d[0]+e).find("iframe").attr("src",t)
+   m("#"+y[0]+e).find("iframe").attr("src",t)
   }, h.style=function(e,t,i){
-   var e=m("#"+d[0]+e),n=e.find(".layui-layer-content"),a=e.attr("type"),o=e.find(d[1]).outerHeight()||0,
-    s=e.find("."+d[6]).outerHeight()||0;
+   var e=m("#"+y[0]+e),n=e.find(".layui-layer-content"),a=e.attr("type"),o=e.find(y[1]).outerHeight()||0,
+    s=e.find("."+y[6]).outerHeight()||0;
    e.attr("minLeft");
-   a!==f.type[3]&&a!==f.type[4]&&(i||(parseFloat(t.width)<=260&&(t.width=260), parseFloat(t.height)-o-s<=64&&(t.height=64+o+s)), e.css(t), s=e.find("."+d[6]).outerHeight()||0, a===f.type[2]?e.find("iframe").css({height:("number"== typeof t.height?t.height:e.height())-o-s}):n.css({height:("number"== typeof t.height?t.height:e.height())-o-s-parseFloat(n.css("padding-top"))-parseFloat(n.css("padding-bottom"))}))
+   a!==u.type[3]&&a!==u.type[4]&&(i||(parseFloat(t.width)<=260&&(t.width=260), parseFloat(t.height)-o-s<=64&&(t.height=64+o+s)), e.css(t), s=e.find("."+y[6]).outerHeight()||0, a===u.type[2]?e.find("iframe").css({height:("number"== typeof t.height?t.height:e.height())-o-s}):n.css({height:("number"== typeof t.height?t.height:e.height())-o-s-parseFloat(n.css("padding-top"))-parseFloat(n.css("padding-bottom"))}))
   }, h.min=function(e,t){
-   t=t||{};
-   var i,n,a,o,s,l=m("#"+d[0]+e),r=l.data("maxminStatus");
-   "min"!==r&&("max"===r&&h.restore(e), l.data("maxminStatus","min"), r=m("#"+d.SHADE+e), i=l.find(d[1]).outerHeight()||0, a=(n="string"== typeof (a=l.attr("minLeft")))?a:181*f.minStackIndex+"px", o=l.css("position"), s={
+   var i,n,a,o,s,l,r=m("#"+y[0]+e),c=r.data("maxminStatus");
+   "min"!==c&&("max"===c&&h.restore(e), r.data("maxminStatus","min"), t=t||r.data("config")||{}, c=m("#"+y.SHADE+e), i=r.find(".layui-layer-min"), n=r.find(y[1]).outerHeight()||0, o=(a="string"== typeof (o=r.attr("minLeft")))?o:181*u.minStackIndex+"px", s=r.css("position"), l={
     width:180,
-    height:i,
+    height:n,
     position:"fixed",
     overflow:"hidden"
-   }, f.record(l), 0<f.minStackArr.length&&(a=f.minStackArr[0], f.minStackArr.shift()), parseFloat(a)+180>c.width()&&(a=c.width()-180-(f.minStackArr.edgeIndex=f.minStackArr.edgeIndex||0, f.minStackArr.edgeIndex+=3))<0&&(a=0), t.minStack&&(s.left=a, s.top=c.height()-i, n||f.minStackIndex++, l.attr("minLeft",a)), l.attr("position",o), h.style(e,s,!0), l.find(".layui-layer-min").hide(), "page"===l.attr("type")&&l.find(d[4]).hide(), f.rescollbar(e), r.hide())
+   }, u.record(r), 0<u.minStackArr.length&&(o=u.minStackArr[0], u.minStackArr.shift()), parseFloat(o)+180>d.width()&&(o=d.width()-180-(u.minStackArr.edgeIndex=u.minStackArr.edgeIndex||0, u.minStackArr.edgeIndex+=3))<0&&(o=0), t.minStack&&(l.left=o, l.top=d.height()-n, a||u.minStackIndex++, r.attr("minLeft",o)), r.attr("position",s), h.style(e,l,!0), i.hide(), "page"===r.attr("type")&&r.find(y[4]).hide(), u.rescollbar(e), c.hide())
   }, h.restore=function(e){
-   var t=m("#"+d[0]+e),i=m("#"+d.SHADE+e),n=t.attr("area").split(","),a=t.attr("type");
+   var t=m("#"+y[0]+e),i=m("#"+y.SHADE+e),n=t.attr("area").split(","),a=t.attr("type");
    t.removeData("maxminStatus"), h.style(e,{
     width:n[0],
     height:n[1],
@@ -3723,48 +3738,50 @@ layui.define(function(e){
     left:parseFloat(n[3]),
     position:t.attr("position"),
     overflow:"visible"
-   },!0), t.find(".layui-layer-max").removeClass("layui-layer-maxmin"), t.find(".layui-layer-min").show(), "page"===a&&t.find(d[4]).show(), f.rescollbar(e), i.show()
+   },!0), t.find(".layui-layer-max").removeClass("layui-layer-maxmin"), t.find(".layui-layer-min").show(), "page"===a&&t.find(y[4]).show(), u.rescollbar(e), i.show()
   }, h.full=function(t){
-   var i=m("#"+d[0]+t),e=i.data("maxminStatus");
-   "max"!==e&&("min"===e&&h.restore(t), i.data("maxminStatus","max"), f.record(i), d.html.attr("layer-full")||d.html.css("overflow","hidden").attr("layer-full",t), clearTimeout(void 0), setTimeout(function(){
+   var i=m("#"+y[0]+t),e=i.data("maxminStatus");
+   "max"!==e&&("min"===e&&h.restore(t), i.data("maxminStatus","max"), u.record(i), y.html.attr("layer-full")||y.html.css("overflow","hidden").attr("layer-full",t), clearTimeout(void 0), setTimeout(function(){
     var e="fixed"===i.css("position");
     h.style(t,{
-     top:e?0:c.scrollTop(),
-     left:e?0:c.scrollLeft(),
+     top:e?0:d.scrollTop(),
+     left:e?0:d.scrollLeft(),
      width:"100%",
      height:"100%"
     },!0), i.find(".layui-layer-min").hide()
    },100))
   }, h.title=function(e,t){
-   m("#"+d[0]+(t||h.index)).find(d[1]).html(e)
-  }, h.close=function(a,o){
-   var s,e,l=(t=m("."+d[0]).find("#"+a).closest("."+d[0]))[0]?(a=t.attr("times"), t):m("#"+d[0]+a),r=l.attr("type"),
-    t=l.data()||{},i={
-     slideDown:"layer-anim-slide-down-out",
-     slideLeft:"layer-anim-slide-left-out",
-     slideUp:"layer-anim-slide-up-out",
-     slideRight:"layer-anim-slide-right-out"
-    }[t.anim]||"layer-anim-close";
-   l[0]&&(s="layui-layer-wrap", e=function(){
-    if(r===f.type[1]&&"object"===l.attr("conType")){
-     l.children(":not(."+d[5]+")").remove();
-     for(var e=l.find("."+s),t=0; t<2; t++) e.unwrap();
-     e.css("display",e.data("display")).removeClass(s)
+   m("#"+y[0]+(t||h.index)).find(y[1]).html(e)
+  }, h.close=function(o,s){
+   var l,e,r=(t=m("."+y[0]).find("#"+o).closest("."+y[0]))[0]?(o=t.attr("times"), t):m("#"+y[0]+o),c=r.attr("type"),
+    t=r.data("config")||{},f=t.id&&t.hideOnClose;
+   r[0]&&(l={
+    slideDown:"layer-anim-slide-down-out",
+    slideLeft:"layer-anim-slide-left-out",
+    slideUp:"layer-anim-slide-up-out",
+    slideRight:"layer-anim-slide-right-out"
+   }[t.anim]||"layer-anim-close", e=function(){
+    var e="layui-layer-wrap";
+    if(f) return r.removeClass("layer-anim "+l), r.hide();
+    if(c===u.type[1]&&"object"===r.attr("conType")){
+     r.children(":not(."+y[5]+")").remove();
+     for(var t=r.find("."+e),i=0; i<2; i++) t.unwrap();
+     t.css("display",t.data("display")).removeClass(e)
     }else{
-     if(r===f.type[2]) try{
-      var i=m("#"+d[4]+a)[0];
-      i.contentWindow.document.write(""), i.contentWindow.close(), l.find("."+d[5])[0].removeChild(i)
-     }catch(n){
+     if(c===u.type[2]) try{
+      var n=m("#"+y[4]+o)[0];
+      n.contentWindow.document.write(""), n.contentWindow.close(), r.find("."+y[5])[0].removeChild(n)
+     }catch(a){
      }
-     l[0].innerHTML="", l.remove()
+     r[0].innerHTML="", r.remove()
     }
-    "function"== typeof f.end[a]&&f.end[a](), delete f.end[a], "function"== typeof o&&o(), f.events.resize[a]&&(c.off("resize",f.events.resize[a]), delete f.events.resize[a])
-   }, t.isOutAnim&&l.addClass("layer-anim "+i), m("#layui-layer-moves, #"+d.SHADE+a).remove(), 6==h.ie&&f.reselect(), f.rescollbar(a), "string"== typeof l.attr("minLeft")&&(f.minStackIndex--, f.minStackArr.push(l.attr("minLeft"))), h.ie&&h.ie<10|| !l.data("isOutAnim")?e():setTimeout(function(){
+    "function"== typeof u.end[o]&&u.end[o](), delete u.end[o], "function"== typeof s&&s(), u.events.resize[o]&&(d.off("resize",u.events.resize[o]), delete u.events.resize[o])
+   }, m("#"+y.SHADE+o)[f?"hide":"remove"](), t.isOutAnim&&r.addClass("layer-anim "+l), 6==h.ie&&u.reselect(), u.rescollbar(o), "string"== typeof r.attr("minLeft")&&(u.minStackIndex--, u.minStackArr.push(r.attr("minLeft"))), h.ie&&h.ie<10|| !t.isOutAnim?e():setTimeout(function(){
     e()
    },200))
   }, h.closeAll=function(n,a){
    "function"== typeof n&&(a=n, n=null);
-   var o=m("."+d[0]);
+   var o=m("."+y[0]);
    m.each(o,function(e){
     var t=m(this),i=n?t.attr("type")===n:1;
     i&&h.close(t.attr("times"),e===o.length-1?a:null)
@@ -3785,7 +3802,7 @@ layui.define(function(e){
    btn:["&#x786E;&#x5B9A;","&#x53D6;&#x6D88;"],
    content:o,
    skin:"layui-layer-prompt"+g("prompt"),
-   maxWidth:c.width(),
+   maxWidth:d.width(),
    success:function(e){
     (a=e.find(".layui-layer-input")).val(i.value||"").focus(), "function"== typeof s&&s(e)
    },
@@ -3898,15 +3915,15 @@ layui.define(function(e){
     y.onerror=null, u(e)
    })
   }
- }, f.run=function(e){
-  c=(m=e)(p), d.html=m("html"), h.open=function(e){
+ }, u.run=function(e){
+  d=(m=e)(p), y.html=m("html"), h.open=function(e){
    return new t(e).index
   }
  }, p.layui&&layui.define?(h.ready(), layui.define("jquery",function(e){
-  h.path=layui.cache.dir, f.run(layui.$), e("layer",p.layer=h)
+  h.path=layui.cache.dir, u.run(layui.$), e("layer",p.layer=h)
  })):"function"== typeof define&&define.amd?define(["jquery"],function(){
-  return f.run(p.jQuery), h
- }):(h.ready(), f.run(p.jQuery))
+  return u.run(p.jQuery), h
+ }):(h.ready(), u.run(p.jQuery))
 }(window);
 layui.define("jquery",function(e){
  "use strict";
@@ -4812,7 +4829,7 @@ layui.define(["lay","layer"],function(e){
 layui.define(["lay","layer","util"],function(e){
  "use strict";
  var b=layui.$,h=layui.layer,d=layui.util,l=layui.hint(),w=(layui.device(), "form"),o=".layui-form",T="layui-this",
-  $="layui-hide",F="layui-disabled",t=function(){
+  $="layui-hide",q="layui-disabled",t=function(){
    this.config={
     verify:{
      required:[/[\S]+/,"\u5fc5\u586b\u9879\u4e0d\u80fd\u4e3a\u7a7a"],
@@ -4820,7 +4837,7 @@ layui.define(["lay","layer","util"],function(e){
      email:[/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,"\u90ae\u7bb1\u683c\u5f0f\u4e0d\u6b63\u786e"],
      url:[/^(#|(http(s?)):\/\/|\/\/)[^\s]+\.[^\s]+$/,"\u94fe\u63a5\u683c\u5f0f\u4e0d\u6b63\u786e"],
      number:function(e){
-      if(!e||isNaN(e)) return "\u53ea\u80fd\u586b\u5199\u6570\u5b57"
+      if(isNaN(e)) return "\u53ea\u80fd\u586b\u5199\u6570\u5b57"
      },
      date:[/^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/,"\u65e5\u671f\u683c\u5f0f\u4e0d\u6b63\u786e"],
      identity:[/(^\d{15}$)|(^\d{17}(x|X|\d)$)/,"\u8bf7\u8f93\u5165\u6b63\u786e\u7684\u8eab\u4efd\u8bc1\u53f7"]
@@ -4862,7 +4879,7 @@ layui.define(["lay","layer","util"],function(e){
         (e=b(e))[0]&&e[b.trim(t)?"removeClass":"addClass"]($)
        },n=function(t){
         t=b.extend({},u[r]||{value:r},t,lay.options(l[0]));
-        var i=b('<div class="'+o+'">'),e=b('<i class="layui-icon layui-icon-'+t.value+(t.disabled?" "+F:"")+'"></i>'),
+        var i=b('<div class="'+o+'">'),e=b('<i class="layui-icon layui-icon-'+t.value+(t.disabled?" "+q:"")+'"></i>'),
          a=(i.append(e), t.split&&i.addClass("layui-input-split"), l.next("."+o)),n=(a[0]&&a.remove(), l.next("."+s));
         n[0]?((a=n.find("."+o))[0]&&a.remove(), n.prepend(i), l.css("padding-right",function(){
          return (l.closest(".layui-input-group")[0]?0:n.outerWidth())+i.outerWidth()
@@ -4871,7 +4888,7 @@ layui.define(["lay","layer","util"],function(e){
          "auto"===t.show&&c(i,e)
         }), e.on("click",function(){
          var e=l.attr("lay-filter");
-         b(this).hasClass(F)||("function"== typeof t.click&&t.click.call(this,l,t), layui.event.call(this,w,"input-affix("+e+")",{
+         b(this).hasClass(q)||("function"== typeof t.click&&t.click.call(this,l,t), layui.event.call(this,w,"input-affix("+e+")",{
           elem:l[0],
           affix:r,
           options:t
@@ -4892,15 +4909,15 @@ layui.define(["lay","layer","util"],function(e){
       n()
      })
     },select:function(e){
-     var v,c="\u8bf7\u9009\u62e9",m="layui-form-select",g="layui-select-title",x="layui-select-none",k="",
+     var p,c="\u8bf7\u9009\u62e9",m="layui-form-select",g="layui-select-title",x="layui-select-none",k="",
       e=e||a.find("select"),C=function(e,t){
-       b(e.target).parent().hasClass(g)&& !t||(b("."+m).removeClass(m+"ed "+m+"up"), v&&k&&v.val(k)), v=null
+       b(e.target).parent().hasClass(g)&& !t||(b("."+m).removeClass(m+"ed "+m+"up"), p&&k&&p.val(k)), p=null
       },u=function(a,e,t){
        var s,r,i,n,o,l,c=b(this),u=a.find("."+g),d=u.find("input"),f=a.find("dl"),h=f.children("dd"),y=f.children("dt"),
-        p=this.selectedIndex;
+        v=this.selectedIndex;
        e||(r=c.attr("lay-search"), i=function(){
-        var e=a.offset().top+a.outerHeight()+5-q.scrollTop(),t=f.outerHeight();
-        p=c[0].selectedIndex, a.addClass(m+"ed"), h.removeClass($), y.removeClass($), s=null, h.removeClass(T), 0<=p&&h.eq(p).addClass(T), e+t>q.height()&&t<=e&&a.addClass(m+"up"), o()
+        var e=a.offset().top+a.outerHeight()+5-F.scrollTop(),t=f.outerHeight();
+        v=c[0].selectedIndex, a.addClass(m+"ed"), h.removeClass($), y.removeClass($), s=null, h.removeClass(T), 0<=v&&h.eq(v).addClass(T), e+t>F.height()&&t<=e&&a.addClass(m+"up"), o()
        }, n=function(e){
         a.removeClass(m+"ed "+m+"up"), d.blur(), s=null, e||l(d.val(),function(e){
          var t=c[0].selectedIndex;
@@ -4921,12 +4938,12 @@ layui.define(["lay","layer","util"],function(e){
          var e=function(){
           var e=f.children("dd."+T);
           if(f.children("dd."+$)[0]&&"next"===a){
-           var t=f.children("dd:not(."+$+",."+F+")"),i=t.eq(0).index();
+           var t=f.children("dd:not(."+$+",."+q+")"),i=t.eq(0).index();
            if(0<=i&&i<e.index()&& !t.hasClass(T)) return t.eq(0).prev()[0]?t.eq(0).prev():f.children(":last")
           }
           return n&&n[0]?n:s&&s[0]?s:e
          }(),t=e[a](),i=e[a]("dd:not(."+$+")");
-         return t[0]?(s=e[a](), i[0]&& !i.hasClass(F)|| !s[0]?(i.addClass(T).siblings().removeClass(T), void o()):r(a,s)):s=null
+         return t[0]?(s=e[a](), i[0]&& !i.hasClass(q)|| !s[0]?(i.addClass(T).siblings().removeClass(T), void o()):r(a,s)):s=null
         });
         38===e&&r("prev"), 40===e&&r("next"), 13===e&&(l.preventDefault(), f.children("dd."+T).trigger("click"))
        }), l=function(a,e,n){
@@ -4946,14 +4963,14 @@ layui.define(["lay","layer","util"],function(e){
         },"keyup"), ""===t&&(c.val(""), f.find("."+T).removeClass(T), (c[0].options[0]||{}).value||f.children("dd:eq(0)").addClass(T), f.find("."+x).remove()), o()
        }).on("blur",function(e){
         var t=c[0].selectedIndex;
-        v=d, k=b(c[0].options[t]).html(), 0===t&&k===d.attr("placeholder")&&(k=""), setTimeout(function(){
+        p=d, k=b(c[0].options[t]).html(), 0===t&&k===d.attr("placeholder")&&(k=""), setTimeout(function(){
          l(d.val(),function(e){
           k||d.val("")
          },"blur")
         },200)
        }), h.on("click",function(){
         var e=b(this),t=e.attr("lay-value"),i=c.attr("lay-filter");
-        return e.hasClass(F)||(e.hasClass("layui-select-tips")?d.val(""):(d.val(e.text()), e.addClass(T)), e.siblings().removeClass(T), c.val(t).removeClass("layui-form-danger"), layui.event.call(this,w,"select("+i+")",{
+        return e.hasClass(q)||(e.hasClass("layui-select-tips")?d.val(""):(d.val(e.text()), e.addClass(T)), e.siblings().removeClass(T), c.val(t).removeClass("layui-form-danger"), layui.event.call(this,w,"select("+i+")",{
          elem:c[0],
          value:t,
          othis:a
@@ -4966,10 +4983,10 @@ layui.define(["lay","layer","util"],function(e){
       var i=b(this),a=i.next("."+m),n=this.disabled,l=t.value,r=b(t.options[t.selectedIndex]),t=t.options[0];
       if("string"== typeof i.attr("lay-ignore")) return i.show();
       var s,o="string"== typeof i.attr("lay-search"),t=t&& !t.value&&t.innerHTML||c,
-       r=b(['<div class="'+(o?"":"layui-unselect ")+m,(n?" layui-select-disabled":"")+'">','<div class="'+g+'">','<input type="text" placeholder="'+d.escape(b.trim(t))+'" value="'+d.escape(b.trim(l?r.html():""))+'"'+(!n&&o?"":" readonly")+' class="layui-input'+(o?"":" layui-unselect")+(n?" "+F:"")+'">','<i class="layui-edge"></i></div>','<dl class="layui-anim layui-anim-upbit'+(i.find("optgroup")[0]?" layui-select-group":"")+'">',(t=i.find("*"), s=[], layui.each(t,function(e,t){
+       r=b(['<div class="'+(o?"":"layui-unselect ")+m,(n?" layui-select-disabled":"")+'">','<div class="'+g+'">','<input type="text" placeholder="'+d.escape(b.trim(t))+'" value="'+d.escape(b.trim(l?r.html():""))+'"'+(!n&&o?"":" readonly")+' class="layui-input'+(o?"":" layui-unselect")+(n?" "+q:"")+'">','<i class="layui-edge"></i></div>','<dl class="layui-anim layui-anim-upbit'+(i.find("optgroup")[0]?" layui-select-group":"")+'">',(t=i.find("*"), s=[], layui.each(t,function(e,t){
         var i=t.tagName.toLowerCase();
-        0!==e||t.value||"optgroup"===i?"optgroup"===i?s.push("<dt>"+t.label+"</dt>"):s.push('<dd lay-value="'+d.escape(t.value)+'" class="'+(l===t.value?T:"")+(t.disabled?" "+F:"")+'">'+b.trim(t.innerHTML)+"</dd>"):s.push('<dd lay-value="" class="layui-select-tips">'+b.trim(t.innerHTML||c)+"</dd>")
-       }), 0===s.length&&s.push('<dd lay-value="" class="'+F+'">\u6ca1\u6709\u9009\u9879</dd>'), s.join("")+"</dl>"),"</div>"].join(""));
+        0!==e||t.value||"optgroup"===i?"optgroup"===i?s.push("<dt>"+t.label+"</dt>"):s.push('<dd lay-value="'+d.escape(t.value)+'" class="'+(l===t.value?T:"")+(t.disabled?" "+q:"")+'">'+b.trim(t.innerHTML)+"</dd>"):s.push('<dd lay-value="" class="layui-select-tips">'+b.trim(t.innerHTML||c)+"</dd>")
+       }), 0===s.length&&s.push('<dd lay-value="" class="'+q+'">\u6ca1\u6709\u9009\u9879</dd>'), s.join("")+"</dl>"),"</div>"].join(""));
       a[0]&&a.remove(), i.after(r), u.call(this,r,n,o)
      })
     },checkbox:function(e){
@@ -4979,33 +4996,35 @@ layui.define(["lay","layer","util"],function(e){
       SUBTRA:"layui-icon-indeterminate"
      },e=e||a.find("input[type=checkbox]"),c={primary:!0,tag:!0,"switch":!0};
      e.each(function(e,t){
-      var i=b(this),a=i.attr("lay-skin")||"primary",n=b.trim(t.title||(t.title=i.attr("lay-text")||"")),l=this.disabled,
-       n="switch"===a?n.split("|"):[n],r=o[a=c[a]?a:"primary"]||o.checkbox;
+      var i=b(this),a=i.attr("lay-skin")||"primary",n=d.escape(b.trim(t.title||(t.title=i.attr("lay-text")||""))),
+       l=this.disabled,
+       r=(i.next("[lay-checkbox]")[0]&&(n=i.next().html()||""), n="switch"===a?n.split("|"):[n], o[a=c[a]?a:"primary"]||o.checkbox);
       if("string"== typeof i.attr("lay-ignore")) return i.show();
       var s=i.next("."+r[0]),
-       t=b(['<div class="layui-unselect '+r[0],t.checked?" "+r[1]:"",l?" layui-checkbox-disabled "+F:"",'"',a?' lay-skin="'+a+'"':"",">",(l={
-        checkbox:[n[0]?"<span>"+d.escape(n[0])+"</span>":"",'<i class="layui-icon '+("primary"===a&& !t.checked&&i.get(0).indeterminate?o.SUBTRA:"layui-icon-ok")+'"></i>'].join(""),
-        "switch":"<em>"+((t.checked?n[0]:n[1])||"")+"</em><i></i>"
+       t=b(['<div class="layui-unselect '+r[0],t.checked?" "+r[1]:"",l?" layui-checkbox-disabled "+q:"",'"',a?' lay-skin="'+a+'"':"",">",(l={
+        checkbox:[n[0]?"<div>"+n[0]+"</div>":"primary"===a?"":"<div></div>",'<i class="layui-icon '+("primary"===a&& !t.checked&&i.get(0).indeterminate?o.SUBTRA:"layui-icon-ok")+'"></i>'].join(""),
+        "switch":"<div>"+((t.checked?n[0]:n[1])||"")+"</div><i></i>"
        })[a]||l.checkbox,"</div>"].join(""));
-      s[0]&&s.remove(), i.after(t), function(i,a){
-       var n=b(this);
-       i.on("click",function(){
-        var e=n.attr("lay-filter"),t=(n.attr("title")||"").split("|");
-        n[0].disabled||(n[0].indeterminate&&(n[0].indeterminate= !1, i.find(o.SUBTRA).removeClass(o.SUBTRA).addClass("layui-icon-ok")), n[0].checked?(n[0].checked= !1, i.removeClass(a[1]).find("em").text(t[1])):(n[0].checked= !0, i.addClass(a[1]).find("em").text(t[0])), layui.event.call(n[0],w,a[2]+"("+e+")",{
-         elem:n[0],
-         value:n[0].value,
-         othis:i
+      s[0]&&s.remove(), i.after(t), function(a,n){
+       var l=b(this);
+       a.on("click",function(){
+        var e=b(this),t=l.attr("lay-filter"),e=e.next("*[lay-checkbox]")[0]?e.next().html():l.attr("title")||"",
+         i=l.attr("lay-skin")||"primary",e="switch"===i?e.split("|"):[e];
+        l[0].disabled||(l[0].indeterminate&&(l[0].indeterminate= !1, a.find(o.SUBTRA).removeClass(o.SUBTRA).addClass("layui-icon-ok")), l[0].checked?(l[0].checked= !1, a.removeClass(n[1]), "switch"===i&&a.children("div").html(e[1])):(l[0].checked= !0, a.addClass(n[1]), "switch"===i&&a.children("div").html(e[0])), layui.event.call(l[0],w,n[2]+"("+t+")",{
+         elem:l[0],
+         value:l[0].value,
+         othis:a
         }))
        })
       }.call(this,t,r)
      })
     },radio:function(e){
-     var r="layui-form-radio",s=["&#xe643;","&#xe63f;"],e=e||a.find("input[type=radio]");
+     var r="layui-form-radio",s=["layui-icon-radio","layui-icon-circle"],e=e||a.find("input[type=radio]");
      e.each(function(e,t){
       var i=b(this),a=i.next("."+r),n=this.disabled;
       if("string"== typeof i.attr("lay-ignore")) return i.show();
       a[0]&&a.remove();
-      n=b(['<div class="layui-unselect '+r,t.checked?" "+r+"ed":"",(n?" layui-radio-disabled "+F:"")+'">','<i class="layui-anim layui-icon">'+s[t.checked?0:1]+"</i>","<div>"+(a=d.escape(t.title||""), a="string"== typeof i.next().attr("lay-radio")?i.next().html():a)+"</div>","</div>"].join(""));
+      n=b(['<div class="layui-unselect '+r,t.checked?" "+r+"ed":"",(n?" layui-radio-disabled "+q:"")+'">','<i class="layui-anim layui-icon '+s[t.checked?0:1]+'"></i>',"<div>"+(a=d.escape(t.title||""), a=i.next("[lay-radio]")[0]?i.next().html():a)+"</div>","</div>"].join(""));
       i.after(n), function(a){
        var n=b(this),l="layui-anim-scaleSpring";
        a.on("click",function(){
@@ -5013,8 +5032,8 @@ layui.define(["lay","layer","util"],function(e){
          e=t.find("input[name="+e.replace(/(\.|#|\[|\])/g,"\\$1")+"]");
         n[0].disabled||(layui.each(e,function(){
          var e=b(this).next("."+r);
-         this.checked= !1, e.removeClass(r+"ed"), e.find(".layui-icon").removeClass(l).html(s[1])
-        }), n[0].checked= !0, a.addClass(r+"ed"), a.find(".layui-icon").addClass(l).html(s[0]), layui.event.call(n[0],w,"radio("+i+")",{
+         this.checked= !1, e.removeClass(r+"ed"), e.find(".layui-icon").removeClass(l+" "+s[0]).addClass(s[1])
+        }), n[0].checked= !0, a.addClass(r+"ed"), a.find(".layui-icon").addClass(l+" "+s[0]), layui.event.call(n[0],w,"radio("+i+")",{
          elem:n[0],
          value:n[0].value,
          othis:a
@@ -5035,16 +5054,16 @@ layui.define(["lay","layer","util"],function(e){
   }, t.prototype.validate=function(e){
    var u=null,d=r.config.verify,f="layui-form-danger";
    return !(e=b(e))[0]||(e.attr("lay-verify")!==undefined|| !1!==this.validate(e.find("*[lay-verify]")))&&(layui.each(e,function(e,r){
-    var s=b(this),t=(s.attr("lay-verify")||"").split("|"),o=s.attr("lay-vertype"),c=s.val();
+    var s=b(this),t=(s.attr("lay-verify")||"").split("|"),o=s.attr("lay-vertype"),c=b.trim(s.val());
     if(s.removeClass(f), layui.each(t,function(e,t){
      var i="",a=d[t];
      if(a){
       var n="function"== typeof a?i=a(c,r):!a[0].test(c),
        l="select"===r.tagName.toLowerCase()||/^(checkbox|radio)$/.test(r.type),i=i||a[1];
-      if("required"===t&&(i=s.attr("lay-reqtext")||i), n) return "tips"===o?h.tips(i,"string"!= typeof s.attr("lay-ignore")&&l?s.next():s,{tips:1}):"alert"===o?h.alert(i,{
+      if("required"===t&&(i=s.attr("lay-reqtext")||i), n&&("required"===t||c&&"required"!==t)) return "tips"===o?h.tips(i,"string"!= typeof s.attr("lay-ignore")&&l?s.next():s,{tips:1}):"alert"===o?h.alert(i,{
        title:"\u63d0\u793a",
        shadeClose:!0
-      }):/\bstring|number\b/.test(typeof i)&&h.msg(i,{icon:5,shift:6}), setTimeout(function(){
+      }):/\b(string|number)\b/.test(typeof i)&&h.msg(i,{icon:5,shift:6}), setTimeout(function(){
        (l?s.next().find("input"):r).focus()
       },7), s.addClass(f), u= !0
      }
@@ -5060,7 +5079,7 @@ layui.define(["lay","layer","util"],function(e){
     field:n
    };
    return "function"== typeof t&&t(a), layui.event.call(this,w,"submit("+e+")",a)
-  }),r=new t,t=b(document),q=b(window);
+  }),r=new t,t=b(document),F=b(window);
  b(function(){
   r.render()
  }), t.on("reset",o,function(){
@@ -5072,8 +5091,8 @@ layui.define(["lay","layer","util"],function(e){
 });
 layui.define(["lay","laytpl","laypage","form","util"],function(e){
  "use strict";
- var p=layui.$,r=layui.lay,m=layui.laytpl,z=layui.laypage,h=layui.layer,f=layui.form,v=layui.util,u=layui.hint(),
-  g=layui.device(),b={
+ var p=layui.$,c=layui.lay,m=layui.laytpl,O=layui.laypage,f=layui.layer,v=layui.form,g=layui.util,y=layui.hint(),
+  b=layui.device(),x={
    config:{checkName:"LAY_CHECKED",indexName:"LAY_INDEX",numbersName:"LAY_NUM",disabledName:"LAY_DISABLED"},
    cache:{},
    index:layui.table?layui.table.index+1e4:0,
@@ -5082,41 +5101,41 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
     return t.config=p.extend({},t.config,e), t
    },
    on:function(e,t){
-    return layui.onevent.call(this,w,e,t)
+    return layui.onevent.call(this,T,e,t)
    }
-  },x=function(){
+  },k=function(){
    var a=this,e=a.config,i=e.id||e.index;
    return {
     config:e,reload:function(e,t){
      a.reload.call(a,e,t)
     },reloadData:function(e,t){
-     b.reloadData(i,e,t)
+     x.reloadData(i,e,t)
     },setColsWidth:function(){
      a.setColsWidth.call(a)
     },resize:function(){
      a.resize.call(a)
     }
    }
-  },k=function(e){
-   var t=x.that[e];
-   return t||u.error(e?"The table instance with ID '"+e+"' not found":"ID argument required"), t||null
-  },l=function(e){
-   var t=x.config[e];
-   return t||u.error(e?"The table instance with ID '"+e+"' not found":"ID argument required"), t||null
   },C=function(e){
+   var t=k.that[e];
+   return t||y.error(e?"The table instance with ID '"+e+"' not found":"ID argument required"), t||null
+  },l=function(e){
+   var t=k.config[e];
+   return t||y.error(e?"The table instance with ID '"+e+"' not found":"ID argument required"), t||null
+  },w=function(e){
    var t=this.config||{},a=(e=e||{}).item3,i=e.content,
-    t=(("escape" in a?a:t).escape&&(i=v.escape(i)), e.text&&a.exportTemplet||a.templet||a.toolbar);
+    t=(("escape" in a?a:t).escape&&(i=g.escape(i)), e.text&&a.exportTemplet||a.templet||a.toolbar);
    return t&&(i="function"== typeof t?t.call(a,e.tplData,e.obj):m(p(t).html()||String(i)).render(p.extend({LAY_COL:a},e.tplData))), e.text?p("<div>"+i+"</div>").text():i
-  },w="table",t=".layui-table",T="layui-hide",L="layui-hide-v",N="layui-none",R="layui-table-view",
-  o=".layui-table-header",_=".layui-table-body",A=".layui-table-pageview",D=".layui-table-sort",W="layui-table-edit",
-  E="layui-table-hover",M="laytable-cell-group",j="layui-table-col-special",H="layui-table-tool-panel",
+  },T="table",t=".layui-table",L="layui-hide",h="layui-hide-v",N="layui-none",_="layui-table-view",
+  o=".layui-table-header",R=".layui-table-body",A=".layui-table-pageview",D=".layui-table-sort",E="layui-table-edit",
+  W="layui-table-hover",H="laytable-cell-group",M="layui-table-col-special",j="layui-table-tool-panel",
   S="LAY_TABLE_MOVE_DICT",a=function(e){
-   return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>',"<thead>","{{# layui.each(d.data.cols, function(i1, item1){ }}","<tr>","{{# layui.each(item1, function(i2, item2){ }}",'{{# if(item2.fixed && item2.fixed !== "right"){ left = true; } }}','{{# if(item2.fixed === "right"){ right = true; } }}',(e=e||{}).fixed&&"right"!==e.fixed?'{{# if(item2.fixed && item2.fixed !== "right"){ }}':"right"===e.fixed?'{{# if(item2.fixed === "right"){ }}':"","{{# var isSort = !(item2.colGroup) && item2.sort; }}",'<th data-field="{{= item2.field||i2 }}" data-key="{{=d.index}}-{{=i1}}-{{=i2}}" {{# if( item2.parentKey){ }}data-parentkey="{{= item2.parentKey }}"{{# } }} {{# if(item2.minWidth){ }}data-minwidth="{{=item2.minWidth}}"{{# } }} {{# if(item2.maxWidth){ }}data-maxwidth="{{=item2.maxWidth}}"{{# } }} {{#if(item2.colspan){}} colspan="{{=item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{=item2.rowspan}}"{{#}}} {{# if(item2.unresize || item2.colGroup){ }}data-unresize="true"{{# } }} class="{{# if(item2.hide){ }}layui-hide{{# } }}{{# if(isSort){ }} layui-unselect{{# } }}{{# if(!item2.field){ }} layui-table-col-special{{# } }}"{{# if(item2.title){ }} title="{{ layui.$(\'<div>\' + item2.title + \'</div>\').text() }}"{{# } }}>','<div class="layui-table-cell laytable-cell-',"{{# if(item2.colGroup){ }}","group","{{# } else { }}","{{=d.index}}-{{=i1}}-{{=i2}}",'{{# if(item2.type !== "normal"){ }}'," laytable-cell-{{= item2.type }}","{{# } }}","{{# } }}",'" {{#if(item2.align){}}align="{{=item2.align}}"{{#}}}>','{{# if(item2.type === "checkbox"){ }}','<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose" {{# if(item2[d.data.checkName]){ }}checked{{# }; }}>',"{{# } else { }}",'<span>{{-item2.title||""}}</span>',"{{# if(isSort){ }}",'<span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="\u5347\u5e8f"></i><i class="layui-edge layui-table-sort-desc" title="\u964d\u5e8f"></i></span>',"{{# } }}","{{# } }}","</div>","</th>",e.fixed?"{{# }; }}":"","{{# }); }}","</tr>","{{# }); }}","</thead>","</table>"].join("")
+   return ['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>',"<thead>","{{# layui.each(d.data.cols, function(i1, item1){ }}","<tr>","{{# layui.each(item1, function(i2, item2){ }}",'{{# if(item2.fixed && item2.fixed !== "right"){ left = true; } }}','{{# if(item2.fixed === "right"){ right = true; } }}',(e=e||{}).fixed&&"right"!==e.fixed?'{{# if(item2.fixed && item2.fixed !== "right"){ }}':"right"===e.fixed?'{{# if(item2.fixed === "right"){ }}':"","{{# var isSort = !(item2.colGroup) && item2.sort; }}",'<th data-field="{{= item2.field||i2 }}" data-key="{{=d.index}}-{{=i1}}-{{=i2}}" {{# if( item2.parentKey){ }}data-parentkey="{{= item2.parentKey }}"{{# } }} {{# if(item2.minWidth){ }}data-minwidth="{{=item2.minWidth}}"{{# } }} {{# if(item2.maxWidth){ }}data-maxwidth="{{=item2.maxWidth}}"{{# } }} {{#var colspan = layui.type(item2.colspan2) === \'number\' ? item2.colspan2 : item2.colspan; if(colspan){}} colspan="{{=colspan}}"{{#} if(item2.rowspan){}} rowspan="{{=item2.rowspan}}"{{#}}} {{# if(item2.unresize || item2.colGroup){ }}data-unresize="true"{{# } }} class="{{# if(item2.hide){ }}layui-hide{{# } }}{{# if(isSort){ }} layui-unselect{{# } }}{{# if(!item2.field){ }} layui-table-col-special{{# } }}"{{# if(item2.title){ }} title="{{ layui.$(\'<div>\' + item2.title + \'</div>\').text() }}"{{# } }}>','<div class="layui-table-cell laytable-cell-',"{{# if(item2.colGroup){ }}","group","{{# } else { }}","{{=d.index}}-{{=i1}}-{{=i2}}",'{{# if(item2.type !== "normal"){ }}'," laytable-cell-{{= item2.type }}","{{# } }}","{{# } }}",'" {{#if(item2.align){}}align="{{=item2.align}}"{{#}}}>','{{# if(item2.type === "checkbox"){ }}','<input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose" {{# if(item2[d.data.checkName]){ }}checked{{# }; }}>',"{{# } else { }}",'<span>{{-item2.title||""}}</span>',"{{# if(isSort){ }}",'<span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc" title="\u5347\u5e8f"></i><i class="layui-edge layui-table-sort-desc" title="\u964d\u5e8f"></i></span>',"{{# } }}","{{# } }}","</div>","</th>",e.fixed?"{{# }; }}":"","{{# }); }}","</tr>","{{# }); }}","</thead>","</table>"].join("")
   },
   i=['<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>',"<tbody></tbody>","</table>"].join(""),
-  c=[,"{{# if(d.data.toolbar){ }}",'<div class="layui-table-tool">','<div class="layui-table-tool-temp"></div>','<div class="layui-table-tool-self"></div>',"</div>","{{# } }}",'<div class="layui-table-box">',"{{# if(d.data.loading){ }}",'<div class="layui-table-init" style="background-color: #fff;">','<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>',"</div>","{{# } }}","{{# var left, right; }}",'<div class="layui-table-header">',a(),"</div>",'<div class="layui-table-body layui-table-main">',i,"</div>","{{# if(left){ }}",'<div class="layui-table-fixed layui-table-fixed-l">','<div class="layui-table-header">',a({fixed:!0}),"</div>",'<div class="layui-table-body">',i,"</div>","</div>","{{# }; }}","{{# if(right){ }}",'<div class="layui-table-fixed layui-table-fixed-r layui-hide">','<div class="layui-table-header">',a({fixed:"right"}),'<div class="layui-table-mend"></div>',"</div>",'<div class="layui-table-body">',i,"</div>","</div>","{{# }; }}","</div>","{{# if(d.data.totalRow){ }}",'<div class="layui-table-total">','<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>','<tbody><tr><td><div class="layui-table-cell" style="visibility: hidden;">Total</div></td></tr></tbody>',"</table>","</div>","{{# } }}",'<div class="layui-table-column layui-table-page layui-hide">','<div class="layui-inline layui-table-pageview" id="layui-table-page{{=d.index}}"></div>',"</div>","<style>","{{# layui.each(d.data.cols, function(i1, item1){","layui.each(item1, function(i2, item2){ }}",".laytable-cell-{{=d.index}}-{{=i1}}-{{=i2}}{ ","{{# if(item2.width){ }}","width: {{=item2.width}}px;","{{# } }}"," }","{{# });","}); }}","{{# if(d.data.lineStyle){",'var cellClassName = ".layui-table-view-"+ d.index +" .layui-table-body .layui-table .layui-table-cell";',"}}","{{= cellClassName }}{","display: -webkit-box; -webkit-box-align: center; white-space: normal; {{- d.data.lineStyle }} ","}","{{= cellClassName }}:hover{overflow: auto;}","{{# } }}","{{# if(d.data.css){ }}","{{- d.data.css }}","{{# } }}","</style>"].join(""),
+  r=[,"{{# if(d.data.toolbar){ }}",'<div class="layui-table-tool">','<div class="layui-table-tool-temp"></div>','<div class="layui-table-tool-self"></div>',"</div>","{{# } }}",'<div class="layui-table-box">',"{{# if(d.data.loading){ }}",'<div class="layui-table-init" style="background-color: #fff;">','<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>',"</div>","{{# } }}","{{# var left, right; }}",'<div class="layui-table-header">',a(),"</div>",'<div class="layui-table-body layui-table-main">',i,"</div>","{{# if(left){ }}",'<div class="layui-table-fixed layui-table-fixed-l">','<div class="layui-table-header">',a({fixed:!0}),"</div>",'<div class="layui-table-body">',i,"</div>","</div>","{{# }; }}","{{# if(right){ }}",'<div class="layui-table-fixed layui-table-fixed-r layui-hide">','<div class="layui-table-header">',a({fixed:"right"}),'<div class="layui-table-mend"></div>',"</div>",'<div class="layui-table-body">',i,"</div>","</div>","{{# }; }}","</div>","{{# if(d.data.totalRow){ }}",'<div class="layui-table-total">','<table cellspacing="0" cellpadding="0" border="0" class="layui-table" ','{{# if(d.data.skin){ }}lay-skin="{{=d.data.skin}}"{{# } }} {{# if(d.data.size){ }}lay-size="{{=d.data.size}}"{{# } }} {{# if(d.data.even){ }}lay-even{{# } }}>','<tbody><tr><td><div class="layui-table-cell" style="visibility: hidden;">Total</div></td></tr></tbody>',"</table>","</div>","{{# } }}",'<div class="layui-table-column layui-table-page layui-hide">','<div class="layui-inline layui-table-pageview" id="layui-table-page{{=d.index}}"></div>',"</div>","<style>","{{# layui.each(d.data.cols, function(i1, item1){","layui.each(item1, function(i2, item2){ }}",".laytable-cell-{{=d.index}}-{{=i1}}-{{=i2}}{ ","{{# if(item2.width){ }}","width: {{=item2.width}}px;","{{# } }}"," }","{{# });","}); }}","{{# if(d.data.lineStyle){",'var cellClassName = ".layui-table-view-"+ d.index +" .layui-table-body .layui-table .layui-table-cell";',"}}","{{= cellClassName }}{","display: -webkit-box; -webkit-box-align: center; white-space: normal; {{- d.data.lineStyle }} ","}","{{= cellClassName }}:hover{overflow: auto;}","{{# } }}","{{# if(d.data.css){ }}","{{- d.data.css }}","{{# } }}","</style>"].join(""),
   I=p(window),F=p(document),n=function(e){
-   this.index= ++b.index, this.config=p.extend({},this.config,b.config,e), this.render()
+   this.index= ++x.index, this.config=p.extend({},this.config,x.config,e), this.render()
   },d=(n.prototype.config={
    limit:10,
    loading:!0,
@@ -5131,7 +5150,7 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    cols:[]
   }, n.prototype.render=function(e){
    var t=this,a=t.config,i=(a.elem=p(a.elem), a.where=a.where||{}, a.id="id" in a?a.id:a.elem.attr("id")||t.index);
-   if(x.that[i]=t, (x.config[i]=a).request=p.extend({
+   if(k.that[i]=t, (k.config[i]=a).request=p.extend({
     pageName:"page",
     limitName:"limit"
    },a.request), a.response=p.extend({
@@ -5144,15 +5163,15 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    },a.response), null!==a.page&&"object"== typeof a.page&&(a.limit=a.page.limit||a.limit, a.limits=a.page.limits||a.limits, t.page=a.page.curr=a.page.curr||1, delete a.page.elem, delete a.page.jump), !a.elem[0]) return t;
    if(a.elem.attr("lay-filter")||a.elem.attr("lay-filter",a.id), "reloadData"===e) return t.pullData(t.page,{type:"reloadData"});
    a.index=t.index, t.key=a.id||a.index, t.setInit(), a.height&&/^full-\d+$/.test(a.height)?(t.fullHeightGap=a.height.split("-")[1], a.height=I.height()-t.fullHeightGap):a.height&&/^#\w+\S*-\d+$/.test(a.height)&&(i=a.height.split("-"), t.parentHeightGap=i.pop(), t.parentDiv=i.join("-"), a.height=p(t.parentDiv).height()-t.parentHeightGap);
-   var l,e=a.elem,i=e.next("."+R),n=t.elem=p("<div></div>");
-   n.addClass((l=[R,R+"-"+t.index,"layui-form","layui-border-box"], a.className&&l.push(a.className), l.join(" "))).attr({
+   var l,e=a.elem,i=e.next("."+_),n=t.elem=p("<div></div>");
+   n.addClass((l=[_,_+"-"+t.index,"layui-form","layui-border-box"], a.className&&l.push(a.className), l.join(" "))).attr({
     "lay-filter":"LAY-TABLE-FORM-DF-"+t.index,
     "lay-id":a.id,
     style:(l=[], a.width&&l.push("width:"+a.width+"px;"), a.height&&l.push("height:"+a.height+"px;"), l.join(""))
-   }).html(m(c,{open:"{{",close:"}}"}).render({
+   }).html(m(r,{open:"{{",close:"}}"}).render({
     data:a,
     index:t.index
-   })), i[0]&&i.remove(), e.after(n), t.layTool=n.find(".layui-table-tool"), t.layBox=n.find(".layui-table-box"), t.layHeader=n.find(o), t.layMain=n.find(".layui-table-main"), t.layBody=n.find(_), t.layFixed=n.find(".layui-table-fixed"), t.layFixLeft=n.find(".layui-table-fixed-l"), t.layFixRight=n.find(".layui-table-fixed-r"), t.layTotal=n.find(".layui-table-total"), t.layPage=n.find(".layui-table-page"), t.renderToolbar(), t.renderPagebar(), t.fullSize(), t.pullData(t.page), t.events()
+   })), i[0]&&i.remove(), e.after(n), t.layTool=n.find(".layui-table-tool"), t.layBox=n.find(".layui-table-box"), t.layHeader=n.find(o), t.layMain=n.find(".layui-table-main"), t.layBody=n.find(R), t.layFixed=n.find(".layui-table-fixed"), t.layFixLeft=n.find(".layui-table-fixed-l"), t.layFixRight=n.find(".layui-table-fixed-r"), t.layTotal=n.find(".layui-table-total"), t.layPage=n.find(".layui-table-page"), t.renderToolbar(), t.renderPagebar(), t.fullSize(), t.pullData(t.page), t.events()
   }, n.prototype.initOpts=function(e){
    this.config;
    e.checkbox&&(e.type="checkbox"), e.space&&(e.type="space"), e.type||(e.type="normal"), "normal"!==e.type&&(e.unresize= !0, e.width=e.width||{
@@ -5162,27 +5181,27 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
     numbers:60
    }[e.type])
   }, n.prototype.setInit=function(e){
-   var l,a,d=this,r=d.config;
-   if(r.clientWidth=r.width||(l=function(e){
-    var t,a=(e=e||r.elem.parent()).width();
+   var l,a,d=this,c=d.config;
+   if(c.clientWidth=c.width||(l=function(e){
+    var t,a=(e=e||c.elem.parent()).width();
     try{
      t="none"===e.css("display")
     }catch(i){
     }
     return !e[0]||a&& !t?a:l(e.parent())
-   })(), "width"===e) return r.clientWidth;
-   r.height=r.maxHeight||r.height, r.css&& -1===r.css.indexOf(R)&&(a=r.css.split("}"), layui.each(a,function(e,t){
-    t&&(a[e]="."+R+"-"+d.index+" "+t)
-   }), r.css=a.join("}"));
-   var c=function(a,e,i,l){
+   })(), "width"===e) return c.clientWidth;
+   c.height=c.maxHeight||c.height, c.css&& -1===c.css.indexOf(_)&&(a=c.css.split("}"), layui.each(a,function(e,t){
+    t&&(a[e]="."+_+"-"+d.index+" "+t)
+   }), c.css=a.join("}"));
+   var r=function(a,e,i,l){
     var n,o;
-    l?(l.key=[r.index,a,i].join("-"), l.hide=l.hide|| !1, l.colspan=l.colspan||0, l.rowspan=l.rowspan||0, d.initOpts(l), (n=a+(parseInt(l.rowspan)||1))<r.cols.length?(l.colGroup= !0, o=0, layui.each(r.cols[n],function(e,t){
-     t.HAS_PARENT||1<=o&&o==(l.colspan||1)||(t.HAS_PARENT= !0, t.parentKey=[r.index,a,i].join("-"), o+=parseInt(1<t.colspan?t.colspan:1), c(n,r.cols[n],e,t))
-    })):l.colGroup= !1):e.splice(i,1)
+    l?(l.key=[c.index,a,i].join("-"), l.colspan=l.colspan||0, l.rowspan=l.rowspan||0, d.initOpts(l), (n=a+(parseInt(l.rowspan)||1))<c.cols.length?(l.colGroup= !0, o=0, layui.each(c.cols[n],function(e,t){
+     t.HAS_PARENT||1<=o&&o==(l.colspan||1)||(t.HAS_PARENT= !0, t.parentKey=[c.index,a,i].join("-"), o+=parseInt(1<t.colspan?t.colspan:1), r(n,c.cols[n],e,t))
+    })):l.colGroup= !1, l.hide=l.hide&& !l.colGroup|| !1):e.splice(i,1)
    };
-   layui.each(r.cols,function(a,i){
+   layui.each(c.cols,function(a,i){
     layui.each(i,function(e,t){
-     a?delete t.HAS_PARENT:c(a,i,e,t)
+     a?delete t.HAS_PARENT:r(a,i,e,t)
     })
    })
   }, n.prototype.renderToolbar=function(){
@@ -5207,7 +5226,7 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    t.pagebar&&((e=p(t.pagebar).html()||"")&&a.append(m(e).render(t)), this.layPage.append(a))
   }, n.prototype.setParentCol=function(e,t){
    var a=this.config,i=this.layHeader.find('th[data-key="'+t+'"]'),l=parseInt(i.attr("colspan"))||0;
-   i[0]&&(t=t.split("-"), t=a.cols[t[1]][t[2]], e?l--:l++, i.attr("colspan",l), i[1<=l|| !e?"removeClass":"addClass"](T), t.colspan=l, t.hide=1<=l|| !e, (a=i.data("parentkey"))&&this.setParentCol(e,a))
+   i[0]&&(t=t.split("-"), t=a.cols[t[1]][t[2]], e?l--:l++, i.attr("colspan",l), i[l?"removeClass":"addClass"](L), t.colspan2=l, t.hide=l<1, (a=i.data("parentkey"))&&this.setParentCol(e,a))
   }, n.prototype.setColsPatch=function(){
    var a=this,e=a.config;
    layui.each(e.cols,function(e,t){
@@ -5217,28 +5236,28 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    })
   }, n.prototype.setGroupWidth=function(i){
    var e,l=this;
-   l.config.cols.length<=1||((e=l.layHeader.find((i?"th[data-key="+i.data("parentkey")+"]>":"")+"."+M)).css("width",0), layui.each(e.get().reverse(),function(){
+   l.config.cols.length<=1||((e=l.layHeader.find((i?"th[data-key="+i.data("parentkey")+"]>":"")+"."+H)).css("width",0), layui.each(e.get().reverse(),function(){
     var e=p(this),t=e.parent().data("key"),a=0;
     l.layHeader.eq(0).find("th[data-parentkey="+t+"]").width(function(e,t){
-     p(this).hasClass(T)||0<t&&(a+=t)
+     p(this).hasClass(L)||0<t&&(a+=t)
     }), a&&e.css("max-width",a), i&&e.parent().data("parentkey")&&l.setGroupWidth(e.parent())
    }), e.css("width","auto"))
   }, n.prototype.setColsWidth=function(){
-   var t,a,n=this,d=n.config,i=0,r=0,c=0,s=0,y=n.setInit("width"),e=(n.eachCols(function(e,t){
+   var t,a,n=this,d=n.config,i=0,c=0,r=0,s=0,u=n.setInit("width"),e=(n.eachCols(function(e,t){
     t.hide||i++
-   }), y=y-("line"===d.skin||"nob"===d.skin?2:i+1)-n.getScrollWidth(n.layMain[0])-1, function(o){
+   }), u=u-("line"===d.skin||"nob"===d.skin?2:i+1)-n.getScrollWidth(n.layMain[0])-1, function(o){
     layui.each(d.cols,function(e,n){
      layui.each(n,function(e,t){
       var a=0,i=t.minWidth||d.cellMinWidth,l=t.maxWidth||d.cellMaxWidth;
-      t?t.colGroup||t.hide||(o?c&&c<i?(r--, a=i):c&&l<c&&(r--, a=l):(a=t.width||0, /\d+%$/.test(a)?l<(a=(a=Math.floor(parseFloat(a)/100*y))<i?i:a)&&(a=l):a?"normal"===t.type&&(a<i&&(t.width=a=i), l<a&&(t.width=a=l)):(t.width=a=0, r++)), t.hide&&(a=0), s+=a):n.splice(e,1)
+      t?t.colGroup||t.hide||(o?r&&r<i?(c--, a=i):r&&l<r&&(c--, a=l):(a=t.width||0, /\d+%$/.test(a)?l<(a=(a=Math.floor(parseFloat(a)/100*u))<i?i:a)&&(a=l):a?"normal"===t.type&&(a<i&&(t.width=a=i), l<a&&(t.width=a=l)):(t.width=a=0, c++)), t.hide&&(a=0), s+=a):n.splice(e,1)
      })
-    }), s<y&&0<r&&(c=(y-s)/r)
-   }),l=(e(), e(!0), n.autoColNums=r=0<r?r:0, n.eachCols(function(e,a){
+    }), s<u&&0<c&&(r=(u-s)/c)
+   }),l=(e(), e(!0), n.autoColNums=c=0<c?c:0, n.eachCols(function(e,a){
     var i=a.minWidth||d.cellMinWidth,l=a.maxWidth||d.cellMaxWidth;
     a.colGroup||a.hide||(0===a.width?n.getCssRule(a.key,function(e){
-     e.style.width=Math.floor(c<i?i:l<c?l:c)+"px"
+     e.style.width=Math.floor(r<i?i:l<r?l:r)+"px"
     }):/\d+%$/.test(a.width)?n.getCssRule(a.key,function(e){
-     var t=Math.floor(parseFloat(a.width)/100*y);
+     var t=Math.floor(parseFloat(a.width)/100*u);
      e.style.width=(t=l<(t=t<i?i:t)?l:t)+"px"
     }):n.getCssRule(a.key,function(e){
      e.style.width=a.width+"px"
@@ -5256,12 +5275,16 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    var i=this;
    e=e||{}, delete i.haveInit, layui.each(e,function(e,t){
     "array"===layui.type(t)&& delete i.config[e]
-   }), i.config=p.extend(t,{},i.config,e), i.render(a)
+   }), i.config=p.extend(t,{},i.config,e), "reloadData"!==a&&(layui.each(i.config.cols,function(e,t){
+    layui.each(t,function(e,t){
+     delete t.colspan2
+    })
+   }), delete i.config.HAS_SET_COLS_PATCH), i.render(a)
   }, n.prototype.errorView=function(e){
    var t=this,a=t.layMain.find("."+N),e=p('<div class="'+N+'">'+(e||"Error")+"</div>");
-   a[0]&&(t.layNone.remove(), a.remove()), t.layFixed.addClass(T), t.layMain.find("tbody").html(""), t.layMain.append(t.layNone=e), t.layTotal.addClass(L), t.layPage.find(A).addClass(L), b.cache[t.key]=[], t.syncCheckAll(), t.renderForm(), t.setColsWidth()
+   a[0]&&(t.layNone.remove(), a.remove()), t.layFixed.addClass(L), t.layMain.find("tbody").html(""), t.layMain.append(t.layNone=e), t.layTotal.addClass(h), t.layPage.find(A).addClass(h), x.cache[t.key]=[], t.syncCheckAll(), t.renderForm(), t.setColsWidth()
   }, n.prototype.page=1, n.prototype.pullData=function(t,a){
-   var e,i,l=this,n=l.config,o=n.request,d=n.response,r=function(){
+   var e,i,l=this,n=l.config,o=n.request,d=n.response,c=function(){
     "object"== typeof n.initSort&&l.sort({field:n.initSort.field,type:n.initSort.type,reloadType:a.type})
    };
    a=a||{}, "function"== typeof n.before&&n.before(n), l.startTime=(new Date).getTime(), n.url?(e={}, n.page&&(e[o.pageName]=t, e[o.limitName]=n.limit), o=p.extend(e,n.where), n.contentType&&0==n.contentType.indexOf("application/json")&&(o=JSON.stringify(o)), l.loading(), p.ajax({
@@ -5278,7 +5301,7 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
       curr:t,
       count:e[d.countName],
       type:a.type
-     }), r(), n.time=(new Date).getTime()-l.startTime+" ms"), l.setColsWidth(), "function"== typeof n.done&&n.done(e,t,e[d.countName])
+     }), c(), n.time=(new Date).getTime()-l.startTime+" ms"), l.setColsWidth(), "function"== typeof n.done&&n.done(e,t,e[d.countName])
     },
     error:function(e,t){
      l.errorView("\u8bf7\u6c42\u5f02\u5e38\uff0c\u9519\u8bef\u63d0\u793a\uff1a"+t), "function"== typeof n.error&&n.error(e,t)
@@ -5288,47 +5311,47 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
     curr:t,
     count:e[d.countName],
     type:a.type
-   }), r(), l.setColsWidth(), "function"== typeof n.done&&n.done(e,t,e[d.countName]))
+   }), c(), l.setColsWidth(), "function"== typeof n.done&&n.done(e,t,e[d.countName]))
   }, n.prototype.eachCols=function(e){
-   return b.eachCols(null,e,this.config.cols), this
+   return x.eachCols(null,e,this.config.cols), this
   }, n.prototype.col=function(e){
    try{
     return e=e.split("-"), this.config.cols[e[1]][e[2]]||{}
    }catch(t){
-    return u.error(t), {}
+    return y.error(t), {}
    }
   }, n.prototype.getTrHtml=function(t,a,l,e){
-   var y=this,u=y.config,n=e&&e.trs||[],h=e&&e.trs_fixed||[],f=e&&e.trs_fixed_r||[];
+   var u=this,y=u.config,n=e&&e.trs||[],h=e&&e.trs_fixed||[],f=e&&e.trs_fixed_r||[];
    return l=l||1, layui.each(t,function(o,d){
-    var i=[],r=[],c=[],s=o+u.limit*(l-1)+1;
+    var i=[],c=[],r=[],s=o+y.limit*(l-1)+1;
     if("object"!= typeof d){
      t[o]=d={LAY_KEY:d};
      try{
-      b.cache[y.key][o]=d
+      x.cache[u.key][o]=d
      }catch(e){
      }
     }
-    "array"===layui.type(d)&&0===d.length||(d[b.config.numbersName]=s, a||(d[b.config.indexName]=o), y.eachCols(function(e,l){
+    "array"===layui.type(d)&&0===d.length||(d[x.config.numbersName]=s, a||(d[x.config.indexName]=o), u.eachCols(function(e,l){
      var t,e=l.field||e,a=l.key,n=d[e];
-     n!==undefined&&null!==n||(n=""), l.colGroup||(t=['<td data-field="'+e+'" data-key="'+a+'" '+(e=[], (t="function"== typeof l.edit?l.edit(d):l.edit)&&e.push('data-edit="'+t+'"'), l.templet&&e.push('data-content="'+v.escape(n)+'"'), l.toolbar&&e.push('data-off="true"'), l.event&&e.push('lay-event="'+l.event+'"'), l.minWidth&&e.push('data-minwidth="'+l.minWidth+'"'), l.maxWidth&&e.push('data-maxwidth="'+l.maxWidth+'"'), e.join(" "))+' class="'+(t=[], l.hide&&t.push(T), l.field||t.push(j), t.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+("normal"===l.type?a:a+" laytable-cell-"+l.type)+'"'+(l.align?' align="'+l.align+'"':"")+(e=[], l.style&&e.push('style="'+l.style+'"'), e.join(" "))+">"+function(){
-      var e,t=p.extend(!0,{LAY_COL:l},d),a=b.config.checkName,i=b.config.disabledName;
+     n!==undefined&&null!==n||(n=""), l.colGroup||(t=['<td data-field="'+e+'" data-key="'+a+'" '+(e=[], (t="function"== typeof l.edit?l.edit(d):l.edit)&&e.push('data-edit="'+t+'"'), l.templet&&e.push('data-content="'+g.escape(n)+'"'), l.toolbar&&e.push('data-off="true"'), l.event&&e.push('lay-event="'+l.event+'"'), l.minWidth&&e.push('data-minwidth="'+l.minWidth+'"'), l.maxWidth&&e.push('data-maxwidth="'+l.maxWidth+'"'), e.join(" "))+' class="'+(t=[], l.hide&&t.push(L), l.field||t.push(M), t.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+("normal"===l.type?a:a+" laytable-cell-"+l.type)+'"'+(l.align?' align="'+l.align+'"':"")+(e=[], l.style&&e.push('style="'+l.style+'"'), e.join(" "))+">"+function(){
+      var e,t=p.extend(!0,{LAY_COL:l},d),a=x.config.checkName,i=x.config.disabledName;
       switch(l.type){
        case"checkbox":
         return '<input type="checkbox" name="layTableCheckbox" lay-skin="primary" '+(e=[], l[a]&&(d[a]=l[a], l[a]&&(e[0]="checked")), t[a]&&(e[0]="checked"), t[i]&&e.push("disabled"), e.join(" "))+' lay-type="layTableCheckbox">';
        case"radio":
-        return t[a]&&(y.thisCheckedRowIndex=o), '<input type="radio" name="layTableRadio_'+u.index+'" '+(e=[], t[a]&&(e[0]="checked"), t[i]&&e.push("disabled"), e.join(" "))+' lay-type="layTableRadio">';
+        return t[a]&&(u.thisCheckedRowIndex=o), '<input type="radio" name="layTableRadio_'+y.index+'" '+(e=[], t[a]&&(e[0]="checked"), t[i]&&e.push("disabled"), e.join(" "))+' lay-type="layTableRadio">';
        case"numbers":
         return s
       }
-      return l.toolbar?m(p(l.toolbar).html()||"").render(t):C.call(y,{item3:l,content:n,tplData:t})
-     }(),"</div></td>"].join(""), i.push(t), l.fixed&&"right"!==l.fixed&&r.push(t), "right"===l.fixed&&c.push(t))
-    }), n.push('<tr data-index="'+o+'">'+i.join("")+"</tr>"), h.push('<tr data-index="'+o+'">'+r.join("")+"</tr>"), f.push('<tr data-index="'+o+'">'+c.join("")+"</tr>"))
+      return l.toolbar?m(p(l.toolbar).html()||"").render(t):w.call(u,{item3:l,content:n,tplData:t})
+     }(),"</div></td>"].join(""), i.push(t), l.fixed&&"right"!==l.fixed&&c.push(t), "right"===l.fixed&&r.push(t))
+    }), n.push('<tr data-index="'+o+'">'+i.join("")+"</tr>"), h.push('<tr data-index="'+o+'">'+c.join("")+"</tr>"), f.push('<tr data-index="'+o+'">'+r.join("")+"</tr>"))
    }), {trs:n,trs_fixed:h,trs_fixed_r:f}
-  }, b.getTrHtml=function(e,t){
-   return k(e).getTrHtml(t)
+  }, x.getTrHtml=function(e,t){
+   return C(e).getTrHtml(t)
   }, n.prototype.renderData=function(e){
    var a=this,i=a.config,t=e.res,l=e.curr,n=e.count,o=e.sort,d=t[i.response.dataName]||[],t=t[i.response.totalRowName],
-    r=[],c=[],s=[],y=function(){
+    c=[],r=[],s=[],u=function(){
      if(i.HAS_SET_COLS_PATCH||a.setColsPatch(), i.HAS_SET_COLS_PATCH= !0, a.thisCheckedRowIndex="", !o&&a.sortKey) return a.sort({
       field:a.sortKey.field,
       type:a.sortKey.sort,
@@ -5336,17 +5359,17 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
       reloadType:e.type
      });
      a.getTrHtml(d,o,l,{
-      trs:r,
-      trs_fixed:c,
+      trs:c,
+      trs_fixed:r,
       trs_fixed_r:s
-     }), "fixed"===i.scrollPos&&"reloadData"===e.type||a.layBody.scrollTop(0), "reset"===i.scrollPos&&a.layBody.scrollLeft(0), a.layMain.find("."+N).remove(), a.layMain.find("tbody").html(r.join("")), a.layFixLeft.find("tbody").html(c.join("")), a.layFixRight.find("tbody").html(s.join("")), a.renderForm(), "number"== typeof a.thisCheckedRowIndex&&a.setRowChecked({
+     }), "fixed"===i.scrollPos&&"reloadData"===e.type||a.layBody.scrollTop(0), "reset"===i.scrollPos&&a.layBody.scrollLeft(0), a.layMain.find("."+N).remove(), a.layMain.find("tbody").html(c.join("")), a.layFixLeft.find("tbody").html(r.join("")), a.layFixRight.find("tbody").html(s.join("")), a.renderForm(), "number"== typeof a.thisCheckedRowIndex&&a.setRowChecked({
       type:"radio",
       index:a.thisCheckedRowIndex
      },!0), a.syncCheckAll(), a.fullSize(), a.haveInit?a.scrollPatch():setTimeout(function(){
       a.scrollPatch()
-     },50), a.haveInit= !0, h.close(a.tipsIndex)
+     },50), a.haveInit= !0, f.close(a.tipsIndex)
     };
-   return b.cache[a.key]=d, a.layTotal[0==d.length?"addClass":"removeClass"](L), a.layPage[i.page||i.pagebar?"removeClass":"addClass"](T), a.layPage.find(A)[!i.page||0==n||0===d.length&&1==l?"addClass":"removeClass"](L), 0===d.length?a.errorView(i.text.none):(a.layFixLeft.removeClass(T), o?y():(y(), a.renderTotal(d,t), a.layTotal&&a.layTotal.removeClass(T), void (i.page&&(i.page=p.extend({
+   return x.cache[a.key]=d, a.layTotal[0==d.length?"addClass":"removeClass"](h), a.layPage[i.page||i.pagebar?"removeClass":"addClass"](L), a.layPage.find(A)[!i.page||0==n||0===d.length&&1==l?"addClass":"removeClass"](h), 0===d.length?a.errorView(i.text.none):(a.layFixLeft.removeClass(L), o?u():(u(), a.renderTotal(d,t), a.layTotal&&a.layTotal.removeClass(L), void (i.page&&(i.page=p.extend({
     elem:"layui-table-page"+i.index,
     count:n,
     limit:i.limit,
@@ -5358,64 +5381,64 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
     jump:function(e,t){
      t||(a.page=e.curr, i.limit=e.limit, a.pullData(e.curr))
     }
-   },i.page), i.page.count=n, z.render(i.page)))))
+   },i.page), i.page.count=n, O.render(i.page)))))
   }, n.prototype.renderTotal=function(e,o){
-   var d,r=this,c=r.config,s={};
-   c.totalRow&&(layui.each(e,function(e,i){
-    "array"===layui.type(i)&&0===i.length||r.eachCols(function(e,t){
+   var d,c=this,r=c.config,s={};
+   r.totalRow&&(layui.each(e,function(e,i){
+    "array"===layui.type(i)&&0===i.length||c.eachCols(function(e,t){
      var e=t.field||e,a=i[e];
      t.totalRow&&(s[e]=(s[e]||0)+(parseFloat(a)||0))
     })
-   }), r.dataTotal=[], d=[], r.eachCols(function(e,t){
+   }), c.dataTotal=[], d=[], c.eachCols(function(e,t){
     var a,e=t.field||e,i=o&&o[t.field],l="totalRowDecimals" in t?t.totalRowDecimals:2,
      l=s[e]?parseFloat(s[e]||0).toFixed(l):"",
-     l=(a=t.totalRowText||"", (n={LAY_COL:t})[e]=l, n=t.totalRow&&C.call(r,{item3:t,content:l,tplData:n})||a, i||n),
-     n=(t.field&&r.dataTotal.push({
+     l=(a=t.totalRowText||"", (n={LAY_COL:t})[e]=l, n=t.totalRow&&w.call(c,{item3:t,content:l,tplData:n})||a, i||n),
+     n=(t.field&&c.dataTotal.push({
       field:t.field,
       total:p("<div>"+l+"</div>").text()
-     }), ['<td data-field="'+e+'" data-key="'+t.key+'" '+(a=[], t.minWidth&&a.push('data-minwidth="'+t.minWidth+'"'), t.maxWidth&&a.push('data-maxwidth="'+t.maxWidth+'"'), a.join(" "))+' class="'+(n=[], t.hide&&n.push(T), t.field||n.push(j), n.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+(a=t.key, "normal"===t.type?a:a+" laytable-cell-"+t.type)+'"'+(n=[], t.align&&n.push('align="'+t.align+'"'), t.style&&n.push('style="'+t.style+'"'), n.join(" "))+">"+("string"== typeof (a=t.totalRow||c.totalRow)?m(a).render(p.extend({
+     }), ['<td data-field="'+e+'" data-key="'+t.key+'" '+(a=[], t.minWidth&&a.push('data-minwidth="'+t.minWidth+'"'), t.maxWidth&&a.push('data-maxwidth="'+t.maxWidth+'"'), a.join(" "))+' class="'+(n=[], t.hide&&n.push(L), t.field||n.push(M), n.join(" "))+'">','<div class="layui-table-cell laytable-cell-'+(a=t.key, "normal"===t.type?a:a+" laytable-cell-"+t.type)+'"'+(n=[], t.align&&n.push('align="'+t.align+'"'), t.style&&n.push('style="'+t.style+'"'), n.join(" "))+">"+("string"== typeof (a=t.totalRow||r.totalRow)?m(a).render(p.extend({
       TOTAL_NUMS:i||s[e],
       TOTAL_ROW:o||{},
       LAY_COL:t
      },t)):l),"</div></td>"].join(""));
     d.push(n)
-   }), e=r.layTotal.find(".layui-table-patch"), r.layTotal.find("tbody").html("<tr>"+d.join("")+(e.length?e.get(0).outerHTML:"")+"</tr>"))
+   }), e=c.layTotal.find(".layui-table-patch"), c.layTotal.find("tbody").html("<tr>"+d.join("")+(e.length?e.get(0).outerHTML:"")+"</tr>"))
   }, n.prototype.getColElem=function(e,t){
    this.config;
    return e.eq(0).find(".laytable-cell-"+t+":eq(0)")
   }, n.prototype.renderForm=function(e){
    this.config;
    var t=this.elem.attr("lay-filter");
-   f.render(e,t)
+   v.render(e,t)
   }, n.prototype.setRowChecked=function(a,e){
    var t=this,i=t.config,l="layui-table-click",n=t.layBody.find("tr"+("all"===a.index?"":'[data-index="'+a.index+'"]'));
    "checkbox"!==(a=p.extend({
     type:"checkbox",
     checked:!0
-   },a)).type&&"all"!==a.index&&n.addClass(l).siblings("tr").removeClass(l), a.selectedStyle||e||(l=b.cache[t.key], layui.each(l,function(e,t){
+   },a)).type&&"all"!==a.index&&n.addClass(l).siblings("tr").removeClass(l), a.selectedStyle||e||(l=x.cache[t.key], layui.each(l,function(e,t){
     a.index===e||"all"===a.index?t[i.checkName]=a.checked:"radio"===a.type&& delete t[i.checkName]
    }), n.find('input[lay-type="'+({
     radio:"layTableRadio",
     checkbox:"layTableCheckbox"
    }[a.type]||"checkbox")+'"]').prop("checked",a.checked), t.syncCheckAll(), t.renderForm(a.type))
   }, n.prototype.sort=function(l){
-   var e,t=this,a={},i=t.config,n=i.elem.attr("lay-filter"),o=b.cache[t.key];
+   var e,t=this,a={},i=t.config,n=i.elem.attr("lay-filter"),o=x.cache[t.key];
    "string"== typeof (l=l||{}).field&&(d=l.field, t.layHeader.find("th").each(function(e,t){
     var a=p(this),i=a.data("field");
     if(i===l.field) return l.field=a, d=i, !1
    }));
    try{
-    var d=d||l.field.data("field"),r=l.field.data("key");
+    var d=d||l.field.data("field"),c=l.field.data("key");
     if(t.sortKey&& !l.pull&&d===t.sortKey.field&&l.type===t.sortKey.sort) return;
-    var c=t.layHeader.find("th .laytable-cell-"+r).find(D);
-    t.layHeader.find("th").find(D).removeAttr("lay-sort"), c.attr("lay-sort",l.type||null), t.layFixed.find("th")
+    var r=t.layHeader.find("th .laytable-cell-"+c).find(D);
+    t.layHeader.find("th").find(D).removeAttr("lay-sort"), r.attr("lay-sort",l.type||null), t.layFixed.find("th")
    }catch(s){
-    u.error("Table modules: sort field '"+d+"' not matched")
+    y.error("Table modules: sort field '"+d+"' not matched")
    }
    t.sortKey={
     field:d,
     sort:l.type
-   }, i.autoSort&&("asc"===l.type?e=layui.sort(o,d):"desc"===l.type?e=layui.sort(o,d,!0):(e=layui.sort(o,b.config.indexName), delete t.sortKey, delete i.initSort)), a[i.response.dataName]=e||o, t.renderData({
+   }, i.autoSort&&("asc"===l.type?e=layui.sort(o,d,null,!0):"desc"===l.type?e=layui.sort(o,d,!0,!0):(e=layui.sort(o,x.config.indexName,null,!0), delete t.sortKey, delete i.initSort)), a[i.response.dataName]=e||o, t.renderData({
     res:a,
     curr:t.page,
     count:t.count,
@@ -5424,12 +5447,12 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    }), l.fromEvent&&(i.initSort={
     field:d,
     type:l.type
-   }, layui.event.call(l.field,w,"sort("+n+")",p.extend({config:i},i.initSort)))
+   }, layui.event.call(l.field,T,"sort("+n+")",p.extend({config:i},i.initSort)))
   }, n.prototype.loading=function(e){
    var t=this;
    t.config.loading&&(e?(t.layInit&&t.layInit.remove(), delete t.layInit, t.layBox.find(".layui-table-init").remove()):(t.layInit=p(['<div class="layui-table-init">','<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>',"</div>"].join("")), t.layBox.append(t.layInit)))
   }, n.prototype.setCheckData=function(e,t){
-   var a=this.config,i=b.cache[this.key];
+   var a=this.config,i=x.cache[this.key];
    i[e]&&"array"!==layui.type(i[e])&&(i[e][a.checkName]=t)
   }, n.prototype.syncCheckAll=function(){
    var e=this,i=e.config,t=e.layHeader.find('input[name="layTableCheckbox"]'),a=function(a){
@@ -5437,7 +5460,7 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
      "checkbox"===t.type&&(t[i.checkName]=a)
     }), a
    };
-   t[0]&&(b.checkStatus(e.key).isAll?(t[0].checked||(t.prop("checked",!0), e.renderForm("checkbox")), a(!0)):(t[0].checked&&(t.prop("checked",!1), e.renderForm("checkbox")), a(!1)))
+   t[0]&&(x.checkStatus(e.key).isAll?(t[0].checked||(t.prop("checked",!0), e.renderForm("checkbox")), a(!0)):(t[0].checked&&(t.prop("checked",!1), e.renderForm("checkbox")), a(!1)))
   }, n.prototype.getCssRule=function(a,i){
    var e=this.elem.find("style")[0],e=e.sheet||e.styleSheet||{},e=e.cssRules||e.rules;
    layui.each(e,function(e,t){
@@ -5447,7 +5470,7 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    var e,a,i=this,t=i.config,l=t.height;
    i.fullHeightGap?(l=I.height()-i.fullHeightGap, i.elem.css("height",l=l<135?135:l)):i.parentDiv&&i.parentHeightGap&&(l=p(i.parentDiv).height()-i.parentHeightGap, i.elem.css("height",l=l<135?135:l)), 1<t.cols.length&&(e=i.layFixed.find(o).find("th"), a=i.layHeader.first(), layui.each(e,function(e,t){
     (t=p(t)).height(a.find('th[data-key="'+t.attr("data-key")+'"]').height()+"px")
-   })), l&&(e=parseFloat(l)-(i.layHeader.outerHeight()||38), t.toolbar&&(e-=i.layTool.outerHeight()||50), t.totalRow&&(e-=i.layTotal.outerHeight()||40), (t.page||t.pagebar)&&(e-=i.layPage.outerHeight()||43), t.maxHeight?layui.each({
+   })), l&&(e=parseFloat(l)-(i.layHeader.outerHeight()||39)-1, t.toolbar&&(e-=i.layTool.outerHeight()||50), t.totalRow&&(e-=(i.layTotal.outerHeight()||40)-1), (t.page||t.pagebar)&&(e-=(i.layPage.outerHeight()||43)-1), t.maxHeight?layui.each({
     elem:l,
     layMain:e
    },function(e,t){
@@ -5465,76 +5488,76 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
     };
    n(e.layHeader), n(e.layTotal);
    n=e.layMain.height()-i;
-   e.layFixed.find(_).css("height",t.height()>=n?n:"auto"), e.layFixRight[b.cache[e.key]&&b.cache[e.key].length&&0<l?"removeClass":"addClass"](T), e.layFixRight.css("right",a-1)
+   e.layFixed.find(R).css("height",t.height()>=n?n:"auto"), e.layFixRight[x.cache[e.key]&&x.cache[e.key].length&&0<l?"removeClass":"addClass"](L), e.layFixRight.css("right",a-1)
   }, n.prototype.events=function(){
-   var s=this,y=s.config,r=y.elem.attr("lay-filter"),e=s.layHeader.find("th"),u=".layui-table-cell",o=p("body"),d={},
-    n=(s.layTool.on("click","*[lay-event]",function(e){
+   var s=this,u=s.config,c=u.elem.attr("lay-filter"),e=s.layHeader.find("th"),y=".layui-table-cell",o=p("body"),d={},
+    r=(s.layTool.on("click","*[lay-event]",function(e){
      var a,i=p(this),t=i.attr("lay-event"),l=function(e){
-      var t=p(e.list),a=p('<ul class="'+H+'"></ul>');
-      a.html(t), y.height&&a.css("max-height",y.height-(s.layTool.outerHeight()||50)), i.find("."+H)[0]||i.append(a), s.renderForm(), a.on("click",function(e){
+      var t=p(e.list),a=p('<ul class="'+j+'"></ul>');
+      a.html(t), u.height&&a.css("max-height",u.height-(s.layTool.outerHeight()||50)), i.find("."+j)[0]||i.append(a), s.renderForm(), a.on("click",function(e){
        layui.stope(e)
       }), e.done&&e.done(a,t)
      };
-     switch(layui.stope(e), F.trigger("table.tool.panel.remove"), h.close(s.tipsIndex), t){
+     switch(layui.stope(e), F.trigger("table.tool.panel.remove"), f.close(s.tipsIndex), t){
       case"LAYTABLE_COLS":
        l({
         list:(a=[], s.eachCols(function(e,t){
-         t.field&&"normal"==t.type&&a.push('<li><input type="checkbox" name="'+t.field+'" data-key="'+t.key+'" data-parentkey="'+(t.parentKey||"")+'" lay-skin="primary" '+(t.hide?"":"checked")+' title="'+v.escape(p("<div>"+(t.fieldTitle||t.title||t.field)+"</div>").text())+'" lay-filter="LAY_TABLE_TOOL_COLS"></li>')
+         t.field&&"normal"==t.type&&a.push('<li><input type="checkbox" name="'+t.field+'" data-key="'+t.key+'" data-parentkey="'+(t.parentKey||"")+'" lay-skin="primary" '+(t.hide?"":"checked")+' title="'+g.escape(p("<div>"+(t.fieldTitle||t.title||t.field)+"</div>").text())+'" lay-filter="LAY_TABLE_TOOL_COLS"></li>')
         }), a.join("")),done:function(){
-         f.on("checkbox(LAY_TABLE_TOOL_COLS)",function(e){
+         v.on("checkbox(LAY_TABLE_TOOL_COLS)",function(e){
           var e=p(e.elem),t=this.checked,a=e.data("key"),i=s.col(a),l=i.hide,e=e.data("parentkey");
-          i.key&&(i.hide= !t, s.elem.find('*[data-key="'+a+'"]')[t?"removeClass":"addClass"](T), l!=i.hide&&s.setParentCol(!t,e), s.resize(), layui.event.call(this,w,"colToggled("+r+")",{
+          i.key&&(i.hide= !t, s.elem.find('*[data-key="'+a+'"]')[t?"removeClass":"addClass"](L), l!=i.hide&&s.setParentCol(!t,e), s.resize(), layui.event.call(this,T,"colToggled("+c+")",{
            col:i,
-           config:y
+           config:u
           }))
          })
         }
        });
        break;
       case"LAYTABLE_EXPORT":
-       g.ie?h.tips("\u5bfc\u51fa\u529f\u80fd\u4e0d\u652f\u6301 IE\uff0c\u8bf7\u7528 Chrome \u7b49\u9ad8\u7ea7\u6d4f\u89c8\u5668\u5bfc\u51fa",this,{tips:3}):l({
+       b.ie?f.tips("\u5bfc\u51fa\u529f\u80fd\u4e0d\u652f\u6301 IE\uff0c\u8bf7\u7528 Chrome \u7b49\u9ad8\u7ea7\u6d4f\u89c8\u5668\u5bfc\u51fa",this,{tips:3}):l({
         list:['<li data-type="csv">\u5bfc\u51fa csv \u683c\u5f0f\u6587\u4ef6</li>','<li data-type="xls">\u5bfc\u51fa xls \u683c\u5f0f\u6587\u4ef6</li>'].join(""),
         done:function(e,t){
          t.on("click",function(){
           var e=p(this).data("type");
-          b.exportFile.call(s,y.id,null,e)
+          x.exportFile.call(s,u.id,null,e)
          })
         }
        });
        break;
       case"LAYTABLE_PRINT":
        var n=window.open("about:blank","_blank"),
-        o=["<style>","body{font-size: 12px; color: #5F5F5F;}","table{width: 100%; border-collapse: collapse; border-spacing: 0;}","th,td{line-height: 20px; padding: 9px 15px; border: 1px solid #ccc; text-align: left; font-size: 12px; color: #5F5F5F;}","a{color: #5F5F5F; text-decoration:none;}","*.layui-hide{display: none}","</style>"].join(""),
+        o=["<style>","body{font-size: 12px; color: #5F5F5F;}","table{width: 100%; border-collapse: collapse; border-spacing: 0;}","th,td{line-height: 20px; padding: 9px 15px; border: 1px solid #ccc; text-align: left; font-size: 12px; color: #5F5F5F;}","a{color: #5F5F5F; text-decoration:none;}","img{max-height: 100%;}","*.layui-hide{display: none}","</style>"].join(""),
         d=p(s.layHeader.html());
-       d.append(s.layMain.find("table").html()), d.append(s.layTotal.find("table").html()), d.find("th.layui-table-patch").remove(), d.find("thead>tr>th."+j).filter(function(e,t){
-        return !p(t).children("."+M).length
-       }).remove(), d.find("tbody>tr>td."+j).remove(), n.document.write(o+d.prop("outerHTML")), n.document.close(), n.print(), n.close()
+       d.append(s.layMain.find("table").html()), d.append(s.layTotal.find("table").html()), d.find("th.layui-table-patch").remove(), d.find("thead>tr>th."+M).filter(function(e,t){
+        return !p(t).children("."+H).length
+       }).remove(), d.find("tbody>tr>td."+M).remove(), n.document.write(o+d.prop("outerHTML")), n.document.close(), n.print(), n.close()
      }
-     layui.event.call(this,w,"toolbar("+r+")",p.extend({event:t,config:y},{}))
+     layui.event.call(this,T,"toolbar("+c+")",p.extend({event:t,config:u},{}))
     }), s.layPagebar.on("click","*[lay-event]",function(e){
      var t=p(this).attr("lay-event");
-     layui.event.call(this,w,"pagebar("+r+")",p.extend({event:t,config:y},{}))
+     layui.event.call(this,T,"pagebar("+c+")",p.extend({event:t,config:u},{}))
     }), e.on("mousemove",function(e){
      var t=p(this),a=t.offset().left,e=e.clientX-a;
-     t.data("unresize")||x.eventMoveElem||(d.allowResize=t.width()-e<=10, o.css("cursor",d.allowResize?"col-resize":""))
+     t.data("unresize")||k.eventMoveElem||(d.allowResize=t.width()-e<=10, o.css("cursor",d.allowResize?"col-resize":""))
     }).on("mouseleave",function(){
      p(this);
-     x.eventMoveElem||o.css("cursor","")
+     k.eventMoveElem||o.css("cursor","")
     }).on("mousedown",function(e){
      var t,a=p(this);
      d.allowResize&&(t=a.data("key"), e.preventDefault(), d.offset=[e.clientX,e.clientY], s.getCssRule(t,function(e){
       var t=e.style.width||a.outerWidth();
-      d.rule=e, d.ruleWidth=parseFloat(t), d.minWidth=a.data("minwidth")||y.cellMinWidth, d.maxWidth=a.data("maxwidth")||y.cellMaxWidth
-     }), a.data(S,d), x.eventMoveElem=a)
-    }), x.docEvent||F.on("mousemove",function(e){
+      d.rule=e, d.ruleWidth=parseFloat(t), d.minWidth=a.data("minwidth")||u.cellMinWidth, d.maxWidth=a.data("maxwidth")||u.cellMaxWidth
+     }), a.data(S,d), k.eventMoveElem=a)
+    }), k.docEvent||F.on("mousemove",function(e){
      var t,a;
-     x.eventMoveElem&&(t=x.eventMoveElem.data(S)||{}, x.eventMoveElem.data("resizing",1), e.preventDefault(), t.rule&&(e=t.ruleWidth+e.clientX-t.offset[0], a=x.eventMoveElem.closest("."+R).attr("lay-id"), (a=k(a))&&((e=e<t.minWidth?t.minWidth:e)>t.maxWidth&&(e=t.maxWidth), t.rule.style.width=e+"px", a.setGroupWidth(x.eventMoveElem), h.close(s.tipsIndex))))
+     k.eventMoveElem&&(t=k.eventMoveElem.data(S)||{}, k.eventMoveElem.data("resizing",1), e.preventDefault(), t.rule&&(e=t.ruleWidth+e.clientX-t.offset[0], a=k.eventMoveElem.closest("."+_).attr("lay-id"), (a=C(a))&&((e=e<t.minWidth?t.minWidth:e)>t.maxWidth&&(e=t.maxWidth), t.rule.style.width=e+"px", a.setGroupWidth(k.eventMoveElem), f.close(s.tipsIndex))))
     }).on("mouseup",function(e){
      var t,a,i,l,n;
-     x.eventMoveElem&&(i=(t=x.eventMoveElem).closest("."+R).attr("lay-id"), (a=k(i))&&(i=t.data("key"), l=a.col(i), n=a.config.elem.attr("lay-filter"), d={}, o.css("cursor",""), a.scrollPatch(), t.removeData(S), delete x.eventMoveElem, a.getCssRule(i,function(e){
-      l.width=parseFloat(e.style.width), layui.event.call(t[0],w,"colResized("+n+")",{col:l,config:a.config})
+     k.eventMoveElem&&(i=(t=k.eventMoveElem).closest("."+_).attr("lay-id"), (a=C(i))&&(i=t.data("key"), l=a.col(i), n=a.config.elem.attr("lay-filter"), d={}, o.css("cursor",""), a.scrollPatch(), t.removeData(S), delete k.eventMoveElem, a.getCssRule(i,function(e){
+      l.width=parseFloat(e.style.width), layui.event.call(t[0],T,"colResized("+n+")",{col:l,config:a.config})
      })))
-    }), x.docEvent= !0, e.on("click",function(e){
+    }), k.docEvent= !0, e.on("click",function(e){
      var t=p(this),a=t.find(D),i=a.attr("lay-sort");
      if(!a[0]||1===t.data("resizing")) return t.removeData("resizing");
      s.sort({field:t,type:"asc"===i?"desc":"desc"===i?null:"asc",fromEvent:!0})
@@ -5542,23 +5565,23 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
      var t=p(this),a=t.index(),t=t.parents("th").eq(0).data("field");
      layui.stope(e), 0===a?s.sort({field:t,type:"asc",fromEvent:!0}):s.sort({field:t,type:"desc",fromEvent:!0})
     }), s.commonMember=function(e){
-     var t=p(this).parents("tr").eq(0).data("index"),r=s.layBody.find('tr[data-index="'+t+'"]'),
-      c=(c=b.cache[s.key]||[])[t]||{},a={
-       tr:r,config:y,data:b.clearCacheKey(c),index:t,del:function(){
-        b.cache[s.key][t]=[], r.remove(), s.scrollPatch()
+     var t=p(this).parents("tr").eq(0).data("index"),c=s.layBody.find('tr[data-index="'+t+'"]'),
+      r=(r=x.cache[s.key]||[])[t]||{},a={
+       tr:c,config:u,data:x.clearCacheKey(r),index:t,del:function(){
+        x.cache[s.key][t]=[], c.remove(), s.scrollPatch()
        },update:function(e,d){
         e=e||{}, layui.each(e,function(i,l){
-         var n=r.children('td[data-field="'+i+'"]'),o=n.children(u);
-         c[i]=a.data[i]=l, s.eachCols(function(e,t){
+         var n=c.children('td[data-field="'+i+'"]'),o=n.children(y);
+         r[i]=a.data[i]=l, s.eachCols(function(e,t){
           var a;
-          t.field==i?(o.html(C.call(s,{
+          t.field==i?(o.html(w.call(s,{
            item3:t,
            content:l,
-           tplData:p.extend({LAY_COL:t},c)
-          })), n.data("content",l)):d&&(t.templet||t.toolbar)&&(e=r.children('td[data-field="'+(t.field||e)+'"]'), a=c[t.field], e.children(u).html(C.call(s,{
+           tplData:p.extend({LAY_COL:t},r)
+          })), n.data("content",l)):d&&(t.templet||t.toolbar)&&(e=c.children('td[data-field="'+(t.field||e)+'"]'), a=r[t.field], e.children(y).html(w.call(s,{
            item3:t,
            content:a,
-           tplData:p.extend({LAY_COL:t},c)
+           tplData:p.extend({LAY_COL:t},r)
           })), e.data("content",a))
          })
         }), s.renderForm()
@@ -5568,44 +5591,51 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
       };
      return p.extend(a,e)
     }),t=(s.elem.on("click",'input[name="layTableCheckbox"]+',function(){
-     var e=p(this).prev(),t=s.layBody.find('input[name="layTableCheckbox"]'),a=e.parents("tr").eq(0).data("index"),
-      i=e[0].checked,l="layTableAllChoose"===e.attr("lay-filter");
-     e[0].disabled||(l?(t.each(function(e,t){
-      t.checked=i, s.setCheckData(e,i)
-     }), s.syncCheckAll(), s.renderForm("checkbox")):(s.setCheckData(a,i), s.syncCheckAll()), layui.event.call(e[0],w,"checkbox("+r+")",n.call(e[0],{
-      checked:i,
-      type:l?"all":"one"
+     var e=p(this),t=e.closest("td"),e=e.prev(),a=s.layBody.find('input[name="layTableCheckbox"]'),
+      i=e.parents("tr").eq(0).data("index"),l=e[0].checked,n="layTableAllChoose"===e.attr("lay-filter");
+     e[0].disabled||(n?(a.each(function(e,t){
+      t.checked=l, s.setCheckData(e,l)
+     }), s.syncCheckAll(), s.renderForm("checkbox")):(s.setCheckData(i,l), s.syncCheckAll()), layui.event.call(e[0],T,"checkbox("+c+")",r.call(e[0],{
+      checked:l,
+      type:n?"all":"one",
+      getCol:function(){
+       return s.col(t.data("key"))
+      }
      })))
     }), s.elem.on("click",'input[lay-type="layTableRadio"]+',function(){
-     var e=p(this).prev(),t=e[0].checked,a=e.parents("tr").eq(0).data("index");
+     var e=p(this),t=e.closest("td"),e=e.prev(),a=e[0].checked,i=e.parents("tr").eq(0).data("index");
      e[0].disabled||(s.setRowChecked({
       type:"radio",
-      index:a
-     }), layui.event.call(e[0],w,"radio("+r+")",n.call(e[0],{checked:t})))
+      index:i
+     }), layui.event.call(e[0],T,"radio("+c+")",r.call(e[0],{
+      checked:a,getCol:function(){
+       return s.col(t.data("key"))
+      }
+     })))
     }), s.layBody.on("mouseenter","tr",function(){
      var e=p(this),t=e.index();
-     e.data("off")||s.layBody.find("tr:eq("+t+")").addClass(E)
+     e.data("off")||s.layBody.find("tr:eq("+t+")").addClass(W)
     }).on("mouseleave","tr",function(){
      var e=p(this),t=e.index();
-     e.data("off")||s.layBody.find("tr:eq("+t+")").removeClass(E)
+     e.data("off")||s.layBody.find("tr:eq("+t+")").removeClass(W)
     }).on("click","tr",function(){
      t.call(this,"row")
     }).on("dblclick","tr",function(){
      t.call(this,"rowDouble")
     }).on("contextmenu","tr",function(e){
-     y.defaultContextmenu||e.preventDefault(), t.call(this,"rowContextmenu")
+     u.defaultContextmenu||e.preventDefault(), t.call(this,"rowContextmenu")
     }), function(e){
      var t=p(this);
-     t.data("off")||layui.event.call(this,w,e+"("+r+")",n.call(t.children("td")[0]))
-    }),c=function(e,t){
+     t.data("off")||layui.event.call(this,T,e+"("+c+")",r.call(t.children("td")[0]))
+    }),n=function(e,t){
      var a,i,l,n;
-     (e=p(e)).data("off")||(a=e.data("field"), n=e.data("key"), n=s.col(n), i=e.closest("tr").data("index"), i=b.cache[s.key][i], l=e.children(u), (n="function"== typeof n.edit?n.edit(i):n.edit)&&((n=p("textarea"===n?'<textarea class="layui-input '+W+'"></textarea>':'<input class="layui-input '+W+'">'))[0].value=e.data("content")||i[a]||l.text(), e.find("."+W)[0]||e.append(n), n.focus(), t&&layui.stope(t)))
-    },i=(s.layBody.on("change","."+W,function(){
+     (e=p(e)).data("off")||(a=e.data("field"), n=e.data("key"), n=s.col(n), i=e.closest("tr").data("index"), i=x.cache[s.key][i], l=e.children(y), (n="function"== typeof n.edit?n.edit(i):n.edit)&&((n=p("textarea"===n?'<textarea class="layui-input '+E+'"></textarea>':'<input class="layui-input '+E+'">'))[0].value=e.data("content")||i[a]||l.text(), e.find("."+E)[0]||e.append(n), n.focus(), t&&layui.stope(t)))
+    },i=(s.layBody.on("change","."+E,function(){
      var e=p(this),t=e.parent(),a=this.value,i=e.parent().data("field"),e=e.closest("tr").data("index"),
-      e=b.cache[s.key][e],l=n.call(t[0],{
+      e=x.cache[s.key][e],l=r.call(t[0],{
        value:a,field:i,oldValue:e[i],td:t,reedit:function(){
         setTimeout(function(){
-         c(l.td);
+         n(l.td);
          var e={};
          e[i]=l.oldValue, l.update(e)
         })
@@ -5613,76 +5643,85 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
         return s.col(t.data("key"))
        }
       }),e={};
-     e[i]=a, l.update(e), layui.event.call(t[0],w,"edit("+r+")",l)
-    }).on("blur","."+W,function(){
+     e[i]=a, l.update(e), layui.event.call(t[0],T,"edit("+c+")",l)
+    }).on("blur","."+E,function(){
      p(this).remove()
-    }), s.layBody.on(y.editTrigger,"td",function(e){
-     c(this,e)
+    }), s.layBody.on(u.editTrigger,"td",function(e){
+     n(this,e)
     }).on("mouseenter","td",function(){
      a.call(this)
     }).on("mouseleave","td",function(){
      a.call(this,"hide")
+    }), s.layTotal.on("mouseenter","td",function(){
+     a.call(this)
+    }).on("mouseleave","td",function(){
+     a.call(this,"hide")
     }), "layui-table-grid-down"),a=function(e){
-     var t=p(this),a=t.children(u);
-     t.data("off")||(e?t.find(".layui-table-grid-down").remove():!(a.prop("scrollWidth")>a.outerWidth()||0<a.find("br").length)||y.lineStyle||a.find("."+i)[0]||t.append('<div class="'+i+'"><i class="layui-icon layui-icon-down"></i></div>'))
-    },l=(s.layBody.on("click","."+i,function(e){
-     var t=p(this).parent().children(u);
-     s.tipsIndex=h.tips(['<div class="layui-table-tips-main" style="margin-top: -'+(t.height()+23)+"px;"+("sm"===y.size?"padding: 4px 15px; font-size: 12px;":"lg"===y.size?"padding: 14px 15px;":"")+'">',t.html(),"</div>",'<i class="layui-icon layui-table-tips-c layui-icon-close"></i>'].join(""),t[0],{
+     var t=p(this),a=t.children(y);
+     t.data("off")||(e?t.find(".layui-table-grid-down").remove():!(a.prop("scrollWidth")>a.outerWidth()||0<a.find("br").length)||u.lineStyle||a.find("."+i)[0]||t.append('<div class="'+i+'"><i class="layui-icon layui-icon-down"></i></div>'))
+    },l=function(e){
+     var t=p(this).parent().children(y);
+     s.tipsIndex=f.tips(['<div class="layui-table-tips-main" style="margin-top: -'+(t.height()+23)+"px;"+("sm"===u.size?"padding: 4px 15px; font-size: 12px;":"lg"===u.size?"padding: 14px 15px;":"")+'">',t.html(),"</div>",'<i class="layui-icon layui-table-tips-c layui-icon-close"></i>'].join(""),t[0],{
       tips:[3,""],
       time:-1,
       anim:-1,
-      maxWidth:g.ios||g.android?300:s.elem.width()/2,
+      maxWidth:b.ios||b.android?300:s.elem.width()/2,
       isOutAnim:!1,
       skin:"layui-table-tips",
       success:function(e,t){
        e.find(".layui-table-tips-c").on("click",function(){
-        h.close(t)
+        f.close(t)
        })
       }
      }), layui.stope(e)
+    },h=(s.layBody.on("click","."+i,function(e){
+     l.call(this,e)
+    }), s.layTotal.on("click","."+i,function(e){
+     l.call(this,e)
     }), function(e){
-     var t=p(this),a=t.parents("tr").eq(0).data("index");
-     layui.event.call(this,w,(e||"tool")+"("+r+")",n.call(this,{event:t.attr("lay-event")})), s.setRowChecked({
-      type:"radio",
-      index:a
-     },!0)
+     var t=p(this),a=t.closest("td"),i=t.parents("tr").eq(0).data("index");
+     layui.event.call(this,T,(e||"tool")+"("+c+")",r.call(this,{
+      event:t.attr("lay-event"),getCol:function(){
+       return s.col(a.data("key"))
+      }
+     })), s.setRowChecked({type:"radio",index:i},!0)
     });
    s.layBody.on("click","*[lay-event]",function(e){
-    l.call(this), layui.stope(e)
+    h.call(this), layui.stope(e)
    }).on("dblclick","*[lay-event]",function(e){
-    l.call(this,"toolDouble"), layui.stope(e)
+    h.call(this,"toolDouble"), layui.stope(e)
    }), s.layMain.on("scroll",function(){
     var e=p(this),t=e.scrollLeft(),e=e.scrollTop();
-    s.layHeader.scrollLeft(t), s.layTotal.scrollLeft(t), s.layFixed.find(_).scrollTop(e), h.close(s.tipsIndex)
+    s.layHeader.scrollLeft(t), s.layTotal.scrollLeft(t), s.layFixed.find(R).scrollTop(e), f.close(s.tipsIndex)
    }), I.on("resize",function(){
     s.resize()
    })
   }, F.on("click",function(){
    F.trigger("table.remove.tool.panel")
   }), F.on("table.remove.tool.panel",function(){
-   p("."+H).remove()
-  }), b.init=function(i,o){
+   p("."+j).remove()
+  }), x.init=function(i,o){
    o=o||{};
    var e="object"== typeof i?i:p("string"== typeof i?'table[lay-filter="'+i+'"]':t+"[lay-data], "+t+"[lay-options]"),
     d="Table element property lay-data configuration item has a syntax error: ";
    return e.each(function(){
     var l,e=p(this),t=e.attr("lay-data"),
-     t=r.options(this,{attr:t?"lay-data":null,errorText:d+(t||e.attr("lay-options"))}),n=p.extend({
+     t=c.options(this,{attr:t?"lay-data":null,errorText:d+(t||e.attr("lay-options"))}),n=p.extend({
       elem:this,
       cols:[],
       data:[],
       skin:e.attr("lay-skin"),
       size:e.attr("lay-size"),
       even:"string"== typeof e.attr("lay-even")
-     },b.config,o,t),a=(i&&e.hide(), e.find("thead>tr").each(function(i){
+     },x.config,o,t),a=(i&&e.hide(), e.find("thead>tr").each(function(i){
       n.cols[i]=[], p(this).children().each(function(e){
        var t=p(this),a=t.attr("lay-data"),
-        a=r.options(this,{attr:a?"lay-data":null,errorText:d+(a||t.attr("lay-options"))}),
+        a=c.options(this,{attr:a?"lay-data":null,errorText:d+(a||t.attr("lay-options"))}),
         t=p.extend({title:t.text(),colspan:parseInt(t.attr("colspan"))||0,rowspan:parseInt(t.attr("rowspan"))||0},a);
        n.cols[i].push(t)
       })
-     }), e.find("tbody>tr")),t=b.render(n);
-    !a.length||o.data||t.config.url||(l=0, b.eachCols(t.config.id,function(e,i){
+     }), e.find("tbody>tr")),t=x.render(n);
+    !a.length||o.data||t.config.url||(l=0, x.eachCols(t.config.id,function(e,i){
      a.each(function(e){
       n.data[e]=n.data[e]||{};
       var t=p(this),a=i.field;
@@ -5690,14 +5729,14 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
      }), l++
     }), t.reloadData({data:n.data}))
    }), this
-  }, x.that={}, x.config={}, function(a,i,e,l){
+  }, k.that={}, k.config={}, function(a,i,e,l){
    var n,o;
    l.colGroup&&(n=0, a++, l.CHILD_COLS=[], o=e+(parseInt(l.rowspan)||1), layui.each(i[o],function(e,t){
-    t.parentKey?t.parentKey===l.key&&(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), d(a,i,o,t)):t.PARENT_COL_INDEX||1<=n&&n==(l.colspan||1)||(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), n+=t.hide?0:parseInt(1<t.colspan?t.colspan:1), d(a,i,o,t))
+    t.parentKey?t.parentKey===l.key&&(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), d(a,i,o,t)):t.PARENT_COL_INDEX||1<=n&&n==(l.colspan||1)||(t.PARENT_COL_INDEX=a, l.CHILD_COLS.push(t), n+=parseInt(1<t.colspan?t.colspan:1), d(a,i,o,t))
    }))
   });
- b.eachCols=function(e,a,i){
-  var e=x.config[e]||{},l=[],n=(i=p.extend(!0,[],i||e.cols), layui.each(i,function(a,e){
+ x.eachCols=function(e,a,i){
+  var e=k.config[e]||{},l=[],n=(i=p.extend(!0,[],i||e.cols), layui.each(i,function(a,e){
    if(a) return !0;
    layui.each(e,function(e,t){
     d(0,i,a,t), t.PARENT_COL_INDEX||l.push(t)
@@ -5709,464 +5748,532 @@ layui.define(["lay","laytpl","laypage","form","util"],function(e){
    })
   });
   n()
- }, b.checkStatus=function(e){
-  var a=0,i=0,l=[],e=b.cache[e]||[];
+ }, x.checkStatus=function(e){
+  var a=0,i=0,l=[],e=x.cache[e]||[];
   return layui.each(e,function(e,t){
-   "array"===layui.type(t)?i++:t[b.config.checkName]&&(a++, t[b.config.disabledName]||l.push(b.clearCacheKey(t)))
+   "array"===layui.type(t)?i++:t[x.config.checkName]&&(a++, t[x.config.disabledName]||l.push(x.clearCacheKey(t)))
   }), {data:l,isAll:!!e.length&&a===e.length-i}
- }, b.setRowChecked=function(e,t){
-  e=k(e);
+ }, x.setRowChecked=function(e,t){
+  e=C(e);
   e&&e.setRowChecked(t)
- }, b.getData=function(e){
-  var a=[],e=b.cache[e]||[];
+ }, x.getData=function(e){
+  var a=[],e=x.cache[e]||[];
   return layui.each(e,function(e,t){
-   "array"!==layui.type(t)&&a.push(b.clearCacheKey(t))
+   "array"!==layui.type(t)&&a.push(x.clearCacheKey(t))
   }), a
- }, b.resize=function(e){
-  e?l(e)&&k(e).resize():layui.each(x.that,function(){
+ }, x.resize=function(e){
+  e?l(e)&&C(e).resize():layui.each(k.that,function(){
    this.resize()
   })
- }, b.exportFile=function(e,t,a){
-  t=t||b.clearCacheKey(b.cache[e]);
-  var o,d,i,r,l=(a="object"== typeof a?a:(l={}, a&&(l.type=a), l)).type||"csv",c=x.that[e],n=x.config[e]||{},
-   s={csv:"text/csv",xls:"application/vnd.ms-excel"}[l],y=document.createElement("a");
-  if(g.ie) return u.error("IE_NOT_SUPPORT_EXPORTS");
-  y.href="data:"+s+";charset=utf-8,\ufeff"+encodeURIComponent((o=[], d=[], i=[], r={}, layui.each(t,function(i,l){
+ }, x.exportFile=function(e,t,a){
+  t=t||x.clearCacheKey(x.cache[e]);
+  var o,d,i,c,l=(a="object"== typeof a?a:(l={}, a&&(l.type=a), l)).type||"csv",r=k.that[e],n=k.config[e]||{},
+   s={csv:"text/csv",xls:"application/vnd.ms-excel"}[l],u=document.createElement("a");
+  if(b.ie) return y.error("IE_NOT_SUPPORT_EXPORTS");
+  u.href="data:"+s+";charset=utf-8,\ufeff"+encodeURIComponent((o=[], d=[], i=[], c={}, layui.each(t,function(i,l){
    var n=[];
    "object"== typeof e?(layui.each(e,function(e,t){
     0==i&&o.push(t||"")
-   }), layui.each(layui.isArray(l)?p.extend([],l):b.clearCacheKey(l),function(e,t){
+   }), layui.each(layui.isArray(l)?p.extend([],l):x.clearCacheKey(l),function(e,t){
     n.push('"'+(t||"")+'"')
-   })):b.eachCols(e,function(e,t){
+   })):x.eachCols(e,function(e,t){
     var a;
-    t.field&&"normal"==t.type&&(t.hide?0==i&&(r[t.field]= !0):((a=l[t.field])!==undefined&&null!==a||(a=""), 0==i&&o.push(t.fieldTitle||t.title||t.field||""), a=(a=C.call(c,{
+    t.field&&"normal"==t.type&&(t.hide||t.ignoreExport?0==i&&(c[t.field]= !0):((a=l[t.field])!==undefined&&null!==a||(a=""), 0==i&&o.push(t.fieldTitle||t.title||t.field||""), a=(a=w.call(r,{
      item3:t,
      content:a,
      tplData:l,
      text:"text",
      obj:{
       td:function(e){
-       return c.layBody.find('tr[data-index="'+i+'"]>td').filter('[data-field="'+e+'"]')
+       return r.layBody.find('tr[data-index="'+i+'"]>td').filter('[data-field="'+e+'"]')
       }
      }
     })).replace(/"/g,'""'), n.push(a='"'+a+'"')))
    }), d.push(n.join(","))
-  }), c&&layui.each(c.dataTotal,function(e,t){
-   r[t.field]||i.push(t.total+"\t")
-  }), o.join(",")+"\r\n"+d.join("\r\n")+"\r\n"+i.join(","))), y.download=(a.title||n.title||"table_"+(n.index||""))+"."+l, document.body.appendChild(y), y.click(), document.body.removeChild(y)
- }, b.getOptions=l, b.hideCol=function(e,l){
-  var n=k(e);
+  }), r&&layui.each(r.dataTotal,function(e,t){
+   c[t.field]||i.push(t.total+"\t")
+  }), o.join(",")+"\r\n"+d.join("\r\n")+"\r\n"+i.join(","))), u.download=(a.title||n.title||"table_"+(n.index||""))+"."+l, document.body.appendChild(u), u.click(), document.body.removeChild(u)
+ }, x.getOptions=l, x.hideCol=function(e,l){
+  var n=C(e);
   n&&("boolean"===layui.type(l)?n.eachCols(function(e,t){
    var a=t.key,i=n.col(a),t=t.parentKey;
-   i.hide!=l&&(i=i.hide=l, n.elem.find('*[data-key="'+a+'"]')[i?"addClass":"removeClass"](T), n.setParentCol(i,t))
+   i.hide!=l&&(i=i.hide=l, n.elem.find('*[data-key="'+a+'"]')[i?"addClass":"removeClass"](L), n.setParentCol(i,t))
   }):layui.each(l,function(e,l){
    n.eachCols(function(e,t){
     var a,i;
-    l.field===t.field&&(a=t.key, i=n.col(a), t=t.parentKey, "hide" in l&&i.hide!=l.hide&&(i=i.hide= !!l.hide, n.elem.find('*[data-key="'+a+'"]')[i?"addClass":"removeClass"](T), n.setParentCol(i,t)))
+    l.field===t.field&&(a=t.key, i=n.col(a), t=t.parentKey, "hide" in l&&i.hide!=l.hide&&(i=i.hide= !!l.hide, n.elem.find('*[data-key="'+a+'"]')[i?"addClass":"removeClass"](L), n.setParentCol(i,t)))
    })
-  }), p("."+H).remove(), n.resize())
- }, b.reload=function(e,t,a,i){
-  if(l(e)) return e=k(e), e.reload(t,a,i), x.call(e)
- }, b.reloadData=function(){
+  }), p("."+j).remove(), n.resize())
+ }, x.reload=function(e,t,a,i){
+  if(l(e)) return e=C(e), e.reload(t,a,i), k.call(e)
+ }, x.reloadData=function(){
   var a=p.extend([],arguments),
    i=(a[3]="reloadData", new RegExp("^("+["elem","id","cols","width","height","maxHeight","toolbar","defaultToolbar","className","css","totalRow","pagebar"].join("|")+")$"));
   return layui.each(a[1],function(e,t){
    i.test(e)&& delete a[1][e]
-  }), b.reload.apply(null,a)
- }, b.render=function(e){
+  }), x.reload.apply(null,a)
+ }, x.render=function(e){
   e=new n(e);
-  return x.call(e)
- }, b.clearCacheKey=function(e){
-  return delete (e=p.extend({},e))[b.config.checkName], delete e[b.config.indexName], delete e[b.config.numbersName], delete e[b.config.disabledName], e
+  return k.call(e)
+ }, x.clearCacheKey=function(e){
+  return delete (e=p.extend({},e))[x.config.checkName], delete e[x.config.indexName], delete e[x.config.numbersName], delete e[x.config.disabledName], e
  }, p(function(){
-  b.init()
- }), e(w,b)
+  x.init()
+ }), e(T,x)
 });
 layui.define(["table"],function(e){
  "use strict";
- var O=layui.$,y=layui.form,Y=layui.table,i=layui.hint(),p={
-   config:{},on:Y.on,eachCols:Y.eachCols,index:Y.index,set:function(e){
+ var E=layui.$,y=layui.form,j=layui.table,u=layui.hint(),a={},P={
+   config:{},on:j.on,eachCols:j.eachCols,index:j.index,set:function(e){
     var t=this;
-    return t.config=O.extend({},t.config,e), t
-   },resize:Y.resize
-  },o=function(){
+    return t.config=E.extend({},t.config,e), t
+   },resize:j.resize,getOptions:j.getOptions,hideCol:j.hideCol
+  },i=function(){
    var a=this,e=a.config,n=e.id||e.index;
    return {
     config:e,reload:function(e,t){
      a.reload.call(a,e,t)
     },reloadData:function(e,t){
-     p.reloadData(n,e,t)
+     P.reloadData(n,e,t)
     }
    }
-  },E=function(e){
-   var t=o.that[e];
-   return t||i.error(e?"The treeTable instance with ID '"+e+"' not found":"ID argument required"), t||null
-  },L=".layui-table-main",j=".layui-table-fixed-l",P=".layui-table-fixed-r",B="LAY_DATA_INDEX",
-  h="LAY_DATA_INDEX_HISTORY",f="LAY_PARENT_INDEX",s="LAY_CHECKBOX_HALF",F="LAY_EXPAND",X="LAY_HAS_EXPANDED",
-  t=function(e){
+  },L=function(e){
+   var t=i.that[e];
+   return t||u.error(e?"The treeTable instance with ID '"+e+"' not found":"ID argument required"), t||null
+  },B="layui-hide",F=".layui-table-main",q=".layui-table-fixed-l",Y=".layui-table-fixed-r",p="layui-table-tree",
+  H="LAY_DATA_INDEX",h="LAY_DATA_INDEX_HISTORY",f="LAY_PARENT_INDEX",s="LAY_CHECKBOX_HALF",R="LAY_EXPAND",
+  X="LAY_HAS_EXPANDED",V="LAY_ASYNC_STATUS",t=function(e){
    var t=this;
-   t.index= ++p.index, t.config=O.extend(!0,{},t.config,p.config,e), t.init(), t.render()
+   t.index= ++P.index, t.config=E.extend(!0,{},t.config,P.config,e), t.init(), t.render()
   },c=function(n,i,e){
-   var l=Y.cache[n];
+   var l=j.cache[n];
    layui.each(e||l,function(e,t){
-    var a=t[B];
+    var a=t[H];
     -1!==a.indexOf("-")&&(l[a]=t), t[i]&&c(n,i,t[i])
    })
+  },l=function(i,a,e){
+   var l=L(i),t=E.extend(!0,{},l.getOptions(),a),n=t.tree,d=n.customName.children,
+    r=(delete a.hasNumberCol, delete a.hasChecboxCol, delete a.hasRadioCol, j.eachCols(null,function(e,t){
+     "numbers"===t.type?a.hasNumberCol= !0:"checkbox"===t.type?a.hasChecboxCol= !0:"radio"===t.type&&(a.hasRadioCol= !0)
+    },t.cols), a.parseData),o=a.done;
+   t.url?e&&(!r||r.mod)||(a.parseData=function(){
+    var e=this,t=arguments,a=t[0],t=("function"===layui.type(r)&&(a=r.apply(e,t)||t[0]), e.response.dataName);
+    return n.data.isSimpleData&& !n["async"].enable&&(a[t]=l.flatToTree(a[t])), e.autoSort&&e.initSort&&e.initSort.type&&layui.sort(a[t],e.initSort.field,"desc"===e.initSort.type,!0), l.initData(a[t]), a
+   }, a.parseData.mod= !0):(a.data=a.data||[], n.data.isSimpleData&&(a.data=l.flatToTree(a.data)), a.initSort&&a.initSort.type&&layui.sort(a.data,a.initSort.field,"desc"===a.initSort.type,!0), l.initData(a.data)), e&&(!o||o.mod)||(a.done=function(){
+    var e,t=arguments,a=this.elem.next(),
+     n=(l.updateStatus(null,{LAY_HAS_EXPANDED:!1}), c(i,d), a.find('[name="layTableCheckbox"][lay-filter="layTableAllChoose"]'));
+    if(n.length&&(e=P.checkStatus(i), n.prop({
+     checked:e.isAll&&e.data.length,
+     indeterminate:!e.isAll&&e.data.length
+    })), l.renderTreeTable(a), "function"===layui.type(o)) return o.apply(this,t)
+   }, a.done.mod= !0)
   };
  t.prototype.init=function(){
-  var i=this,e=i.config,t=Y.render(O.extend({},e,{data:[],url:"",done:null})),l=t.config.id,
-   a=((o.that[l]=i).tableIns=t, e.tree),t=a.customName,r=(t.isParent, t.children),n=e.parseData,d=e.done;
-  e.url?e.parseData=function(){
-   var e=arguments,t=e[0],e=("function"===layui.type(n)&&(t=n.apply(this,e)||e[0]), this.response.dataName);
-   return a.data.isSimpleData&& !a["async"].enable&&(t[e]=i.flatToTree(t[e])), i.initData(t[e]), t
-  }:(e.data=e.data||[], a.data.isSimpleData&&(e.data=i.flatToTree(e.data)), e.initSort&&e.initSort.type&&(e.data=layui.sort(e.data,e.initSort.field,"desc"===e.initSort.type)), i.initData(e.data)), e.done=function(){
-   var e,t=arguments,a=this.elem.next(),
-    n=(i.updateStatus(null,{LAY_HAS_EXPANDED:!1}), c(l,r), a.find('[name="layTableCheckbox"][lay-filter="layTableAllChoose"]'));
-   if(n.length&&(e=p.checkStatus(l), n.prop({
-    checked:e.isAll&&e.data.length,
-    indeterminate:!e.isAll&&e.data.length
-   })), i.renderTreeTable(a), "function"===layui.type(d)) return d.apply(this,t)
-  }
+  var e=this.config,t=j.render(E.extend({},e,{data:[],url:"",done:null})),a=t.config.id;
+  (i.that[a]=this).tableIns=t, l(a,e)
  }, t.prototype.config={
   tree:{
-   customName:{
-    children:"children",
-    isParent:"isParent",
-    name:"name",
-    id:"id",
-    pid:"parentId",
-    rootId:null
-   },
+   customName:{children:"children",isParent:"isParent",name:"name",id:"id",pid:"parentId"},
    view:{
     indent:14,
     flexIconClose:'<i class="layui-icon layui-icon-triangle-r"></i>',
     flexIconOpen:'<i class="layui-icon layui-icon-triangle-d"></i>',
     showIcon:!0,
     icon:"",
-    iconClose:'<i class="layui-icon layui-icon-folder-open"></i>',
-    iconOpen:'<i class="layui-icon layui-icon-folder"></i>',
+    iconClose:'<i class="layui-icon layui-icon-folder"></i>',
+    iconOpen:'<i class="layui-icon layui-icon-folder-open"></i>',
     iconLeaf:'<i class="layui-icon layui-icon-leaf"></i>',
     showFlexIconIfNotParent:!1,
     dblClickExpand:!0
    },
-   data:{isSimpleData:!1},
+   data:{isSimpleData:!1,rootPid:null},
    "async":{enable:!1,url:"",type:null,contentType:null,headers:null,where:null,autoParam:[]},
    callback:{beforeExpand:null,onExpand:null}
   }
  }, t.prototype.getOptions=function(){
-  return this.tableIns?Y.getOptions(this.tableIns.config.id):this.config
+  return this.tableIns?j.getOptions(this.tableIns.config.id):this.config
  }, t.prototype.flatToTree=function(e){
-  var a,n,i,t,l,r=this.getOptions(),d=r.tree.customName,r=r.id;
-  return e=e||Y.cache[r], r=e, a=d.id, n=d.pid, i=d.children, t=d.rootId, a=a||"id", n=n||"parentId", i=i||"children", l={}, layui.each(r,function(e,t){
-   l[t[a]]=O.extend({},t), l[t[a]][i]=[]
+  var a,n,i,t,l,d=this.getOptions(),r=d.tree,o=r.customName,d=d.id;
+  return e=e||j.cache[d], d=e, a=o.id, n=o.pid, i=o.children, t=r.data.rootPid, a=a||"id", n=n||"parentId", i=i||"children", l={}, layui.each(d,function(e,t){
+   l[t[a]]=E.extend({},t), l[t[a]][i]=[]
   }), layui.each(l,function(e,t){
    t[n]&&l[t[n]]&&l[t[n]][i].push(t)
   }), Object.values(l).filter(function(e){
    return t?e[n]===t:!e[n]
   })
  }, t.prototype.treeToFlat=function(e,n,i){
-  var l=this,r=l.getOptions().tree.customName,d=r.children,o=r.pid,c=[];
+  var l=this,d=l.getOptions().tree.customName,r=d.children,o=d.pid,c=[];
   return layui.each(e,function(e,t){
-   var e=(i?i+"-":"")+e,a=O.extend({},t);
-   a[d]=null, a[o]=t[o]||n, c.push(a), c=c.concat(l.treeToFlat(t[d],t[r.id],e))
+   var e=(i?i+"-":"")+e,a=E.extend({},t);
+   a[r]=null, a[o]=t[o]||n, c.push(a), c=c.concat(l.treeToFlat(t[r],t[d.id],e))
   }), c
  }, t.prototype.getNodeDataByIndex=function(a,e,t){
-  var n=this.getOptions(),i=n.tree,l=n.id,r=Y.cache[l][a];
-  if("delete"!==t&&r) return e?O.extend({},r):r;
-  for(var r=this.getTableData(),d=(a+="").split("-"),o=r,c=n.url||1<d.length?null:Y.cache[l],u=0,f=i.customName.children; u<d.length; u++){
-   if(t&&u===d.length-1){
+  var n=this.getOptions(),i=n.tree,l=n.id,d=j.cache[l][a];
+  if("delete"!==t&&d) return E.extend(d,t), e?E.extend({},d):d;
+  for(var d=this.getTableData(),r=(a+="").split("-"),o=d,c=n.url||1<r.length?null:j.cache[l],u=0,f=i.customName.children; u<r.length; u++){
+   if(t&&u===r.length-1){
     if("delete"===t) return c&&layui.each(c,function(e,t){
-     if(t[B]===a) return c.splice(e,1), !0
-    }), (u?o[f]:o).splice(d[u],1)[0];
-    O.extend((u?o[f]:o)[d[u]],t)
+     if(t[H]===a) return c.splice(e,1), !0
+    }), (u?o[f]:o).splice(r[u],1)[0];
+    E.extend((u?o[f]:o)[r[u]],t)
    }
-   o=(u?o[f]:o)[d[u]]
+   o=(u?o[f]:o)[r[u]]
   }
-  return e?O.extend({},o):o
- }, p.getNodeDataByIndex=function(e,t){
-  e=E(e);
+  return e?E.extend({},o):o
+ }, P.getNodeDataByIndex=function(e,t){
+  e=L(e);
   if(e) return e.getNodeDataByIndex(t,!0)
  };
  t.prototype.initData=function(e,a){
-  var n=this,t=n.getOptions(),i=t.tree,t=t.id,i=(e=e||n.getTableData(), i.customName),l=i.isParent,r=i.children;
+  var n=this,t=n.getOptions(),i=t.tree,t=t.id,i=(e=e||n.getTableData(), i.customName),l=i.isParent,d=i.children;
   return layui.each(e,function(e,t){
-   l in t||(t[l]= !(!t[r]|| !t[r].length)), t[h]=t[B], t[f]=a=a||"";
-   e=t[B]=(a?a+"-":"")+e;
-   n.initData(t[r]||[],e)
-  }), a||c(t,r), e
- };
- var U=function(t,a,n,i,l){
-  var e=t.trElem,r=e.closest(".layui-table-view"),d=(r.attr("lay-filter"), r.attr("lay-id")),o=Y.getOptions(d),
-   c=o.tree||{},u=c.customName||{},f=u.isParent,s=e.attr("lay-data-index"),y=E(d),
-   p=(y.getTableData(), y.getNodeDataByIndex(s)),h=(e.data("level")||0)+1,x="boolean"!==layui.type(a),e=x?!p[F]:a,
-   m=p[f]?e:null;
-  if(l&&e!=p[F]&&(!p.LAY_ASYNC_STATUS||"local"===p.LAY_ASYNC_STATUS)){
-   var b=c.callback.beforeExpand;
-   if("function"===layui.type(b)&& !1===b(d,p,a)) return m
+   l in t||(t[l]= !(!t[d]|| !t[d].length)), t[h]=t[H], t[f]=a=a||"";
+   e=t[H]=(a?a+"-":"")+e;
+   n.initData(t[d]||[],e)
+  }), c(t,d,e), e
+ }, n={};
+ var n,z=function(e,t,a){
+  return n[e]=n[e]||layui.debounce(t,a), n[e]
+ },U=function(t,a,n,i,l){
+  var e=t.trElem,d=t.tableViewElem||e.closest(".layui-table-view"),r=t.tableId||d.attr("lay-id"),
+   o=t.options||j.getOptions(r),e=t.dataIndex||e.attr("lay-data-index"),c=L(r),u=o.tree||{},f=u.customName||{},
+   s=f.isParent,y=c.getNodeDataByIndex(e),p="boolean"!==layui.type(a),h=p?!y[R]:a,x=y[s]?h:null;
+  if(null===x) return x;
+  if(l&&h!=y[R]&&(!y[V]||"local"===y[V])){
+   var m=u.callback.beforeExpand;
+   if("function"===layui.type(m)&& !1===m(r,y,a)) return x
   }
-  var b=p[X],g=r.find('tr[lay-data-index="'+s+'"]'),v=g.find(".layui-table-tree-flexIcon"),
-   f=(v.html(e?c.view.flexIconOpen:c.view.flexIconClose), p[f]&&v.css("visibility","visible"), c.view.showIcon&&p[f]&& !p.icon&& !c.view.icon&&g.find(".layui-table-tree-nodeIcon").html(e?c.view.iconOpen:c.view.iconClose), p[u.children]||[]);
-  if(e) if(b) p[F]=e, r.find(f.map(function(e,t,a){
-   return 'tr[lay-data-index="'+e[B]+'"]'
-  }).join(",")).removeClass("layui-hide"), layui.each(f,function(e,t){
-   n&& !x?U({trElem:r.find('tr[lay-data-index="'+t.LAY_DATA_INDEX+'"]').first()},a,n,i,l):t[F]&&U({trElem:r.find('tr[lay-data-index="'+t.LAY_DATA_INDEX+'"]').first()},!0)
+  var m=y[X],b=d.find('tr[lay-data-index="'+e+'"]'),g=b.find(".layui-table-tree-flexIcon"),
+   v=(g.html(h?u.view.flexIconOpen:u.view.flexIconClose), y[s]&&g.css("visibility","visible"), u.view.showIcon&&b.find(".layui-table-tree-nodeIcon:not(.layui-table-tree-iconCustom,.layui-table-tree-iconLeaf)").html(h?u.view.iconOpen:u.view.iconClose), y[f.children]||[]);
+  if(h) if(m) b.nextAll(v.map(function(e,t,a){
+   return 'tr[lay-data-index="'+e[H]+'"]'
+  }).join(",")).removeClass(B), y[R]=h, layui.each(v,function(e,t){
+   t[s]&&(!n||p||t[R]?t[R]&&U({
+    dataIndex:t[H],
+    trElem:d.find('tr[lay-data-index="'+t[H]+'"]').first(),
+    tableViewElem:d,
+    tableId:r,
+    options:o
+   },!0):U({
+    dataIndex:t[H],
+    trElem:d.find('tr[lay-data-index="'+t[H]+'"]').first(),
+    tableViewElem:d,
+    tableId:r,
+    options:o
+   },a,n,i,l))
   }); else{
-   var N,T,_,A,D,I,S,C,k,g=c["async"]||{},w=g.url||o.url;
-   if(g.enable&&w&& !p.LAY_ASYNC_STATUS) return p.LAY_ASYNC_STATUS="loading", N=O.extend({},g.where||o.where), T=g.autoParam, layui.each(T,function(e,t){
+   var N,I,C,_,D,T,k,S,O,w,b=u["async"]||{},A=b.url||o.url;
+   if(b.enable&&y[s]&&A&& !y[V]) return y[V]="loading", N=E.extend({},b.where||o.where), I=b.autoParam, layui.each(I,function(e,t){
     t=t.split("=");
-    N[t[0].trim()]=p[(t[1]||t[0]).trim()]
-   }), (T=g.contentType||o.contentType)&&0==T.indexOf("application/json")&&(N=JSON.stringify(N)), C=g.method||o.method, _=g.dataType||o.dataType, A=g.jsonpCallback||o.jsonpCallback, D=g.headers||o.headers, I=g.parseData||o.parseData, S=g.response||o.response, v.html('<i class="layui-icon layui-icon-loading layui-anim layui-anim-loop layui-anim-rotate"></i>'), O.ajax({
-    type:C||"get",
-    url:w,
-    contentType:T,
+    N[t[0].trim()]=y[(t[1]||t[0]).trim()]
+   }), (I=b.contentType||o.contentType)&&0==I.indexOf("application/json")&&(N=JSON.stringify(N)), S=b.method||o.method, C=b.dataType||o.dataType, _=b.jsonpCallback||o.jsonpCallback, D=b.headers||o.headers, T=b.parseData||o.parseData, k=b.response||o.response, g.html('<i class="layui-icon layui-icon-loading layui-anim layui-anim-loop layui-anim-rotate"></i>'), E.ajax({
+    type:S||"get",
+    url:A,
+    contentType:I,
     data:N,
-    dataType:_||"json",
-    jsonpCallback:A,
+    dataType:C||"json",
+    jsonpCallback:_,
     headers:D||{},
     success:function(e){
-     p.LAY_ASYNC_STATUS="success", (e="function"== typeof I?I.call(o,e)||e:e)[S.statusName]!=S.statusCode?(p.LAY_ASYNC_STATUS="error", v.html('<i class="layui-icon layui-icon-refresh"></i>')):(p[u.children]=e[S.dataName], y.initData(p[u.children],p[B]), U(t,!0,!x&&n,i,l))
+     y[V]="success", (e="function"== typeof T?T.call(o,e)||e:e)[k.statusName]!=k.statusCode?(y[V]="error", g.html('<i class="layui-icon layui-icon-refresh"></i>')):(y[f.children]=e[k.dataName], c.initData(y[f.children],y[H]), U(t,!0,!p&&n,i,l))
     },
     error:function(e,t){
-     p.LAY_ASYNC_STATUS="error", "function"== typeof o.error&&o.error(e,t)
+     y[V]="error", "function"== typeof o.error&&o.error(e,t)
     }
-   }), m;
-   p[F]=e, b=p[X]= !0, f.length&&(o.initSort&& !o.url&&(f=(g=o.initSort).type?p[u.children]=layui.sort(f,g.field,"desc"===g.type):p[u.children]=layui.sort(f,Y.config.indexName)), y.initData(p[u.children],p[B]), C=Y.getTrHtml(d,f,null,null,s), k={
-    trs:O(C.trs.join("")),
-    trs_fixed:O(C.trs_fixed.join("")),
-    trs_fixed_r:O(C.trs_fixed_r.join(""))
-   }, layui.each(f,function(e,t){
-    k.trs.eq(e).attr({
-     "data-index":t[B],
-     "lay-data-index":t[B],
-     "data-level":h
-    }), k.trs_fixed.eq(e).attr({
-     "data-index":t[B],
-     "lay-data-index":t[B],
-     "data-level":h
-    }), k.trs_fixed_r.eq(e).attr({"data-index":t[B],"lay-data-index":t[B],"data-level":h})
-   }), r.find(L).find('tbody tr[lay-data-index="'+s+'"]').after(k.trs), r.find(j).find('tbody tr[lay-data-index="'+s+'"]').after(k.trs_fixed), r.find(P).find('tbody tr[lay-data-index="'+s+'"]').after(k.trs_fixed_r), layui.each(k,function(e,t){
-    y.renderTreeTable(t,h)
-   }), n&& !x&&layui.each(f,function(e,t){
-    U({trElem:r.find('tr[lay-data-index="'+t.LAY_DATA_INDEX+'"]').first()},a,n,i,l)
+   }), x;
+   y[R]=h, m=y[X]= !0, v.length&&(!o.initSort||o.url&& !o.autoSort||((b=o.initSort).type?layui.sort(v,b.field,"desc"===b.type,!0):layui.sort(v,j.config.indexName,null,!0)), c.initData(y[f.children],y[H]), S=j.getTrHtml(r,v,null,null,e), O={
+    trs:E(S.trs.join("")),
+    trs_fixed:E(S.trs_fixed.join("")),
+    trs_fixed_r:E(S.trs_fixed_r.join(""))
+   }, w=(e.split("-").length-1||0)+1, layui.each(v,function(e,t){
+    O.trs.eq(e).attr({
+     "data-index":t[H],
+     "lay-data-index":t[H],
+     "data-level":w
+    }), O.trs_fixed.eq(e).attr({
+     "data-index":t[H],
+     "lay-data-index":t[H],
+     "data-level":w
+    }), O.trs_fixed_r.eq(e).attr({"data-index":t[H],"lay-data-index":t[H],"data-level":w})
+   }), d.find(F).find('tbody tr[lay-data-index="'+e+'"]').after(O.trs), d.find(q).find('tbody tr[lay-data-index="'+e+'"]').after(O.trs_fixed), d.find(Y).find('tbody tr[lay-data-index="'+e+'"]').after(O.trs_fixed_r), layui.each(O,function(e,t){
+    c.renderTreeTable(t,w)
+   }), n&& !p&&layui.each(v,function(e,t){
+    U({
+     dataIndex:t[H],
+     trElem:d.find('tr[lay-data-index="'+t[H]+'"]').first(),
+     tableViewElem:d,
+     tableId:r,
+     options:o
+    },a,n,i,l)
    }))
-  } else p[F]=e, n&& !x?(layui.each(f,function(e,t){
-   U({trElem:r.find('tr[lay-data-index="'+t.LAY_DATA_INDEX+'"]').first()},a,n,i,l)
-  }), r.find(f.map(function(e,t,a){
-   return 'tr[lay-data-index="'+e[B]+'"]'
-  }).join(",")).addClass("layui-hide")):(w=y.treeToFlat(f,p[u.id],s), r.find(w.map(function(e,t,a){
-   return 'tr[lay-data-index="'+e[B]+'"]'
-  }).join(",")).addClass("layui-hide"));
-  return Y.resize(d), l&&"loading"!==p.LAY_ASYNC_STATUS&&(T=c.callback.onExpand, "function"===layui.type(T)&&T(d,p,a)), m
- },l=(p.expandNode=function(e,t){
-  var a,n,i,e=E(e);
+  } else y[R]=h, n&& !p?(layui.each(v,function(e,t){
+   U({
+    dataIndex:t[H],
+    trElem:d.find('tr[lay-data-index="'+t[H]+'"]').first(),
+    tableViewElem:d,
+    tableId:r,
+    options:o
+   },a,n,i,l)
+  }), d.find(v.map(function(e,t,a){
+   return 'tr[lay-data-index="'+e[H]+'"]'
+  }).join(",")).addClass(B)):(A=c.treeToFlat(v,y[f.id],e), d.find(A.map(function(e,t,a){
+   return 'tr[lay-data-index="'+e[H]+'"]'
+  }).join(",")).addClass(B));
+  return z(r,function(){
+   P.resize(r)
+  },25)(), l&&"loading"!==y[V]&&(I=u.callback.onExpand, "function"===layui.type(I)&&I(r,y,a)), x
+ },d=(P.expandNode=function(e,t){
+  var a,n,i,e=L(e);
   if(e) return a=(t=t||{}).index, n=t.expandFlag, i=t.inherit, t=t.callbackFlag, e=e.getOptions().elem.next(), U({trElem:e.find('tr[lay-data-index="'+a+'"]').first()},n,i,null,t)
- }, p.expandAll=function(e,t){
-  if("boolean"!==layui.type(t)) return i.error("expandAll\u7684\u5c55\u5f00\u72b6\u6001\u53c2\u6570\u53ea\u63a5\u6536true/false");
-  e=E(e);
-  if(e){
-   var a=e.getOptions(),n=a.tree,a=a.elem.next();
-   if(t) return i.error("\u6682\u4e0d\u652f\u6301\u5c55\u5f00\u5168\u90e8"); else{
-    e.updateStatus(null,{LAY_EXPAND:!1}), a.find('tbody tr[data-level!="0"]').addClass("layui-hide");
-    t=a.find('tbody tr[data-level="0"]');
-    t.find(".layui-table-tree-flexIcon").html(n.view.flexIconClose), t.find(".layui-table-tree-nodeIcon").html(n.view.iconClose), p.resize()
-   }
+ }, P.expandAll=function(a,e){
+  if("boolean"!==layui.type(e)) return u.error("expandAll \u7684\u5c55\u5f00\u72b6\u6001\u53c2\u6570\u53ea\u63a5\u6536true/false");
+  var t=L(a);
+  if(t){
+   var n=t.getOptions(),i=n.tree,l=n.elem.next(),d=i.customName.isParent;
+   if(e){
+    n=P.getData(a,!0);
+    if(i["async"].enable){
+     var r=!0;
+     if(layui.each(n,function(e,t){
+      if(t[d]&& !t[V]) return !(r= !1)
+     }), !r) return void layui.each(P.getData(a),function(e,t){
+      P.expandNode(a,{index:t[H],expandFlag:!0,inherit:!0})
+     })
+    }
+    var o,c=!0;
+    layui.each(n,function(e,t){
+     if(!t[X]) return !(c= !1)
+    }), c?(t.updateStatus(null,function(e){
+     e[d]&&(e[R]= !0)
+    }), l.find('tbody tr[data-level!="0"]').removeClass(B), l.find(".layui-table-tree-flexIcon").html(i.view.flexIconOpen), i.view.showIcon&&l.find(".layui-table-tree-nodeIcon:not(.layui-table-tree-iconCustom,.layui-table-tree-iconLeaf)").html(i.view.iconOpen)):(t.updateStatus(null,function(e){
+     e[d]&&(e[R]= !0, e[X]= !0)
+    }), e=j.getTrHtml(a,n), o={
+     trs:E(e.trs.join("")),
+     trs_fixed:E(e.trs_fixed.join("")),
+     trs_fixed_r:E(e.trs_fixed_r.join(""))
+    }, layui.each(n,function(e,t){
+     var a=t[H].split("-").length-1;
+     o.trs.eq(e).attr({
+      "data-index":t[H],
+      "lay-data-index":t[H],
+      "data-level":a
+     }), o.trs_fixed.eq(e).attr({
+      "data-index":t[H],
+      "lay-data-index":t[H],
+      "data-level":a
+     }), o.trs_fixed_r.eq(e).attr({"data-index":t[H],"lay-data-index":t[H],"data-level":a})
+    }), layui.each(["main","fixed-l","fixed-r"],function(e,t){
+     l.find(".layui-table-"+t+" tbody").html(o[["trs","trs_fixed","trs_fixed_r"][e]])
+    }), t.renderTreeTable(l,0,!1))
+   }else t.updateStatus(null,function(e){
+    e[d]&&(e[R]= !1)
+   }), l.find('.layui-table-box tbody tr[data-level!="0"]').addClass(B), l.find(".layui-table-tree-flexIcon").html(i.view.flexIconClose), i.view.showIcon&&l.find(".layui-table-tree-nodeIcon:not(.layui-table-tree-iconCustom,.layui-table-tree-iconLeaf)").html(i.view.iconClose);
+   P.resize(a)
   }
- }, t.prototype.renderTreeTable=function(e,l,t){
-  var a=this.getOptions(),n=a.elem.next(),i=(n.addClass("layui-table-tree"), a.id),r=a.tree||{},d=(r.data, r.view||{}),
-   a=r.customName||{},o=a.isParent,c=n.attr("lay-filter"),u=this,
-   f=((l=l||0)||(n.find(".layui-table-body tr:not([data-level])").attr("data-level",l), layui.each(Y.cache[i],function(e,t){
-    n.find('.layui-table-main tbody tr[data-level="0"]:eq('+e+")").attr("lay-data-index",t[B]), n.find('.layui-table-fixed-l tbody tr[data-level="0"]:eq('+e+")").attr("lay-data-index",t[B]), n.find('.layui-table-fixed-r tbody tr[data-level="0"]:eq('+e+")").attr("lay-data-index",t[B])
-   })), {}),a=a.name,s=r.view.indent||14;
-  layui.each(e.find('td[data-field="'+a+'"]'),function(e,t){
-   var a,n=(t=O(t)).closest("tr"),i=t.children(".layui-table-cell");
-   i.hasClass("layui-table-tree-item")||(i.addClass("layui-table-tree-item"), (i=n.attr("lay-data-index"))&&((a=u.getNodeDataByIndex(i))[F]&&(f[i]= !0), i=t.find("div.layui-table-cell").html(), t.find("div.layui-table-cell").html(['<div class="layui-inline layui-table-tree-flexIcon" ','style="',"margin-left: "+s*l+"px;",a[o]||d.showFlexIconIfNotParent?"":" visibility: hidden;",'">',r.view.flexIconClose,"</div>",'<div class="layui-inline layui-table-tree-nodeIcon">',r.view.showIcon&&(a.icon||r.view.icon||(a[o]?r.view.iconClose:r.view.iconLeaf))||"","</div>",i].join("")).find(".layui-table-tree-flexIcon").on("click",function(e){
+ }, t.prototype.renderTreeTable=function(e,t,a){
+  var n=this.getOptions(),i=n.elem.next(),l=(i.addClass(p), n.id),d=n.tree||{},r=(d.data, d.view||{}),
+   d=d.customName||{},o=d.isParent,c=i.attr("lay-filter"),u=this,
+   f=((t=t||0)||(i.find(".layui-table-body tr:not([data-level])").attr("data-level",t), layui.each(j.cache[l],function(e,t){
+    i.find('.layui-table-main tbody tr[data-level="0"]:eq('+e+")").attr("lay-data-index",t[H]), i.find('.layui-table-fixed-l tbody tr[data-level="0"]:eq('+e+")").attr("lay-data-index",t[H]), i.find('.layui-table-fixed-r tbody tr[data-level="0"]:eq('+e+")").attr("lay-data-index",t[H])
+   })), {}),t=d.name,s=r.indent||14;
+  layui.each(e.find('td[data-field="'+t+'"]'),function(e,t){
+   var a,n=(t=E(t)).closest("tr"),i=t.children(".layui-table-cell");
+   i.hasClass("layui-table-tree-item")||(i.addClass("layui-table-tree-item"), (i=n.attr("lay-data-index"))&&((a=u.getNodeDataByIndex(i))[R]&&(f[i]= !0), i=t.find("div.layui-table-cell").html(), t.find("div.layui-table-cell").html(['<div class="layui-inline layui-table-tree-flexIcon" ','style="',"margin-left: "+s*n.attr("data-level")+"px;",a[o]||r.showFlexIconIfNotParent?"":" visibility: hidden;",'">',a[R]?r.flexIconOpen:r.flexIconClose,"</div>",r.showIcon?'<div class="layui-inline layui-table-tree-nodeIcon'+(a.icon||r.icon?" layui-table-tree-iconCustom":"")+(a[o]?"":" layui-table-tree-iconLeaf")+'">'+(a.icon||r.icon||(a[o]?a[R]?r.iconOpen:r.iconClose:r.iconLeaf)||"")+"</div>":"",i].join("")).find(".layui-table-tree-flexIcon").on("click",function(e){
     layui.stope(e), U({trElem:n},null,null,null,!0)
    })))
-  }), !1!==t&&layui.each(f,function(e,t){
-   e=n.find('tr[lay-data-index="'+e+'"]');
-   e.find(".layui-table-tree-flexIcon").html(r.view.flexIconOpen), U({trElem:e.first()},!0)
-  }), p.formatNumber(i), y.render(null,c)
- }, p.formatNumber=function(e){
-  var n,i,l=E(e);
-  if(l) return n=l.getOptions().elem.next(), i=0, layui.each(l.treeToFlat(Y.cache[e]),function(e,t){
-   var a;
-   layui.isArray(t)||((a=l.getNodeDataByIndex(t.LAY_DATA_INDEX)).LAY_NUM= ++i, n.find('tr[lay-data-index="'+t.LAY_DATA_INDEX+'"] .laytable-cell-numbers').html(a.LAY_NUM))
-  }), p
+  }), !1!==a&&layui.each(f,function(e,t){
+   e=i.find('tr[lay-data-index="'+e+'"]');
+   e.find(".layui-table-tree-flexIcon").html(r.flexIconOpen), U({trElem:e.first()},!0)
+  }), n.hasNumberCol&&this.formatNumber(l), y.render(null,c)
+ }, t.prototype.formatNumber=function(e){
+  var t=this;
+  clearTimeout(e), a[e]=setTimeout(function(){
+   var n,e,i,l;
+   e=(n=t).getOptions(), i=e.elem.next(), l=0, layui.each(n.treeToFlat(j.cache[e.id]),function(e,t){
+    var a;
+    layui.isArray(t)||((a=n.getNodeDataByIndex(t[H])).LAY_NUM= ++l, i.find('tr[lay-data-index="'+t[H]+'"] .laytable-cell-numbers').html(a.LAY_NUM))
+   })
+  },10)
  }, t.prototype.render=function(e){
   var t=this;
-  t.tableIns=Y["reloadData"===e?"reloadData":"reload"](t.tableIns.config.id,O.extend(!0,{},t.config)), t.config=t.tableIns.config
+  t.tableIns=j["reloadData"===e?"reloadData":"reload"](t.tableIns.config.id,E.extend(!0,{},t.config)), t.config=t.tableIns.config
  }, t.prototype.reload=function(e,t,a){
   var n=this;
   e=e||{}, delete n.haveInit, layui.each(e,function(e,t){
    "array"===layui.type(t)&& delete n.config[e]
-  }), n.config=O.extend(t,{},n.config,e), n.render(a)
- }, p.reloadData=function(){
-  var e=O.extend(!0,[],arguments);
-  return e[3]="reloadData", p.reload.apply(null,e)
+  }), l(n.config.id,e,!0), n.config=E.extend(t,{},n.config,e), n.render(a)
+ }, P.reloadData=function(){
+  var e=E.extend(!0,[],arguments);
+  return e[3]="reloadData", P.reload.apply(null,e)
  }, function(e,a,n){
   var i=[];
   return layui.each(e,function(e,t){
-   "function"===layui.type(a)?a(t):O.extend(t,a), i.push(O.extend({},t)), i=i.concat(l(t[n],a,n))
+   "function"===layui.type(a)?a(t):E.extend(t,a), i.push(E.extend({},t)), i=i.concat(d(t[n],a,n))
   }), i
- }),n=(t.prototype.updateStatus=function(e,t){
+ }),r=(t.prototype.updateStatus=function(e,t){
   var a=this.getOptions(),n=a.tree;
-  return e=e||Y.cache[a.id], l(e,t,n.customName.children)
+  return e=e||j.cache[a.id], d(e,t,n.customName.children)
  }, t.prototype.getTableData=function(){
   var e=this.getOptions();
-  return e.url?Y.cache[e.id]:e.data
- }, p.updateStatus=function(e,t,a){
-  var e=E(e),n=e.getOptions();
-  return a=a||(n.url?Y.cache[n.id]:n.data), e.updateStatus(a,t)
- }, p.sort=function(e){
-  var t,a,n,i,l=E(e);
-  l&&(a=(t=l.getOptions()).initSort, t.url?t.autoSort&&(n=l.initData(), (i={})[t.response.dataName]=n, "function"== typeof t.done&&t.done(i,l.page,l.count)):(a.type?t.data=layui.sort(t.data,a.field,"desc"===a.type):t.data=layui.sort(t.data,Y.config.indexName), l.initData(t.data), p.reloadData(e)))
- }, function(t){
-  var a=t.config.id,n=E(a),i=t.data=p.getNodeDataByIndex(a,t.index),l=i[B],r=(t.dataIndex=l, t.update);
-  t.update=function(){
-   var e=arguments,e=(O.extend(n.getNodeDataByIndex(l),e[0]), r.apply(this,e));
-   return n.renderTreeTable(t.tr,t.tr.attr("data-level"),!1), e
-  }, t.del=function(){
-   p.removeNode(a,i)
-  }, t.setRowChecked=function(e){
-   p.setRowChecked(a,{index:i,checked:e})
+  return e.url?j.cache[e.id]:e.data
+ }, P.updateStatus=function(e,t,a){
+  var e=L(e),n=e.getOptions();
+  return a=a||(n.url?j.cache[n.id]:n.data), e.updateStatus(a,t)
+ }, P.sort=function(e){
+  var t,a,n,i,l=L(e);
+  l&&(a=(t=l.getOptions()).initSort, t.url?t.autoSort&&(n=l.initData(), (i={})[t.response.dataName]=n, "function"== typeof t.done&&t.done(i,l.page,l.count)):(a.type?layui.sort(t.data,a.field,"desc"===a.type,!0):layui.sort(t.data,j.config.indexName,null,!0), l.initData(t.data), P.reloadData(e)))
+ }, function(n){
+  var t=n.config.id,i=L(t),a=n.data=P.getNodeDataByIndex(t,n.index),l=a[H],d=(n.dataIndex=l, n.update);
+  n.update=function(){
+   var e=arguments,t=(E.extend(i.getNodeDataByIndex(l),e[0]), d.apply(this,e)),a=n.config.tree.customName.name;
+   return a in e[0]&&n.tr.find('td[data-field="'+a+'"]').children("div.layui-table-cell").removeClass("layui-table-tree-item"), i.renderTreeTable(n.tr,n.tr.attr("data-level"),!1), t
+  }, n.del=function(){
+   P.removeNode(t,a)
+  }, n.setRowChecked=function(e){
+   P.setRowChecked(t,{index:a,checked:e})
   }
- }),u=(p.updateNode=function(e,a,t){
-  var n,i,l,r,d=E(e);
-  d&&((l=d.getOptions()).tree, l=(n=l.elem.next()).find('tr[lay-data-index="'+a+'"]'), i=l.attr("data-index"), l=l.attr("data-level"), t&&(t=d.getNodeDataByIndex(a,!1,t), r=Y.getTrHtml(e,[t]), layui.each(["main","fixed-l","fixed-r"],function(e,t){
-   n.find(".layui-table-"+t+' tbody tr[lay-data-index="'+a+'"]').replaceWith(O(r[["trs","trs_fixed","trs_fixed_r"][e]].join("")).attr({
+ }),o=(P.updateNode=function(e,a,t){
+  var n,i,l,d,r,o=L(e);
+  o&&((d=o.getOptions()).tree, d=(n=d.elem.next()).find('tr[lay-data-index="'+a+'"]'), i=d.attr("data-index"), l=d.attr("data-level"), t&&(d=o.getNodeDataByIndex(a,!1,t), r=j.getTrHtml(e,[d]), layui.each(["main","fixed-l","fixed-r"],function(e,t){
+   n.find(".layui-table-"+t+' tbody tr[lay-data-index="'+a+'"]').replaceWith(E(r[["trs","trs_fixed","trs_fixed_r"][e]].join("")).attr({
     "data-index":i,
-    "lay-data-index":a
+    "lay-data-index":a,
+    "data-level":l
    }))
-  }), d.renderTreeTable(n.find('tr[lay-data-index="'+a+'"]'),l)))
- }, p.removeNode=function(e,t){
-  var a,n,i,l,r=E(e);
-  r&&(l=(i=r.getOptions()).tree, a=i.elem.next(), n=[], i=r.getNodeDataByIndex("string"===layui.type(t)?t:t[B],!1,"delete"), t=r.getNodeDataByIndex(i[f]), r.updateCheckStatus(t,!0), t=r.treeToFlat([i],i[l.customName.pid],i[f]), layui.each(t,function(e,t){
-   n.push('tr[lay-data-index="'+t[B]+'"]')
-  }), a.find(n.join(",")).remove(), l=r.initData(), layui.each(r.treeToFlat(l),function(e,t){
-   t[h]&&t[h]!==t[B]&&a.find('tr[lay-data-index="'+t[h]+'"]').attr({"data-index":t[B],"lay-data-index":t[B]})
-  }), layui.each(Y.cache[e],function(e,t){
-   a.find('tr[data-level="0"][lay-data-index="'+t[B]+'"]').attr("data-index",e)
-  }), p.formatNumber(e))
- }, p.addNodes=function(e,t){
-  var a,n,i,l,r,d,o,c,u,f,s,y=E(e);
-  if(y) return u=y.getOptions(), f=u.tree, a=u.elem.next(), s=(t=t||{}).parentIndex, i=t.index, l=t.data, t=t.focus, n=(s="number"===layui.type(s)?s.toString():s)?y.getNodeDataByIndex(s):null, i="number"===layui.type(i)?i:-1, l=O.extend(!0,[],layui.isArray(l)?l:[l]), y.getTableData(), n?(r=f.customName.isParent, f=f.customName.children, n[r]= !0, c=(c=n[f])?(d=c.splice(-1===i?c.length:i), n[f]=c.concat(l,d)):n[f]=l, y.updateStatus(c,function(e){
-   e[r]&&(e[X]= !1)
+  }), o.renderTreeTable(n.find('tr[lay-data-index="'+a+'"]'),l)))
+ }, P.removeNode=function(e,t){
+  var a,n,i,l,d,r=L(e);
+  r&&(d=(a=r.getOptions()).tree, n=a.elem.next(), i=[], t=r.getNodeDataByIndex("string"===layui.type(t)?t:t[H],!1,"delete"), l=r.getNodeDataByIndex(t[f]), r.updateCheckStatus(l,!0), l=r.treeToFlat([t],t[d.customName.pid],t[f]), layui.each(l,function(e,t){
+   i.push('tr[lay-data-index="'+t[H]+'"]')
+  }), n.find(i.join(",")).remove(), d=r.initData(), layui.each(r.treeToFlat(d),function(e,t){
+   t[h]&&t[h]!==t[H]&&n.find('tr[lay-data-index="'+t[h]+'"]').attr({"data-index":t[H],"lay-data-index":t[H]})
+  }), layui.each(j.cache[e],function(e,t){
+   n.find('tr[data-level="0"][lay-data-index="'+t[H]+'"]').attr("data-index",e)
+  }), a.hasNumberCol&&r.formatNumber(e))
+ }, P.addNodes=function(e,t){
+  var a,n,i,l,d,r,o,c,u,f,s,y=L(e);
+  if(y) return u=y.getOptions(), f=u.tree, a=u.elem.next(), s=(t=t||{}).parentIndex, i=t.index, l=t.data, t=t.focus, n=(s="number"===layui.type(s)?s.toString():s)?y.getNodeDataByIndex(s):null, i="number"===layui.type(i)?i:-1, l=E.extend(!0,[],layui.isArray(l)?l:[l]), y.getTableData(), n?(d=f.customName.isParent, f=f.customName.children, n[d]= !0, c=(c=n[f])?(r=c.splice(-1===i?c.length:i), n[f]=c.concat(l,r)):n[f]=l, y.updateStatus(c,function(e){
+   e[d]&&(e[X]= !1)
   }), f=y.treeToFlat(c), a.find(f.map(function(e){
-   return 'tr[lay-data-index="'+e[B]+'"]'
-  }).join(",")).remove(), y.initData(), n[X]= !1, n.LAY_ASYNC_STATUS="local", U({trElem:a.find('tr[lay-data-index="'+s+'"]')},!0)):(d=Y.cache[e].splice(-1===i?Y.cache[e].length:i), Y.cache[e]=Y.cache[e].concat(l,d), u.url||(u.page?(c=u.page, u.data.splice.apply(u.data,[c.limit*(c.curr-1),c.limit].concat(Y.cache[e]))):u.data=Y.cache[e]), y.initData(), f=Y.getTrHtml(e,l), o={
-   trs:O(f.trs.join("")),
-   trs_fixed:O(f.trs_fixed.join("")),
-   trs_fixed_r:O(f.trs_fixed_r.join(""))
+   return 'tr[lay-data-index="'+e[H]+'"]'
+  }).join(",")).remove(), y.initData(), n[X]= !1, n[V]="local", U({trElem:a.find('tr[lay-data-index="'+s+'"]')},!0)):(r=j.cache[e].splice(-1===i?j.cache[e].length:i), j.cache[e]=j.cache[e].concat(l,r), u.url||(u.page?(c=u.page, u.data.splice.apply(u.data,[c.limit*(c.curr-1),c.limit].concat(j.cache[e]))):u.data=j.cache[e]), y.initData(), f=j.getTrHtml(e,l), o={
+   trs:E(f.trs.join("")),
+   trs_fixed:E(f.trs_fixed.join("")),
+   trs_fixed_r:E(f.trs_fixed_r.join(""))
   }, layui.each(l,function(e,t){
    o.trs.eq(e).attr({
-    "data-index":t[B],
-    "lay-data-index":t[B],
+    "data-index":t[H],
+    "lay-data-index":t[H],
     "data-level":"0"
    }), o.trs_fixed.eq(e).attr({
-    "data-index":t[B],
-    "lay-data-index":t[B],
+    "data-index":t[H],
+    "lay-data-index":t[H],
     "data-level":"0"
-   }), o.trs_fixed_r.eq(e).attr({"data-index":t[B],"lay-data-index":t[B],"data-level":"0"})
-  }), s=parseInt(l[0][B])-1, c=a.find(L), u=a.find(j), f=a.find(P), -1==s?(c.find('tr[data-level="0"][data-index="0"]').before(o.trs), u.find('tr[data-level="0"][data-index="0"]').before(o.trs_fixed), f.find('tr[data-level="0"][data-index="0"]').before(o.trs_fixed_r)):-1===i?(c.find("tbody").append(o.trs), u.find("tbody").append(o.trs_fixed), f.find("tbody").append(o.trs_fixed_r)):(s=d[0][h], c.find('tr[data-level="0"][data-index="'+s+'"]').before(o.trs), u.find('tr[data-level="0"][data-index="'+s+'"]').before(o.trs_fixed), f.find('tr[data-level="0"][data-index="'+s+'"]').before(o.trs_fixed_r)), layui.each(Y.cache[e],function(e,t){
-   a.find('tr[data-level="0"][lay-data-index="'+t[B]+'"]').attr("data-index",e)
+   }), o.trs_fixed_r.eq(e).attr({"data-index":t[H],"lay-data-index":t[H],"data-level":"0"})
+  }), s=parseInt(l[0][H])-1, c=a.find(F), u=a.find(q), f=a.find(Y), -1==s?(c.find('tr[data-level="0"][data-index="0"]').before(o.trs), u.find('tr[data-level="0"][data-index="0"]').before(o.trs_fixed), f.find('tr[data-level="0"][data-index="0"]').before(o.trs_fixed_r)):-1===i?(c.find("tbody").append(o.trs), u.find("tbody").append(o.trs_fixed), f.find("tbody").append(o.trs_fixed_r)):(s=r[0][h], c.find('tr[data-level="0"][data-index="'+s+'"]').before(o.trs), u.find('tr[data-level="0"][data-index="'+s+'"]').before(o.trs_fixed), f.find('tr[data-level="0"][data-index="'+s+'"]').before(o.trs_fixed_r)), layui.each(j.cache[e],function(e,t){
+   a.find('tr[data-level="0"][lay-data-index="'+t[H]+'"]').attr("data-index",e)
   }), y.renderTreeTable(a.find(l.map(function(e,t,a){
-   return 'tr[lay-data-index="'+e[B]+'"]'
-  }).join(",")))), y.updateCheckStatus(n,!0), p.resize(e), t&&a.find(L).find('tr[lay-data-index="'+l[0][B]+'"]').get(0).scrollIntoViewIfNeeded(), l
- }, p.checkStatus=function(e){
+   return 'tr[lay-data-index="'+e[H]+'"]'
+  }).join(",")))), y.updateCheckStatus(n,!0), P.resize(e), t&&a.find(F).find('tr[lay-data-index="'+l[0][H]+'"]').get(0).scrollIntoViewIfNeeded(), l
+ }, P.checkStatus=function(e){
   var t,a;
-  if(E(e)) return t=p.getData(e,!0).filter(function(e,t,a){
-   return e[Y.config.checkName]
-  }), a= !0, layui.each(Y.cache[e],function(e,t){
-   if(!t[Y.config.checkName]) return !(a= !1)
+  if(L(e)) return t=P.getData(e,!0).filter(function(e,t,a){
+   return e[j.config.checkName]
+  }), a= !0, layui.each(j.cache[e],function(e,t){
+   if(!t[j.config.checkName]) return !(a= !1)
   }), {data:t,isAll:a}
- }, p.on("sort",function(e){
+ }, P.on("sort",function(e){
   var e=e.config,t=e.elem.next(),e=e.id;
-  t.hasClass("layui-table-tree")&&p.sort(e)
- }), p.on("row",function(e){
-  e.config.elem.next().hasClass("layui-table-tree")&&n(e)
- }), p.on("rowDouble",function(e){
+  t.hasClass(p)&&P.sort(e)
+ }), P.on("row",function(e){
+  e.config.elem.next().hasClass(p)&&r(e)
+ }), P.on("rowDouble",function(e){
   var t=e.config,a=t.elem.next();
   t.id;
-  a.hasClass("layui-table-tree")&&(n(e), (t.tree||{}).view.dblClickExpand&&U({trElem:e.tr.first()},null,null,null,!0))
- }), p.on("tool",function(e){
+  a.hasClass(p)&&(r(e), (t.tree||{}).view.dblClickExpand&&U({trElem:e.tr.first()},null,null,null,!0))
+ }), P.on("rowContextmenu",function(e){
   var t=e.config,a=t.elem.next();
   t.id;
-  a.hasClass("layui-table-tree")&&n(e)
- }), p.on("edit",function(e){
+  a.hasClass(p)&&r(e)
+ }), P.on("tool",function(e){
   var t=e.config,a=t.elem.next();
   t.id;
-  a.hasClass("layui-table-tree")&&(n(e), e.field===t.tree.customName.name&&(e.tr.find('td[data-field="'+e.field+'"]').children("div.layui-table-cell").removeClass("layui-table-tree-item"), e.update({})))
- }), p.on("radio",function(e){
-  var t=e.config,a=t.elem.next(),t=t.id,t=E(t);
-  a.hasClass("layui-table-tree")&&(n(e), u.call(t,e.tr,e.checked))
+  a.hasClass(p)&&r(e)
+ }), P.on("edit",function(e){
+  var t=e.config,a=t.elem.next();
+  t.id;
+  a.hasClass(p)&&(r(e), e.field===t.tree.customName.name&&((a={})[e.field]=e.value, e.update(a)))
+ }), P.on("radio",function(e){
+  var t=e.config,a=t.elem.next(),t=t.id;
+  a.hasClass(p)&&(a=L(t), r(e), o.call(a,e.tr,e.checked))
  }), t.prototype.updateCheckStatus=function(e,t){
-  var a=this.getOptions(),n=(a.tree, a.id),i=a.elem.next(),l=Y.config.checkName,
-   r=(e&&(a=this.updateParentCheckStatus(e,t), layui.each(a,function(e,t){
-    y.render(i.find('tr[lay-data-index="'+t[B]+'"]  input[name="layTableCheckbox"]:not(:disabled)').prop({
+  var a=this.getOptions(),n=(a.tree, a.id),i=a.elem.next(),l=j.config.checkName,
+   d=(e&&(a=this.updateParentCheckStatus(e,t), layui.each(a,function(e,t){
+    y.render(i.find('tr[lay-data-index="'+t[H]+'"]  input[name="layTableCheckbox"]:not(:disabled)').prop({
      checked:t[l],
      indeterminate:t[s]
     }))
-   })), !0),d=!1;
-  return layui.each(Y.cache[n],function(e,t){
-   (t[l]||t[s])&&(d= !0), t[l]||(r= !1)
-  }), d=d&& !r, y.render(i.find('input[name="layTableCheckbox"][lay-filter="layTableAllChoose"]').prop({
-   checked:r,
-   indeterminate:d
-  })), r
+   })), !0),r=!1;
+  return layui.each(j.cache[n],function(e,t){
+   (t[l]||t[s])&&(r= !0), t[l]||(d= !1)
+  }), r=r&& !d, y.render(i.find('input[name="layTableCheckbox"][lay-filter="layTableAllChoose"]').prop({
+   checked:d,
+   indeterminate:r
+  })), d
  }, t.prototype.updateParentCheckStatus=function(a,n){
-  var e=this.getOptions(),t=e.tree,e=e.id,i=Y.config.checkName,t=t.customName.children,l=[];
+  var e=this.getOptions(),t=e.tree,e=e.id,i=j.config.checkName,t=t.customName.children,l=[];
   return a[s]= !1, n?a[t].length?layui.each(a[t],function(e,t){
    if(!t[i]) return n= !1, a[s]= !0
   }):n= !1:layui.each(a[t],function(e,t){
    if(t[i]||t[s]) return a[s]= !0
-  }), a[i]=n, l.push(O.extend({},a)), l=a[f]?l.concat(this.updateParentCheckStatus(Y.cache[e][a[f]],n)):l
+  }), a[i]=n, l.push(E.extend({},a)), l=a[f]?l.concat(this.updateParentCheckStatus(j.cache[e][a[f]],n)):l
  }, function(e,t,a){
-  var n=this,i=n.getOptions(),l=i.id,r=i.elem.next(),
-   d=(e.length?e:r).find(".laytable-cell-radio, .laytable-cell-checkbox").children("input").last(),
-   o="radio"===d.attr("type");
+  var n=this,i=n.getOptions(),l=i.id,d=i.elem.next(),
+   r=(e.length?e:d).find(".laytable-cell-radio, .laytable-cell-checkbox").children("input").last(),
+   o="radio"===r.attr("type");
   if(a){
    a=function(){
     var e=function(e){
      layui.stope(e)
     };
-    d.parent().on("click",e), d.next().click(), d.parent().off("click",e)
+    r.parent().on("click",e), r.next().click(), r.parent().off("click",e)
    };
-   o?t&& !d.prop("checked")&&a():"boolean"===layui.type(t)&&d.prop("checked")===t||a()
+   o?t&& !r.prop("checked")&&a():"boolean"===layui.type(t)&&r.prop("checked")===t||a()
   }else{
-   var c,a=n.getNodeDataByIndex(e.attr("data-index")),u=Y.config.checkName;
-   if(!o) return i.tree.customName.isParent, t="boolean"===layui.type(t)?t:!a[u], o=n.updateStatus(a?[a]:Y.cache[l],function(e){
-    e[Y.config.disabledName]||(e[u]=t, e[s]= !1)
-   }), y.render(r.find(o.map(function(e){
-    return 'tr[lay-data-index="'+e[B]+'"] input[name="layTableCheckbox"]:not(:disabled)'
+   var c,a=n.getNodeDataByIndex(e.attr("data-index")),u=j.config.checkName;
+   if(!o) return i.tree.customName.isParent, t="boolean"===layui.type(t)?t:!a[u], o=n.updateStatus(a?[a]:j.cache[l],function(e){
+    e[j.config.disabledName]||(e[u]=t, e[s]= !1)
+   }), y.render(d.find(o.map(function(e){
+    return 'tr[lay-data-index="'+e[H]+'"] input[name="layTableCheckbox"]:not(:disabled)'
    }).join(",")).prop({checked:t,indeterminate:!1})), a&&a[f]&&(c=n.getNodeDataByIndex(a[f])), n.updateCheckStatus(c,t);
    a&&(n.updateStatus(null,function(e){
-    e[u]&&(e[u]= !1, y.render(r.find('tr[lay-data-index="'+e[B]+'"] input[type="radio"][lay-type="layTableRadio"]').prop("checked",!1)))
+    e[u]&&(e[u]= !1, y.render(d.find('tr[lay-data-index="'+e[H]+'"] input[type="radio"][lay-type="layTableRadio"]').prop("checked",!1)))
    }), a[u]=t, y.render(e.find('input[type="radio"][lay-type="layTableRadio"]').prop("checked",t)))
   }
  });
- p.on("checkbox",function(e){
-  var t=e.config,a=t.elem.next(),t=t.id,t=E(t);
-  a.hasClass("layui-table-tree")&&(n(e), a=e.checked, e.isAll=u.call(t,e.tr,a))
- }), p.setRowChecked=function(e,t){
-  var a,n,i,l,r,d=E(e);
-  d&&(a=d.getOptions().elem.next(), i=(t=t||{}).index, n=t.checked, t=t.callbackFlag, i="string"===layui.type(i)?i:i[B], (l=d.getNodeDataByIndex(i))&&((r=a.find('tr[lay-data-index="'+i+'"]')).length||(p.expandNode(e,{
+ P.on("checkbox",function(e){
+  var t=e.config,a=t.elem.next(),t=t.id;
+  a.hasClass(p)&&(a=L(t), t=e.checked, r(e), e.isAll=o.call(a,e.tr,t))
+ }), P.setRowChecked=function(e,t){
+  var a,n,i,l,d,r=L(e);
+  r&&(a=r.getOptions().elem.next(), i=(t=t||{}).index, n=t.checked, t=t.callbackFlag, i="string"===layui.type(i)?i:i[H], (l=r.getNodeDataByIndex(i))&&((d=a.find('tr[lay-data-index="'+i+'"]')).length||(P.expandNode(e,{
    index:l[f],
    expandFlag:!0
-  }), r=a.find('tr[lay-data-index="'+i+'"]')), u.call(d,r,n,t)))
- }, p.checkAllNodes=function(e,t){
-  var a,e=E(e);
-  e&&(a=e.getOptions().elem.next(), u.call(e,a.find('tr[data-index="NONE"]'),!!t))
- }, p.getData=function(e,t){
+  }), d=a.find('tr[lay-data-index="'+i+'"]')), o.call(r,d,n,t)))
+ }, P.checkAllNodes=function(e,t){
+  var a,e=L(e);
+  e&&(a=e.getOptions().elem.next(), o.call(e,a.find('tr[data-index="NONE"]'),!!t))
+ }, P.getData=function(e,t){
   var a=[];
-  return layui.each(O.extend(!0,[],Y.cache[e]||[]),function(e,t){
+  return layui.each(E.extend(!0,[],j.cache[e]||[]),function(e,t){
    a.push(t)
-  }), t?E(e).treeToFlat(a):a
- }, o.that={}, p.reload=function(e,t,a,n){
-  if(a=!1!==a, E(e).config) return e=E(e), e.reload(t,a,n), o.call(e)
- }, p.render=function(e){
+  }), t?L(e).treeToFlat(a):a
+ }, i.that={}, P.reload=function(e,t,a,n){
+  if(a=!1!==a, L(e).config) return e=L(e), e.reload(t,a,n), i.call(e)
+ }, P.render=function(e){
   e=new t(e);
-  return o.call(e)
- }, e("treeTable",p)
+  return i.call(e)
+ }, e("treeTable",P)
 });
 layui.define("form",function(e){
  "use strict";
@@ -6361,10 +6468,10 @@ layui.define("form",function(e){
 });
 layui.define(["laytpl","form"],function(e){
  "use strict";
- var d=layui.$,n=layui.laytpl,t=layui.form,a="transfer",i={
+ var s=layui.$,n=layui.laytpl,t=layui.form,a="transfer",i={
    config:{},index:layui[a]?layui[a].index+1e4:0,set:function(e){
     var t=this;
-    return t.config=d.extend({},t.config,e), t
+    return t.config=s.extend({},t.config,e), t
    },on:function(e,t){
     return layui.onevent.call(this,a,e,t)
    }
@@ -6377,7 +6484,7 @@ layui.define(["laytpl","form"],function(e){
      return t.getData.call(t)
     }
    }
-  },s="layui-hide",h="layui-btn-disabled",r="layui-none",c="layui-transfer-box",u="layui-transfer-header",
+  },d="layui-hide",h="layui-btn-disabled",r="layui-none",c="layui-transfer-box",u="layui-transfer-header",
   o="layui-transfer-search",f="layui-transfer-data",y=function(e){
    return ['<div class="layui-transfer-box" data-index="'+(e=e||{}).index+'">','<div class="layui-transfer-header">','<input type="checkbox" name="'+e.checkAllName+'" lay-filter="layTransferCheckbox" lay-type="all" lay-skin="primary" title="{{= d.data.title['+e.index+"] || 'list"+(e.index+1)+"' }}\">","</div>","{{# if(d.data.showSearch){ }}",'<div class="layui-transfer-search">','<i class="layui-icon layui-icon-search"></i>','<input type="text" class="layui-input" placeholder="\u5173\u952e\u8bcd\u641c\u7d22">',"</div>","{{# } }}",'<ul class="layui-transfer-data"></ul>',"</div>"].join("")
   },p=['<div class="layui-transfer layui-form layui-border-box" lay-filter="LAY-transfer-{{= d.index }}">',y({
@@ -6388,7 +6495,7 @@ layui.define(["laytpl","form"],function(e){
    checkAllName:"layTransferRightCheckAll"
   }),"</div>"].join(""),v=function(e){
    var t=this;
-   t.index= ++i.index, t.config=d.extend({},t.config,i.config,e), t.render()
+   t.index= ++i.index, t.config=s.extend({},t.config,i.config,e), t.render()
   };
  v.prototype.config={
   title:["\u5217\u8868\u4e00","\u5217\u8868\u4e8c"],
@@ -6401,44 +6508,46 @@ layui.define(["laytpl","form"],function(e){
   text:{none:"\u65e0\u6570\u636e",searchNone:"\u65e0\u5339\u914d\u6570\u636e"}
  }, v.prototype.reload=function(e){
   var t=this;
-  t.config=d.extend({},t.config,e), t.render()
+  t.config=s.extend({},t.config,e), t.render()
  }, v.prototype.render=function(){
-  var e=this,t=e.config,a=e.elem=d(n(p,{open:"{{",close:"}}"}).render({data:t,index:e.index})),i=t.elem=d(t.elem);
+  var e=this,t=e.config,a=e.elem=s(n(p,{open:"{{",close:"}}"}).render({data:t,index:e.index})),i=t.elem=s(t.elem);
   i[0]&&(t.data=t.data||[], t.value=t.value||[], t.id="id" in t?t.id:elem.attr("id")||e.index, e.key=t.id, i.html(e.elem), e.layBox=e.elem.find("."+c), e.layHeader=e.elem.find("."+u), e.laySearch=e.elem.find("."+o), e.layData=a.find("."+f), e.layBtn=a.find(".layui-transfer-active .layui-btn"), e.layBox.css({
    width:t.width,
    height:t.height
   }), e.layData.css({height:(i=t.height-e.layHeader.outerHeight(), t.showSearch&&(i-=e.laySearch.outerHeight()), i-2)}), e.renderData(), e.events())
  }, v.prototype.renderData=function(){
-  var e=this,i=(e.config, [{checkName:"layTransferLeftCheck",views:[]},{checkName:"layTransferRightCheck",views:[]}]);
-  e.parseData(function(e){
-   var t=e.selected?1:0,
-    a=["<li>",'<input type="checkbox" name="'+i[t].checkName+'" lay-skin="primary" lay-filter="layTransferCheckbox" title="'+e.title+'"'+(e.disabled?" disabled":"")+(e.checked?" checked":"")+' value="'+e.value+'">',"</li>"].join("");
-   i[t].views.push(a), delete e.selected
-  }), e.layData.eq(0).html(i[0].views.join("")), e.layData.eq(1).html(i[1].views.join("")), e.renderCheckBtn()
+  var e=this,t=e.config,l=[{checkName:"layTransferLeftCheck",views:[]},{checkName:"layTransferRightCheck",views:[]}];
+  e.parseData(function(a){
+   var i=a.selected?1:0,
+    n=["<li>",'<input type="checkbox" name="'+l[i].checkName+'" lay-skin="primary" lay-filter="layTransferCheckbox" title="'+a.title+'"'+(a.disabled?" disabled":"")+(a.checked?" checked":"")+' value="'+a.value+'">',"</li>"].join("");
+   i?layui.each(t.value,function(e,t){
+    t==a.value&&a.selected&&(l[i].views[e]=n)
+   }):l[i].views.push(n), delete a.selected
+  }), e.layData.eq(0).html(l[0].views.join("")), e.layData.eq(1).html(l[1].views.join("")), e.renderCheckBtn()
  }, v.prototype.renderForm=function(e){
   t.render(e,"LAY-transfer-"+this.index)
  }, v.prototype.renderCheckBtn=function(r){
   var c=this,o=c.config;
   r=r||{}, c.layBox.each(function(e){
-   var t=d(this),a=t.find("."+f),t=t.find("."+u).find('input[type="checkbox"]'),i=a.find('input[type="checkbox"]'),n=0,
+   var t=s(this),a=t.find("."+f),t=t.find("."+u).find('input[type="checkbox"]'),i=a.find('input[type="checkbox"]'),n=0,
     l=!1;
    i.each(function(){
-    var e=d(this).data("hide");
+    var e=s(this).data("hide");
     (this.checked||this.disabled||e)&&n++, this.checked&& !e&&(l= !0)
-   }), t.prop("checked",l&&n===i.length), c.layBtn.eq(e)[l?"removeClass":"addClass"](h), r.stopNone||(i=a.children("li:not(."+s+")").length, c.noneView(a,i?"":o.text.none))
+   }), t.prop("checked",l&&n===i.length), c.layBtn.eq(e)[l?"removeClass":"addClass"](h), r.stopNone||(i=a.children("li:not(."+d+")").length, c.noneView(a,i?"":o.text.none))
   }), c.renderForm("checkbox")
  }, v.prototype.noneView=function(e,t){
-  var a=d('<p class="layui-none">'+(t||"")+"</p>");
+  var a=s('<p class="layui-none">'+(t||"")+"</p>");
   e.find("."+r)[0]&&e.find("."+r).remove(), t.replace(/\s/g,"")&&e.append(a)
  }, v.prototype.setValue=function(){
   var e=this.config,t=[];
   return this.layBox.eq(1).find("."+f+' input[type="checkbox"]').each(function(){
-   d(this).data("hide")||t.push(this.value)
+   s(this).data("hide")||t.push(this.value)
   }), e.value=t, this
  }, v.prototype.parseData=function(t){
   var i=this.config,n=[];
   return layui.each(i.data,function(e,a){
-   a=("function"== typeof i.parseData?i.parseData(a):a)||a, n.push(a=d.extend({},a)), layui.each(i.value,function(e,t){
+   a=("function"== typeof i.parseData?i.parseData(a):a)||a, n.push(a=s.extend({},a)), layui.each(i.value,function(e,t){
     t==a.value&&(a.selected= !0)
    }), t&&t(a)
   }), i.data=n, this
@@ -6452,8 +6561,8 @@ layui.define(["laytpl","form"],function(e){
  }, v.prototype.transfer=function(e,t){
   var a,i=this,n=i.config,l=i.layBox.eq(e),r=[],
    t=(t?((a=(t=t).find('input[type="checkbox"]'))[0].checked= !1, l.siblings("."+c).find("."+f).append(t.clone()), t.remove(), r.push(a[0].value), i.setValue()):l.each(function(e){
-    d(this).find("."+f).children("li").each(function(){
-     var e=d(this),t=e.find('input[type="checkbox"]'),a=t.data("hide");
+    s(this).find("."+f).children("li").each(function(){
+     var e=s(this),t=e.find('input[type="checkbox"]'),a=t.data("hide");
      t[0].checked&& !a&&(t[0].checked= !1, l.siblings("."+c).find("."+f).append(e.clone()), e.remove(), r.push(t[0].value)), i.setValue()
     })
    }), i.renderCheckBtn(), l.siblings("."+c).find("."+o+" input"));
@@ -6461,24 +6570,24 @@ layui.define(["laytpl","form"],function(e){
  }, v.prototype.events=function(){
   var n=this,l=n.config;
   n.elem.on("click",'input[lay-filter="layTransferCheckbox"]+',function(){
-   var e=d(this).prev(),t=e[0].checked,a=e.parents("."+c).eq(0).find("."+f);
+   var e=s(this).prev(),t=e[0].checked,a=e.parents("."+c).eq(0).find("."+f);
    e[0].disabled||("all"===e.attr("lay-type")&&a.find('input[type="checkbox"]').each(function(){
     this.disabled||(this.checked=t)
    }), setTimeout(function(){
     n.renderCheckBtn({stopNone:!0})
    },0))
   }), n.elem.on("dblclick","."+f+">li",function(e){
-   var t=d(this),a=t.children('input[type="checkbox"]'),i=t.parent().parent();
+   var t=s(this),a=t.children('input[type="checkbox"]'),i=t.parent().parent();
    a[0].disabled||n.transfer(i.data("index"),t)
   }), n.layBtn.on("click",function(){
-   var e=d(this),t=e.data("index");
+   var e=s(this),t=e.data("index");
    e.hasClass(h)||n.transfer(t)
   }), n.laySearch.find("input").on("keyup",function(){
-   var i=this.value,e=d(this).parents("."+o).eq(0).siblings("."+f),t=e.children("li"),t=(t.each(function(){
-    var e=d(this),t=e.find('input[type="checkbox"]'),a=t[0].title,
+   var i=this.value,e=s(this).parents("."+o).eq(0).siblings("."+f),t=e.children("li"),t=(t.each(function(){
+    var e=s(this),t=e.find('input[type="checkbox"]'),a=t[0].title,
      a=("cs"!==l.showSearch&&(a=a.toLowerCase(), i=i.toLowerCase()), -1!==a.indexOf(i));
-    e[a?"removeClass":"addClass"](s), t.data("hide",!a)
-   }), n.renderCheckBtn(), t.length===e.children("li."+s).length);
+    e[a?"removeClass":"addClass"](d), t.data("hide",!a)
+   }), n.renderCheckBtn(), t.length===e.children("li."+d).length);
    n.noneView(e,t?l.text.searchNone:"")
   })
  }, l.that={}, l.config={}, i.reload=function(e,t){
@@ -6702,67 +6811,81 @@ layui.define("jquery",function(l){
 });
 layui.define(["lay","util","element","form"],function(e){
  "use strict";
- var M=layui.$,_=layui.util,w=layui.element,C=layui.form,b={
+ var _=layui.$,C=layui.util,w=layui.element,b=layui.form,g=layui.layer,T={
    ELEM_VIEW:"layui-code-view",
+   ELEM_COPY:"layui-code-copy",
    ELEM_TAB:"layui-tab",
    ELEM_TITLE:"layui-code-title",
    ELEM_FULL:"layui-code-full",
    ELEM_PREVIEW:"layui-code-preview",
    ELEM_ITEM:"layui-code-item",
    ELEM_SHOW:"layui-show"
-  },a={elem:".layui-code",title:"&lt;/&gt;",about:"",ln:!0,header:!1,text:{code:_.escape("</>"),preview:"Preview"}},
+  },a={elem:".layui-code",about:"",ln:!0,header:!1,encode:!0,copy:!0,text:{code:C.escape("</>"),preview:"Preview"}},
   I=function(e){
-   return M.trim(e).replace(/^\n|\n$/,"")
+   return _.trim(e).replace(/^\n|\n$/,"")
   };
  e("code",function(e){
-  var L=e=M.extend(!0,{},a,e);
-  e.elem=M(e.elem), e.elem[0]&&layui.each(e.elem.get().reverse(),function(e,a){
-   var i,l,t,s,o,n,d,c,r,u,E=M(a),
-    y=M.extend(!0,{},L,lay.options(a),(i={}, layui.each(["title","height","encode","skin","about"],function(e,a){
-     var l=E.attr("lay-"+a);
-     "string"== typeof l&&(i[a]=l)
-    }), i)),v=E.data("code")||(l=[], E.children("textarea").each(function(){
-     l.push(I(this.value))
-    }), 0===l.length&&l.push(I(E.html())), l),
-    f=(E.data("code",v), y.preview&&(a="LAY-CODE-DF-"+e, t=y.layout||["code","preview"], s="iframe"===y.preview, h=M('<div class="'+b.ELEM_PREVIEW+'">'), u=M('<div class="layui-tab layui-tab-brief">'), o=M('<div class="layui-tab-title">'), n=M('<div class="'+[b.ELEM_ITEM,b.ELEM_ITEM+"-preview","layui-border"].join(" ")+'">'), d=M('<div class="layui-code-tools"></div>'), m=E.parent("."+b.ELEM_PREVIEW), f=E.prev("."+b.ELEM_TAB), p=E.next("."+b.ELEM_ITEM+"-preview"), y.id&&h.attr("id",y.id), h.addClass(y.className), u.attr("lay-filter",a), layui.each(t,function(e,a){
-     var l=M('<li lay-id="'+a+'">');
-     0===e&&l.addClass("layui-this"), l.html(y.text[a]), o.append(l)
-    }), c={
+  var M=e=_.extend(!0,{},a,e);
+  e.elem=_(e.elem), e.elem[0]&&layui.each(e.elem.get().reverse(),function(e,a){
+   var t,l,i,o,n,s,c,d,r,u,y=_(a),
+    E=_.extend(!0,{},M,lay.options(a),(t={}, layui.each(["title","height","encode","skin","about"],function(e,a){
+     var i=y.attr("lay-"+a);
+     "string"== typeof i&&(t[a]=i)
+    }), t)),p=y.data("code")||(i=[], y.children("textarea").each(function(){
+     i.push(I(this.value))
+    }), 0===i.length&&i.push(I(y.html())), i),f=(y.data("code",p), {
+     copy:{
+      className:"file-b",title:["\u590d\u5236\u4ee3\u7801"],event:function(e,a){
+       if("function"== typeof E.onCopy) E.onCopy(l); else try{
+        navigator.clipboard.writeText(C.unescape(l)).then(function(){
+         g.msg("\u5df2\u590d\u5236",{icon:1})
+        })
+       }catch(i){
+        g.msg("\u590d\u5236\u5931\u8d25",{icon:2})
+       }
+      }
+     }
+    }),
+    v=(E.preview&&(a="LAY-CODE-DF-"+e, r=E.layout||["code","preview"], o="iframe"===E.preview, L=_('<div class="'+T.ELEM_PREVIEW+'">'), d=_('<div class="layui-tab layui-tab-brief">'), n=_('<div class="layui-tab-title">'), u=_('<div class="'+[T.ELEM_ITEM,T.ELEM_ITEM+"-preview","layui-border"].join(" ")+'">'), s=_('<div class="layui-code-tools"></div>'), m=y.parent("."+T.ELEM_PREVIEW), v=y.prev("."+T.ELEM_TAB), h=y.next("."+T.ELEM_ITEM+"-preview"), E.id&&L.attr("id",E.id), L.addClass(E.className), d.attr("lay-filter",a), E.encode= !0, layui.each(r,function(e,a){
+     var i=_('<li lay-id="'+a+'">');
+     0===e&&i.addClass("layui-this"), i.html(E.text[a]), n.append(i)
+    }), _.extend(f,{
      full:{
       className:"screen-full",
       title:["\u6700\u5927\u5316\u663e\u793a","\u8fd8\u539f\u663e\u793a"],
       event:function(e,a){
-       var l=e.closest("."+b.ELEM_PREVIEW),i="layui-icon-"+this.className,t="layui-icon-screen-restore",s=this.title,
-        o=M("html,body"),n="layui-scollbar-hide";
-       e.hasClass(i)?(l.addClass(b.ELEM_FULL), e.removeClass(i).addClass(t), e.attr("title",s[1]), o.addClass(n)):(l.removeClass(b.ELEM_FULL), e.removeClass(t).addClass(i), e.attr("title",s[0]), o.removeClass(n))
+       var i=e.closest("."+T.ELEM_PREVIEW),t="layui-icon-"+this.className,l="layui-icon-screen-restore",o=this.title,
+        n=_("html,body"),s="layui-scollbar-hide";
+       e.hasClass(t)?(i.addClass(T.ELEM_FULL), e.removeClass(t).addClass(l), e.attr("title",o[1]), n.addClass(s)):(i.removeClass(T.ELEM_FULL), e.removeClass(l).addClass(t), e.attr("title",o[0]), n.removeClass(s))
       }
      },window:{
       className:"release",title:["\u5728\u65b0\u7a97\u53e3\u9884\u89c8"],event:function(e,a){
-       _.openWin({content:v.join("")})
+       C.openWin({content:l})
       }
      }
-    }, d.on("click",">i",function(){
-     var e=M(this),a=e.data("type");
-     "function"== typeof c[a].event&&c[a].event(e,a), "function"== typeof y.toolsEvent&&y.toolsEvent(e,a)
-    }), layui.each(y.tools,function(e,a){
-     var l=c[a]&&c[a].className||a,i=c[a].title||[""];
-     d.append('<i class="layui-icon layui-icon-'+l+'" data-type="'+a+'" title="'+i[0]+'"></i>')
-    }), f[0]&&f.remove(), p[0]&&p.remove(), m[0]&&E.unwrap(), u.append(o), y.tools&&u.append(d), E.wrap(h).addClass(b.ELEM_ITEM).before(u), s&&n.html("<iframe></iframe>"), r=function(e){
-     var a=e.children("iframe")[0],l=(s&&a?a.srcdoc=v.join(""):e.html(v.join("")), {
+    }), E.copy&&"array"===layui.type(E.tools)&&E.tools.unshift("copy"), s.on("click",">i",function(){
+     var e=_(this),a=e.data("type");
+     "function"== typeof f[a].event&&f[a].event(e,a), "function"== typeof E.toolsEvent&&E.toolsEvent(e,a)
+    }), layui.each(E.tools,function(e,a){
+     var i=f[a]&&f[a].className||a,t=f[a].title||[""];
+     s.append('<i class="layui-icon layui-icon-'+i+'" data-type="'+a+'" title="'+t[0]+'"></i>')
+    }), v[0]&&v.remove(), h[0]&&h.remove(), m[0]&&y.unwrap(), d.append(n), E.tools&&d.append(s), y.wrap(L).addClass(T.ELEM_ITEM).before(d), o&&u.html("<iframe></iframe>"), c=function(e){
+     var a=e.children("iframe")[0],i=(o&&a?a.srcdoc=p.join(""):e.html(p.join("")), {
       container:e,render:function(){
-       C.render(e.find(".layui-form")), w.render()
+       b.render(e.find(".layui-form")), w.render()
       }
      });
      setTimeout(function(){
-      "function"== typeof y.done&&y.done(l)
+      "function"== typeof E.done&&E.done(i)
      },3)
-    }, "preview"===t[0]?(n.addClass(b.ELEM_SHOW), E.before(n), r(n)):E.addClass(b.ELEM_SHOW).after(n), y.codeStyle=[y.style,y.codeStyle].join(""), y.previewStyle=[y.style,y.previewStyle].join(""), n.attr("style",y.previewStyle), w.on("tab("+a+")",function(e){
-     var a=M(this),l=M(e.elem).closest("."+b.ELEM_PREVIEW).find("."+b.ELEM_ITEM),e=l.eq(e.index);
-     l.removeClass(b.ELEM_SHOW), e.addClass(b.ELEM_SHOW), "preview"===a.attr("lay-id")&&r(e)
-    })), y.ln?"ol":"ul"),p=M("<"+f+' class="layui-code-'+f+'">'),m=M('<div class="'+b.ELEM_TITLE+'">'),
-    h=(E.addClass("layui-code-view layui-box"), y.skin&&("notepad"===y.skin&&(y.skin="dark"), E.removeClass("layui-code-dark layui-code-light"), E.addClass("layui-code-"+y.skin)), _.escape(v.join(""))),
-    h=(h=y.encode?_.escape(h):h).replace(/[\r\t\n]+/g,"</li><li>");
-   E.html(p.html("<li>"+h+"</li>")), y.header&& !E.children("."+b.ELEM_TITLE)[0]&&(m.html(y.title+(y.about?'<div class="layui-code-about">'+y.about+"</div>":"")), E.prepend(m)), y.elem.length===e+1&&"function"== typeof y.allDone&&y.allDone(), 0<(u=Math.floor(p.find("li").length/100))&&p.css("margin-left",u+"px"), y.height&&p.css("max-height",y.height), p.attr("style",y.codeStyle)
+    }, "preview"===r[0]?(u.addClass(T.ELEM_SHOW), y.before(u), c(u)):y.addClass(T.ELEM_SHOW).after(u), E.codeStyle=[E.style,E.codeStyle].join(""), E.previewStyle=[E.style,E.previewStyle].join(""), u.attr("style",E.previewStyle), w.on("tab("+a+")",function(e){
+     var a=_(this),i=_(e.elem).closest("."+T.ELEM_PREVIEW).find("."+T.ELEM_ITEM),e=i.eq(e.index);
+     i.removeClass(T.ELEM_SHOW), e.addClass(T.ELEM_SHOW), "preview"===a.attr("lay-id")&&c(e)
+    })), E.ln?"ol":"ul"),h=_("<"+v+' class="layui-code-'+v+'">'),m=_('<div class="'+T.ELEM_TITLE+'">'),
+    L=(y.addClass("layui-code-view layui-box"), E.skin&&("notepad"===E.skin&&(E.skin="dark"), y.removeClass("layui-code-dark layui-code-light"), y.addClass("layui-code-"+E.skin)), l=p.join(""));
+   "function"== typeof E.codeParse&&(L=l=E.codeParse(L)), L=(L=E.encode?C.escape(L):L).replace(/[\r\t\n]+/g,"</li><li>"), y.html(h.html("<li>"+L+"</li>")), E.header&& !y.children("."+T.ELEM_TITLE)[0]&&(m.html((E.title||E.text.code)+(E.about?'<div class="layui-code-about">'+E.about+"</div>":"")), y.prepend(m)), E.elem.length===e+1&&"function"== typeof E.allDone&&E.allDone(), 0<(d=Math.floor(h.find("li").length/100))&&h.css("margin-left",d+"px"), E.height&&h.css("max-height",E.height), h.attr("style",E.codeStyle), E.copy&& !E.preview&&(r=_(['<span class="'+T.ELEM_COPY+'">','<i class="layui-icon layui-icon-file-b" title="\u590d\u5236"></i>',"</span>"].join("")), u=y.children("."+T.ELEM_COPY), (h[0].style.height||h[0].style.maxHeight)&&r.addClass(T.ELEM_COPY+"-offset"), u[0]&&u.remove(), y.append(r), r.on("click",function(){
+    f.copy.event()
+   }))
   })
  })
 }), layui["layui.all"]||layui.addcss("modules/code.css?v=3","skincodecss");
