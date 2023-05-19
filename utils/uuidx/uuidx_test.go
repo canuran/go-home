@@ -26,8 +26,8 @@ func TestBigint(t *testing.T) {
 
 	// 观察当前时间与最大时间
 	fmt.Println(ParseBigint(NewId().Bigint()).Time())
-	i, _ := big.NewInt(0).SetString("99999999999999999999999999999999", 10)
-	fmt.Println("32位10进制时间上限", ParseBigint(i).Time()) // 10进制32位上限至4718年
+	i, _ := big.NewInt(0).SetString("9999999999999999999999999999999", 10)
+	fmt.Println("31位10进制时间上限", ParseBigint(i).Time()) // 10进制31位上限至2244年
 	i, _ = big.NewInt(0).SetString("ffffffffffffffffffffffffff", 16)
 	fmt.Println("26位16进制时间上限", ParseBigint(i).Time()) // 16进制26位上限至2527年
 	i, _ = big.NewInt(0).SetString("zzzzzzzzzzzzzzzzzzzz", 36)
