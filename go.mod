@@ -10,11 +10,11 @@ require (
 	github.com/modern-go/reflect2 v1.0.2
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/sirupsen/logrus v1.9.0
-	github.com/stretchr/testify v1.8.2
+	github.com/sirupsen/logrus v1.9.2
+	github.com/stretchr/testify v1.8.3
 	gorm.io/driver/sqlite v1.5.0
 	gorm.io/gen v0.3.22
-	gorm.io/gorm v1.25.0
+	gorm.io/gorm v1.25.1
 )
 
 require (

@@ -344,9 +344,10 @@
 }
 .layuimini-content-page{
  overflow:auto;
+ display:block;
  width:100%;
  height:100%;
- border-width:0;
+ border:0;
 }
 /*移动端遮罩层*/
 .layuimini-mobile-mask{

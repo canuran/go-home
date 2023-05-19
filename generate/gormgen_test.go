@@ -18,20 +18,13 @@ func TestGormGen(t *testing.T) {
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery,
 	})
 
-	// Sqlite必须注册类型映射
-	g.WithDataTypeMap(map[string]func(detailType string) (dataType string){
-		"integer":  func(detailType string) (dataType string) { return "int64" },
-		"real":     func(detailType string) (dataType string) { return "float64" },
-		"text":     func(detailType string) (dataType string) { return "string" },
-		"datetime": func(detailType string) (dataType string) { return "time.Time" },
-		"INTEGER":  func(detailType string) (dataType string) { return "int64" },
-		"REAL":     func(detailType string) (dataType string) { return "float64" },
-		"TEXT":     func(detailType string) (dataType string) { return "string" },
-		"DATETIME": func(detailType string) (dataType string) { return "time.Time" },
+	// 为Sqlite注册类型映射
+	g.WithDataTypeMap(map[string]func(detailType gorm.ColumnType) (dataType string){
+		"integer": func(detailType gorm.ColumnType) (dataType string) { return "int64" },
+		"INTEGER": func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 	})
 
-	// Sqlite生成时不能带索引
-	db, _ := gorm.Open(sqlite.Open("web_gen.db"))
+	db, _ := gorm.Open(sqlite.Open("../web.db"))
 	g.UseDB(db)
 
 	// Sqlite不能一次性生成所有表

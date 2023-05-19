@@ -7,16 +7,12 @@
 
 #### Layui
 
-[查看示例](https://layuion.com/demo/index.html)
-
-[查看文档](https://layuion.com/docs/index.html)
+[官方网站](https://layui.dev/)
 
 #### GridManager
 
-[查看示例](https://gridmanager.lovejavascript.com/demo/index.html)
-
-[查看文档](https://gridmanager.lovejavascript.com/api/index.html)
+[官方文档](https://gridmanager.lovejavascript.com/api/index.html)
 
 #### xm-select
 
-[使用手册](https://maplemei.gitee.io/xm-select/#/basic/use)
+[官方文档](https://maplemei.gitee.io/xm-select/#/basic/use)
