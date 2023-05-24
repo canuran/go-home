@@ -15,8 +15,8 @@ import (
 )
 
 type Id struct {
-	high time.Time
-	low  *big.Int
+	time time.Time
+	rand *big.Int
 }
 
 var (
@@ -34,13 +34,13 @@ func NewIdWithTime(t time.Time) Id {
 	if err != nil {
 		panic(err)
 	}
-	return Id{high: t, low: low}
+	return Id{time: t, rand: low}
 }
 
 func ParseBigint(i *big.Int) Id {
 	return Id{
-		high: time.UnixMilli(new(big.Int).Rsh(i, 60).Int64()),
-		low:  new(big.Int).And(i, lowBitMask),
+		time: time.UnixMilli(new(big.Int).Rsh(i, 60).Int64()),
+		rand: new(big.Int).And(i, lowBitMask),
 	}
 }
 
@@ -53,36 +53,36 @@ func ParseTimeLike(i *big.Int) Id {
 	m := time.Month(intTime / 100000000 % 100)
 	y := int(intTime / 10000000000)
 	return Id{
-		high: time.Date(y, m, d, h, mi, s, 0, time.Local),
-		low:  new(big.Int).Mod(i, tenPower18),
+		time: time.Date(y, m, d, h, mi, s, 0, time.Local),
+		rand: new(big.Int).Mod(i, tenPower18),
 	}
 }
 
 // Bigint 使用Unix时间毫秒+60位随机数
-// 10进制32位上限至4718年，用Mysql的Decimal长度14字节
+// 10进制31位上限至2244年，用Mysql的Decimal长度14字节
 // 16进制26位上限至2527年，36进制20位上限至2337年
 func (id Id) Bigint() *big.Int {
-	second := id.high.UnixMilli()
+	second := id.time.UnixMilli()
 	high := big.NewInt(second)
 	high = high.Lsh(high, 60)
-	return high.Or(high, id.low)
+	return high.Or(high, id.rand)
 }
 
 // TimeLike 使用10进制时的年月日时分秒+60位随机数
 // 适用于订单号、日志ID等，9999年之前都是32位10进制
 func (id Id) TimeLike() *big.Int {
-	y, m, d := id.high.Date()
-	h, mi, s := id.high.Hour(), id.high.Minute(), id.high.Second()
+	y, m, d := id.time.Date()
+	h, mi, s := id.time.Hour(), id.time.Minute(), id.time.Second()
 	intTime := int64(y)*10000000000 + int64(m)*100000000 + int64(d*1000000+h*10000+mi*100+s)
 	high := big.NewInt(intTime)
 	high = high.Mul(high, tenPower18)
-	return high.Add(high, id.low)
+	return high.Add(high, id.rand)
 }
 
 func (id Id) Time() time.Time {
-	return id.high
+	return id.time
 }
 
-func (id Id) Low() *big.Int {
-	return id.low
+func (id Id) Rand() *big.Int {
+	return id.rand
 }
