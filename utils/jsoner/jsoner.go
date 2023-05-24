@@ -6,8 +6,8 @@ import (
 )
 
 var LogJsoner = NewAPI().
-	MaxStringFieldLen(256).
-	MaxSliceFieldLen(32).
+	MaxStringFieldLen(255).
+	MaxSliceFieldLen(64).
 	EncodeIntegerSafely().
 	DecodeGeneralDate()
 

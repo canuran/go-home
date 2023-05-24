@@ -5,7 +5,7 @@ import (
 )
 
 type Response struct {
-	Status  int    `json:"status"`
+	Status  int    `json:"status"` // 自定义的状态码应当大于1000
 	Message string `json:"message,omitempty"`
 	Totals  int64  `json:"totals,omitempty"`
 	Data    any    `json:"data,omitempty"`

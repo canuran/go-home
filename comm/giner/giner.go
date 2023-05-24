@@ -2,7 +2,6 @@ package giner
 
 import (
 	"github.com/canuran/go-home/comm"
-	"github.com/canuran/go-home/comm/consts"
 	"github.com/canuran/go-home/comm/errorer"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -26,9 +25,11 @@ func SuccessDataTotals(c *gin.Context, totals int64, data any) {
 }
 
 func FailMessage(c *gin.Context, message string) {
-	c.JSON(http.StatusOK, &comm.Response{Status: consts.CodeFailure, Message: message})
+	c.JSON(http.StatusOK, &comm.Response{
+		Status: http.StatusInternalServerError, Message: message})
 }
 
+// FailStatusMessage 自定义的状态码应当大于1000
 func FailStatusMessage(c *gin.Context, status int, message string) {
 	c.JSON(http.StatusOK, &comm.Response{Status: status, Message: message})
 }
@@ -44,7 +45,7 @@ func HandleError(c *gin.Context, err error) bool {
 			})
 		} else {
 			c.JSON(http.StatusOK, &comm.Response{
-				Status:  consts.CodeFailure,
+				Status:  http.StatusInternalServerError,
 				Message: "操作失败",
 			})
 		}

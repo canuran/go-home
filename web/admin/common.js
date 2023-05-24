@@ -1,6 +1,7 @@
 $.ajaxSetup({
-    error: function () {
-        layui.layer.msg("请求远程服务失败");
+    error: function (resp) {
+        layui.layer.msg(resp && resp.responseJSON &&
+            resp.responseJSON.message || "请求远程服务失败");
     }
 });
 

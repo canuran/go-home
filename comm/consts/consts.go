@@ -1,9 +1,6 @@
 package consts
 
 const (
-	CodeOk      = 0
-	CodeFailure = -1
-
 	LoginUserKey = "LoginUser"
 
 	DefaultHeader = "/9j/2wCEAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRQBAwQE" +

@@ -3,8 +3,8 @@ package errorer
 import (
 	"errors"
 	"fmt"
-	"github.com/canuran/go-home/comm/consts"
 	"github.com/sirupsen/logrus"
+	"net/http"
 )
 
 func HandlerError(err error) bool {
@@ -17,21 +17,22 @@ func HandlerError(err error) bool {
 
 type StatusError struct {
 	Err    error
-	Status int
+	Status int // 自定义的状态码应当大于1000
 }
 
 func New(msg string) *StatusError {
-	return &StatusError{Err: errors.New(msg), Status: consts.CodeFailure}
+	return &StatusError{Err: errors.New(msg), Status: http.StatusInternalServerError}
 }
 
 func From(err error) *StatusError {
-	return &StatusError{Err: err, Status: consts.CodeFailure}
+	return &StatusError{Err: err, Status: http.StatusInternalServerError}
 }
 
 func Format(format string, args ...any) *StatusError {
 	return From(fmt.Errorf(format, args...))
 }
 
+// SetStatus 自定义的状态码应当大于1000
 func (c *StatusError) SetStatus(status int) *StatusError {
 	c.Status = status
 	return c
