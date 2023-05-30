@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+func Ptr[T any](value T) *T {
+	return &value
+}
+
 func If[T any](value bool, yes, no T) T {
 	if value {
 		return yes
