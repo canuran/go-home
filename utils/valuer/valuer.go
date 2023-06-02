@@ -11,9 +11,9 @@ func Ptr[T any](value T) *T {
 	return &value
 }
 
-func If[T any](value bool, yes, no T) T {
-	if value {
-		return yes
+func If[T any](test bool, ok, no T) T {
+	if test {
+		return ok
 	}
 	return no
 }
@@ -36,136 +36,78 @@ func Int64ify(input any) int64 {
 	if input == nil {
 		return 0
 	}
-	switch input.(type) {
-	case int:
-		return int64(input.(int))
-	case uint:
-		return int64(input.(uint))
-	case int8:
-		return int64(input.(int8))
-	case uint8:
-		return int64(input.(uint8))
-	case int16:
-		return int64(input.(int16))
-	case uint16:
-		return int64(input.(uint16))
-	case int32:
-		return int64(input.(int32))
-	case uint32:
-		return int64(input.(uint32))
-	case int64:
-		return input.(int64)
-	case uint64:
-		return int64(input.(uint64))
-	case float32:
-		return int64(input.(float32))
-	case float64:
-		return int64(input.(float64))
-	case string:
-		return int64(ParseFloat(input.(string)))
-	case time.Time:
-		return input.(time.Time).UnixMilli()
-	case fmt.Stringer:
-		return int64(ParseFloat(input.(fmt.Stringer).String()))
-	case bool:
-		return If[int64](input.(bool), 1, 0)
-	default:
-		value := reflect.ValueOf(input)
-		if value.Kind() == reflect.Pointer {
-			return Int64ify(value.Elem().Interface())
-		}
-		return 0
+	if val, ok := input.(int64); ok {
+		return val
+	} else if val, ok := input.(float64); ok {
+		return int64(val)
+	} else if val, ok := input.(string); ok {
+		return int64(ParseFloat(val))
+	} else if val, ok := input.(fmt.Stringer); ok {
+		return int64(ParseFloat(val.String()))
 	}
+	value := reflect.ValueOf(input)
+	if value.Kind() == reflect.Pointer {
+		return Int64ify(value.Elem().Interface())
+	} else if value.CanInt() {
+		return value.Int()
+	} else if value.CanUint() {
+		return int64(value.Uint())
+	} else if value.CanFloat() {
+		return int64(value.Float())
+	}
+	return 0
 }
 
 func Float64ify(input any) float64 {
 	if input == nil {
 		return 0
 	}
-	switch input.(type) {
-	case int:
-		return float64(input.(int))
-	case uint:
-		return float64(input.(uint))
-	case int8:
-		return float64(input.(int8))
-	case uint8:
-		return float64(input.(uint8))
-	case int16:
-		return float64(input.(int16))
-	case uint16:
-		return float64(input.(uint16))
-	case int32:
-		return float64(input.(int32))
-	case uint32:
-		return float64(input.(uint32))
-	case int64:
-		return float64(input.(int64))
-	case uint64:
-		return float64(input.(uint64))
-	case float32:
-		return float64(input.(float32))
-	case float64:
-		return input.(float64)
-	case string:
-		return ParseFloat(input.(string))
-	case time.Time:
-		return float64(input.(time.Time).UnixMilli())
-	case fmt.Stringer:
-		return ParseFloat(input.(fmt.Stringer).String())
-	case bool:
-		return If[float64](input.(bool), 1, 0)
-	default:
-		value := reflect.ValueOf(input)
-		if value.Kind() == reflect.Pointer {
-			return Float64ify(value.Elem().Interface())
-		}
-		return 0
+	if val, ok := input.(int64); ok {
+		return float64(val)
+	} else if val, ok := input.(float64); ok {
+		return val
+	} else if val, ok := input.(string); ok {
+		return ParseFloat(val)
+	} else if val, ok := input.(fmt.Stringer); ok {
+		return ParseFloat(val.String())
 	}
+	value := reflect.ValueOf(input)
+	if value.Kind() == reflect.Pointer {
+		return Float64ify(value.Elem().Interface())
+	} else if value.CanInt() {
+		return float64(value.Int())
+	} else if value.CanUint() {
+		return float64(value.Uint())
+	} else if value.CanFloat() {
+		return value.Float()
+	}
+	return 0
 }
 
 func Stringify(input any) string {
 	if input == nil {
 		return ""
 	}
-	switch input.(type) {
-	case string:
-		return input.(string)
-	case int:
-		return strconv.Itoa(input.(int))
-	case uint:
-		return strconv.FormatUint(uint64(input.(uint)), 10)
-	case int8:
-		return strconv.Itoa(int(input.(int8)))
-	case uint8:
-		return strconv.FormatUint(uint64(input.(uint8)), 10)
-	case int16:
-		return strconv.Itoa(int(input.(int16)))
-	case uint16:
-		return strconv.FormatUint(uint64(input.(uint16)), 10)
-	case int32:
-		return strconv.Itoa(int(input.(int32)))
-	case uint32:
-		return strconv.FormatUint(uint64(input.(uint32)), 10)
-	case int64:
-		return strconv.FormatInt(input.(int64), 10)
-	case uint64:
-		return strconv.FormatUint(input.(uint64), 10)
-	case float64:
-		return FormatFloat(input.(float64))
-	case float32:
-		return FormatFloat32(input.(float32))
-	case bool:
-		return If[string](input.(bool), "true", "false")
-	case fmt.Stringer:
-		return input.(fmt.Stringer).String()
-	default:
-		value := reflect.ValueOf(input)
-		if value.Kind() == reflect.Pointer {
-			return Stringify(value.Elem().Interface())
-		}
-		return ""
+	if val, ok := input.(int64); ok {
+		return strconv.FormatInt(val, 10)
+	} else if val, ok := input.(float64); ok {
+		return FormatFloat(val)
+	} else if val, ok := input.(string); ok {
+		return val
+	} else if val, ok := input.(fmt.Stringer); ok {
+		return val.String()
 	}
+	value := reflect.ValueOf(input)
+	if value.Kind() == reflect.Pointer {
+		return Stringify(value.Elem().Interface())
+	} else if value.CanInt() {
+		return strconv.FormatInt(value.Int(), 10)
+	} else if value.CanUint() {
+		return strconv.FormatInt(int64(value.Uint()), 10)
+	} else if value.CanFloat() {
+		return FormatFloat(value.Float())
+	}
+	return fmt.Sprint(input)
 }
 
 func ParseFloat(input string) float64 {
@@ -176,20 +118,8 @@ func ParseFloat(input string) float64 {
 	return float
 }
 
-func ParseFloat32(input string) float32 {
-	if len(input) == 0 {
-		return 0
-	}
-	float, _ := strconv.ParseFloat(input, 32)
-	return float32(float)
-}
-
 func FormatFloat(float float64) string {
 	return strconv.FormatFloat(float, 'f', -1, 64)
-}
-
-func FormatFloat32(float float32) string {
-	return FormatFloat(float64(float))
 }
 
 // SplitBytes 把byte切片平均分成count个小切片

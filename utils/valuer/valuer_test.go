@@ -2,25 +2,13 @@ package valuer
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"go/doc"
 	"testing"
 	"time"
 )
-
-func TestInt64ify(t *testing.T) {
-	num := json.Number("123")
-	numP := &num
-	numPP := &numP
-	fmt.Println(Int64ify(&numPP))
-}
-
-func TestFloat64ify(t *testing.T) {
-	num := "123"
-	numP := &num
-	numPP := &numP
-	fmt.Println(Float64ify(&numPP))
-}
 
 func TestElemOr(t *testing.T) {
 	str := "sss"
@@ -28,6 +16,34 @@ func TestElemOr(t *testing.T) {
 	fmt.Println(ElemOr(strP, ""))
 	fmt.Println(ElemOr(ExistOr(nil, strP), ""))
 	fmt.Println(ElemOr(nil, "123"))
+}
+
+func TestInt64ify(t *testing.T) {
+	num := json.Number("123")
+	numP := &num
+	numPP := &numP
+	fmt.Println(Int64ify(&numPP))
+	fmt.Println(Int64ify(int32(123)))
+	fmt.Println(Int64ify(float64(123)))
+	fmt.Println(Int64ify(struct{}{}))
+	fmt.Println(Int64ify(&doc.Value{}))
+}
+
+func TestFloat64ify(t *testing.T) {
+	num := "123"
+	numP := &num
+	numPP := &numP
+	fmt.Println(Float64ify(&numPP))
+	fmt.Println(Float64ify(struct{}{}))
+	fmt.Println(Float64ify(&doc.Value{}))
+}
+
+func TestStringify(t *testing.T) {
+	fmt.Println(Stringify(123))
+	fmt.Println(Stringify(json.Number("123")))
+	fmt.Println(Stringify(errors.New("123")))
+	fmt.Println(Stringify(struct{}{}))
+	fmt.Println(Stringify(&doc.Value{}))
 }
 
 func BenchmarkInt64Slice(b *testing.B) {
