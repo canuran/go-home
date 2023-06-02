@@ -55,7 +55,7 @@ func Int64ify(input any) int64 {
 	} else if value.CanFloat() {
 		return int64(value.Float())
 	}
-	return 0
+	return ParseInt(fmt.Sprint(input))
 }
 
 func Float64ify(input any) float64 {
@@ -81,7 +81,7 @@ func Float64ify(input any) float64 {
 	} else if value.CanFloat() {
 		return value.Float()
 	}
-	return 0
+	return ParseFloat(fmt.Sprint(input))
 }
 
 func Stringify(input any) string {
@@ -108,6 +108,14 @@ func Stringify(input any) string {
 		return FormatFloat(value.Float())
 	}
 	return fmt.Sprint(input)
+}
+
+func ParseInt(input string) int64 {
+	if len(input) == 0 {
+		return 0
+	}
+	integer, _ := strconv.ParseInt(input, 10, 64)
+	return integer
 }
 
 func ParseFloat(input string) float64 {
