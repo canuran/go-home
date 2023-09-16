@@ -79,6 +79,11 @@ func (id Id) TimeLike() *big.Int {
 	return high.Add(high, id.rand)
 }
 
+// Int63 高33位为时间秒，上限为2242-03-16，并发太高可能存在重复
+func (id Id) Int63() int64 {
+	return (id.time.Unix() << 30) | int64(id.rand.Uint64()>>34)
+}
+
 func (id Id) Time() time.Time {
 	return id.time
 }

@@ -3,7 +3,9 @@ package uuidx
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"math"
 	"math/big"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -64,4 +66,18 @@ func BenchmarkTimeLike(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = NewId().TimeLike()
 	}
+}
+
+func TestInt64(t *testing.T) {
+	fmt.Println(NewId().Int63())
+	fmt.Println(NewId().Int63())
+	fmt.Println(NewId().Int63())
+	fmt.Println(strconv.FormatInt(int64(math.MaxUint64>>34), 2))
+	fmt.Println(time.Unix((int64(1)<<33)-1, 0)) // 2242-03-16 20:56:31
+	ids := make(map[int64]bool, 10000)
+	for i := 0; i < 10000; i++ {
+		ids[NewId().Int63()] = true
+		time.Sleep(time.Millisecond)
+	}
+	fmt.Println(len(ids))
 }
