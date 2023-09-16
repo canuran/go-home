@@ -199,12 +199,12 @@ func ValidateUser(ctx context.Context, tokenStr string) *UserBO {
 
 	// 用户信息缓存（需要强一致性则使用redis缓存）
 	var user *UserBO
-	userIdStr := strconv.FormatInt(claims.ID, 10)
+	userIdStr := strconv.FormatInt(claims.UID, 10)
 	cacheUser, ok := authUserCache.Get(userIdStr)
 	if ok {
 		user = cacheUser.(*UserBO)
 	} else {
-		user, err = GetUserById(ctx, claims.ID)
+		user, err = GetUserById(ctx, claims.UID)
 		if errorer.HandlerError(err) {
 			return nil
 		}

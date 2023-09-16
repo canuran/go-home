@@ -118,7 +118,7 @@ func authHandler(c *gin.Context) {
 
 		// 生成Token
 		tokenStr, err := codec.GenToken(&codec.JwtData{
-			ID:      user.ID,
+			UID:     user.ID,
 			Name:    user.Name,
 			Version: user.AuthVersion,
 		}, config.JwtSecret)

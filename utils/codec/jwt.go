@@ -2,7 +2,7 @@ package codec
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	"time"
 )
 
@@ -11,13 +11,13 @@ const (
 )
 
 type JwtData struct {
-	ID      int64  `json:"id,omitempty"`
+	UID     int64  `json:"uid,omitempty"`
 	Name    string `json:"name,omitempty"`
 	Version int64  `json:"version,omitempty"`
 }
 
 type JwtClaims struct {
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 	*JwtData
 }
 
@@ -33,8 +33,8 @@ func GenToken(data *JwtData, secret []byte) (string, error) {
 func GenTokenExpire(data *JwtData, secret []byte, expire time.Time) (string, error) {
 	// 创建一个我们自己的声明
 	c := JwtClaims{
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expire.Unix(), // 过期时间
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expire), // 过期时间
 		},
 		JwtData: data, // 自定义字段
 	}
