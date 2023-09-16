@@ -1,7 +1,6 @@
 package async
 
 import (
-	"context"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"sync"
@@ -11,16 +10,15 @@ import (
 
 func TestSimpleCaller(t *testing.T) {
 	now := time.Now()
-	result := NewCaller(func(in any) any {
+	result := NewCaller(func() (any, error) {
 		time.Sleep(time.Millisecond * 100)
-		return fmt.Sprint(in) + " done"
-	}).SetInput("simple caller").Call()
+		return "simple caller done", nil
+	}).Call()
 
 	output := result.Output()
 	assert.Equal(t, output, "simple caller done")
 	fmt.Println("String:", result.String())
 	fmt.Println("Call error:", result.Error())
-	fmt.Println("Call input:", result.Input())
 	fmt.Println("Call output:", result.Output())
 	fmt.Println("Call duration:", result.Duration())
 	fmt.Println("Call timeouted:", result.Timeouted())
@@ -30,8 +28,8 @@ func TestSimpleCaller(t *testing.T) {
 
 func TestPanicCaller(t *testing.T) {
 	now := time.Now()
-	result := NewCtxCaller[string, string](
-		func(ctx context.Context, in string) (string, error) {
+	result := NewCaller[string](
+		func() (string, error) {
 			time.Sleep(time.Millisecond * 100)
 			panic("panic caller")
 			return "", nil
@@ -41,7 +39,6 @@ func TestPanicCaller(t *testing.T) {
 	assert.Equal(t, recovered, "panic caller")
 	fmt.Println("String:", result.String())
 	fmt.Println("Call error:", result.Error())
-	fmt.Println("Call input:", result.Input())
 	fmt.Println("Call output:", result.Output())
 	fmt.Println("Call duration:", result.Duration())
 	fmt.Println("Call timeouted:", result.Timeouted())
@@ -52,9 +49,9 @@ func TestPanicCaller(t *testing.T) {
 // BenchmarkCaller-12        910650              1201 ns/op
 func BenchmarkCaller(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = NewCaller(func(input any) any {
-			return nil
-		}).SetInput("元宝").Call().Error()
+		_ = NewCaller(func() (any, error) {
+			return nil, nil
+		}).Call().Error()
 	}
 }
 
@@ -63,9 +60,9 @@ func BenchmarkDirect(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var wg sync.WaitGroup
 		wg.Add(1)
-		go func(input any) {
+		go func() {
 			wg.Done()
-		}("元宝")
+		}()
 		wg.Wait()
 	}
 }
@@ -73,10 +70,10 @@ func BenchmarkDirect(b *testing.B) {
 // BenchmarkChanel-12       1204821               989.5 ns/op
 func BenchmarkChanel(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		ch := make(chan any)
-		go func(input any) {
-			ch <- input
-		}("元宝")
+		ch := make(chan bool)
+		go func() {
+			ch <- true
+		}()
 		<-ch
 	}
 }

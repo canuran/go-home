@@ -3,124 +3,96 @@
 package async
 
 import (
-	"context"
+	"errors"
 	"sync"
 	"time"
 )
 
-func NewCaller[In, Out any](fn func(In) Out) Caller[In, Out] {
-	return &caller[In, Out]{
-		ctx: context.Background(),
-		fn: func(ctx context.Context, in In) (Out, error) {
-			return fn(in), nil
-		},
+func NewCaller[Out any](fn func() (Out, error)) Caller[Out] {
+	return &caller[Out]{
+		fn: fn,
 	}
 }
 
-func NewCtxCaller[In, Out any](fn func(context.Context, In) (Out, error)) Caller[In, Out] {
-	return &caller[In, Out]{
-		ctx: context.Background(),
-		fn:  fn,
-	}
+type Caller[Out any] interface {
+	String() string
+	SetTimeout(time.Duration) Caller[Out]
+	Call() Result[Out]
 }
 
-type Caller[In, Out any] interface {
+type Result[Out any] interface {
 	String() string
-	SetInput(In) Caller[In, Out]
-	SetContext(context.Context) Caller[In, Out]
-	SetTimeout(time.Duration) Caller[In, Out]
-	Call() Result[In, Out]
-}
-
-type Result[In, Out any] interface {
-	String() string
-	Context() context.Context
-	Input() In
 	Output() Out
 	Error() error
 	Timeout() time.Duration
 	Duration() time.Duration
 	Timeouted() bool
 	Recovered() any
-	Success() bool
+	Success() error
 }
 
 // 实现了 Caller 和 Result
-type caller[In, Out any] struct {
-	fn        func(context.Context, In) (Out, error)
+type caller[Out any] struct {
+	fn        func() (Out, error)
 	timeout   time.Duration
 	duration  time.Duration
 	wait      sync.WaitGroup
-	ctx       context.Context
-	input     In
 	output    Out
 	error     error
 	recovered any
 	timeouted bool
 }
 
-func (c *caller[In, Out]) String() string {
+func (c *caller[Out]) String() string {
 	return "async caller"
 }
 
-func (c *caller[In, Out]) SetInput(in In) Caller[In, Out] {
-	c.input = in
-	return c
-}
-
-func (c *caller[In, Out]) SetContext(ctx context.Context) Caller[In, Out] {
-	c.ctx = ctx
-	return c
-}
-
-func (c *caller[In, Out]) SetTimeout(timeout time.Duration) Caller[In, Out] {
+func (c *caller[Out]) SetTimeout(timeout time.Duration) Caller[Out] {
 	c.timeout = timeout
 	return c
 }
 
-func (c *caller[In, Out]) Timeout() time.Duration {
+func (c *caller[Out]) Timeout() time.Duration {
 	return c.timeout
 }
 
-func (c *caller[In, Out]) Context() context.Context {
-	return c.ctx
-}
-
-func (c *caller[In, Out]) Input() In {
-	return c.input
-}
-
-func (c *caller[In, Out]) Output() Out {
+func (c *caller[Out]) Output() Out {
 	c.wait.Wait()
 	return c.output
 }
 
-func (c *caller[In, Out]) Error() error {
+func (c *caller[Out]) Error() error {
 	c.wait.Wait()
 	return c.error
 }
 
-func (c *caller[In, Out]) Duration() time.Duration {
+func (c *caller[Out]) Duration() time.Duration {
 	c.wait.Wait()
 	return c.duration
 }
 
-func (c *caller[In, Out]) Timeouted() bool {
+func (c *caller[Out]) Timeouted() bool {
 	c.wait.Wait()
 	return c.timeouted
 }
 
-func (c *caller[In, Out]) Recovered() any {
+func (c *caller[Out]) Recovered() any {
 	c.wait.Wait()
 	return c.recovered
 }
 
-func (c *caller[In, Out]) Success() bool {
+func (c *caller[Out]) Success() error {
 	c.wait.Wait()
-	return !c.timeouted && c.recovered == nil && c.error == nil
+	if c.timeouted {
+		return errors.New("async call timeout")
+	}
+	if c.recovered != nil {
+		return errors.New("async call panic")
+	}
+	return c.error
 }
 
-func (c *caller[In, Out]) Call() Result[In, Out] {
+func (c *caller[Out]) Call() Result[Out] {
 	c.wait.Add(1)
 	if c.timeout > 0 {
 		// 只执行一次结束逻辑
@@ -149,7 +121,7 @@ func (c *caller[In, Out]) Call() Result[In, Out] {
 	return c
 }
 
-func (c *caller[In, Out]) callFunc() {
+func (c *caller[Out]) callFunc() {
 	start := time.Now()
 	defer func() {
 		if r := recover(); r != nil {
@@ -157,5 +129,5 @@ func (c *caller[In, Out]) callFunc() {
 		}
 		c.duration = time.Since(start)
 	}()
-	c.output, c.error = c.fn(c.ctx, c.input)
+	c.output, c.error = c.fn()
 }
