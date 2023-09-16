@@ -1,3 +1,4 @@
+/* GridManager 3.2.1 */
 !function(e,t){
  if("object"== typeof exports&&"object"== typeof module) module.exports=t(); else if("function"== typeof define&&define.amd) define([],t); else{
   var o=t();
@@ -68,13 +69,13 @@
      "[object Arguments]":"arguments",
      "[object Window]":"window",
      "[object HTMLDocument]":"document"
-    },s=window,r=s.document,a=e=>e&&e===e.window,
-    i=e=>e instanceof Element?"element":t[Object.prototype.toString.call(e)],c=()=>{
+    },s=window,r=s.document,i=e=>e&&e===e.window,
+    a=e=>e instanceof Element?"element":t[Object.prototype.toString.call(e)],c=()=>{
     },l=e=>e.jTool,d=(e,t)=>{
      const o=e.DOMList;
      if(!g(o)) return b(t)?o[t]:o
     },u=(e,t)=>{
-     if(e&&(!l(e)||(e=d(e), !g(e)))&&(g(e.length)||[].every.call(e,((e,o)=>(!a(e)&&l(e)&&(e=e.get(0)), !1!==t.call(e,e,o)))), x(e))) for(const o in e){
+     if(e&&(!l(e)||(e=d(e), !g(e)))&&(g(e.length)||[].every.call(e,((e,o)=>(!i(e)&&l(e)&&(e=e.get(0)), !1!==t.call(e,e,o)))), x(e))) for(const o in e){
       const n=e[o];
       if(!1===t.call(n,o,n)) break
      }
@@ -91,12 +92,12 @@
       (!/<tbody|<TBODY/.test(t)&&"TBODY"===o|| !/<thead|<THEAD/.test(t)&&"THEAD"===o|| !/<tr|<TR/.test(t)&&"TR"===o|| !/<td|<TD/.test(t)&&"TD"===o|| !/<th|<TH/.test(t)&&"TH"===o)&&(n=s)
      }
      return r.body.removeChild(o), n
-    },g=e=>"undefined"===i(e),f=e=>"null"===i(e),m=e=>"string"===i(e),v=e=>"function"===i(e),b=e=>"number"===i(e),
-    y=e=>"boolean"===i(e),x=e=>"object"===i(e),w=e=>{
+    },g=e=>"undefined"===a(e),f=e=>"null"===a(e),m=e=>"string"===a(e),v=e=>"function"===a(e),b=e=>"number"===a(e),
+    y=e=>"boolean"===a(e),x=e=>"object"===a(e),w=e=>{
      let t=!0;
      for(const o in e) e.hasOwnProperty(o)&&(t= !1);
      return t
-    },k=e=>"array"===i(e),C=e=>k(e)&&e.length>0,$=e=>"element"===i(e),T=e=>"nodeList"===i(e);
+    },k=e=>"array"===a(e),C=e=>k(e)&&e.length>0,$=e=>"element"===a(e),T=e=>"nodeList"===a(e);
    function S(...[]){
     if(0===arguments.length) return {};
     let e,t=!1,o=1,n=arguments[0];
@@ -106,10 +107,10 @@
     }
     return n
    }
-   const D={isWindow:a,noop:c,type:i,getStyle:h,isEmptyObject:w,each:u},j=function(e,t){
+   const D={isWindow:i,noop:c,type:a,getStyle:h,isEmptyObject:w,each:u},j=function(e,t){
     let o=(()=>{
      if(!e) return void (e=null);
-     if(a(e)||e===r||$(e)) return [e];
+     if(i(e)||e===r||$(e)) return [e];
      if(T(e)||k(e)) return e;
      if(l(e)) return e.DOMList;
      if(/<.+>/.test(e)) return p(e.trim());
@@ -132,25 +133,16 @@
     })), t
    }
    function _(e){
-    let {url:t,type:o,data:n,headers:s,async:r,xhrFields:a,beforeSend:i,complete:l,success:d,error:u}=S({
-     url:null,
-     type:"GET",
-     data:null,
-     headers:{},
-     async:!0,
-     xhrFields:{},
-     beforeSend:c,
-     complete:c,
-     success:c,
-     error:c
+    let {url:t,type:o,data:n,headers:s,async:r,xhrFields:i,beforeSend:a,complete:l,success:d,error:u}=S({
+     url:null,type:"GET",data:null,headers:{},async:!0,xhrFields:{},beforeSend:c,complete:c,success:c,error:c
     },e);
     o=o.toUpperCase();
     const h=new XMLHttpRequest;
     let p;
     "GET"===o&&n&&(t=t+(-1===t.indexOf("?")?"?":"&")+O(n)), "POST"===o&&(s[A]||(s[A]=M), 0===s[A].indexOf(M)&&(p=O(n)), 0===s[A].indexOf("application/json")&&(p=JSON.stringify(n))), h.open(o,t,r);
-    for(const e in a) h[e]=a[e];
+    for(const e in i) h[e]=i[e];
     for(const e in s) h.setRequestHeader(e,s[e]);
-    i(h), h.onload=()=>{
+    a(h), h.onload=()=>{
      l(h,h.status)
     }, h.onreadystatechange=function(){
      if(4!==h.readyState) return;
@@ -172,10 +164,10 @@
       }
      }
     }
-    const r=t.split(" "),a=[];
+    const r=t.split(" "),i=[];
     return u(r,(e=>{
-     e.trim()&&a.push({eventName:e+o,type:e.split(".")[0],querySelector:o,callback:n||c,useCapture:s|| !1})
-    })), a
+     e.trim()&&i.push({eventName:e+o,type:e.split(".")[0],querySelector:o,callback:n||c,useCapture:s|| !1})
+    })), i
    },E={
     on:function(e,t,o,n){
      return this.addEvent(H(d(this),e,t,o,n))
@@ -200,8 +192,8 @@
     },addEvent:function(e){
      return u(e,(e=>{
       u(this,(t=>{
-       const o=P(t),{eventName:n,type:s,callback:r,useCapture:a}=e;
-       o[n]=o[n]||[], o[n].push(e), t.jToolEvent=o, t.addEventListener(s,r,a)
+       const o=P(t),{eventName:n,type:s,callback:r,useCapture:i}=e;
+       o[n]=o[n]||[], o[n].push(e), t.jToolEvent=o, t.addEventListener(s,r,i)
       }))
      })), this
     },removeEvent:function(e){
@@ -339,13 +331,13 @@
     I:G
    },U={
     animate:function(e,t=0,o=c){
-     let n="",s="",a=d(this,0);
+     let n="",s="",i=d(this,0);
      u(e,((e,t)=>{
-      n+=e+":"+h(a,e)+";", s+=e+":"+t+";"
+      n+=e+":"+h(i,e)+";", s+=e+":"+t+";"
      }));
-     const i=`@keyframes jToolAnimate {from {${n}}to {${s}}}`,l=r.createElement("style");
-     l.type="text/css", r.head.appendChild(l), l.textContent=l.textContent+i, a.style.animation=`jToolAnimate ${t/1e3}s ease-in-out forwards`, setTimeout((()=>{
-      N.css.call(this,e), a.style.animation="", r.head.removeChild(l), o()
+     const a=`@keyframes jToolAnimate {from {${n}}to {${s}}}`,l=r.createElement("style");
+     l.type="text/css", r.head.appendChild(l), l.textContent=l.textContent+a, i.style.animation=`jToolAnimate ${t/1e3}s ease-in-out forwards`, setTimeout((()=>{
+      N.css.call(this,e), i.style.animation="", r.head.removeChild(l), o()
      }),t)
     },show:function(){
      return u(this,(e=>{
@@ -379,8 +371,8 @@
     Y.prototype.extend(e)
    })), window.jTool=Y;
    const Q=Y,Z="grid-manager",ee="grid-manager-wrap",te="grid-manager-div",oe="grid-manager-config",
-    ne="grid-manager-toolbar",se="grid-master",re="grid-manager-thead",ae="grid-manager-mock-thead",
-    ie="grid-manager-tbody",ce="th-name",le="gm-row-index",de="gm-tr-row",ue="gm-cache-key",he="gm-level-key",
+    ne="grid-manager-toolbar",se="grid-master",re="grid-manager-thead",ie="grid-manager-mock-thead",
+    ae="grid-manager-tbody",ce="th-name",le="gm-row-index",de="gm-tr-row",ue="gm-cache-key",he="gm-level-key",
     pe="parent-key",ge="children-state",fe="gm-focus-td",me="gm_row_class_name",ve="GridManagerMemory",
     be="GridManagerVersion",ye="grid-manager-cache-error",xe="gm_fold",we="gm_order",ke="gm_moverow",Ce="gm_checkbox",
     $e="no-select-text",Te="empty-data",Se="gm-load-area",De="last-visible",je="cell-hidden",Ae="gm-create",
@@ -389,13 +381,13 @@
     qe="gm-row-hide",Ke="px",
     Be=e=>[`background:${e};height:18px;line-height:18px;padding:1px;border-radius:3px 0 0 3px;color:#fff`,"background:#169fe6;height:18px;line-height:18px;padding:1px;border-radius:0 3px 3px 0;color:#fff"],
     Fe="Info",Ie="Warn",Ge="Error",We={[Fe]:Be("#333"),[Ie]:Be("#f90"),[Ge]:Be("#f00")},
-    Je={[Z]:{},[te]:{},[ee]:{},[re]:{},[ae]:{},[ie]:{},allTh:{},allFakeTh:{}},Ue=(e,t,o)=>{
+    Je={[Z]:{},[te]:{},[ee]:{},[re]:{},[ie]:{},[ae]:{},allTh:{},allFakeTh:{}},Ue=(e,t,o)=>{
      const n=Je[t];
      return n[e]||(n[e]=Q(o||`[${t}="${e}"]`)), n[e]
     },Ve=e=>{
      for(let t in Je) delete Je[t][e]
     },Xe="filter-selected",Ye="fa-con",Qe="click",Ze="dblclick",et="mousedown",tt="mousemove",ot="mouseup",
-    nt="mouseleave",st="scroll",rt="events",at="target",it="selector",ct=(e,t,o)=>({[rt]:e,[at]:t,[it]:o}),lt=(e,t,o)=>{
+    nt="mouseleave",st="scroll",rt="events",it="target",at="selector",ct=(e,t,o)=>({[rt]:e,[it]:t,[at]:o}),lt=(e,t,o)=>{
      let n=S(!0,{},t);
      for(let t in e) e[t].isAutoCreate&& delete n[t];
      return delete n.gm_checkbox_disabled, delete n[ue], delete n[le], delete n[he], delete n[me], o&&o.forEach((e=>delete n[e])), n
@@ -409,16 +401,16 @@
       Q(".gm-load-area",mt(e)).remove()
      }),t||0)
     },ht=e=>m(e)?e:e.getAttribute(Z),pt=e=>`[grid-manager="${e}"]`,gt=e=>Ue(e,Z),ft=e=>Ue(e,te),mt=e=>Ue(e,ee),
-    vt=e=>Ue(e,re),bt=e=>Ue(e,ae),yt=e=>Ue(e,ie),xt=(e,t)=>(t.jTool&&(t=$t(t)), Q(`[${re}="${e}"] th[th-name="${t}"]`)),
+    vt=e=>Ue(e,re),bt=e=>Ue(e,ie),yt=e=>Ue(e,ae),xt=(e,t)=>(t.jTool&&(t=$t(t)), Q(`[${re}="${e}"] th[th-name="${t}"]`)),
     wt=(e,t)=>Q(`[grid-manager-mock-thead="${e}"] th[th-name="${t}"]`),kt=e=>Q(`[${re}="${e}"] th:not(cell-hidden)`),
     Ct=(e,t)=>Q(`[grid-manager-mock-thead="${e}"] th:not([cell-hidden])${t?":not([gm-create])":""}`),$t=e=>e.attr(ce),
     Tt=e=>Q(`[empty-template="${e}"]`),
     St=(e,t)=>m(t)?Q(`tbody tr td:nth-child(${e.index()+1})`,gt(t)):Q(`td:nth-child(${e.index()+1})`,t),Dt=(e,t,o)=>{
      u(k(t)?t:[t],(t=>{
-      const n=xt(e,t),s=wt(e,t),r=St(n,e),a=o?"removeAttr":"attr";
-      n[a](je,""), s[a](je,""), r[a](je,"");
-      const i=Q(`[${oe}="${e}"] li[th-name="${t}"]`);
-      o?i.addClass("checked-li"):i.removeClass("checked-li"), Q('input[type="checkbox"]',i).prop("checked",o), (e=>{
+      const n=xt(e,t),s=wt(e,t),r=St(n,e),i=o?"removeAttr":"attr";
+      n[i](je,""), s[i](je,""), r[i](je,"");
+      const a=Q(`[${oe}="${e}"] li[th-name="${t}"]`);
+      o?a.addClass("checked-li"):a.removeClass("checked-li"), Q('input[type="checkbox"]',a).prop("checked",o), (e=>{
        const t=Tt(e);
        if(0===t.length) return;
        const o=kt(e).length;
@@ -430,22 +422,22 @@
      Q(`${pt(e)} [last-visible]`).removeAttr(De), n.attr(De,""), kt(e).eq(o).attr(De,""), St(n,e).attr(De,"")
     },At=(e,t)=>{
      const {_:o,columnMap:n,isIconFollowText:s,__isNested:r}=e;
-     let a=ft(o).width(),i=0;
+     let i=ft(o).width(),a=0;
      const c=[],l=[];
      let d;
      u(n,((e,n)=>{
       let {__width:u,width:h,isShow:p,pk:g,children:f}=n;
-      if(p&& !g) if(n.disableCustomize) a-=h; else{
+      if(p&& !g) if(n.disableCustomize) i-=h; else{
        if(h&&"auto"!==h&&r&&C(f)){
         const e=n.colspan;
         n.width=h=parseInt(h/e,10)*e
        }
-       if(t&&(!h||"auto"===h)|| !t&&(!u||"auto"===u)) return n.width=Mt(o,n,s,r), i+=n.width, void (r&&C(f)?l.push(n):c.push(n));
-       t&&(i+=h), t||(n.width=u, i+=u), (!d||d.index>n.index)&&(d=n)
+       if(t&&(!h||"auto"===h)|| !t&&(!u||"auto"===u)) return n.width=Mt(o,n,s,r), a+=n.width, void (r&&C(f)?l.push(n):c.push(n));
+       t&&(a+=h), t||(n.width=u, a+=u), (!d||d.index>n.index)&&(d=n)
       }
      }));
      const h=c.length,p=l.length;
-     let g=a-i;
+     let g=i-a;
      if(g>0&&p){
       let e=Math.floor(g/(p+h));
       u(l,(t=>{
@@ -466,7 +458,7 @@
      const s=(e,t,o)=>{
       const n=Q(".th-wrap",t),s=Q(".th-text",t),
        r=Ot(e,s.html(),{fontSize:s.css("font-size"),fontWeight:s.css("font-weight"),fontFamily:s.css("font-family")}),
-       a=n.css("padding-left"),i=n.css("padding-right");
+       i=n.css("padding-left"),a=n.css("padding-right");
       let c=0;
       if(o){
        const e=Q(`.${Le}`,t);
@@ -476,16 +468,16 @@
        const n=Q(".gm-filter-area",t);
        n.length&&(c+=n.width())
       }
-      return Math.ceil(r+c+(a||0)+(i||0)+2+1)
+      return Math.ceil(r+c+(i||0)+(a||0)+2+1)
      };
      if(!n|| !C(t.children)) return s(e,wt(e,t.key),o);
-     let r=0,a=0;
-     const i=t=>{
+     let r=0,i=0;
+     const a=t=>{
       t.children.forEach((n=>{
-       C(n.children)?i(n):(a++, r+=s(e,wt(e,t.key),o))
+       C(n.children)?a(n):(i++, r+=s(e,wt(e,t.key),o))
       }))
      };
-     return i(t), parseInt(r/a,10)*a
+     return a(t), parseInt(r/i,10)*i
     },Ot=(e,t,o)=>{
      const n=Q(`[${ee}="${e}"] .text-dreamland`);
      return n.html(t), n.css(o), n.width()
@@ -502,8 +494,8 @@
      const t=ft(e);
      t.attr("gm-overflow-x",vt(e).width()>t.width())
     },Ht=e=>{
-     const {_:t,width:o,height:n,minHeight:s,maxHeight:r,supportAjaxPage:a}=e,i=mt(t).get(0),c=vt(t).height(),l=c+1;
-     i.style.width=`calc(${o})`, i.style.height=`calc(${n})`, m(s)&&(i.style.minHeight=`calc(${s})`), m(r)&&(i.style.maxHeight=`calc(${r})`), i.style.paddingTop=l+Ke, ft(t).get(0).style.height=a?`calc(100% - ${Q(`[${ne}="${t}"]`).height()+Ke})`:"100%", Q(".table-header",i).height(l), gt(t).css("margin-top",-c)
+     const {_:t,width:o,height:n,minHeight:s,maxHeight:r,supportAjaxPage:i}=e,a=mt(t).get(0),c=vt(t).height(),l=c+1;
+     a.style.width=`calc(${o})`, a.style.height=`calc(${n})`, m(s)&&(a.style.minHeight=`calc(${s})`), m(r)&&(a.style.maxHeight=`calc(${r})`), a.style.paddingTop=l+Ke, ft(t).get(0).style.height=i?`calc(100% - ${Q(`[${ne}="${t}"]`).height()+Ke})`:"100%", Q(".table-header",a).height(l), gt(t).css("margin-top",-c)
     },Et=e=>{
      for(let t in e){
       const o=e[t],n=Q(o.target);
@@ -558,12 +550,7 @@
      pagingBefore:c,
      pagingAfter:c
     },eo={supportAutoOrder:!0,autoOrderConfig:{width:50}},to={
-     supportCheckbox:!0,
-     checkboxConfig:{width:40},
-     checkedBefore:c,
-     checkedAfter:c,
-     checkedAllBefore:c,
-     checkedAllAfter:c
+     supportCheckbox:!0,checkboxConfig:{width:40},checkedBefore:c,checkedAfter:c,checkedAllBefore:c,checkedAllAfter:c
     },oo={i18n:"zh-cn"},no={supportTreeData:!1,treeConfig:{treeKey:"children",openState:!1}},so={
      firstLoading:!0,
      virtualScroll:{useVirtualScroll:!1,virtualNum:20},
@@ -580,56 +567,38 @@
      rowRenderHandler:(e,t)=>e,
      dataKey:"data",
      emptyTemplate:()=>'<div class="gm-empty-template">暂无数据</div>'
-    },ro={supportExport:!0,exportConfig:{mode:"static",suffix:"xls",handler:c}},ao={supportPrint:!0},
-    io={supportAutoPlay:!1,autoPlayConfig:{interval:5,step:40}};
+    },ro={supportExport:!0,exportConfig:{mode:"static",suffix:"xls",handler:c}},io={supportPrint:!0},
+    ao={supportAutoPlay:!1,autoPlayConfig:{interval:5,step:40}};
    function co(){
-    S(!0,this,Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({rendered:!1},Ft),It),Gt),Wt),Jt),Ut),Vt),Yt),Qt),Zt),eo),to),oo),so),ro),ao),no),Xt),io))
+    S(!0,this,Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({rendered:!1},Ft),It),Gt),Wt),Jt),Ut),Vt),Yt),Qt),Zt),eo),to),oo),so),ro),io),no),Xt),ao))
    }
    function lo(){
     const e=this;
     e["order-text"]={"zh-cn":"序号","zh-tw":"序號","en-us":"order"}, e["first-page"]={
-     "zh-cn":"首页",
-     "zh-tw":"首頁",
-     "en-us":"first"
+     "zh-cn":"首页","zh-tw":"首頁","en-us":"first"
     }, e["previous-page"]={"zh-cn":"上一页","zh-tw":"上一頁","en-us":"previous"}, e["next-page"]={
-     "zh-cn":"下一页",
-     "zh-tw":"下一頁",
-     "en-us":"next"
+     "zh-cn":"下一页","zh-tw":"下一頁","en-us":"next"
     }, e["last-page"]={
-     "zh-cn":"尾页",
-     "zh-tw":"尾頁",
-     "en-us":"last"
+     "zh-cn":"尾页","zh-tw":"尾頁","en-us":"last"
     }, e["page-info"]={
      "zh-cn":'此页显示 {0}-{1}<span class="page-info-totals"> 共{2}条</span>',
      "zh-tw":'此頁顯示 {0}-{1}<span class="page-info-totals"> 共{2}條</span>',
      "en-us":'this page show {0}-{1}<span class="page-info-totals"> count {2}</span>'
     }, e["checked-info"]={
-     "zh-cn":"已选 {0} 条",
-     "zh-tw":"已選 {0} 條",
-     "en-us":"selected {0}"
+     "zh-cn":"已选 {0} 条","zh-tw":"已選 {0} 條","en-us":"selected {0}"
     }, e["goto-first-text"]={"zh-cn":"跳转至","zh-tw":"跳轉至","en-us":"goto"}, e["goto-last-text"]={
-     "zh-cn":"页",
-     "zh-tw":"頁",
-     "en-us":"page"
+     "zh-cn":"页","zh-tw":"頁","en-us":"page"
     }, e.refresh={"zh-cn":"重新加载","zh-tw":"重新加載","en-us":"Refresh"}, e.export={
-     "zh-cn":"导出",
-     "zh-tw":"導出",
-     "en-us":"Export"
+     "zh-cn":"导出","zh-tw":"導出","en-us":"Export"
     }, e["export-checked"]={
-     "zh-cn":"导出选中项",
-     "zh-tw":"導出選中項",
-     "en-us":"Export selected"
+     "zh-cn":"导出选中项","zh-tw":"導出選中項","en-us":"Export selected"
     }, e.config={"zh-cn":"配置表","zh-tw":"配置表","en-us":"Setting Grid"}, e.print={
-     "zh-cn":"打印",
-     "zh-tw":"打印",
-     "en-us":"Print"
+     "zh-cn":"打印","zh-tw":"打印","en-us":"Print"
     }, e.copy={"zh-cn":"复制","zh-tw":"復制","en-us":"Copy"}, e["hide-row"]={
-     "zh-cn":"隐藏行",
-     "zh-tw":"隱藏行",
-     "en-us":"Hidden Row"
+     "zh-cn":"隐藏行","zh-tw":"隱藏行","en-us":"Hidden Row"
     }, e.ok={"zh-cn":"确定","zh-tw":"確定","en-us":"OK"}, e.reset={"zh-cn":"重置","zh-tw":"重置","en-us":"Reset"}
    }
-   const uo={version:"3.2.0",responseData:{},checkedData:{},settings:{}},
+   const uo={version:"3.2.1",responseData:{},checkedData:{},settings:{}},
     ho=["width","__width","isShow","__isShow","index","__index"],po=["__width","__isShow","__index"],
     go=e=>localStorage.getItem(e),fo=(e,t)=>{
      localStorage.setItem(e,t)
@@ -655,30 +624,30 @@
      const {columnMap:n,checkboxConfig:s}=Oo(e);
      if(o) return void (uo.checkedData[e]=t.map((e=>lt(n,e))));
      uo.checkedData[e]||(uo.checkedData[e]=[]);
-     const r=uo.checkedData[e],a=s.key,i=r.length>0,c=[];
+     const r=uo.checkedData[e],i=s.key,a=r.length>0,c=[];
      t.forEach((e=>{
       const t=lt(n,e),o=e.gm_checkbox;
       let s=-1;
-      i&&(s=((e,t,o)=>{
+      a&&(s=((e,t,o)=>{
        let n=-1,s=!1;
        return e.some(((e,r)=>(s=Kt(e,t,o), s&&(n=r), s))), n
-      })(r,t,a)), o&& -1===s?c.push(t):o|| -1===s||r.splice(s,1)
+      })(r,t,i)), o&& -1===s?c.push(t):o|| -1===s||r.splice(s,1)
      })), uo.checkedData[e]=r.concat(c)
     },Co=e=>location.pathname+location.hash+"-"+e,$o=e=>{
      let t=go(ve);
      return t&&"{}"!==t?(t=JSON.parse(t), JSON.parse(t[Co(e)]||"{}")):(gt(e).attr(ye,"error"), {})
     },To=e=>{
-     const {disableCache:t,_:o,columnMap:n,supportAjaxPage:s,pageData:r,pageSizeKey:a}=e;
+     const {disableCache:t,_:o,columnMap:n,supportAjaxPage:s,pageData:r,pageSizeKey:i}=e;
      if(t) return;
-     const i={};
+     const a={};
      u(n,((e,t)=>{
       const o={};
       ho.forEach((e=>{
        o[e]=t[e]
-      })), i[e]=o
+      })), a[e]=o
      }));
-     const c={column:i};
-     s&&(c[a]=r[a]);
+     const c={column:a};
+     s&&(c[i]=r[i]);
      const l=JSON.stringify(c),d=JSON.parse(go(ve)||"{}");
      d[Co(o)]=l, fo(ve,JSON.stringify(d))
     },So=e=>{
@@ -701,24 +670,26 @@
     },jo=e=>m(e[0])?e.map((e=>({key:e,text:e}))):e,Ao=(e,t,o,n,s)=>{
      const {
       __isNested:r,
-      columnData:a,
-      supportMoveRow:i,
+      columnData:i,
+      supportMoveRow:a,
       moveRowConfig:c,
       supportAutoOrder:l,
-      __isFullColumn:d,
-      fullColumn:u,
-      supportCheckbox:h,
-      checkboxConfig:p
-     }=e,f={};
-     let v=[];
-     i&&c.useSingleMode&&v.push(t(c)), h&&v.push(o(p)), l&&v.push(n(e)), d&&u.useFold&&v.push(s(e)), v=v.concat(a);
-     const y=(t,o,n)=>{
+      autoOrderConfig:d,
+      __isFullColumn:u,
+      fullColumn:h,
+      supportCheckbox:p,
+      checkboxConfig:f
+     }=e,v={};
+     i.some((e=>"left"===e.fixed))&&(c.fixed="left", f.fixed="left", d.fixed="left");
+     let y=[];
+     a&&c.useSingleMode&&y.push(t(c)), p&&y.push(o(f)), l&&y.push(n(e)), u&&h.useFold&&y.push(s(e)), y=y.concat(i);
+     const w=(t,o,n)=>{
       t.forEach(((t,s)=>{
-       const a=(t=S(!0,{},t)).key;
-       a?(t.width&& !b(t.width)&&(t.width=parseInt(t.width,10)), t.remind&&(e._remind= !0), m(t.sorting)&&(e._sort= !0), x(t.filter)&&(e._filter= !0), !r&&m(t.fixed)?(e._fixed= !0, t.disableCustomize= !0):delete t.fixed, !t.disableCustomize||t.width?(f[a]=t, f[a].isShow=t.isShow||g(t.isShow), f[a].index=s, f[a].__index=s, f[a].__width=t.width, f[a].__isShow=t.isShow, r&&(C(t.children)&&y(t.children,o+1,t.key), f[a].pk=n, f[a].level=o)):qt(`column ${a}: width must be set`)):qt(`columnData[${s}].key undefined`)
+       const i=(t=S(!0,{},t)).key;
+       i?(t.width&& !b(t.width)&&(t.width=parseInt(t.width,10)), t.remind&&(e._remind= !0), m(t.sorting)&&(e._sort= !0), x(t.filter)&&(e._filter= !0), !r&&m(t.fixed)?(e._fixed= !0, t.disableCustomize= !0):delete t.fixed, !t.disableCustomize||t.width?(v[i]=t, v[i].isShow=t.isShow||g(t.isShow), v[i].index=s, v[i].__index=s, v[i].__width=t.width, v[i].__isShow=t.isShow, r&&(C(t.children)&&w(t.children,o+1,t.key), v[i].pk=n, v[i].level=o)):qt(`column ${i}: width must be set`)):qt(`columnData[${s}].key undefined`)
       }))
      };
-     y(v,0,void 0), e.columnMap=f
+     w(y,0,void 0), e.columnMap=v
     },Mo=(e,t,o,n,s)=>{
      e.columnData=jo(e.columnData), e=Do(e);
      let r=new co;
@@ -729,11 +700,11 @@
        return "-"
       }
      })();
-     const {_:a}=r;
+     const {_:i}=r;
      Ao(r,t,o,n,s);
      return (()=>{
       if(r.disableCache) return;
-      const e=r.columnMap,t=$o(a).column||{},o=Object.keys(t),n=Object.keys(e);
+      const e=r.columnMap,t=$o(i).column||{},o=Object.keys(t),n=Object.keys(e);
       if(0===o.length) return;
       let s=!0;
       o.length!==n.length&&(s= !1), s&&u(e,((e,o)=>{
@@ -741,7 +712,7 @@
         const s=t[e][n],r=o[n];
         return x(s)?JSON.stringify(s)!==JSON.stringify(r):s!==r
        }))) return s= !1, !1
-      })), s?S(!0,e,t):So(a)
+      })), s?S(!0,e,t):So(i)
      })(), _o(r), r
     },Oo=e=>S(!0,{},uo.settings[e]||{}),_o=e=>{
      uo.settings[e._]=S(!0,{},e)
@@ -761,35 +732,29 @@
     },Eo="data-compile-node",Ro={},Lo=e=>(Ro[e]||(Ro[e]=[]), Ro[e]),No=e=>{
      Ro[e]=[]
     },zo=(e,t,o,n,s)=>{
-     const {_:r,compileAngularjs:a,compileVue:i,compileReact:c}=e,l=Lo(r);
+     const {_:r,compileAngularjs:i,compileVue:a,compileReact:c}=e,l=Lo(r);
      let d="",u="";
      return t?(c&&(u=Eo, l.push({
-      template:t,
-      row:o,
-      index:n,
-      key:s,
-      type:g(n)?void 0:"template",
-      fnArg:[o[s],o,n,s]
-     })), (i||a)&&(u=Eo, l.push({row:o,index:n,key:s})), c||(d=t(o[s],o,n,s))):(d=o[s], (f(d)||g(d))&&(d="")), {
-      text:d,
-      compileAttr:u
+      template:t,row:o,index:n,key:s,type:g(n)?void 0:"template",fnArg:[o[s],o,n,s]
+     })), (a||i)&&(u=Eo, l.push({row:o,index:n,key:s})), c||(d=t(o[s],o,n,s))):(d=o[s], (f(d)||g(d))&&(d="")), {
+      text:d,compileAttr:u
      }
     };
    async function qo(e){
-    const {_:t,compileAngularjs:o,compileVue:n,compileReact:s}=e,a=Lo(t);
-    if(0===a.length) return Promise.resolve();
-    let i=r.querySelectorAll(`${pt(t)} [${Eo}]`);
-    a.forEach(((e,t)=>{
-     e.el||(e.el=i[t])
-    })), n&&(await n(a), i=r.querySelectorAll(`${pt(t)} [${Eo}]`)), o&& await o(a), s&& await s(a), [].forEach.call(i,(e=>{
+    const {_:t,compileAngularjs:o,compileVue:n,compileReact:s}=e,i=Lo(t);
+    if(0===i.length) return Promise.resolve();
+    let a=r.querySelectorAll(`${pt(t)} [${Eo}]`);
+    i.forEach(((e,t)=>{
+     e.el||(e.el=a[t])
+    })), n&&(await n(i), a=r.querySelectorAll(`${pt(t)} [${Eo}]`)), o&& await o(i), s&& await s(i), [].forEach.call(a,(e=>{
      e.removeAttribute(Eo)
     })), No(t)
    }
    const Ko={},Bo=(e,t)=>e.textConfig[t][e.i18n];
    function Fo(e,t,o,n,s){
     let r=[];
-    const a=arguments.length;
-    if(3===a&&k(arguments[2])) r=arguments[2]; else if(a>2) for(let e=2; e<a; e++) r.push(arguments[e]);
+    const i=arguments.length;
+    if(3===i&&k(arguments[2])) r=arguments[2]; else if(i>2) for(let e=2; e<i; e++) r.push(arguments[e]);
     try{
      let o=Bo(e,t);
      return r&&r.length?o.replace(/{\d+}/g,(e=>{
@@ -810,30 +775,30 @@
    };
    const Go=new class{
     async exportGrid(e,t,o){
-     const n=Oo(e),{query:s,disableAutoLoading:r,loadingTemplate:a,exportConfig:i,pageData:c,sortData:l}=n;
+     const n=Oo(e),{query:s,disableAutoLoading:r,loadingTemplate:i,exportConfig:a,pageData:c,sortData:l}=n;
      t=((e,t,o,n)=>{
       if(!t){
        const e=n.fileName;
        t=v(e)?e(o):e
       }
       return t||(t=e), `${t}.${n.suffix}`
-     })(e,t,s,i);
-     const d=o?wo(e):[],u=yo(e),h=i.handler;
-     switch(i.mode){
+     })(e,t,s,a);
+     const d=o?wo(e):[],u=yo(e),h=a.handler;
+     switch(a.mode){
       case"static":
-       this.downStatic(e,r,a,t,o,i.suffix,h,s,c,l,d,u);
+       this.downStatic(e,r,i,t,o,a.suffix,h,s,c,l,d,u);
        break;
       case"blob":
-       await this.downBlob(e,r,a,t,h,s,c,l,d,u);
+       await this.downBlob(e,r,i,t,h,s,c,l,d,u);
        break;
       case"url":
-       await this.downFilePath(e,r,a,t,h,c,l,d)
+       await this.downFilePath(e,r,i,t,h,c,l,d)
      }
     }
 
-    downStatic(e,t,o,n,s,r,a,i,c,l,d,h){
+    downStatic(e,t,o,n,s,r,i,a,c,l,d,h){
      !t&&dt(e,o);
-     let p=a(n,i,c,l,d,h);
+     let p=i(n,a,c,l,d,h);
      if(!k(p)){
       const t=Ct(e,!0),o=yt(e);
       let n;
@@ -854,15 +819,14 @@
       0!==t&&(g+="\r\n"), g+=e.join(",")
      }));
      Io(n,`data:${{
-      csv:"text/csv",
-      xls:"application/vnd.ms-excel"
+      csv:"text/csv",xls:"application/vnd.ms-excel"
      }[r]};charset=utf-8,\ufeff${encodeURIComponent(g)}`), !t&&ut(e,300)
     }
 
-    async downFilePath(e,t,o,n,s,r,a,i){
+    async downFilePath(e,t,o,n,s,r,i,a){
      try{
       !t&&dt(e,o);
-      const c=await s(n,r,a,i);
+      const c=await s(n,r,i,a);
       Io(n,c)
      }catch(e){
       qt(e)
@@ -871,10 +835,10 @@
      }
     }
 
-    async downBlob(e,t,o,n,s,r,a,i,c,l){
+    async downBlob(e,t,o,n,s,r,i,a,c,l){
      try{
       !t&&dt(e,o);
-      const d=await s(n,r,a,i,c,l),u=Blob.prototype;
+      const d=await s(n,r,i,a,c,l),u=Blob.prototype;
       let h;
       if(Object.getPrototypeOf(d)===u&&(h=d), d.data&&Object.getPrototypeOf(d.data)===u&&(h=d.data), !h||Object.getPrototypeOf(h)!==u) return void qt("response type not equal to Blob");
       Io(n,URL.createObjectURL(h))
@@ -889,11 +853,11 @@
      let n=o.merge;
      if(!n||"text"!==n&&"html"!==n) return !0;
      const s=St(xt(e,t),yt(e).find("tr:not([gm-summary-row]):not([gm-row-hide])"));
-     let r=s.length,a=r,i=1;
-     for(; a;){
-      const e=s.eq(a-1);
-      if(e.removeAttr(Wo), e.removeAttr(Jo), e.removeAttr(Uo), a--, 0===a) return void (i>1&&(e.attr(Wo,i), i=1));
-      s.eq(a-1)[n]()===e[n]()?(e.attr(Jo,""), i++):i>1&&(e.attr(Wo,i), a+i===r&&e.attr(Uo,""), i=1)
+     let r=s.length,i=r,a=1;
+     for(; i;){
+      const e=s.eq(i-1);
+      if(e.removeAttr(Wo), e.removeAttr(Jo), e.removeAttr(Uo), i--, 0===i) return void (a>1&&(e.attr(Wo,a), a=1));
+      s.eq(i-1)[n]()===e[n]()?(e.attr(Jo,""), a++):a>1&&(e.attr(Wo,a), i+a===r&&e.attr(Uo,""), a=1)
      }
     }))
    },Xo=e=>Q(`[gm-cache-key="${e}"], [${pe}="${e}"], [${pe}^="${e}-"]`),Yo=(e,t)=>{
@@ -915,13 +879,7 @@
     Q(t.target).off(t.events), Q(Zo(e)).remove()
    },tn=(e,t)=>{
     const o=Oo(e),{
-     supportAjaxPage:n,
-     supportExport:s,
-     supportConfig:a,
-     supportPrint:i,
-     menuHandler:c,
-     useCellFocus:l,
-     useHideRow:d
+     supportAjaxPage:n,supportExport:s,supportConfig:i,supportPrint:a,menuHandler:c,useCellFocus:l,useHideRow:d
     }=o;
     let u=[];
     n&&u.push((e=>({
@@ -929,16 +887,16 @@
       const t=Oo(e),{currentPageKey:o,pageData:n}=t,s=n[o];
       $s(t,s>1?s-1:s)
      },run:(e,t)=>{
-      const o=Oo(e),{pageData:n,currentPageKey:s}=o,r=n[s],a=n.tPage;
-      1===r||0===a?t.addClass(Re):t.removeClass(Re)
+      const o=Oo(e),{pageData:n,currentPageKey:s}=o,r=n[s],i=n.tPage;
+      1===r||0===i?t.addClass(Re):t.removeClass(Re)
      }
     }))(o),(e=>({
      content:`${Fo(e,"next-page")}<i class="gm-icon gm-icon-down"></i>`,line:!0,onClick:e=>{
       const t=Oo(e),{currentPageKey:o,pageData:n}=t,s=n[o];
       $s(t,s<n.tPage?s+1:s)
      },run:(e,t)=>{
-      const o=Oo(e),{pageData:n,currentPageKey:s}=o,r=n[s],a=n.tPage;
-      r===a||0===a?t.addClass(Re):t.removeClass(Re)
+      const o=Oo(e),{pageData:n,currentPageKey:s}=o,r=n[s],i=n.tPage;
+      r===i||0===i?t.addClass(Re):t.removeClass(Re)
      }
     }))(o)), s&&u.push((e=>({
      content:`${Fo(e,"export")}<i class="gm-icon gm-icon-export"></i>`,onClick:e=>{
@@ -956,15 +914,13 @@
       $s(t,n[o])
      }
     }))(o)), l&&u.push((e=>({
-     content:`${Fo(e,"copy")}<i class="gm-icon gm-icon-copy"></i><input gm-fake-copy="${e._}"/>`,
-     onClick:e=>{
+     content:`${Fo(e,"copy")}<i class="gm-icon gm-icon-copy"></i><input gm-fake-copy="${e._}"/>`,onClick:e=>{
       const t=r.querySelector(`[gm-fake-copy=${e}]`);
       t.value=yt(e).find("td[gm-focus-td]").text(), t.select(), r.execCommand("Copy")
-     },
-     run:(e,t,o)=>{
+     },run:(e,t,o)=>{
       "td"!==o.nodeName&&0===Q(o).closest("td").length?t.addClass(Re):t.removeClass(Re)
      }
-    }))(o)), i&&u.push((e=>({
+    }))(o)), a&&u.push((e=>({
      content:`${Fo(e,"print")}<i class="gm-icon gm-icon-print"></i>`,onClick:e=>{
       Qo(e)
      }
@@ -975,7 +931,7 @@
      },run:(e,t,o)=>{
       "tr"!==o.nodeName&&0===Q(o).closest("tr[gm-cache-key]").length?t.addClass(Re):t.removeClass(Re)
      }
-    }))(o)), a&&u.push((e=>({
+    }))(o)), i&&u.push((e=>({
      content:`${Fo(e,"config")}<i class="gm-icon gm-icon-config"></i>`,onClick:e=>{
       Qs.toggle(e)
      }
@@ -987,8 +943,8 @@
     })), Q("[grid-master]").remove(), Q("body").append(`<div class="gm-menu" grid-master="${e}">${h}</div>`);
     const g=Q(Zo(e)),f=g.find("[menu-action]");
     return u.forEach(((o,n)=>{
-     const {run:s,onClick:r}=o,a=f.eq(n);
-     s&&s(e,a,t), a.bind("click",(function(o){
+     const {run:s,onClick:r}=o,i=f.eq(n);
+     s&&s(e,i,t), i.bind("click",(function(o){
       if(((e,t)=>{
        if(Q(e).hasClass(Re)) return t.stopPropagation(), t.preventDefault(), !0
       })(this,o)) return !1;
@@ -999,9 +955,9 @@
    var on=o(923),nn=o.n(on);
    const sn={};
    var rn=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
    const an=e=>{
     const t=ft(e).find(".gm-tooltip");
@@ -1009,12 +965,12 @@
    },cn=(e,t,o,n)=>{
     if(!x(o)) return;
     const {text:s,position:r}=o;
-    let a="right"===r?" right-model":"";
-    const i=ft(e),c=Q(t),l=gt(e),d=t.offsetTop-i.scrollTop()-30+l.css("marginTop")+vt(e).height();
+    let i="right"===r?" right-model":"";
+    const a=ft(e),c=Q(t),l=gt(e),d=t.offsetTop-a.scrollTop()-30+l.css("marginTop")+vt(e).height();
     let u="";
-    "TD"===t.nodeName&&(a="", u=`left:${c.offset().left-l.offset().left-i.scrollLeft()+Ke};`), an(e);
-    const h=`<span class="ra-area gm-tooltip${a}" style="height:30px;top:${d+Ke};${u}">${s}</span>`;
-    i.append(h), c.bind(nt,(()=>{
+    "TD"===t.nodeName&&(i="", u=`left:${c.offset().left-l.offset().left-a.scrollLeft()+Ke};`), an(e);
+    const h=`<span class="ra-area gm-tooltip${i}" style="height:30px;top:${d+Ke};${u}">${s}</span>`;
+    a.append(h), c.bind(nt,(()=>{
      c.unbind(nt), an(e), v(n)&&n()
     }))
    };
@@ -1052,9 +1008,9 @@
    var hn=o(985),pn=o.n(hn),gn=o(125),fn=o.n(gn),mn=o(472),vn=o.n(mn);
    const bn={};
    var yn=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
    const xn=(e,t,o,n)=>{
     if(!x(t)||w(t)) return void zt("sortJson unavailable");
@@ -1064,12 +1020,12 @@
     const r=S({},s.query,s.sortData,s.pageData);
     s.sortingBefore(r), n?us.refresh(e,(t=>{
      (e=>{
-      const {sortData:t,sortUpText:o,sortDownText:n}=Oo(e),s="sorting-up",r="sorting-down",a="sorting";
+      const {sortData:t,sortUpText:o,sortDownText:n}=Oo(e),s="sorting-up",r="sorting-down",i="sorting";
       u(Q(`${pt(e)} .${Ne}`),(e=>{
-       Q(e).removeClass("sorting-up sorting-down"), Q(e).closest("th").attr(a,"")
-      })), u(t,((t,i)=>{
+       Q(e).removeClass("sorting-up sorting-down"), Q(e).closest("th").attr(i,"")
+      })), u(t,((t,a)=>{
        const c=Q(`${pt(e)} th[th-name="${t}"]`),l=Q(`.${Ne}`,c);
-       i===o&&(l.addClass(s), l.removeClass(r), c.attr(a,o)), i===n&&(l.addClass(r), l.removeClass(s), c.attr(a,n))
+       a===o&&(l.addClass(s), l.removeClass(r), c.attr(i,o)), a===n&&(l.addClass(r), l.removeClass(s), c.attr(i,n))
       }))
      })(e), o(t), s.sortingAfter(r)
     })):(o(), s.sortingAfter(r))
@@ -1080,13 +1036,13 @@
      bn[e]=((e,t)=>({start:ct(Qe,t,`[grid-manager-mock-thead="${e}"] .${Ne}`)}))(e,pt(e));
      const {start:t}=bn[e];
      Q(t.target).on(t.events,t.selector,(function(t){
-      const o=$t(Q(this).closest("th")),{sortData:n,sortMode:s,sortUpText:r,sortDownText:a}=Oo(e),i=n[o];
+      const o=$t(Q(this).closest("th")),{sortData:n,sortMode:s,sortUpText:r,sortDownText:i}=Oo(e),a=n[o];
       let c="";
       if("single"===s){
        const e=Q(t.target);
-       e.hasClass("sa-up")&&(c=i===r?"":r), e.hasClass("sa-down")&&(c=i===a?"":a)
+       e.hasClass("sa-up")&&(c=a===r?"":r), e.hasClass("sa-down")&&(c=a===i?"":i)
       }
-      "overall"===s&&(c=i===a?r:a);
+      "overall"===s&&(c=a===i?r:i);
       xn(e,{[o]:c})
      }))
     }
@@ -1114,9 +1070,9 @@
    var Cn=o(285),$n=o.n(Cn);
    const Tn={};
    var Sn=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
 
    class Dn{
@@ -1133,12 +1089,12 @@
        radioAction:ct(Qe,t,`${o} .gm-radio-input`)
       }
      })(e,n);
-     const {toggle:s,close:r,submit:a,reset:i,checkboxAction:c,radioAction:l}=Tn[e];
+     const {toggle:s,close:r,submit:i,reset:a,checkboxAction:c,radioAction:l}=Tn[e];
      Q(s.target).on(s.events,s.selector,(function(s){
       s.stopPropagation(), s.preventDefault();
-      const a=Q(`${n} .fa-con`),i=Q(this),c=i.closest(".gm-filter-area"),l=i.closest("th[th-name]"),d=$t(l),
+      const i=Q(`${n} .fa-con`),a=Q(this),c=a.closest(".gm-filter-area"),l=a.closest("th[th-name]"),d=$t(l),
        h=c.find(".fa-con");
-      h.find(".filter-list").css("max-height",mt(e).height()-70+Ke), u(a,(e=>{
+      h.find(".filter-list").css("max-height",mt(e).height()-70+Ke), u(i,(e=>{
        h.get(0)!==e&&(e.style.display="none")
       }));
       const p=Oo(e);
@@ -1150,16 +1106,16 @@
        if(t.hasClass(Ye)||1===t.closest(".fa-con").length) return !1;
        o.find(".fa-con").hide(), Q(r.target).off(r.events)
       }))
-     })), Q(a.target).on(a.events,a.selector,(function(){
-      const o=Q(this).closest(".fa-con"),n=Q(".gm-radio-checkbox-input",o),s=o.closest("th"),a=$t(s),i=[];
-      u(n,(e=>{
-       e.checked&&i.push(e.value)
-      }));
-      const c=Oo(e),l=i.join(",");
-      c.columnMap[a].filter.selected=l, c.pageData[c.currentPageKey]=1, S(c.query,{[a]:l}), _o(c), t.update(s,c.columnMap[a].filter), us.refresh(e), o.hide(), Q(r.target).off(r.events)
      })), Q(i.target).on(i.events,i.selector,(function(){
-      const o=Q(this).closest(".fa-con"),n=Q(this).closest("th[th-name]"),s=$t(n),a=Oo(e);
-      delete a.query[s], a.columnMap[s].filter.selected="", a.pageData[a.currentPageKey]=1, _o(a), t.update(n,a.columnMap[s].filter), us.refresh(e), o.hide(), Q(r.target).off(r.events)
+      const o=Q(this).closest(".fa-con"),n=Q(".gm-radio-checkbox-input",o),s=o.closest("th"),i=$t(s),a=[];
+      u(n,(e=>{
+       e.checked&&a.push(e.value)
+      }));
+      const c=Oo(e),l=a.join(",");
+      c.columnMap[i].filter.selected=l, c.pageData[c.currentPageKey]=1, S(c.query,{[i]:l}), _o(c), t.update(s,c.columnMap[i].filter), us.refresh(e), o.hide(), Q(r.target).off(r.events)
+     })), Q(a.target).on(a.events,a.selector,(function(){
+      const o=Q(this).closest(".fa-con"),n=Q(this).closest("th[th-name]"),s=$t(n),i=Oo(e);
+      delete i.query[s], i.columnMap[s].filter.selected="", i.pageData[i.currentPageKey]=1, _o(i), t.update(n,i.columnMap[s].filter), us.refresh(e), o.hide(), Q(r.target).off(r.events)
      })), Q(c.target).on(c.events,c.selector,(function(){
       const e=Q(this).closest(".filter-checkbox").find(".gm-checkbox");
       Ns(e,this.checked?Oe:Pe)
@@ -1198,9 +1154,9 @@
    Sn([Ho($n())],Dn.prototype,"createHtml",null);
    const jn=new Dn;
    var An=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
 
    class Mn{
@@ -1210,35 +1166,32 @@
       skinClassName:n,
       isIconFollowText:s,
       disableBorder:r,
-      disableLine:a,
-      supportConfig:i,
+      disableLine:i,
+      supportConfig:a,
       supportAjaxPage:c,
       configInfo:l,
       ajaxPageTemplate:d
      }=t,u=["table-wrap"];
-     return n&&m(n)&&n.trim()&&u.push(n), s&&u.push("gm-icon-follow-text"), r&&u.push("disable-border"), a&&u.push("disable-line"), {
+     return n&&m(n)&&n.trim()&&u.push(n), s&&u.push("gm-icon-follow-text"), r&&u.push("disable-border"), i&&u.push("disable-line"), {
       wrapKey:`${ee}="${o}"`,
       divKey:`${te}="${o}"`,
       classNames:u.join(" "),
-      configTpl:i?Qs.createHtml({_:o,configInfo:l}):"",
+      configTpl:a?Qs.createHtml({_:o,configInfo:l}):"",
       ajaxPageTpl:c?Ss.createHtml({settings:t,tpl:d}):""
      }
     }
 
     getThTpl(e){
-     const {settings:t,col:o}=e,{query:n,supportDrag:s,sortData:r,sortUpText:a,sortDownText:i,supportAdjust:c}=t;
+     const {settings:t,col:o}=e,{query:n,supportDrag:s,sortData:r,sortUpText:i,sortDownText:a,supportAdjust:c}=t;
      let l="",d="";
      o.remind&&(l="remind", d=dn.createHtml({remind:o.remind}));
      let u="",h="";
-     m(o.sorting)&&(o.sorting===i?(u=`sorting="${i}"`, r[o.key]=i):o.sorting===a?(u=`sorting="${a}"`, r[o.key]=a):u="sorting", h=kn.createHtml({
-      type:o.sorting,
-      sortUpText:a,
-      sortDownText:i
+     m(o.sorting)&&(o.sorting===a?(u=`sorting="${a}"`, r[o.key]=a):o.sorting===i?(u=`sorting="${i}"`, r[o.key]=i):u="sorting", h=kn.createHtml({
+      type:o.sorting,sortUpText:i,sortDownText:a
      }));
      let p="",f="";
      x(o.filter)&&(p="filter", g(o.filter.selected)?o.filter.selected=n[o.key]:n[o.key]=o.filter.selected, f=jn.createHtml({
-      settings:t,
-      columnFilter:o.filter
+      settings:t,columnFilter:o.filter
      }));
      let v="";
      c&& !o.disableCustomize&&(v=hr.html);
@@ -1259,9 +1212,9 @@
        break;
       default:
        const e=((e,t,o)=>{
-        const {_:n,compileAngularjs:s,compileVue:r,compileReact:a}=e,i=Lo(n);
+        const {_:n,compileAngularjs:s,compileVue:r,compileReact:i}=e,a=Lo(n);
         let c="",l="";
-        return o&&((s||r||a)&&(l=Eo, i.push({key:t,template:o,type:"text"})), a||(c=o())), {text:c,compileAttr:l}
+        return o&&((s||r||i)&&(l=Eo, a.push({key:t,template:o,type:"text"})), i||(c=o())), {text:c,compileAttr:l}
        })(t,C,o.text);
        $=e.text, T=e.compileAttr
      }
@@ -1287,17 +1240,15 @@
    var _n=o(763),Pn=o.n(_n);
    const Hn={},En="gm-move-row-ongoing",Rn="disable-move";
    var Ln=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
 
    class Nn{
     init(e){
-     const t=this,{supportCheckbox:o,checkboxConfig:n,moveRowConfig:s,animateTime:r,columnMap:a}=Oo(e),{
-      key:i,
-      useSingleMode:c,
-      handler:l
+     const t=this,{supportCheckbox:o,checkboxConfig:n,moveRowConfig:s,animateTime:r,columnMap:i}=Oo(e),{
+      key:a,useSingleMode:c,handler:l
      }=s,d=Q("body"),u=gt(e).get(0);
      Hn[e]=(e=>{
       const t="gmLineDrag";
@@ -1333,24 +1284,22 @@
       j.off(A), j.on(A,(function(e){
        let t,o;
        D=k.index(), D>0&&(t=C.eq(D-1)), D<C.length-1&&(o=C.eq(D+1)), T.show().css({
-        width:w.offsetWidth,
-        top:e.clientY-b.offset().top+pageYOffset,
-        left:0-y.scrollLeft
-       }), C=((e,t,o,n,s,r,a,i)=>{
-        const c=a.attr(ue);
+        width:w.offsetWidth,top:e.clientY-b.offset().top+pageYOffset,left:0-y.scrollLeft
+       }), C=((e,t,o,n,s,r,i,a)=>{
+        const c=i.attr(ue);
         let l;
-        if(s&&n.offset().top<s.offset().top&&(s.before(a), l=s), r&&n.offset().top+n.height()/2>r.offset().top&&(r.after(a), l=r), l){
+        if(s&&n.offset().top<s.offset().top&&(s.before(i), l=s), r&&n.offset().top+n.height()/2>r.offset().top&&(r.after(i), l=r), l){
          const e=l.attr(ue);
-         l.attr(ue,c), a.attr(ue,e);
-         const o=i[c],n=i[e];
+         l.attr(ue,c), i.attr(ue,e);
+         const o=a[c],n=a[e];
          if(o[ue]=e, n[ue]=c, m(t)){
           const e=o[t],s=n[t];
           o[t]=s, n[t]=e
          }
-         i[c]=n, i[e]=o
+         a[c]=n, a[e]=o
         }
         return Q("tr",o)
-       })(0,i,f,T,t,o,k,$)
+       })(0,a,f,T,t,o,k,$)
       }));
       const M=Q(g.target),O=g.events;
       M.off(O), M.on(O,(function(){
@@ -1368,7 +1317,7 @@
           Kt(lt(n,e,[o]),lt(n,s,[o]),t)&&(e[o]=s[o])
          }))
         })), ko(e,r,!0))
-       })(e,n.key,i,a,s), us.changeTableData(e,$,!0), d.removeClass($e)
+       })(e,n.key,a,i,s), us.changeTableData(e,$,!0), d.removeClass($e)
       }))
      }))
     }
@@ -1380,9 +1329,9 @@
     createHtml(e){
      const {table:t,tr:o,overFlow:n,$thList:s}=e,r=o.cloneNode(!0);
      r.style.height=h(o,"height");
-     const a=r.querySelectorAll("td");
+     const i=r.querySelectorAll("td");
      return u(s,((e,t)=>{
-      a[t].style.width=h(e,"width"), a[t].style.left=h(e,"left"), a[t].style.right=h(e,"right"), n&&(a[t].style.boxShadow=h(e,"box-shadow"))
+      i[t].style.width=h(e,"width"), i[t].style.left=h(e,"left"), i[t].style.right=h(e,"right"), n&&(i[t].style.boxShadow=h(e,"box-shadow"))
      })), {class:t.className,tbody:r.outerHTML}
     }
 
@@ -1406,35 +1355,34 @@
    }
 
    Ln([Ho(Pn())],Nn.prototype,"createHtml",null);
-   const zn=new Nn,qn={},Kn="full-column-fold",Bn="full-column-state",Fn=(e,t,o,n,s,r,a,i)=>{
+   const zn=new Nn,qn={},Kn="full-column-fold",Bn="full-column-state",Fn=(e,t,o,n,s,r,i,a)=>{
     let {text:c,compileAttr:l}=((e,t,o,n,s)=>{
-     const {_:r,compileAngularjs:a,compileVue:i,compileReact:c}=e,l=Lo(r);
+     const {_:r,compileAngularjs:i,compileVue:a,compileReact:c}=e,l=Lo(r);
      let d="",u="";
-     return c&&(u=Eo, l.push({template:n,row:t,index:o,type:"full-"+s,fnArg:[t,o]})), (i||a)&&(u=Eo, l.push({
-      row:t,
-      index:o
+     return c&&(u=Eo, l.push({template:n,row:t,index:o,type:"full-"+s,fnArg:[t,o]})), (a||i)&&(u=Eo, l.push({
+      row:t,index:o
      })), c||(d=n(t,o)), {text:d,compileAttr:u}
-    })(e,r,a,o,i);
+    })(e,r,i,o,a);
     c=$(c)?c.outerHTML:c;
     let d=[];
     return n&&(d=[[Bn,s+""]]), {
      className:[],
-     attribute:[["full-column",i],[pe,a+""]].concat(d),
-     querySelector:`[full-column][${pe}="${a}"]`,
+     attribute:[["full-column",a],[pe,i+""]].concat(d),
+     querySelector:`[full-column][${pe}="${i}"]`,
      tdList:[`<td colspan="${t}"><div class="full-column-div" ${l}>${c}</div></td>`]
     }
    },In=(e,t,o,n,s)=>{
-    const {columnMap:r,fullColumn:a}=e,{topTemplate:i,bottomTemplate:c,useFold:l,interval:d,openState:u=!1}=a,
+    const {columnMap:r,fullColumn:i}=e,{topTemplate:a,bottomTemplate:c,useFold:l,interval:d,openState:u=!1}=i,
      h=Object.keys(r).length;
-    if("top"===s&&v(i)){
-     const r=Fn(e,h,i,l,u,t,o,s);
+    if("top"===s&&v(a)){
+     const r=Fn(e,h,a,l,u,t,o,s);
      r&&n.push(r)
     }
     if("bottom"===s&&v(c)){
      const r=Fn(e,h,c,l,u,t,o,s);
      r&&n.push(r)
     }
-    "bottom"===s&&(v(i)||v(c))&&n.push(((e,t,o=0)=>(b(o)&&(o+=Ke), {
+    "bottom"===s&&(v(a)||v(c))&&n.push(((e,t,o=0)=>(b(o)&&(o+=Ke), {
      className:[],
      attribute:[["full-column-interval",o+""],[pe,t+""]],
      querySelector:`[full-column-interval][${pe}="${t}"]`,
@@ -1464,7 +1412,7 @@
     }
 
     getColumn(e){
-     const {openState:t=!1,fixed:o,text:n="",width:s="40px",align:r="",remind:a}=e.fullColumn;
+     const {openState:t=!1,fixed:o,text:n="",width:s="40px",align:r="",remind:i}=e.fullColumn;
      return {
       key:xe,
       text:n,
@@ -1472,7 +1420,7 @@
       isShow:!0,
       disableCustomize:!0,
       align:r,
-      remind:a,
+      remind:i,
       width:s,
       fixed:o,
       template:()=>`<td gm-create gm-fold><i class="gm-icon ${Gn(t)}" ${Kn}="${t}"></i></td>`
@@ -1505,10 +1453,10 @@
 
     updateDOM(e,t,o){
      const n=yt(e),s=(e,t)=>{
-      const o=Q("[tree-element]",e),r=Q("i",o),a=e.attr(ue);
+      const o=Q("[tree-element]",e),r=Q("i",o),i=e.attr(ue);
       g(t)&&(t= !("true"===o.attr(Un))), r.removeClass(Yn(!t)), r.addClass(Yn(t)), o.attr(Un,t);
-      const i=n.find(`[${pe}="${a}"]`);
-      0!==i.length&&(i.attr(ge,t), t||u(i,(e=>{
+      const a=n.find(`[${pe}="${i}"]`);
+      0!==a.length&&(a.attr(ge,t), t||u(a,(e=>{
        s(Q(e),!1)
       })))
      };
@@ -1520,19 +1468,19 @@
     }
 
     insertDOM(e,t){
-     const {openState:o,insertTo:n}=t,s=gt(e),a=[];
+     const {openState:o,insertTo:n}=t,s=gt(e),i=[];
      u(Q(`tr[${pe}]`,s),(e=>{
-      a.push(e.getAttribute(pe))
+      i.push(e.getAttribute(pe))
      }));
-     const i=(e=>Vn[e])(e);
-     i&&0!==i.length&&(i.forEach((t=>{
-      let {cacheKey:a,level:i,hasChildren:c,state:l}=t;
+     const a=(e=>Vn[e])(e);
+     a&&0!==a.length&&(a.forEach((t=>{
+      let {cacheKey:i,level:a,hasChildren:c,state:l}=t;
       g(l)&&(l=o);
-      const d=Q(`tr[gm-cache-key="${a}"]`,s);
+      const d=Q(`tr[gm-cache-key="${i}"]`,s);
       let u;
       m(n)&&(u=St(xt(e,n),d)), u||(u=Q("td:not([gm-create])",d).eq(0));
       const h=r.createElement("span");
-      h.setAttribute(Un,l+""), h.style.width=14*(i+1)+Ke, c&&(h.innerHTML=`<i class="gm-icon ${Yn(l)}"></i>`), u.prepend(h)
+      h.setAttribute(Un,l+""), h.style.width=14*(a+1)+Ke, c&&(h.innerHTML=`<i class="gm-icon ${Yn(l)}"></i>`), u.prepend(h)
      })), Xn(e))
     }
 
@@ -1571,12 +1519,12 @@
     n?ns.push(o,s):u(o,((e,t)=>{
      r[t.index]=t
     }));
-    let a="";
+    let i="";
     u(s,(t=>{
-     a+="<tr>", u(t,(t=>{
-      a+=On.getThTpl({settings:e,col:t})
-     })), a+="</tr>"
-    })), vt(t).html(a), bt(t).html(a), ((e,t)=>{
+     i+="<tr>", u(t,(t=>{
+      i+=On.getThTpl({settings:e,col:t})
+     })), i+="</tr>"
+    })), vt(t).html(i), bt(t).html(i), ((e,t)=>{
      const {_:o,compileAngularjs:n,compileVue:s,compileReact:r}=e;
      if(n||s||r){
       const e=Lo(o),n=t.querySelectorAll(`[${Eo}]`);
@@ -1593,24 +1541,17 @@
     s.addClass(Te), yt(o).html(`<tr empty-template="${o}" style="height: ${s.height()-1+Ke}"><td colspan="${kt(o).length}"></td></tr>`);
     const r=Tt(o).get(0).querySelector("td");
     r.innerHTML=((e,t,o)=>{
-     const {_:n,compileAngularjs:s,compileVue:r,compileReact:a}=e,i=Lo(n);
-     return a?(i.push({el:t,template:o,type:"empty",fnArg:[e]}), ""):(r&&i.push({el:t}), s&&i.push({el:t}), o(e))
+     const {_:n,compileAngularjs:s,compileVue:r,compileReact:i}=e,a=Lo(n);
+     return i?(a.push({el:t,template:o,type:"empty",fnArg:[e]}), ""):(r&&a.push({el:t}), s&&a.push({el:t}), o(e))
     })(e,r,n), qo(e)
-   },as=async(e,t,o,n,s)=>{
+   },is=async(e,t,o,n,s)=>{
     const {
-     _:r,
-     columnMap:a,
-     supportTreeData:i,
-     supportCheckbox:c,
-     supportMoveRow:l,
-     treeConfig:d,
-     __isNested:h,
-     __isFullColumn:p
+     _:r,columnMap:i,supportTreeData:a,supportCheckbox:c,supportMoveRow:l,treeConfig:d,__isNested:h,__isFullColumn:p
     }=e,{treeKey:m,openState:y}=d,x=yt(r),k=x.get(0),T=x.find(`[empty-template="${r}"]`);
     T.length&&T.remove();
     let S=[];
     const D=[],j=[];
-    u(a,((e,t)=>{
+    u(i,((e,t)=>{
      t.pk||(D[t.index]=t)
     }));
     const A=e=>{
@@ -1621,52 +1562,52 @@
     A(D);
     try{
      const o=(t,n,s)=>{
-      const a=g(s);
+      const i=g(s);
       u(t,((t,d)=>{
        const h=[],g=[],f=t[ue];
-       if(t[me]&&h.push(t[me]), !a){
+       if(t[me]&&h.push(t[me]), !i){
         g.push([pe,s]);
         const e=k.querySelector(`[gm-cache-key="${f}"]`);
         let t=y;
         e&&(t="true"===e.getAttribute(ge)), g.push([ge,t])
        }
-       a&&i&&d%2==0&&g.push(["odd",""]), g.push([ue,f]);
+       i&&a&&d%2==0&&g.push(["odd",""]), g.push([ue,f]);
        const v={className:h,attribute:g,row:t,querySelector:`[gm-cache-key="${f}"]`,tdList:[]};
-       if(a&&p&&Wn.addTop(e,t,d,S), ((t,o,n,s)=>{
+       if(i&&p&&Wn.addTop(e,t,d,S), ((t,o,n,s)=>{
         const r=t.tdList;
         u(j,(t=>{
-         const a=t.template;
-         if(t.isAutoCreate) return void r.push(a(o[t.key],o,n,s));
-         let {text:i,compileAttr:d}=zo(e,a,o,n,t.key);
+         const i=t.template;
+         if(t.isAutoCreate) return void r.push(i(o[t.key],o,n,s));
+         let {text:a,compileAttr:d}=zo(e,i,o,n,t.key);
          const u=t.align?`align=${t.align}`:"",h=l?zn.addSign(t):"",p=c?Ks.addSign(t):"",
-          g=t.fixed?`fixed=${t.fixed}`:"";
-         i=$(i)?i.outerHTML:i, r.push(`<td ${d} ${u} ${h} ${p} ${g}>${i}</td>`)
+          g=t.fixed?`fixed=${t.fixed}`:"",f=`td-name="${t.key}"`;
+         a=$(a)?a.outerHTML:a, r.push(`<td ${f} ${d} ${u} ${h} ${p} ${g}>${a}</td>`)
         }))
-       })(v,t,d,a), S.push(v), a&&p&&Wn.addBottom(e,t,d,S), i){
+       })(v,t,d,i), S.push(v), i&&p&&Wn.addBottom(e,t,d,S), a){
         const e=t[m],s=e&&e.length;
-        let a;
-        const i=x.find(`${v.querySelector} [tree-element]`);
-        i.length&&(a="true"===i.attr(Un)), Qn.add(r,f,n,s,a), s&&o(e,n+1,f)
+        let i;
+        const a=x.find(`${v.querySelector} [tree-element]`);
+        a.length&&(i="true"===a.attr(Un)), Qn.add(r,f,n,s,i), s&&o(e,n+1,f)
        }
       }))
      };
      o(t,0), ((e,t,o)=>{
       const {_:n,summaryHandler:s}=e;
       if(!v(s)) return;
-      const r=s(yo(n,!0)),a=ft(n);
-      if(a.find(ts).remove(), w(r)) return void a.removeAttr(Zn);
-      a.attr(Zn,"");
-      const i=[];
+      const r=s(yo(n,!0)),i=ft(n);
+      if(i.find(ts).remove(), w(r)) return void i.removeAttr(Zn);
+      i.attr(Zn,"");
+      const a=[];
       u(t,(t=>{
        const {key:o,align:n}=t;
        let s=r[o];
        (f(s)||g(s))&&(s="");
-       const a=n?`align="${n}"`:"";
+       const i=n?`align="${n}"`:"";
        let {text:c,compileAttr:l}=zo(e,(()=>s),{},void 0,o);
-       c=$(c)?c.outerHTML:c, i.push(`<td ${l} ${a} disable-move >${c}</td>`)
-      })), o.push({className:[],attribute:[[es,""]],querySelector:ts,tdList:i})
+       c=$(c)?c.outerHTML:c, a.push(`<td ${l} ${i} disable-move >${c}</td>`)
+      })), o.push({className:[],attribute:[[es,""]],querySelector:ts,tdList:a})
      })(e,j,S);
-     const a=document.createDocumentFragment(),d=document.createDocumentFragment(),h=x.find("tr");
+     const i=document.createDocumentFragment(),d=document.createDocumentFragment(),h=x.find("tr");
      if(u(h,(e=>{
       d.appendChild(e)
      })), k.innerHTML="", d.children.length){
@@ -1674,65 +1615,65 @@
       o||(o=d.querySelector(`[gm-cache-key="${n}"]`)), o&&(e=[].indexOf.call(d.children,o));
       let r=(M=s, d.querySelector(`[full-column-interval][${pe}="${M}"]`));
       r||(r=d.querySelector(`[gm-cache-key="${s}"]`)), r&&(t=[].indexOf.call(d.children,r));
-      const a=[];
+      const i=[];
       u(d.children,((o,n)=>{
-       b(e)||b(t)?(b(e)&&n<e&&a.push(o), b(t)&&n>t&&a.push(o)):a.push(o)
-      })), u(a,(e=>e.remove()))
+       b(e)||b(t)?(b(e)&&n<e&&i.push(o), b(t)&&n>t&&i.push(o)):i.push(o)
+      })), u(i,(e=>e.remove()))
      }
      S.forEach((e=>{
-      const {className:t,attribute:o,tdList:n,row:s,querySelector:i}=e,c=n.join("");
-      let l=d.querySelector(i);
+      const {className:t,attribute:o,tdList:n,row:s,querySelector:a}=e,c=n.join("");
+      let l=d.querySelector(a);
       if(l) l.innerHTML=c; else{
        l=document.createElement("tr"), l.innerHTML=c;
        const e=d.querySelector("[gm-cache-key]");
        if(e&& !g(s)){
         const t=bo(r,e,!0)[le];
-        s[le]<t?a.appendChild(l):d.appendChild(l)
+        s[le]<t?i.appendChild(l):d.appendChild(l)
        }else d.appendChild(l)
       }
       t.length&&(l.className=t.join(" ")), o.forEach((e=>{
        l.setAttribute(e[0],e[1])
       })), l[de]=s
-     })), d.insertBefore(a,d.firstChild), k.appendChild(d)
+     })), d.insertBefore(i,d.firstChild), k.appendChild(d)
     }catch(e){
      qt("render tbody error"), console.error(e)
     }
     var M;
-    h||u(a,((e,t)=>{
+    h||u(i,((e,t)=>{
      Dt(r,e,t.isShow)
-    })), await qo(e), i&&Qn.insertDOM(r,d), Vo(r,a), o||(lr.update(r), x.height()>=ft(r).height()?x.attr("filled",""):x.removeAttr("filled"), e.__isNested||jt(r))
-   },is=e=>{
+    })), await qo(e), a&&Qn.insertDOM(r,d), Vo(r,i), o||(lr.update(r), x.height()>=ft(r).height()?x.attr("filled",""):x.removeAttr("filled"), e.__isNested||jt(r))
+   },as=e=>{
     const {
      query:t,
      supportAjaxPage:o,
      pageData:n,
      sortData:s,
      mergeSort:r,
-     sortKey:a,
-     currentPageKey:i,
+     sortKey:i,
+     currentPageKey:a,
      pageSizeKey:c,
      requestHandler:l
     }=e,d=S(!0,{},t);
-    return o&&(d[i]=n[i], d[c]=n[c]), w(s)||(r?(d[a]="", u(s,((e,t)=>{
-     d[a]=`${d[a]}${d[a]?",":""}${e}:${t}`
+    return o&&(d[a]=n[a], d[c]=n[c]), w(s)||(r?(d[i]="", u(s,((e,t)=>{
+     d[i]=`${d[i]}${d[i]?",":""}${e}:${t}`
     }))):u(s,((e,t)=>{
-     d[`${a}${e}`]=t
+     d[`${i}${e}`]=t
     }))), l(Bt(d))
    },cs=(e,t,o)=>{
-    const n=Bt(o),{supportTreeData:s,treeConfig:r}=e,{treeKey:a}=r;
-    let i,c=n[0];
+    const n=Bt(o),{supportTreeData:s,treeConfig:r}=e,{treeKey:i}=r;
+    let a,c=n[0];
     const l=(e,t)=>{
      const o={};
      t.forEach((e=>{
       o[e[ue]]=e
      })), u(e,((t,n)=>{
       const r=o[t[ue]]||{};
-      i=t, Kt(r,t)&& delete e[n], s&&t[a]&&l(t[a],r[a]||[])
+      a=t, Kt(r,t)&& delete e[n], s&&t[i]&&l(t[i],r[i]||[])
      }))
     };
-    return l(n,t), {diffList:n,diffFirst:c,diffLast:i}
+    return l(n,t), {diffList:n,diffFirst:c,diffLast:a}
    },ls={},ds=e=>{
-    const {rowHover:t,rowClick:o,rowDblClick:n,cellHover:s,cellClick:r,cellDblClick:a,useCellFocus:i}=Oo(e);
+    const {rowHover:t,rowClick:o,rowDblClick:n,cellHover:s,cellClick:r,cellDblClick:i,useCellFocus:a}=Oo(e);
     ls[e]=(e=>{
      const t="tr[gm-cache-key]",o="tr[gm-cache-key] td";
      return {
@@ -1782,12 +1723,12 @@
      Q(t.target).on(t.events,t.selector,(function(){
       cn(e,this,r(...d(this),this))
      }))
-    })(), a&&(()=>{
+    })(), i&&(()=>{
      const t=c.cellDblClick;
      Q(t.target).on(t.events,t.selector,(function(){
-      cn(e,this,a(...d(this),this))
+      cn(e,this,i(...d(this),this))
      }))
-    })(), i&&(()=>{
+    })(), a&&(()=>{
      const t=c.cellFocus;
      Q(t.target).on(t.events,t.selector,(function(){
       yt(e).find("[gm-focus-td]").removeAttr(fe), this.setAttribute(fe,"")
@@ -1797,25 +1738,12 @@
    const us=new class{
     refresh(e,t){
      const o=Oo(e),{
-      disableAutoLoading:n,
-      loadingTemplate:s,
-      ajaxBeforeSend:r,
-      ajaxSuccess:a,
-      ajaxError:i,
-      ajaxComplete:c,
-      checkboxConfig:l
+      disableAutoLoading:n,loadingTemplate:s,ajaxBeforeSend:r,ajaxSuccess:i,ajaxError:a,ajaxComplete:c,checkboxConfig:l
      }=o;
      l.disableStateKeep&&ko(e,[],!0), Ss.updateRefreshIconState(e,!0), !n&&dt(e,s);
      let d=(e=>{
-      const t=is(e),{
-       supportAjaxPage:o,
-       pageData:n,
-       sortData:s,
-       sortKey:r,
-       ajaxType:a,
-       ajaxHeaders:i,
-       ajaxXhrFields:c,
-       ajaxData:l
+      const t=as(e),{
+       supportAjaxPage:o,pageData:n,sortData:s,sortKey:r,ajaxType:i,ajaxHeaders:a,ajaxXhrFields:c,ajaxData:l
       }=e;
       o&&u(n,((e,o)=>{
        n[e]=t[e]||o
@@ -1824,7 +1752,7 @@
       })), _o(e);
       const d=v(l)?l(e,t):l;
       return m(d)?new Promise(((e,o)=>{
-       _({url:d,type:a,data:t,headers:i,xhrFields:c,cache:!0,success:e,error:o})
+       _({url:d,type:i,data:t,headers:a,xhrFields:c,cache:!0,success:e,error:o})
       })):d instanceof Promise?d:new Promise((e=>{
        e(d)
       }))
@@ -1833,13 +1761,13 @@
       try{
        const s=Oo(e);
        setTimeout((()=>{
-        this.driveDomForSuccessAfter(s,o,t), a(o), c(o), !n&&ut(e), Ss.updateRefreshIconState(e,!1)
+        this.driveDomForSuccessAfter(s,o,t), i(o), c(o), !n&&ut(e), Ss.updateRefreshIconState(e,!1)
        }))
       }catch(e){
        console.error(e)
       }
      })).catch((t=>{
-      i(t), c(t), !n&&ut(e), Ss.updateRefreshIconState(e,!1)
+      a(t), c(t), !n&&ut(e), Ss.updateRefreshIconState(e,!1)
      }))
     }
 
@@ -1847,26 +1775,26 @@
      const s=Oo(e);
      if(0===t.length) return rs(s), void xo(e,[]);
      let r=yo(e,!0);
-     const a=o?((e,t)=>{
+     const i=o?((e,t)=>{
       const {
        columnMap:o,
        rowRenderHandler:n,
        pageData:s,
        supportAutoOrder:r,
-       supportCheckbox:a,
-       checkboxConfig:i,
+       supportCheckbox:i,
+       checkboxConfig:a,
        pageSizeKey:c,
        currentPageKey:l,
        supportTreeData:d,
        treeConfig:u,
        fullColumn:h
-      }=Oo(e),p=i.key;
+      }=Oo(e),p=a.key;
       let f=0;
       const m=(e,t,o,n)=>{
        let s=o.toString();
        g(n)||(s=`${n}-${o}`);
-       const {topTemplate:r,bottomTemplate:a}=h||{};
-       if(v(r)&&f++, e[le]=f, f++, v(a)&&f++, (v(r)||v(a))&&f++, d){
+       const {topTemplate:r,bottomTemplate:i}=h||{};
+       if(v(r)&&f++, e[le]=f, f++, v(i)&&f++, (v(r)||v(i))&&f++, d){
         const o=e[u.treeKey];
         o&&o.length&&o.forEach(((e,o)=>{
          m(e,t+1,o,s)
@@ -1874,23 +1802,22 @@
        }
        e[ue]=s, e[he]=t
       };
-      return t.map(((t,i)=>{
+      return t.map(((t,a)=>{
        if(r){
         let e=1;
-        s&&s[c]&&s[l]&&(e=s[c]*(s[l]-1)+1), t.gm_order=e+i
+        s&&s[c]&&s[l]&&(e=s[c]*(s[l]-1)+1), t.gm_order=e+a
        }
-       return a&&(t.gm_checkbox=wo(e).some((e=>Kt(lt(o,e),lt(o,t),p))), t.gm_checkbox_disabled= !1), m(t,0,i), n(t,i)
+       return i&&(t.gm_checkbox=wo(e).some((e=>Kt(lt(o,e),lt(o,t),p))), t.gm_checkbox_disabled= !1), m(t,0,a), n(t,a)
       }))
      })(e,t):t;
-     ko(e,a), xo(e,a);
-     const {virtualScroll:i,supportCheckbox:c,checkboxConfig:l,supportTreeData:d}=s,{useVirtualScroll:u,virtualNum:h}=i,
+     ko(e,i), xo(e,i);
+     const {virtualScroll:a,supportCheckbox:c,checkboxConfig:l,supportTreeData:d}=s,{useVirtualScroll:u,virtualNum:h}=a,
       p=gt(e),f=yt(e),m=vt(e).height();
-     if(d&& !n&&(f.get(0).innerHTML="", r=[]), !u||h>=a.length){
+     if(d&& !n&&(f.get(0).innerHTML="", r=[]), !u||h>=i.length){
       tr.virtualScrollMap[e]&&(r=[]);
-      const {diffList:t,diffFirst:o,diffLast:n}=cs(s,r,a);
-      return await as(s,t,!1,o[ue],n[ue]), c&&zs(e,a,l.useRadio,l.max), delete tr.virtualScrollMap[e], void p.css({
-       marginTop:-m,
-       marginBottom:0
+      const {diffList:t,diffFirst:o,diffLast:n}=cs(s,r,i);
+      return await is(s,t,!1,o[ue],n[ue]), c&&zs(e,i,l.useRadio,l.max), delete tr.virtualScrollMap[e], void p.css({
+       marginTop:-m,marginBottom:0
       })
      }
      const b=ft(e);
@@ -1902,18 +1829,18 @@
       y=yo(e,!0);
       const r=b.scrollTop();
       if(k&&r===k) return;
-      const a=f.find("tr[gm-cache-key]").eq(0);
-      if(a.length&&(x=a.height()), k&&Math.abs(r-k)<x) return;
+      const i=f.find("tr[gm-cache-key]").eq(0);
+      if(i.length&&(x=i.height()), k&&Math.abs(r-k)<x) return;
       k=r;
-      const i=Math.ceil(w/x);
-      let c=Math.ceil(r/x)-Math.ceil((h-i)/2);
+      const a=Math.ceil(w/x);
+      let c=Math.ceil(r/x)-Math.ceil((h-a)/2);
       c<0&&(c=0);
       let l=c+h;
       l>=y.length&&(l=y.length, c=l-h), c<0&&(c=0);
       const d=c*x;
       p.css({marginTop:d-m,marginBottom:(y.length-l)*x}), o.virtualScroll.top=d, _o(o);
       const u=y.slice(c,l),{diffList:g,diffFirst:v,diffLast:T}=cs(o,$,u);
-      $=u, await as(o,g,t,v[ue],T[ue]), C&&clearTimeout(C), C=setTimeout((()=>{
+      $=u, await is(o,g,t,v[ue],T[ue]), C&&clearTimeout(C), C=setTimeout((()=>{
        clearTimeout(C), n&&zs(e,y,s.useRadio,s.max)
       }),300)
      }, tr.virtualScrollMap[e](!1)
@@ -1924,8 +1851,8 @@
       _:n,
       rendered:s,
       responseHandler:r,
-      supportAjaxPage:a,
-      supportMenu:i,
+      supportAjaxPage:i,
+      supportMenu:a,
       dataKey:c,
       totalsKey:l,
       useNoTotalsMode:d,
@@ -1936,24 +1863,24 @@
      let h=m(t)?JSON.parse(t):t;
      h=r(Bt(h));
      let p=h[c],g=h[l];
-     if(p&&k(p)) if(!a||d||u|| !isNaN(parseInt(g,10))){
+     if(p&&k(p)) if(!i||d||u|| !isNaN(parseInt(g,10))){
       if(0===p.length) h[l]=0; else{
        const e=ft(n);
        e.removeClass(Te), e.scrollTop(0)
       }
-      await this.changeTableData(n,p,!0), a&&Ss.resetPageData(e,h[l],p.length), i&&en(n), v(o)&&o(h)
+      await this.changeTableData(n,p,!0), i&&Ss.resetPageData(e,h[l],p.length), a&&en(n), v(o)&&o(h)
      }else qt(`response.${l} undefined，please check totalsKey`); else qt(`response.${c} is not Array，please check dataKey`)
     }
 
     async createDOM(e,t){
      const {_:o,lineHeight:n,useWordBreak:s}=t;
      No(o), e.wrap(On.getWrapTpl({settings:t}),".table-div");
-     const a=r.createElement("thead");
-     a.setAttribute(re,o), e.append(a);
-     const i=r.createElement("tbody");
-     i.setAttribute(ie,o), s&&i.setAttribute("word-break",""), e.append(i);
+     const i=r.createElement("thead");
+     i.setAttribute(re,o), e.append(i);
+     const a=r.createElement("tbody");
+     a.setAttribute(ae,o), s&&a.setAttribute("word-break",""), e.append(a);
      const c=r.createElement("thead");
-     c.setAttribute(ae,o), e.append(c), ds(o), Rt(o,n), await this.waitContainerAvailable(o), await ss(t), Ht(t), tr.init(o)
+     c.setAttribute(ie,o), e.append(c), ds(o), Rt(o,n), await this.waitContainerAvailable(o), await ss(t), Ht(t), tr.init(o)
     }
 
     waitContainerAvailable(e){
@@ -1985,9 +1912,9 @@
    var hs=o(986),ps=o.n(hs);
    const gs={};
    var fs=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
 
    class ms{
@@ -1998,8 +1925,8 @@
       close:ct(Qe,"body"),
       selected:ct(Qe,n,".gm-dropdown .gm-dropdown-list >li")
      };
-     const {open:s,close:r,selected:a}=gs[e],i=mt(e).find(".gm-dropdown"),c=i.find(".gm-dropdown-text"),
-      l=i.find(".gm-dropdown-list");
+     const {open:s,close:r,selected:i}=gs[e],a=mt(e).find(".gm-dropdown"),c=a.find(".gm-dropdown-text"),
+      l=a.find(".gm-dropdown-list");
      c.text(t), Q(s.target).on(s.events,s.selector,(function(e){
       e.stopPropagation();
       const t=Q(r.target);
@@ -2009,7 +1936,7 @@
       t.unbind(o), t.bind(o,(function(){
        t.unbind(o), l.hide()
       }))
-     })), Q(a.target).on(a.events,a.selector,(function(){
+     })), Q(i.target).on(i.events,i.selector,(function(){
       const e=parseInt(c.text(),10),t=this.value;
       e!==t&&(c.text(t), o(t,e))
      }))
@@ -2033,22 +1960,22 @@
    var bs=o(956),ys=o.n(bs);
    const xs=e=>`[${ne}="${e}"]`,ws={};
    var ks=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
    const Cs=(e,t,o)=>{
     const {useNoTotalsMode:n,currentPageKey:s}=t;
     n&&e.attr("no-totals-mode","true");
     Q("[pagination-number]",e).html(((e,t)=>{
-     let o=Number(t[e]||0),n=Number(t.tPage||0),s="",r="",a=1,i=n;
-     if(o>4&&(s+='<li to-page="1">1</li><li class="disabled">...</li>', a=o-2), n-o>4&&(i=o+2, r+=`<li class="disabled">...</li><li to-page="${n}">${n}</li>`), t.tSize) for(; a<=i; a++) s+=a!==o?`<li to-page="${a}">${a}</li>`:`<li class="active">${o}</li>`;
+     let o=Number(t[e]||0),n=Number(t.tPage||0),s="",r="",i=1,a=n;
+     if(o>4&&(s+='<li to-page="1">1</li><li class="disabled">...</li>', i=o-2), n-o>4&&(a=o+2, r+=`<li class="disabled">...</li><li to-page="${n}">${n}</li>`), t.tSize) for(; i<=a; i++) s+=i!==o?`<li to-page="${i}">${i}</li>`:`<li class="active">${o}</li>`;
      return s+=r, s
     })(s,o));
-    const r=o[s],a=Q("[pagination-before] .first-page",e),i=Q("[pagination-before] .previous-page",e),
-     c=Q("[pagination-after] .next-page",e),l=Q("[pagination-after] .last-page",e),d=Boolean(a.length),
-     u=Boolean(i.length),h=Boolean(c.length),p=Boolean(l.length);
-    1===r?(d&&a.addClass(Re), u&&i.addClass(Re)):(d&&a.removeClass(Re), u&&i.removeClass(Re)), r>=o.tPage?(h&&c.addClass(Re), p&&l.addClass(Re)):(h&&c.removeClass(Re), p&&l.removeClass(Re))
+    const r=o[s],i=Q("[pagination-before] .first-page",e),a=Q("[pagination-before] .previous-page",e),
+     c=Q("[pagination-after] .next-page",e),l=Q("[pagination-after] .last-page",e),d=Boolean(i.length),
+     u=Boolean(a.length),h=Boolean(c.length),p=Boolean(l.length);
+    1===r?(d&&i.addClass(Re), u&&a.addClass(Re)):(d&&i.removeClass(Re), u&&a.removeClass(Re)), r>=o.tPage?(h&&c.addClass(Re), p&&l.addClass(Re)):(h&&c.removeClass(Re), p&&l.removeClass(Re))
    },$s=(e,t)=>{
     (!t||t<1)&&(t=1);
     const {
@@ -2056,14 +1983,14 @@
      useNoTotalsMode:n,
      currentPageKey:s,
      pageData:r,
-     pageSize:a,
-     pageSizeKey:i,
+     pageSize:i,
+     pageSizeKey:a,
      sortData:c,
      query:l,
      pagingBefore:d,
      pagingAfter:u
     }=e,{tPage:h}=r;
-    !n&&t>h&&(t=h), r[s]=t, r[i]=r[i]||a, _o(e);
+    !n&&t>h&&(t=h), r[s]=t, r[a]=r[a]||i, _o(e);
     const p=S({},l,c,r);
     d(p), us.refresh(o,(()=>{
      u(p)
@@ -2072,7 +1999,7 @@
 
    class Ts{
     init(e){
-     const {_:t,disableCache:o,pageSizeKey:n,pageSize:s,currentPageKey:r,useNoTotalsMode:a}=e;
+     const {_:t,disableCache:o,pageSizeKey:n,pageSize:s,currentPageKey:r,useNoTotalsMode:i}=e;
      ws[t]=(e=>{
       const t=`[${ne}="${e}"]`;
       return {
@@ -2085,12 +2012,12 @@
        refresh:ct(Qe,t,".refresh-action")
       }
      })(t);
-     let i=s||10;
+     let a=s||10;
      if(!o){
       const e=$o(t)[n];
-      e&&(i=e)
+      e&&(a=e)
      }
-     S(e,{pageData:{[n]:i,[r]:1}}), a&&(e.asyncTotals=null), _o(e);
+     S(e,{pageData:{[n]:a,[r]:1}}), i&&(e.asyncTotals=null), _o(e);
      const c={
       _:t,defaultValue:e.pageData[n],onChange:e=>{
        const o=Oo(t);
@@ -2105,7 +2032,7 @@
     }
 
     initEvent(e){
-     const {first:t,previous:o,next:n,last:s,num:r,refresh:a,input:i}=ws[e];
+     const {first:t,previous:o,next:n,last:s,num:r,refresh:i,input:a}=ws[e];
      Q(t.target).on(t.events,t.selector,(function(){
       $s(Oo(e),1)
      })), Q(o.target).on(o.events,o.selector,(function(){
@@ -2121,10 +2048,10 @@
       const t=Oo(e),o=Q(this),n=o.attr("to-page");
       if(!n|| !Number(n)||o.hasClass(Re)) return !1;
       $s(t,parseInt(n,10))
-     })), Q(a.target).on(a.events,a.selector,(function(){
+     })), Q(i.target).on(i.events,i.selector,(function(){
       const t=Oo(e);
       $s(t,t.pageData[t.currentPageKey])
-     })), Q(i.target).on(i.events,i.selector,(function(t){
+     })), Q(a.target).on(a.events,a.selector,(function(t){
       13===t.which&&$s(Oo(e),parseInt(this.value,10))
      }))
     }
@@ -2145,28 +2072,28 @@
     }
 
     resetPageData(e,t,o){
-     const {_:n,useNoTotalsMode:s,currentPageKey:r,pageData:a,asyncTotals:i,pageSizeKey:c,pageSize:l}=e,d=Q(xs(n)),
-      u=a[r]||1,h=a[c]||l,p=(t,n)=>{
+     const {_:n,useNoTotalsMode:s,currentPageKey:r,pageData:i,asyncTotals:a,pageSizeKey:c,pageSize:l}=e,d=Q(xs(n)),
+      u=i[r]||1,h=i[c]||l,p=(t,n)=>{
        const s=((e,t,o)=>{
-        const {pageData:n,pageSizeKey:s,pageSize:r,currentPageKey:a}=e,i=n[s]||r,c=n[a]||1;
+        const {pageData:n,pageSizeKey:s,pageSize:r,currentPageKey:i}=e,a=n[s]||r,c=n[i]||1;
         let l=1;
-        return l=t?Math.ceil(t/i):o<i?c:c+1, {tPage:l,[a]:c>l?1:c,[s]:i,tSize:t}
+        return l=t?Math.ceil(t/a):o<a?c:c+1, {tPage:l,[i]:c>l?1:c,[s]:a,tSize:t}
        })(e,t,o);
        Cs(d,e,s), ((e,t,o,n)=>{
-        const {currentPageKey:s,pageSizeKey:r}=t,a=1===o[s]?1:(o[s]-1)*o[r]+1,i=o[s]*o[r];
+        const {currentPageKey:s,pageSizeKey:r}=t,i=1===o[s]?1:(o[s]-1)*o[r]+1,a=o[s]*o[r];
         let c=o.tSize;
         const l=o[s];
         let d=o.tPage;
         !c&&n&&(c=d=n);
         const u=Q(".page-info",e);
         if(u.length){
-         const e=Fo(t,"page-info",[a,i,c]);
+         const e=Fo(t,"page-info",[i,a,c]);
          u.html(e)
         }
         const h=Q("[begin-number-info]",e);
-        h.length&&(h.html(a), h.val(a));
+        h.length&&(h.html(i), h.val(i));
         const p=Q("[end-number-info]",e);
-        p.length&&(p.html(i), p.val(i));
+        p.length&&(p.html(a), p.val(a));
         const g=Q("[current-page-info]",e);
         g.length&&(g.html(l), g.val(l));
         const f=Q("[totals-number-info]",e);
@@ -2175,7 +2102,7 @@
         m.length&&(m.html(d), m.val(d))
        })(d,e,s,n), _o(S(!0,e,{pageData:s})), d.css("visibility","visible")
       };
-     if(i) return o<h?void p((u-1)*h+o):(p(null,i.text), void i.handler(e,is(e)).then((e=>{
+     if(a) return o<h?void p((u-1)*h+o):(p(null,a.text), void a.handler(e,as(e)).then((e=>{
       p(e)
      })));
      s?p():p(t)
@@ -2204,17 +2131,17 @@
    const Ss=new Ts;
    var Ds=o(692),js=o.n(Ds),As=o(976),Ms=o.n(As),Os=o(963),_s=o.n(Os);
    const Ps={},Hs=(e,t,o,n,s)=>{
-    const r=yo(e),a=[];
+    const r=yo(e),i=[];
     return o&& !n&&r.forEach((e=>{
-     e.gm_checkbox_disabled||(e.gm_checkbox!==t&&a.push(e), e.gm_checkbox=t)
-    })), o||s|| !n||(r[n].gm_checkbox=t, a.push(r[n])), s&&r.forEach((e=>{
-     e[ue]===n?(e.gm_checkbox= !0, a.push(e)):e.gm_checkbox= !1
-    })), xo(e,r), ko(e,a,s), r
+     e.gm_checkbox_disabled||(e.gm_checkbox!==t&&i.push(e), e.gm_checkbox=t)
+    })), o||s|| !n||(r[n].gm_checkbox=t, i.push(r[n])), s&&r.forEach((e=>{
+     e[ue]===n?(e.gm_checkbox= !0, i.push(e)):e.gm_checkbox= !1
+    })), xo(e,r), ko(e,i,s), r
    };
    var Es=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
    const Rs="disabled-selected",Ls=(e,t)=>{
     const o=Q('input[type="radio"]',e),n="gm-radio-checked";
@@ -2233,18 +2160,18 @@
     }
    },zs=(e,t,o,n)=>{
     const s=gt(e);
-    let r=0,a=t.length;
+    let r=0,i=t.length;
     t&&t.forEach(((e,t)=>{
-     const n=e.gm_checkbox,i=Q(`tbody tr[gm-cache-key="${t}"]`,s),c=Q("td[gm-checkbox] .gm-radio-checkbox",i);
-     i.attr(Oe,n), o?Ls(c,n):Ns(c,n?Oe:Pe), e.gm_checkbox_disabled&&a--, !e.gm_checkbox_disabled&&n&&r++
+     const n=e.gm_checkbox,a=Q(`tbody tr[gm-cache-key="${t}"]`,s),c=Q("td[gm-checkbox] .gm-radio-checkbox",a);
+     a.attr(Oe,n), o?Ls(c,n):Ns(c,n?Oe:Pe), e.gm_checkbox_disabled&&i--, !e.gm_checkbox_disabled&&n&&r++
     }));
-    const i=Q("thead tr th[gm-checkbox] .gm-checkbox-wrapper",s),c=Q(".gm-checkbox ",i);
-    if(!o&&Ns(c,0===r?Pe:r===a?Oe:_e), Ss.updateCheckedInfo(e), !o&&b(n)){
+    const a=Q("thead tr th[gm-checkbox] .gm-checkbox-wrapper",s),c=Q(".gm-checkbox ",a);
+    if(!o&&Ns(c,0===r?Pe:r===i?Oe:_e), Ss.updateCheckedInfo(e), !o&&b(n)){
      const t=Q("tbody .gm-checkbox-wrapper ",s);
      u(t,(t=>{
       const o=Q(t);
       Q(".gm-checkbox",o).hasClass("gm-checkbox-checked")||(wo(e).length>=n?o.addClass(Rs):o.removeClass(Rs))
-     })), t.length>n?i.addClass(Rs):i.removeClass(Rs)
+     })), t.length>n?a.addClass(Rs):a.removeClass(Rs)
     }
    };
 
@@ -2258,26 +2185,22 @@
       trChange:ct(Qe,t,"tbody > tr[gm-cache-key]")
      });
      const {allChange:o,checkboxChange:n,radioChange:s,trChange:r}=Ps[e],{
-      checkboxConfig:a,
-      checkedBefore:i,
-      checkedAllBefore:c,
-      checkedAfter:l,
-      checkedAllAfter:d
-     }=Oo(e),{max:u,useRowCheck:h}=a;
+      checkboxConfig:i,checkedBefore:a,checkedAllBefore:c,checkedAfter:l,checkedAllAfter:d
+     }=Oo(e),{max:u,useRowCheck:h}=i;
      Q(o.target).on(o.events,o.selector,(function(){
       let t=wo(e);
       const o=this.querySelector(".gm-checkbox-input"),n=o.checked;
-      if(i(t,!n), !1===c(t,!n)) return void (o.checked= !n);
+      if(a(t,!n), !1===c(t,!n)) return void (o.checked= !n);
       const s=Hs(e,n,!0);
       zs(e,s), t=wo(e), l(t,n), d(t,n)
      })), Q(n.target).on(n.events,n.selector,(function(){
       const t=Q(this).closest("tr").get(0),o=this.querySelector(".gm-checkbox-input"),n=o.checked;
-      if(!1===i(wo(e),!n,bo(e,t))) return void (o.checked= !n);
+      if(!1===a(wo(e),!n,bo(e,t))) return void (o.checked= !n);
       const s=t.getAttribute(ue),r=Hs(e,n,!1,s);
       zs(e,r,!1,u), l(wo(e),n,bo(e,t))
      })), Q(s.target).on(s.events,s.selector,(function(){
       const t=Q(this).closest("tr").get(0),o=this.querySelector(".gm-radio-input"),n=o.checked;
-      if(!1===i(wo(e),"true"===t.getAttribute("checked"),bo(e,t))) return void (o.checked= !n);
+      if(!1===a(wo(e),"true"===t.getAttribute("checked"),bo(e,t))) return void (o.checked= !n);
       const s=t.getAttribute(ue),r=Hs(e,void 0,!1,s,!0);
       zs(e,r,!0), l(wo(e),!0,bo(e,t))
      })), h&&Q(r.target).on(r.events,r.selector,(function(t){
@@ -2306,10 +2229,7 @@
       width:e.width,
       fixed:e.fixed,
       template:(t,o,n,s)=>this.getColumnTemplate({
-       checked:t,
-       disabled:o.gm_checkbox_disabled,
-       useRadio:e.useRadio,
-       isTop:s
+       checked:t,disabled:o.gm_checkbox_disabled,useRadio:e.useRadio,isTop:s
       })
      }
     }
@@ -2339,9 +2259,9 @@
    var Bs=o(271),Fs=o.n(Bs);
    const Is={},Gs="no-click",Ws="gm-config-ing",Js="gm-config-area";
    var Us=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
    const Vs=e=>Q(`[${oe}="${e}"]`),Xs=e=>{
     const t=mt(e),o=Vs(e),n=o.find(".config-list").get(0),s=o.find(".config-info");
@@ -2368,11 +2288,11 @@
       o.preventDefault();
       const n=Q(this);
       if(n.hasClass(Gs)) return !1;
-      const s=n.find(".gm-checkbox"),r=n.attr(ce),a=Vs(e),i=ft(e);
-      Q(".config-list .no-click",a).removeClass(Gs);
+      const s=n.find(".gm-checkbox"),r=n.attr(ce),i=Vs(e),a=ft(e);
+      Q(".config-list .no-click",i).removeClass(Gs);
       let c=!n.find('input[type="checkbox"]').prop(Oe);
-      c?s.addClass(He):s.removeClass(He), i.addClass(Ws), Dt(e,r,c), i.removeClass(Ws);
-      const l=Q(".checked-li",a);
+      c?s.addClass(He):s.removeClass(He), a.addClass(Ws), Dt(e,r,c), a.removeClass(Ws);
+      const l=Q(".checked-li",i);
       1===l.length&&l.addClass(Gs), t.update(e)
      }))
     }
@@ -2386,8 +2306,8 @@
      })), o.html(""), u(s,(t=>{
       const {key:s,isShow:r}=t;
       if(t.disableCustomize) return;
-      const a=wt(e,s).find(".th-text").text();
-      o.append(this.createColumn({key:s,isShow:r,label:a})), r&&n++
+      const i=wt(e,s).find(".th-text").text();
+      o.append(this.createColumn({key:s,isShow:r,label:i})), r&&n++
      }));
      const r=Q(".checked-li",t);
      1===n?r.addClass(Gs):r.removeClass(Gs)
@@ -2495,16 +2415,16 @@
      t.setProperty(`--gm-${e}-${o}-sticky-value`,n+Ke)
     },
     sr=(e,t,o,n)=>`[${te}="${e}"][gm-overflow-x="true"] tr:not([empty-template]) td:nth-of-type(${t+1}){position: sticky;\nposition: -webkit-sticky;\n${o}: var(--gm-${e}-${t}-sticky-value);\nz-index: 3;\nbox-shadow: ${n};}`,
-    rr={},ar={},ir={},cr="fixed-focus";
+    rr={},ir={},ar={},cr="fixed-focus";
    const lr=new class{
     init(e){
      const {_:t,browser:o,columnMap:n}=e,s=pt(t);
      or[t]={fixedFocus:ct(et,s,"td[fixed]")};
-     const {fixedFocus:a}=or[t];
-     Q(a.target).on(a.events,a.selector,(function(){
+     const {fixedFocus:i}=or[t];
+     Q(i.target).on(i.events,i.selector,(function(){
       yt(t).find("[fixed-focus]").removeAttr(cr), this.setAttribute(cr,"")
      }));
-     const i=bt(t),c=vt(t).height()+Ke;
+     const a=bt(t),c=vt(t).height()+Ke;
      let l="",d=0,h=0;
      const p=[],g=[];
      u(n,((e,t)=>{
@@ -2515,54 +2435,50 @@
      rr[t]=p.sort(((e,t)=>e.index-t.index)), u(rr[t],((e,o)=>{
       const n=wt(t,e.key);
       o===f-1&&(m="2px 0 4px #e8e8e8"), l+=sr(t,e.index,"left",m), e.pl=d, d+=e.width, n.css({
-       height:c,
-       lineHeight:c,
-       boxShadow:m
+       height:c,lineHeight:c,boxShadow:m
       })
-     })), "safari"===o&&d--, i.css("padding-left",d), m="none";
+     })), "safari"===o&&d--, a.css("padding-left",d), m="none";
      const v=g.length;
-     ar[t]=g.sort(((e,t)=>t.index-e.index)), ar[t].forEach(((e,o)=>{
+     ir[t]=g.sort(((e,t)=>t.index-e.index)), ir[t].forEach(((e,o)=>{
       const n=wt(t,e.key);
       o===v-1&&(m="-2px 0 4px #e8e8e8"), n.css({
-       height:c,
-       lineHeight:c,
-       boxShadow:m
+       height:c,lineHeight:c,boxShadow:m
       }), l+=sr(t,e.index,"right",m), e.pr=h, h+=e.width
-     })), i.css("padding-right",h);
+     })), a.css("padding-right",h);
      const b=ft(t),y=`fixed-style-${t}`;
      let x=r.getElementById(y);
      x||(x=r.createElement("style"), x.id=y, b.append(x), x=r.getElementById(y)), x.innerHTML=l, this.resetFlag(t)
     }
 
     update(e){
-     const t=ft(e),o=t.get(0).style,n=t.scrollLeft(),s=t.width(),r=bt(e).width(),a=yt(e).height();
-     if(ir[e]&&ir[e].divWidth===s&&ir[e].scrollLeft===n&&ir[e].theadWidth===r&&ir[e].tbodyHeight===a) return;
-     ir[e]={divWidth:s,scrollLeft:n,theadWidth:r,tbodyHeight:a};
-     const i="true"===ft(e).attr("gm-overflow-x"),c=(e,t)=>i?xt(e,t.key).width():t.width;
+     const t=ft(e),o=t.get(0).style,n=t.scrollLeft(),s=t.width(),r=bt(e).width(),i=yt(e).height();
+     if(ar[e]&&ar[e].divWidth===s&&ar[e].scrollLeft===n&&ar[e].theadWidth===r&&ar[e].tbodyHeight===i) return;
+     ar[e]={divWidth:s,scrollLeft:n,theadWidth:r,tbodyHeight:i};
+     const a="true"===ft(e).attr("gm-overflow-x"),c=(e,t)=>a?xt(e,t.key).width():t.width;
      if(rr[e]&&rr[e].length){
       let t,s=0;
       u(rr[e],(r=>{
        t=c(e,r), wt(e,r.key).css({width:t,left:s+n}), nr(e,o,r.index,s), s+=t
       })), bt(e).css("padding-left",s)
      }
-     if(ar[e]&&ar[e].length){
+     if(ir[e]&&ir[e].length){
       let s=r-t.width()-n;
       yt(e).height()>t.get(0).clientHeight&&(s+=tr.width);
-      let a,i=0;
-      ar[e].forEach((t=>{
-       a=c(e,t), wt(e,t.key).css({width:a,right:i+s}), nr(e,o,t.index,i), i+=a
-      })), bt(e).css("padding-right",i)
+      let i,a=0;
+      ir[e].forEach((t=>{
+       i=c(e,t), wt(e,t.key).css({width:i,right:a+s}), nr(e,o,t.index,a), a+=i
+      })), bt(e).css("padding-right",a)
      }
     }
 
     resetFlag(e){
-     if(!ar[e]|| !ar[e].length) return;
+     if(!ir[e]|| !ir[e].length) return;
      const t="fixed-previous",o=bt(e).find('th[fixed="right"]').eq(0),n=Ct(e),s=o.index(n);
      n.removeAttr(t), n.eq(s-1).attr(t,"")
     }
 
     destroy(e){
-     delete rr[e], delete ar[e], Et(or[e])
+     delete rr[e], delete ir[e], Et(or[e])
     }
    },dr="gm-adjust-ing";
    const ur={};
@@ -2587,36 +2503,35 @@
        const e=r.createElement("span");
        e.className=dr, n.append(e), s=o.find(".gm-adjust-ing")
       }
-      const a=o.height();
-      s.css({top:-(a-n.height())/2,right:-(o.width()-n.width()+1)/2,height:ft(e).height()+a});
-      const i=gt(e),{adjustBefore:c,adjustAfter:l,isIconFollowText:d,columnMap:u}=Oo(e),h=Ct(e),p=h.eq(o.index(h)+1);
-      c(t), i.addClass($e), ((e,t,o,n,s)=>{
-       let r,a=o.width();
-       const i=ft(e).width(),{doing:c}=ur[e],l=bt(e),d=t.offset().left,u=l.width()-a-t.width();
+      const i=o.height();
+      s.css({top:-(i-n.height())/2,right:-(o.width()-n.width()+1)/2,height:ft(e).height()+i});
+      const a=gt(e),{adjustBefore:c,adjustAfter:l,isIconFollowText:d,columnMap:u}=Oo(e),h=Ct(e),p=h.eq(o.index(h)+1);
+      c(t), a.addClass($e), ((e,t,o,n,s)=>{
+       let r,i=o.width();
+       const a=ft(e).width(),{doing:c}=ur[e],l=bt(e),d=t.offset().left,u=l.width()-i-t.width();
        Q(c.target).on(c.events,c.selector,(function(c){
         r=Math.ceil(c.clientX-d);
         const h=t.width();
         if(r!==h){
          if(s>r){
           if(r<=n) return;
-          const e=u+r+a;
-          e<i&&(a=a+i-e)
+          const e=u+r+i;
+          e<a&&(i=i+a-e)
          }
-         s<r&&(a=o.width()), l.width(u+r+a), t.css({width:r,"max-width":r}), o.css({
-          width:a,
-          "max-width":a
+         s<r&&(i=o.width()), l.width(u+r+i), t.css({width:r,"max-width":r}), o.css({
+          width:i,"max-width":i
          }), lr.update(e)
         }
        }))
       })(e,o,p,Mt(e,u[$t(o)],d),Math.ceil(t.clientX-o.offset().left)), ((e,t,o,n)=>{
        const {doing:s,abort:r}=ur[e];
-       Q(r.target).on(r.events,(a=>{
+       Q(r.target).on(r.events,(i=>{
         Q(r.target).off(r.events), Q(s.target).off(s.events,s.selector);
-        const i=Po(e,!0).columnMap;
-        for(let t in i) xt(e,t).width(i[t].width);
-        Pt(e), tr.update(e), n(a), t.removeClass($e), o.find(".gm-adjust-ing").remove()
+        const a=Po(e,!0).columnMap;
+        for(let t in a) xt(e,t).width(a[t].width);
+        Pt(e), tr.update(e), n(i), t.removeClass($e), o.find(".gm-adjust-ing").remove()
        }))
-      })(e,i,o,l)
+      })(e,a,o,l)
      }))
     }
 
@@ -2642,9 +2557,9 @@
    var gr=o(909),fr=o.n(gr);
    const mr={};
    var vr=function(e,t,o,n){
-    var s,r=arguments.length,a=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
-    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) a=Reflect.decorate(e,t,o,n); else for(var i=e.length-1; i>=0; i--) (s=e[i])&&(a=(r<3?s(a):r>3?s(t,o,a):s(t,o))||a);
-    return r>3&&a&&Object.defineProperty(t,o,a), a
+    var s,r=arguments.length,i=r<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,o):n;
+    if("object"== typeof Reflect&&"function"== typeof Reflect.decorate) i=Reflect.decorate(e,t,o,n); else for(var a=e.length-1; a>=0; a--) (s=e[a])&&(i=(r<3?s(i):r>3?s(t,o,i):s(t,o))||i);
+    return r>3&&i&&Object.defineProperty(t,o,i), i
    };
 
    class br{
@@ -2655,35 +2570,32 @@
       doing:ct("mousemove.gmDrag","body"),
       abort:ct("mouseup.gmDrag","body")
      }))(e,`${pt(e)} [grid-manager-mock-thead]`);
-     const {start:s,doing:r,abort:a}=mr[e];
+     const {start:s,doing:r,abort:i}=mr[e];
      Q(s.target).on(s.events,s.selector,(function(s){
-      let i=Oo(e);
-      const {columnMap:c,dragBefore:l,animateTime:d,dragAfter:u,supportConfig:h}=i,p=Q(this).closest("th"),g=p.get(0);
+      let a=Oo(e);
+      const {columnMap:c,dragBefore:l,animateTime:d,dragAfter:u,supportConfig:h}=a,p=Q(this).closest("th"),g=p.get(0);
       let f=Ct(e);
       const m=mt(e),v=St(p,e);
       l(s), n.addClass($e), p.addClass(un), v.addClass(un);
       let b=Q(".gm-dreamland-div",m);
       if(b.length) return;
       m.append('<div class="gm-dreamland-div"></div>'), b=Q(".gm-dreamland-div",m), b.get(0).innerHTML=t.createHtml({
-       $table:o,
-       $th:p
+       $table:o,$th:p
       });
       let y=0;
       const x=p.width(),w=p.height(),k=o.height(),C=m.offset(),$=pageXOffset-C.left-x/2,T=pageYOffset-C.top-w/2;
       b.css({width:x+2,height:k+2});
       const S=Q(r.target);
       S.off(r.events), S.on(r.events,(function(o){
-       let n,s,r,a;
-       b.show(), y=p.index(f), y>0&&(n=f.eq(y-1), s=$t(n)), y<f.length-1&&(r=f.eq(y+1), a=$t(r)), n&&n.length&&c[s].disableCustomize?n= void 0:r&&r.length&&c[a].disableCustomize&&(r= void 0), b.css({
-        left:o.clientX+$,
-        top:o.clientY+T
+       let n,s,r,i;
+       b.show(), y=p.index(f), y>0&&(n=f.eq(y-1), s=$t(n)), y<f.length-1&&(r=f.eq(y+1), i=$t(r)), n&&n.length&&c[s].disableCustomize?n= void 0:r&&r.length&&c[i].disableCustomize&&(r= void 0), b.css({
+        left:o.clientX+$,top:o.clientY+T
        }), f=t.updateDrag(e,n,r,p,v,b,f)
       }));
-      const D=a.events,j=Q(a.target);
+      const D=i.events,j=Q(i.target);
       j.off(D), j.on(D,(function(t){
        Q(r.target).off(r.events), j.off(D), b.animate({
-        top:o.get(0).offsetTop+Ke,
-        left:`${g.offsetLeft-ft(e).get(0).scrollLeft+Ke}`
+        top:o.get(0).offsetTop+Ke,left:`${g.offsetLeft-ft(e).get(0).scrollLeft+Ke}`
        },d,(()=>{
         p.removeClass(un), v.removeClass(un), b.remove(), u(t)
        })), Po(e), h&&Qs.updateConfigList(e), Pt(e), lr.resetFlag(e), n.removeClass($e)
@@ -2699,20 +2611,20 @@
      })), {class:t.get(0).className,th:o.get(0).outerHTML,tbody:s}
     }
 
-    updateDrag(e,t,o,n,s,r,a){
+    updateDrag(e,t,o,n,s,r,i){
      if(t&&r.offset().left<t.offset().left){
       let o=St(t,e);
       t.before(n), u(s,((e,t)=>{
        o.eq(t).before(e)
-      })), xt(e,t).before(xt(e,n)), jt(e), a=Ct(e)
+      })), xt(e,t).before(xt(e,n)), jt(e), i=Ct(e)
      }
      if(o&&r.offset().left+r.width()>o.offset().left){
       let t=St(o,e);
       o.after(n), u(s,((e,o)=>{
        t.eq(o).after(e)
-      })), xt(e,o).after(xt(e,n)), jt(e), a=Ct(e)
+      })), xt(e,o).after(xt(e,n)), jt(e), i=Ct(e)
      }
-     return a
+     return i
     }
 
     destroy(e){
@@ -2728,16 +2640,16 @@
      const {openMenu:t,closeMenu:o}=Ko[e];
      Q(t.target).on(t.events,(function(n){
       n.preventDefault(), n.stopPropagation();
-      const s=n.target,a=tn(e,s);
-      a.show(), a.css(((e,t,o,n)=>{
-       const s=r.documentElement,a=r.body,i=s.offsetHeight,c=s.offsetWidth,l=a.scrollTop||s.scrollTop,
-        d=a.scrollLeft||s.scrollLeft;
-       return {top:(i-l<n+t?n-t:n)+l,left:(c-d<o+e?o-e:o)+d}
-      })(a.width(),a.height(),n.clientX,n.clientY)), a.on(t.events,(function(e){
+      const s=n.target,i=tn(e,s);
+      i.show(), i.css(((e,t,o,n)=>{
+       const s=r.documentElement,i=r.body,a=s.offsetHeight,c=s.offsetWidth,l=i.scrollTop||s.scrollTop,
+        d=i.scrollLeft||s.scrollLeft;
+       return {top:(a-l<n+t?n-t:n)+l,left:(c-d<o+e?o-e:o)+d}
+      })(i.width(),i.height(),n.clientX,n.clientY)), i.on(t.events,(function(e){
        e.preventDefault(), e.stopPropagation()
       }));
-      const i=Q(o.target),c=o.events;
-      i.off(c), i.on(c,(function(t){
+      const a=Q(o.target),c=o.events;
+      a.off(c), a.on(c,(function(t){
        const o=Q(t.target);
        o.attr(se)||1===o.closest("[grid-master]").length||en(e)
       }))
@@ -2788,7 +2700,7 @@
       const e=go(be),t=uo.version;
       e||fo(be,t), e&&e!==t&&(So(), fo(be,t))
      })(), r=Mo(t,zn.getColumn.bind(zn),Ks.getColumn.bind(Ks),pr.getColumn.bind(pr),Wn.getColumn.bind(Wn)), Ve(r._);
-     const a=()=>{
+     const i=()=>{
       g(n.attr(ye))||setTimeout((()=>{
        To(r), n.removeAttr(ye)
       }),1e3), r=Oo(s), delete $r[s], n.addClass("gm-ready"), r.rendered= !0, _o(r);
@@ -2798,14 +2710,14 @@
       r.firstLoading?us.refresh(s,(()=>{
        e()
       })):(rs(r,!0), e()), tr.update(r._)
-     },i=()=>{
+     },a=()=>{
       n=gt(s), e=n.get(0);
       const t=h(e,"width");
       if(!t||"0px"===t|| -1===t.indexOf(Ke)) return !0;
-      clearInterval(vo[s]), delete vo[s], this.initTable(n,r).then(a)
+      clearInterval(vo[s]), delete vo[s], this.initTable(n,r).then(i)
      };
-     i()&&(clearInterval(vo[s]), vo[s]=setInterval((()=>{
-      i()
+     a()&&(clearInterval(vo[s]), vo[s]=setInterval((()=>{
+      a()
      }),50))
     }
 
@@ -2890,10 +2802,10 @@
     static setQuery(e,t,o,n){
      const s=ht(e),r=Oo(s);
      if(!kr(s,r)) return;
-     const {columnMap:a,pageData:i,currentPageKey:c}=r;
-     x(t)||(t={}), y(o)||b(o)||(n=o, o= !0), r._filter&&u(a,((e,o)=>{
+     const {columnMap:i,pageData:a,currentPageKey:c}=r;
+     x(t)||(t={}), y(o)||b(o)||(n=o, o= !0), r._filter&&u(i,((e,o)=>{
       o.filter&&(o.filter.selected=m(t[e])?t[e]:"", jn.update(wt(s,e),o.filter))
-     })), S(r,{query:t}), !0===o&&(i[c]=1), b(o)&&(i[c]=o), _o(r), us.refresh(s,n)
+     })), S(r,{query:t}), !0===o&&(a[c]=1), b(o)&&(a[c]=o), _o(r), us.refresh(s,n)
     }
 
     static setAjaxData(e,t,o){
@@ -2914,8 +2826,8 @@
        t=jo(t);
        S(!0,n,Do({columnData:t})), Ao(n,zn.getColumn.bind(zn),Ks.getColumn.bind(Ks),pr.getColumn.bind(pr),Wn.getColumn.bind(Wn)), await ss(n), Ht(n), At(n,!0), n._fixed&&lr.init(n), _o(n), tr.update(o)
       }
-      const {dataKey:e,totalsKey:s,pageData:r}=n,a={[e]:yo(o),[s]:r.tSize||0};
-      xo(o,[]), us.driveDomForSuccessAfter(n,a)
+      const {dataKey:e,totalsKey:s,pageData:r}=n,i={[e]:yo(o),[s]:r.tSize||0};
+      xo(o,[]), us.driveDomForSuccessAfter(n,i)
      }
     }
 
@@ -2941,26 +2853,24 @@
     static setCheckedData(e,t){
      const o=ht(e),n=Oo(o);
      if(kr(o,n)){
-      const e=k(t)?t:[t],{columnMap:s,checkboxConfig:r,treeConfig:a,supportMenu:i}=n,c=a.treeKey,l=yo(o),{
-       key:d,
-       useRadio:u,
-       max:h
+      const e=k(t)?t:[t],{columnMap:s,checkboxConfig:r,treeConfig:i,supportMenu:a}=n,c=i.treeKey,l=yo(o),{
+       key:d,useRadio:u,max:h
       }=r;
       l.forEach((t=>{
        let o=lt(s,t,[c]);
        t.gm_checkbox=e.some((e=>Kt(o,lt(s,e,[c]),d)))
-      })), xo(o,l), ko(o,e,!0), i&&en(o), zs(o,l,u,h)
+      })), xo(o,l), ko(o,e,!0), a&&en(o), zs(o,l,u,h)
      }
     }
 
     static updateRowData(e,t,o){
      const n=ht(e),s=Oo(n);
      if(kr(n,s)){
-      const {columnMap:e,supportCheckbox:r,supportTreeData:a,treeConfig:i,rowRenderHandler:c}=s,l=k(o)?o:[o],d=yo(n),
-       u=i.treeKey,h=(e,o)=>{
+      const {columnMap:e,supportCheckbox:r,supportTreeData:i,treeConfig:a,rowRenderHandler:c}=s,l=k(o)?o:[o],d=yo(n),
+       u=a.treeKey,h=(e,o)=>{
         e.some(((e,n)=>{
          if(e[t]===o[t]) return S(e,c(S(e,o),n)), !0;
-         if(a){
+         if(i){
           const t=e[u];
           if(t&&t.length) return h(t,o)
          }
