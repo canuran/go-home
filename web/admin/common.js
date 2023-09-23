@@ -124,7 +124,10 @@ function gmAjaxData(settings, params) {
             data: params,
             dataType: "json",
             complete: function (data) {
-                resolve(data && data.responseJSON || {data: [], totals: 0});
+                data = data && data.responseJSON || {};
+                data.data = data.data || [];
+                data.totals = data.totals || 0;
+                resolve(data);
             }
         });
     });
