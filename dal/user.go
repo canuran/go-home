@@ -6,11 +6,8 @@ import (
 	"github.com/canuran/go-home/config"
 	"github.com/canuran/go-home/generate/model"
 	"github.com/canuran/go-home/generate/query"
-	"github.com/canuran/go-home/utils/stringer"
-	"github.com/canuran/go-home/utils/valuer"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
-	"strings"
 )
 
 type SaveUserParam struct {
@@ -23,12 +20,13 @@ type SaveUserParam struct {
 type QueryUserParam struct {
 	*comm.Pager
 	IdEq         int64
+	IdGt         int64
+	IdLt         int64
 	NameEq       string
 	GenderEq     string
 	StatusEq     int64
 	OmitHeader   bool
 	OmitPassword bool
-	Conditions   []*comm.Condition
 }
 
 func UpdateAuthVersion(ctx context.Context, user *model.User) error {
@@ -109,59 +107,26 @@ func queryUserScope(param *QueryUserParam) func(gen.Dao) gen.Dao {
 		}
 		dao = dao.Omit(omitFields...)
 
-		where := u.Where()
 		if param.IdEq > 0 {
-			where = where.Where(u.ID.Eq(param.IdEq))
+			dao = dao.Where(u.ID.Eq(param.IdEq))
+		}
+		if param.IdGt > 0 {
+			dao = dao.Where(u.ID.Gt(param.IdGt))
+		}
+		if param.IdLt > 0 {
+			dao = dao.Where(u.ID.Lt(param.IdLt))
 		}
 		if len(param.NameEq) > 0 {
-			where = where.Where(u.Name.Eq(param.NameEq))
+			dao = dao.Where(u.Name.Eq(param.NameEq))
 		}
 		if len(param.GenderEq) > 0 {
-			where = where.Where(u.Gender.Eq(param.GenderEq))
+			dao = dao.Where(u.Gender.Eq(param.GenderEq))
 		}
 		if param.StatusEq > 0 {
-			where = where.Where(u.Status.Eq(param.StatusEq))
+			dao = dao.Where(u.Status.Eq(param.StatusEq))
 		}
-		return dao.Where(queryUserConditions(where, param.Conditions))
+		return dao
 	}
-}
-
-func queryUserConditions(prev gen.Condition, conditions []*comm.Condition) gen.Condition {
-	u := query.Q.User
-	orCond := u.Where()
-	for _, condition := range conditions {
-		var cond gen.Condition
-		switch condition.Name {
-		case "id_in":
-			cond = u.ID.In(valuer.Int64Slice([]rune(condition.Value))...)
-		case "id_gt":
-			cond = u.ID.Gt(valuer.Int64ify(condition.Value))
-		case "id_lt":
-			cond = u.ID.Lt(valuer.Int64ify(condition.Value))
-		case "name_in":
-			cond = u.Name.In(strings.Split(condition.Value, ",")...)
-		case "name_contains":
-			cond = u.Name.Like("%" + stringer.EscapeSqlLike(condition.Value) + "%")
-		case "name_gt":
-			cond = u.Name.Gt(condition.Value)
-		case "name_lt":
-			cond = u.Name.Lt(condition.Value)
-		case "gender_eq":
-			cond = u.Gender.Eq(condition.Value)
-		default:
-			continue
-		}
-		cond = queryUserConditions(cond, condition.Children)
-		// and条件优先，直接连接，or条件暂存至prev
-		if condition.Type == "or" {
-			orCond = u.Where(orCond).Or(prev)
-			prev = cond
-		} else {
-			prev = u.Where(prev).Where(cond)
-		}
-	}
-	orCond = u.Where(orCond).Or(prev)
-	return orCond
 }
 
 func QueryFirstUser(ctx context.Context, param *QueryUserParam) (*model.User, error) {

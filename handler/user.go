@@ -3,7 +3,6 @@ package handler
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"github.com/canuran/go-home/comm"
 	"github.com/canuran/go-home/comm/giner"
 	"github.com/canuran/go-home/dal"
@@ -29,10 +28,12 @@ type UserVO struct {
 }
 
 type UserQuery struct {
-	ID         int64  `json:"id,omitempty" form:"id"`
-	Name       string `json:"name,omitempty" form:"name"`
-	Gender     string `json:"gender,omitempty" form:"gender"`
-	Conditions string `json:"conditions,omitempty" form:"conditions"`
+	ID     int64  `json:"id,omitempty" form:"id"`
+	IDGt   int64  `json:"id_gt,omitempty" form:"id_gt"`
+	IDLt   int64  `json:"id_lt,omitempty" form:"id_lt"`
+	Status int64  `json:"status,omitempty" form:"status"`
+	Name   string `json:"name,omitempty" form:"name"`
+	Gender string `json:"gender,omitempty" form:"gender"`
 }
 
 func UserVO2BO(bo *UserVO) *service.UserBO {
@@ -121,24 +122,21 @@ func saveUser(c *gin.Context) {
 }
 
 func queryUser(c *gin.Context) {
-	user := &UserQuery{}
-	err := c.ShouldBind(user)
+	query := &UserQuery{}
+	err := c.ShouldBind(query)
 	if giner.HandleError(c, err) {
 		return
 	}
 
 	param := &dal.QueryUserParam{
 		Pager:        &comm.Pager{GetRows: true},
-		IdEq:         user.ID,
-		NameEq:       user.Name,
-		GenderEq:     user.Gender,
+		IdEq:         query.ID,
+		IdGt:         query.IDGt,
+		IdLt:         query.IDLt,
+		StatusEq:     query.Status,
+		NameEq:       query.Name,
+		GenderEq:     query.Gender,
 		OmitPassword: true,
-	}
-	if len(user.Conditions) > 5 {
-		err = json.Unmarshal([]byte(user.Conditions), &param.Conditions)
-		if giner.HandleError(c, err) {
-			return
-		}
 	}
 
 	if c.PostForm("count") == "true" {

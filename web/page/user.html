@@ -11,48 +11,81 @@
         .gm-menu, .table-wrap {
             --gm-font-size: 13px;
         }
+
+        .filters-body * {
+            box-sizing: border-box !important;
+        }
     </style>
 </head>
 
 <body style="margin:15px">
 <form class="layui-form" lay-filter="query-form">
     <div class="layui-form-item">
-        <div class="layui-col-sm3">
-            <div class="layui-input-inline" style="width:90%">
-                <input type="number" name="id" class="layui-input" placeholder="用户ID"/>
+        <div class="layui-col-sm10">
+            <div class="layui-col-sm3">
+                <div class="layui-input-inline" style="width:90%">
+                    <input type="number" name="id" class="layui-input" placeholder="用户ID"/>
+                </div>
+            </div>
+
+            <div class="layui-col-sm3">
+                <div class="layui-input-inline" style="width:90%">
+                    <input type="text" name="name" class="layui-input" placeholder="用户名"/>
+                </div>
+            </div>
+
+            <div class="layui-col-sm3">
+                <div class="layui-input-inline" style="width:90%">
+                    <select name="gender" class="layui-select">
+                        <option value="" selected>性别不限</option>
+                        <option value="保密">保密</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-col-sm3">
+                <div class="layui-input-inline" style="width:90%">
+                    <div id="more-filters" class="layui-input-inline" style="width:100%"></div>
+                </div>
+                <template id="filters-template">
+                    <div class="filters-body" style="padding:10px">
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline" style="width:100%">
+                                <select name="status" class="layui-select" lay-filter="filters">
+                                    <option value="" selected>状态不限</option>
+                                    <option value="1">状态有效</option>
+                                    <option value="2">状态无效</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline" style="width:100%">
+                                <input type="number" name="id_gt" class="layui-input" placeholder="ID大于"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline" style="width:100%">
+                                <input type="number" name="id_lt" class="layui-input" placeholder="ID小于"/>
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
-        <div class="layui-col-sm3">
-            <div class="layui-input-inline" style="width:90%">
-                <input type="text" name="name" class="layui-input" placeholder="用户名"/>
-            </div>
-        </div>
-
-        <div class="layui-col-sm3">
-            <div class="layui-input-inline" style="width:90%">
-                <select name="gender" class="layui-select">
-                    <option value="" selected>性别不限</option>
-                    <option value="保密">保密</option>
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="layui-btn-group layui-col-sm3">
+        <div class="layui-btn-group">
             <button type="submit" class="layui-btn" lay-submit lay-filter="query-submit">
                 <i class="fa fa-search"></i> 搜索
             </button>
-            <button type="button" class="layui-btn layui-btn-normal" onclick="addCondition(this)">
-                <i class="fa fa-filter"></i> 条件
-            </button>
-            <button type="button" class="layui-btn add-button">
+            <button type="button" class="layui-btn layui-btn-normal add-button">
                 <i class="fa fa-plus"></i> 添加
             </button>
         </div>
     </div>
-    <div class="condition-root"></div>
 </form>
 
 <div style="height:calc(100vh - 85px);margin-top:15px">
@@ -102,7 +135,9 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">角色</label>
-                <div class="layui-input-block" id="select-role"></div>
+                <div class="layui-input-block">
+                    <div id="select-role"></div>
+                </div>
             </div>
 
             <div class="layui-form-item">
@@ -157,175 +192,62 @@
     </div>
 </template>
 
-<template id="condition-template">
-    <div class="layui-inline condition" type="and" style="margin:5px;
-    padding:5px;border-radius:5px;border:1px solid #123456">
-        <div class="layui-input-inline" style="width:150px">
-            <select class="layui-select" lay-filter="condition">
-                <option value="id_in">用户ID-在内</option>
-                <option value="id_gt">用户ID-大于</option>
-                <option value="id_lt">用户ID-小于</option>
-                <option value="name_in">姓名-在内</option>
-                <option value="name_contains">姓名-包含</option>
-                <option value="name_gt">姓名-大于</option>
-                <option value="name_lt">姓名-小于</option>
-                <option value="gender_eq">性别-等于</option>
-            </select>
-        </div>
-        <div class="layui-input-inline" style="width:180px">
-            <input type="text" class="layui-input" placeholder="请输入"/>
-        </div>
-        <div class="layui-inline">
-            <div style="display:table-cell">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm"
-                        style="width:30px;height:18px;line-height:16px;
-                        border-bottom:1px solid white;border-radius:3px 0 0 0"
-                        onclick="addCondition(this)">(或)
-                </button>
-                <br/>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-normal"
-                        style="width:30px;height:18px;line-height:16px;margin-left:0;border-radius:0 0 0 3px"
-                        onclick="addCondition(this)">(且)
-                </button>
-            </div>
-            <div style="display:table-cell">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-warm"
-                        style="width:30px;height:18px;line-height:16px;border-left:1px solid white;
-                        border-bottom:1px solid white;margin-left:0;border-radius:0"
-                        onclick="addCondition(this)">()或
-                </button>
-                <br/>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-normal"
-                        style="width:30px;height:18px;line-height:16px;
-                        border-left:1px solid white;border-radius:0"
-                        onclick="addCondition(this)">()且
-                </button>
-            </div>
-            <div style="display:table-cell;vertical-align:middle;border-left:1px solid white">
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger"
-                        style="width:18px;height:36px;padding:0;border-radius:0 3px 3px 0"
-                        onclick="$(this).parent().parent().parent().remove()">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script src="../library/jquery/jquery.js" charset="utf-8"></script>
 <script src="../library/layui/layui.js" charset="utf-8"></script>
 <script src="../library/xm-select/xm-select.js" charset="utf-8"></script>
 <script src="../library/GridManager/index.js" charset="utf-8"></script>
 <script src="../admin/common.js" charset="utf-8"></script>
 <script type="application/javascript">
-    function addCondition(e) {
-        let sum = $('.condition-root .condition').length;
-        if (sum >= 20) {
-            layui.layer.msg('最多只支持' + sum + '个条件');
-            return;
-        }
-
-        let $target = $(e);
-        let text = $target.text();
-        let addChild = text.indexOf('(且)') > -1 || text.indexOf('(或)') > -1;
-        if (addChild) {
-            let level = -2;
-            let parent = $target.parent();
-            while (!parent.hasClass('condition-root')) {
-                parent = parent.parent();
-                level++;
-                if (level >= 5) {
-                    layui.layer.msg('最多只支持' + level + '层条件');
-                    return;
-                }
-            }
-        }
-
-        let html = $('#condition-template').html();
-        if (text.indexOf('条件') > -1) {
-            html = html.replace('#123456', '#8bf')
-            $('.condition-root').append(html);
-        } else {
-            html = text.indexOf('且') > -1 ? html.replace('#123456', '#8bf') :
-                html.replace('#123456', '#eb6');
-
-            html = text.indexOf('且') > -1 ? html : html.replace('type="and"', 'type="or"');
-
-            if (addChild) {
-                $(html).insertAfter($target.parent().parent());
-            } else {
-                $(html).insertAfter($target.parent().parent().parent());
-            }
-        }
-
-        layui.form.render();
-        layui.form.on('select(condition)', function (data) {
-            if (data.value === 'id_gt' || data.value === 'id_lt') {
-                data.othis.parent().next().html(
-                    '<input type="number" class="layui-input" placeholder="请输入"/>');
-            } else if (data.value === 'gender_eq') {
-                data.othis.parent().next().html('<select class="layui-select">' +
-                    '<option value="保密" selected>保密</option>' +
-                    '<option value="男">男</option>' +
-                    '<option value="女">女</option></select>');
-            } else {
-                data.othis.parent().next().html(
-                    '<input type="text" class="layui-input" placeholder="请输入"/>');
-            }
-            layui.form.render();
-        });
-    }
-
-    function findCondition(elem, conditions) {
-        let $elem = $(elem);
-        if ($elem.hasClass('condition')) {
-            let name = $($elem.children()[0]).find('.layui-this').attr('lay-value');
-            let value = $($elem.children()[1]).find('.layui-this');
-            if (value && value.length > 0) {
-                value = value.attr('lay-value');
-            } else {
-                value = $($elem.children()[1]).find('input').val();
-            }
-            let condition = {
-                name: name,
-                value: value,
-                type: $elem.attr('type'),
-                children: []
-            };
-            conditions.push(condition);
-            for (let i = 2; i < $elem.children().length; i++) {
-                findCondition($elem.children()[i], condition.children);
-            }
-        } else {
-            $elem.children().each(function () {
-                findCondition(this, conditions);
-            });
-        }
-    }
-
     $(function () {
+        let filters = xmSelect.render({
+            el: '#more-filters',
+            tips: '更多条件',
+            name: '',
+            content: $('#filters-template').html(),
+            model: {label: {block: {showIcon: false}}}
+        });
+
         var params = getUrlParams();
         var defaultParam = layui.form.val('query-form');
         layui.form.val('query-form', getUrlParams(params));
 
+        // 监听条件改变
+        setFilterValue();
+        layui.form.on('select(filters)', setFilterValue);
+        $('.filters-body input').on('change', setFilterValue);
+
         // 监听按钮事件
         $('.add-button').on('click', openEditWin);
         layui.form.on('submit(query-submit)', function (form) {
+            filters.closed();
             setUrlParams(form.field, defaultParam);
-
-            // 获取条件
-            let conditions = [];
-            $('.condition-root').each(function () {
-                findCondition(this, conditions);
-            });
-            form.field.conditions = JSON.stringify(conditions);
-
             GridManager.setQuery('main-table', form.field);
             return false;
         });
 
         createTable(layui.form.val('query-form'));
     });
+
+    function setFilterValue() {
+        let values = [];
+        $('.filters-body').children().each(function (index, elem) {
+            elem = $(elem);
+            let selects = elem.find('.layui-this:not(.layui-select-tips)');
+            if (selects.length) {
+                let value = selects.text();
+                values.push({name: value, value: value, selected: true});
+            } else {
+                elem.find('input').each(function (idx, input) {
+                    if (input.value) {
+                        let value = input.placeholder ? input.placeholder + ':' + input.value : input.value;
+                        values.push({name: value, value: value, selected: true});
+                    }
+                });
+            }
+        });
+        xmSelect.get('#more-filters', true).update({data: values});
+        return true;
+    }
 
     // 加载表格
     function createTable(params) {
