@@ -36,15 +36,6 @@ func Int64ify(input any) int64 {
 	if input == nil {
 		return 0
 	}
-	if val, ok := input.(int64); ok {
-		return val
-	} else if val, ok := input.(float64); ok {
-		return int64(val)
-	} else if val, ok := input.(string); ok {
-		return int64(ParseFloat(val))
-	} else if val, ok := input.(fmt.Stringer); ok {
-		return int64(ParseFloat(val.String()))
-	}
 	value := reflect.ValueOf(input)
 	if value.Kind() == reflect.Pointer {
 		return Int64ify(value.Elem().Interface())
@@ -61,15 +52,6 @@ func Int64ify(input any) int64 {
 func Float64ify(input any) float64 {
 	if input == nil {
 		return 0
-	}
-	if val, ok := input.(int64); ok {
-		return float64(val)
-	} else if val, ok := input.(float64); ok {
-		return val
-	} else if val, ok := input.(string); ok {
-		return ParseFloat(val)
-	} else if val, ok := input.(fmt.Stringer); ok {
-		return ParseFloat(val.String())
 	}
 	value := reflect.ValueOf(input)
 	if value.Kind() == reflect.Pointer {
@@ -88,15 +70,6 @@ func Stringify(input any) string {
 	if input == nil {
 		return ""
 	}
-	if val, ok := input.(int64); ok {
-		return strconv.FormatInt(val, 10)
-	} else if val, ok := input.(float64); ok {
-		return FormatFloat(val)
-	} else if val, ok := input.(string); ok {
-		return val
-	} else if val, ok := input.(fmt.Stringer); ok {
-		return val.String()
-	}
 	value := reflect.ValueOf(input)
 	if value.Kind() == reflect.Pointer {
 		return Stringify(value.Elem().Interface())
@@ -114,8 +87,15 @@ func ParseInt(input string) int64 {
 	if len(input) == 0 {
 		return 0
 	}
-	integer, _ := strconv.ParseInt(input, 10, 64)
-	return integer
+	integer, err := strconv.ParseInt(input, 10, 64)
+	if err == nil {
+		return integer
+	}
+	float, err := strconv.ParseFloat(input, 64)
+	if err == nil {
+		return int64(float)
+	}
+	return 0
 }
 
 func ParseFloat(input string) float64 {

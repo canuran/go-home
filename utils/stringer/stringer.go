@@ -1,7 +1,6 @@
 package stringer
 
 import (
-	"reflect"
 	"strings"
 	"unicode"
 	"unsafe"
@@ -34,6 +33,14 @@ func FormatSpaceString(input string) string {
 	return string(FormatSpaceRunes([]rune(input)))
 }
 
+func StringToBytes(s string) []byte {
+	return unsafe.Slice(unsafe.StringData(s), len(s))
+}
+
+func BytesToString(b []byte) string {
+	return unsafe.String(&b[0], len(b))
+}
+
 // FormatSpaceRunes 格式化空字符
 // 去掉开头和结尾的空白字符
 // 单个或多个空白字符以单个空格代替
@@ -62,24 +69,6 @@ func FormatSpaceRunes(runes []rune) []rune {
 	return result
 }
 
-func FastBytes2String(b []byte) (s string) {
-	// SliceHeader 和 StringHeader 只是用来对应 []byte 和 string 的内存分布
-	bytesPtr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	stringPtr := (*reflect.StringHeader)(unsafe.Pointer(&s))
-	stringPtr.Data = bytesPtr.Data
-	stringPtr.Len = bytesPtr.Len
-	return
-}
-
-func FastString2Bytes(s string) (b []byte) {
-	bytesPtr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	stringPtr := (*reflect.StringHeader)(unsafe.Pointer(&s))
-	bytesPtr.Data = stringPtr.Data
-	bytesPtr.Len = stringPtr.Len
-	bytesPtr.Cap = stringPtr.Len
-	return
-}
-
 // RemoveAllSpace 移除所有空白字符
 func RemoveAllSpace(input []rune) string {
 	newRunes := make([]rune, 0, len(input))
@@ -89,29 +78,6 @@ func RemoveAllSpace(input []rune) string {
 		}
 	}
 	return string(newRunes)
-}
-
-// SafeSubstring 安全子字符串
-func SafeSubstring(input string, from int, to int) string {
-	runes := []rune(input)
-	length := len(runes)
-	if length == 0 {
-		return ""
-	}
-
-	if from < 0 {
-		from = 0
-	} else if from >= length {
-		return ""
-	}
-
-	if to < 0 {
-		return ""
-	} else if to >= length {
-		to = length
-	}
-
-	return string(runes[from:to])
 }
 
 // AllDigits 是否都是数字

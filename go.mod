@@ -1,6 +1,6 @@
 module github.com/canuran/go-home
 
-go 1.20
+go 1.21
 
 require (
 	github.com/disintegration/imaging v1.6.2
